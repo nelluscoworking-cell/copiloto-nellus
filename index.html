@@ -87,12 +87,12 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 <div class="hero">
 <div class="eyebrow">Nellus • Copiloto comercial</div>
 <h1>Venda melhor.<br><span class="accent">Converse naturalmente.</span></h1>
-<p class="sub">Selecione o objetivo desejado, cole a mensagem do cliente e gere a resposta perfeita.</p>
+<p class="sub">Selecione o objetivo (opcional), cole a mensagem do cliente e gere a resposta perfeita.</p>
 </div>
 
-<div class="section-title"><h2>Objetivo da resposta (toque para escolher)</h2></div>
+<div class="section-title"><h2>Objetivo da resposta (opcional)</h2></div>
 <div class="quick">
-<button type="button" data-action="gerar" class="selected"><b>✨ Resposta consultiva</b><span>Atendimento completo e natural</span></button>
+<button type="button" data-action="gerar"><b>✨ Resposta consultiva</b><span>Atendimento completo e natural</span></button>
 <button type="button" data-action="follow"><b>↗ Follow-up</b><span>Retomar contato sem cobrança</span></button>
 <button type="button" data-action="objecao"><b>💬 Tratar objeção</b><span>Preço, "vou pensar", sócio</span></button>
 <button type="button" data-action="fechamento"><b>✓ Fechar venda</b><span>Direcionar reserva e pagamento</span></button>
@@ -166,13 +166,13 @@ function renderPlans(){
   const d=document.createElement("div"); d.className="card"+(editingPlan===i?" editing":"");
   if(editingPlan===i){
    d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info">
-      <strong>Editando plano</strong><small>Altere os dados e clique em Salvar.</small>
-   </div></div>
-   <div class="inline-edit">
-      <div class="editgrid"><input id="ep-name-${i}" value="${escAttr(p.name)}" placeholder="Nome do plano"><input id="ep-price-${i}" value="${escAttr(p.price)}" placeholder="Preço (ex: R$ 45/h)"></div>
-      <div class="editgrid full"><input id="ep-desc-${i}" value="${escAttr(p.desc)}" placeholder="Descrição curta"></div>
-      <div class="edit-actions"><button class="save" onclick="saveInlinePlan(${i})">✓ Salvar</button><button class="ghost" onclick="cancelInlinePlan()">Cancelar</button></div>
-   </div>`;
+       <strong>Editando plano</strong><small>Altere os dados e clique em Salvar.</small>
+    </div></div>
+    <div class="inline-edit">
+       <div class="editgrid"><input id="ep-name-${i}" value="${escAttr(p.name)}" placeholder="Nome do plano"><input id="ep-price-${i}" value="${escAttr(p.price)}" placeholder="Preço (ex: R$ 45/h)"></div>
+       <div class="editgrid full"><input id="ep-desc-${i}" value="${escAttr(p.desc)}" placeholder="Descrição curta"></div>
+       <div class="edit-actions"><button class="save" onclick="saveInlinePlan(${i})">✓ Salvar</button><button class="ghost" onclick="cancelInlinePlan()">Cancelar</button></div>
+    </div>`;
   }else{
    d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info"><strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small></div><div class="price">${esc(p.price)}</div></div>
    <div class="card-actions"><button class="mini" onclick="editPlan(${i})">✎ Editar</button><button class="mini" onclick="removePlan(${i})">Excluir</button></div>`;
@@ -235,12 +235,12 @@ document.getElementById("addStructureBtn").onclick=()=>{
 };
 renderPlans();renderStructure();
 
-let selectedAction = "gerar";
+let selectedAction = null;
 document.querySelectorAll(".quick button").forEach(b=>{
  b.onclick=()=>{
   const act=b.dataset.action;
-  if(selectedAction===act && act!=="gerar"){
-   selectedAction="gerar";
+  if(selectedAction===act){
+   selectedAction=null;
   }else{
    selectedAction=act;
   }
@@ -363,4 +363,11 @@ document.getElementById("copy").onclick = async()=>{
  try{
   await navigator.clipboard.writeText(document.getElementById("suggestion").textContent);
   document.getElementById("copy").textContent="✓ Copiado com sucesso!";
-  setTimeout(()=>document.getElementById("copy").textContent="⧉ Copiar Mens
+  setTimeout(()=>document.getElementById("copy").textContent="⧉ Copiar Mensagem",2000);
+ }catch(e){
+  alert("Não foi possível copiar automaticamente.");
+ }
+};
+</script>
+</body>
+</html>
