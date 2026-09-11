@@ -21,7 +21,6 @@ button,input,textarea,select{font:inherit} button{cursor:pointer}
 .top{height:82px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;
 position:sticky;top:0;z-index:10;background:rgba(5,8,6,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
 
-/* LOGO + ÍCONE NELLUS */
 .logo-box{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-0.03em;font-size:18px;color:#65cfb4}
 .logo-icon{width:32px;height:32px;display:block}
 
@@ -60,21 +59,13 @@ color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green
 .product .info{flex:1}.product strong{font-size:13px;display:block}.product small{font-size:11px;color:var(--muted);line-height:1.4}.price{color:#fff;font-size:12px;font-weight:900;white-space:nowrap}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.feature{min-height:110px;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px}
 .feature .fi{font-size:20px;margin-bottom:8px}.feature b{font-size:12px}.feature span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:4px}
-.inline-edit{margin-top:10px;display:grid;gap:8px}
-.inline-edit .editgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.inline-edit .editgrid.full{grid-template-columns:1fr}
-.inline-edit input{font-size:12px;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:#060b09;color:#fff;outline:none}
-.editing{border-color:#2c7565;box-shadow:0 0 0 2px rgba(16,160,131,.08)}
-.edit-actions{display:flex;gap:7px}
 .save{border:0;border-radius:12px;padding:9px 13px;background:#0d5e4f;color:#fff;font-weight:850;cursor:pointer}.save:hover{background:#10a083}
-.ghost{border:1px solid var(--line);background:transparent;color:#c7d7d1;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}
 .bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:820px;height:78px;padding:8px 12px max(8px,env(safe-area-inset-bottom));
 display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}
 .nav{border:0;background:transparent;color:#718078;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:800}.nav i{font-style:normal;font-size:18px}.nav.active{background:#0c251e;color:#65cfb4}
 .connection-pill{display:flex;align-items:center;gap:7px;border:1px solid #1f594b;background:#0b110f;color:#70d3bc;border-radius:999px;padding:8px 10px;font-size:10px;font-weight:850}
 .connection-dot{width:7px;height:7px;border-radius:50%;background:#10a083;box-shadow:0 0 0 3px rgba(16,160,131,.13)}
 .mode-tag{font-size:10px;padding:3px 8px;border-radius:6px;background:#133329;color:#65cfb4;border:1px solid #215e4f}
-@media(max-width:430px){.inline-edit .editgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -83,13 +74,13 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
 <div class="logo-box">
   <svg class="logo-icon" viewBox="0 0 100 100" fill="none" stroke="#10a083" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="50" cy="50" r="42"/>
-    <line x1="50" y1="20" x2="50" y2="80"/>
-    <line x1="50" y1="35" x2="33" y2="48"/>
-    <line x1="50" y1="35" x2="67" y2="48"/>
-    <line x1="50" y1="50" x2="33" y2="63"/>
-    <line x1="50" y1="50" x2="67" y2="63"/>
-    <line x1="50" y1="65" x2="35" y2="76"/>
-    <line x1="50" y1="65" x2="65" y2="76"/>
+    <line x1="50" y1="80" x2="50" y2="20"/>
+    <line x1="50" y1="65" x2="33" y2="52"/>
+    <line x1="50" y1="65" x2="67" y2="52"/>
+    <line x1="50" y1="50" x2="33" y2="37"/>
+    <line x1="50" y1="50" x2="67" y2="37"/>
+    <line x1="50" y1="35" x2="35" y2="24"/>
+    <line x1="50" y1="35" x2="65" y2="24"/>
   </svg>
   <span>Nellus Coworking</span>
 </div>
@@ -234,7 +225,7 @@ function esc(v){return String(v||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&l
 
 function renderPlans(){
  const box=document.getElementById("plansList"); if(!box) return; box.innerHTML="";
- plans.forEach((p,i)=>{
+ plans.forEach((p)=>{
   const d=document.createElement("div"); d.className="card";
   d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info"><strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small></div><div class="price">${esc(p.price)}</div></div>`;
   box.appendChild(d);
@@ -242,7 +233,7 @@ function renderPlans(){
 }
 function renderStructure(){
  const box=document.getElementById("structureList"); if(!box) return; box.innerHTML="";
- structure.forEach((s,i)=>{
+ structure.forEach((s)=>{
   const d=document.createElement("div"); d.className="feature";
   d.innerHTML=`<div class="fi">${esc(s.icon)}</div><b>${esc(s.name)}</b><span>${esc(s.desc)}</span>`;
   box.appendChild(d);
@@ -270,11 +261,11 @@ DADOS DO NOSSO COWORKING:
 - Planos: ${JSON.stringify(plans)}
 - Diferenciais: ${JSON.stringify(structure)}
 
-REGRA DE OURO:
+REGRAS DE ESTILO E REDAÇÃO:
 1. NUNCA REPITA INFORMAÇÕES QUE JÁ FORAM DITAS NA CONVERSA OU NO CONTEXTO.
-2. Se o vendedor avisou que JÁ ENVIOU FOTOS, VÍDEOS ou JÁ FALOU DO COFFEE BREAK, NÃO FALE DISSO NOVAMENTE!
-3. Avance a conversa com uma abordagem NOVA (ex: convidar para vir tomar um café e conhecer a sala presencialmente).
-4. USE A LINGUAGEM: "vir até o Nellus" ou "dar uma passadinha aqui no Nellus". NUNCA use "dar um pulo".
+2. NUNCA USE MÚLTIPLOS DIMINUTIVOS na mesma frase (evite "olhadinha", "passadinha", "cafézinho" juntos). Use apenas linguagem natural.
+3. Use a grafia correta "vir aqui no Nellus" (nunca "vim" nem "dar um pulo").
+4. Avance a conversa convidando para vir conhecer a estrutura ou tomar um café.
 5. Escreva APENAS a mensagem final para o cliente.`;
 
  const promptUser = `
@@ -291,7 +282,7 @@ ${text}
   method: "POST",
   headers: {
    "Content-Type": "application/json",
-   "Authorization": `Bearer ${apiKey}`
+   "Authorization": `Bearer ${apiKey.trim()}`
   },
   body: JSON.stringify({
    model: "gpt-4o-mini",
@@ -304,7 +295,9 @@ ${text}
  });
 
  if(!response.ok){
-  throw new Error("Erro OpenAI: " + response.statusText);
+  const errData = await response.json().catch(()=>({}));
+  const errMsg = errData.error?.message || response.statusText;
+  throw new Error(errMsg);
  }
  const data = await response.json();
  return data.choices[0].message.content.trim();
@@ -318,9 +311,9 @@ function fallbackSmartResponse(text, action, clientName, customContext){
  const coffeeBreakSent = c.includes("coffee") || c.includes("café") || c.includes("buffet");
 
  if(photosSent && coffeeBreakSent){
-  return `Olá${nameStr}! Passando para saber se você conseguiu dar uma olhadinha nas fotos e vídeos que te mandei da sala e do nosso espaço. Se quiser, você está super convidada para vir tomar um café com a gente e conhecer a estrutura de perto! Qual dia ficaria melhor para você dar uma passadinha aqui no Nellus?`;
+  return `Olá${nameStr}! Passando para saber se você conseguiu avaliar o material que te mandei da sala e da nossa estrutura. Se quiser, você está super convidada para vir tomar um café com a gente e conhecer tudo de perto! Qual dia ficaria melhor para você vir aqui no Nellus?`;
  }
- return `Olá${nameStr}! Passando para ver se conseguiu avaliar a proposta para o seu espaço. Se ficou qualquer dúvida ou se quiser dar uma passadinha aqui no Nellus para conhecer presencialmente, estou à disposição!`;
+ return `Olá${nameStr}! Passando para ver se conseguiu avaliar a proposta para o seu espaço. Se ficou qualquer dúvida ou se quiser vir aqui no Nellus para conhecer presencialmente, estou à disposição!`;
 }
 
 async function run(){
@@ -354,10 +347,11 @@ async function run(){
   document.getElementById("result").style.display = "block";
   document.getElementById("result").scrollIntoView({ behavior: "smooth" });
  }catch(err){
-  alert("Falha na API OpenAI. Alternando para o Motor Local.\n" + err.message);
+  alert("Erro OpenAI: " + err.message + "\n\nAlternando para o Motor Local.");
   const msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
   document.getElementById("suggestion").textContent = msg;
   badge.textContent = "Gerado via Motor Local (Fallback) ⚡";
+  badge.style.background = "#332213";
   document.getElementById("result").style.display = "block";
  }finally{
   generate.disabled = false;
