@@ -448,24 +448,40 @@ ${text}
 """`;
 
  const cleanKey = apiKey.trim();
- // MODELO ATUALIZADO: gemini-3.6-flash
- const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${cleanKey}`;
+ 
+ // Tentativas sequenciais contra congestionamento
+ const modelsToTry = [
+  "gemini-3.6-flash",
+  "gemini-2.5-flash",
+  "gemini-1.5-flash"
+ ];
 
- const response = await fetch(url, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-   contents: [{ parts: [{ text: promptUser }] }]
-  })
- });
+ let lastError = null;
 
- if(!response.ok){
-  const errData = await response.json().catch(()=>({}));
-  const errMsg = errData.error?.message || response.statusText;
-  throw new Error(errMsg);
+ for (const model of modelsToTry) {
+  try {
+   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${cleanKey}`;
+   const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+     contents: [{ parts: [{ text: promptUser }] }]
+    })
+   });
+
+   if (response.ok) {
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text.trim();
+   }
+   
+   const errData = await response.json().catch(()=>({}));
+   lastError = new Error(errData.error?.message || response.statusText);
+  } catch (err) {
+   lastError = err;
+  }
  }
- const data = await response.json();
- return data.candidates[0].content.parts[0].text.trim();
+
+ throw lastError || new Error("Servidores instáveis no momento.");
 }
 
 function fallbackSmartResponse(text, action, clientName, customContext){
@@ -512,7 +528,7 @@ async function run(){
   document.getElementById("result").style.display = "block";
   document.getElementById("result").scrollIntoView({ behavior: "smooth" });
  }catch(err){
-  alert("Erro Gemini: " + err.message + "\n\nAlternando para o Motor Local.");
+  alert("Servidores ocupados (" + err.message + "). Alternando automaticamente para o Motor Local.");
   const msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
   document.getElementById("suggestion").textContent = msg;
   badge.textContent = "Gerado via Motor Local (Fallback) ⚡";
