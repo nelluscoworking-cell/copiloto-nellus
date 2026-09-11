@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nellus | Copiloto Comercial Pro V25</title>
+<title>Nellus | Copiloto Comercial Pro V34</title>
 <meta name="theme-color" content="#050806">
 <style>
 :root{
@@ -80,7 +79,7 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:560px){.quick,.grid,.form-grid{grid-template-columns:1fr}.top{height:74px}.logo-box span{font-size:15px}.connection-pill{padding:7px}.hero{padding:18px}}
 
-/* ===== V7: Gestor Visionário ===== */
+/* ===== V34: Treinamento e Gestão Comercial ===== */
 .ai-dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
 .ai-kpi{background:#101714;border:1px solid #23362d;border-radius:14px;padding:12px}
 .ai-kpi .k{font-size:11px;color:#91a49b;text-transform:uppercase;letter-spacing:.05em}
@@ -114,7 +113,22 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 .today-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.today-kicker{font-size:10px;letter-spacing:1.3px;color:#6de0ba;font-weight:800}.today-head h2{margin:5px 0 4px;font-size:19px}.today-head p{margin:0;color:#8da199;font-size:12px}.today-count{font-size:11px;padding:7px 10px;border-radius:999px;background:#11251e;color:#8ee1c4;border:1px solid #285342;white-space:nowrap}.today-list{display:grid;gap:8px;margin-top:14px}.today-item{border:1px solid #21352f;border-radius:13px;padding:12px;background:#0c1411}.today-item.hot{border-left:3px solid #20c997}.today-item.attention{border-left:3px solid #e0cf36}.today-item.risk{border-left:3px solid #ed3c4c}.today-top{display:flex;justify-content:space-between;gap:10px}.today-name{font-size:12px;font-weight:800}.today-score{font-size:10px;color:#9eb0a8}.today-reason{font-size:10px;color:#9bada5;margin-top:4px;line-height:1.4}.today-action{font-size:10px;color:#cbd6d1;margin-top:7px;line-height:1.4}.today-actions{display:flex;gap:7px;margin-top:9px}.today-actions button{font-size:10px;padding:7px 9px}.empty-today{border:1px dashed #294039;border-radius:12px;padding:14px;color:#81938b;font-size:11px;text-align:center}.priority-filter{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.priority-filter button.active{border-color:#36d2a7;color:#b8f1de;background:#10261f}.pipeline-card.hot{border-left:3px solid #20c997}.pipeline-card.attention{border-left:3px solid #e0cf36}.pipeline-card.risk{border-left:3px solid #ed3c4c}.reopen-btn{margin-top:8px}
 @media(max-width:620px){.today-head{flex-direction:column}.today-count{align-self:flex-start}}
  .actions{margin:10px 0 12px}.actions .secondary{width:100%}@media(min-width:621px){.actions .secondary{width:auto}}
-</style></head>
+</style>
+<style id="v28css">
+.v28-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.v28-toolbar .v7-tab{font-size:11px}
+.v28-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.v28-grid .full{grid-column:1/-1}
+.v28-rule{background:linear-gradient(145deg,#101814,#0b110f);border:1px solid #294238;border-radius:15px;padding:14px;margin:10px 0}
+.v28-rule-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.v28-rule h3{margin:0;font-size:14px}.v28-rule small{color:#81938b}
+.v28-meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.v28-chip{font-size:10px;padding:5px 8px;border-radius:99px;background:#15231e;border:1px solid #294238;color:#a9c0b7}.v28-chip.on{color:#d6ff68;border-color:#46643a}
+.v28-block{margin-top:9px;padding:9px;border-radius:10px;background:#0a100e;border:1px solid #1e302a;font-size:11px;line-height:1.45}.v28-block b{color:#d6ff68;display:block;margin-bottom:3px;font-size:10px;text-transform:uppercase}
+.v28-actions{display:flex;gap:7px;margin-top:10px}.v28-actions button{flex:1}
+.v28-test{background:#0d1512;border:1px solid #294238;border-radius:15px;padding:14px;margin-top:12px}.v28-test-result{margin-top:12px}.v28-ok{border-color:#2c674f!important}.v28-bad{border-color:#743b3b!important}
+.v28-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0}.v28-step{background:#0e1713;border:1px solid #21372f;border-radius:10px;padding:9px;text-align:center;font-size:10px}.v28-step b{display:block;color:#d6ff68;margin-bottom:4px}
+.v28-score{font-size:24px;font-weight:800}.v28-empty{padding:22px;text-align:center;color:#81938b;border:1px dashed #294238;border-radius:14px}
+.v28-toggle{display:flex;align-items:center;gap:8px;font-size:11px}.v28-toggle input{accent-color:#d6ff68}
+@media(max-width:700px){.v28-grid{grid-template-columns:1fr}.v28-grid .full{grid-column:auto}.v28-flow{grid-template-columns:1fr 1fr}}
+</style>
+</head>
 <body>
 <div class="app">
 <header class="top">
@@ -126,25 +140,42 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 <line x1="50" y1="35" x2="35" y2="24"/><line x1="50" y1="35" x2="65" y2="24"/>
 </svg><span>Nellus Coworking</span>
 </div>
-<div class="connection-pill"><span class="connection-dot"></span><span id="apiStatus">Motor Nellus Ativo</span></div>
+<div class="connection-pill"><span class="connection-dot"></span><span id="apiStatus">Motor Nellus Ativo (V34)</span></div>
 </header>
 
 <main>
 <section id="home" class="view active">
 <div class="hero">
-<div class="eyebrow">Nellus • Copiloto Comercial Pro V25</div>
+<div class="eyebrow">Nellus • Copiloto Comercial Pro V34</div>
 <h1>Atendimento</h1>
 <p class="sub">Analise a conversa, descubra o risco de perder a venda e receba a próxima ação comercial.</p>
 </div>
 
-<div class="section-title"><h2>Objetivo da resposta</h2></div><div class="quick"><button type="button" data-action="gerar"><b>Resposta consultiva</b><span>Dar sequência natural à conversa</span></button><button type="button" data-action="follow"><b>Follow-up</b><span>Retomar sem parecer cobrança</span></button><button type="button" data-action="objecao"><b>Tratar objeção</b><span>Preço, vou pensar, data etc.</span></button><button type="button" data-action="fechamento"><b>Convite / Fechamento</b><span>Convidar para visita ou reserva</span></button></div><div class="composer">
+<div class="section-title"><h2>Objetivo da resposta</h2></div>
+<div class="quick">
+<button type="button" data-action="gerar"><b>Resposta consultiva</b><span>Dar sequência natural à conversa</span></button>
+<button type="button" data-action="follow"><b>Follow-up</b><span>Retomar sem parecer cobrança</span></button>
+<button type="button" data-action="objecao"><b>Tratar objeção</b><span>Preço, vou pensar, data etc.</span></button>
+<button type="button" data-action="fechamento"><b>Convite / Fechamento</b><span>Convidar para visita ou reserva</span></button>
+</div>
+
+<div class="composer">
 <div class="head"><label>Nome do cliente (opcional)</label></div>
 <input type="text" id="clientName" class="input-field" placeholder="Ex: Juliana">
 <input type="tel" id="clientPhone" class="input-field" inputmode="tel" autocomplete="tel" placeholder="Telefone / WhatsApp (opcional, usado para lembrar o cliente)">
 <div id="clientMemory" class="info-box" style="display:none;margin-top:-2px;margin-bottom:10px"></div>
 
 <div class="head"><label>O que você JÁ FEZ / Áudios / Fotos enviadas</label></div>
-<input type="text" id="customContext" class="input-field" placeholder="Ex: Já mandei fotos da sala e o endereço."><div class="head"><label>Há quanto tempo o cliente está sem responder? (opcional)</label></div><select id="v9Silence" class="input-field"><option value="0">Agora / acabou de responder</option><option value="1">Menos de 1 dia</option><option value="2">1–2 dias</option><option value="3">3–5 dias</option><option value="6">6–7 dias</option><option value="10">Mais de 7 dias</option></select>
+<input type="text" id="customContext" class="input-field" placeholder="Ex: Já mandei fotos da sala e o endereço.">
+
+<div class="head"><label>Há quanto tempo o cliente está sem responder? (opcional)</label></div>
+<select id="v9Silence" class="input-field">
+<option value="0">Agora / acabou de responder</option>
+<option value="1">Menos de 1 dia</option>
+<option value="2">1–2 dias (Retomada leve)</option>
+<option value="4">3–4 dias (Nova perspectiva de valor)</option>
+<option value="7">7+ dias (Breakup message / Encerramento)</option>
+</select>
 
 <div class="head"><label>Conversa com o cliente</label><span class="count" id="count">0/6000</span></div>
 <textarea id="conversation" maxlength="6000" placeholder="Cole aqui a conversa do WhatsApp... (ou deixe vazio para gerar a mensagem de primeiro contato)"></textarea>
@@ -157,13 +188,48 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 <div class="suggestion" id="suggestion"></div>
 <div class="actions"><button class="secondary" id="copy">Copiar mensagem</button></div>
 </div>
-<div id="v9RadarResult" class="diagnostic" style="display:none"></div><div id="v9Followup" class="diagnostic" style="display:none"></div>
+<div id="v9RadarResult" class="diagnostic" style="display:none"></div>
+<div id="v9Followup" class="diagnostic" style="display:none"></div>
 </div>
-<div class="radar-panel"><div class="radar-head"><div><div class="radar-kicker">RADAR COMERCIAL</div><h2>Não deixe uma oportunidade escapar</h2><p>Identifique sinais de compra, risco, silêncio e falta de próximo passo.</p></div><button type="button" class="btn btn-green" onclick="v9OpenPipeline()">Pipeline</button></div><div class="radar-grid"><div class="radar-kpi hot"><span>🔴</span><b id="v9Hot">0</b><small>Quentes</small></div><div class="radar-kpi attention"><span>🟠</span><b id="v9Attention">0</b><small>Atenção</small></div><div class="radar-kpi risk"><span>🟡</span><b id="v9Risk">0</b><small>Risco</small></div><div class="radar-kpi follow"><span>🟢</span><b id="v9Follow">0</b><small>Resolvido</small></div></div><div id="v9Opportunities" class="opportunity-list"></div></div><div class="today-panel"><div class="today-head"><div><div class="today-kicker">PRIORIDADES DE HOJE</div><h2>Quem precisa da sua atenção agora</h2><p>O Nellus organiza as oportunidades pelo risco e pela urgência comercial.</p></div><div id="v10TodayCount" class="today-count">0 ações</div></div><div id="v10TodayList" class="today-list"></div></div>
+
+<div class="radar-panel">
+<div class="radar-head"><div><div class="radar-kicker">RADAR COMERCIAL</div><h2>Não deixe uma oportunidade escapar</h2><p>Identifique sinais de compra, risco, silêncio e falta de próximo passo.</p></div>
+<button type="button" class="btn btn-green" onclick="v9OpenPipeline()">Pipeline</button></div>
+<div class="radar-grid">
+<div class="radar-kpi hot"><span>🔴</span><b id="v9Hot">0</b><small>Quentes</small></div>
+<div class="radar-kpi attention"><span>🟠</span><b id="v9Attention">0</b><small>Atenção</small></div>
+<div class="radar-kpi risk"><span>🟡</span><b id="v9Risk">0</b><small>Risco</small></div>
+<div class="radar-kpi follow"><span>🟢</span><b id="v9Follow">0</b><small>Resolvido</small></div>
+</div>
+<div id="v9Opportunities" class="opportunity-list"></div>
+</div>
+
+<div class="today-panel">
+<div class="today-head"><div><div class="today-kicker">PRIORIDADES DE HOJE</div><h2>Quem precisa da sua atenção agora</h2><p>O Nellus organiza as oportunidades pelo risco e pela urgência comercial.</p></div>
+<div id="v10TodayCount" class="today-count">0 ações</div></div>
+<div id="v10TodayList" class="today-list"></div>
+</div>
 
 </section>
 
-<section id="pipeline" class="view"><div class="section-title"><div><div class="eyebrow">Inteligência comercial</div><h1>Pipeline de oportunidades</h1><p class="sub">Veja quem precisa de atenção, reabra a conversa e execute a próxima melhor ação. Tudo fica neste navegador.</p></div><button type="button" class="btn" onclick="show('home')">Voltar ao início</button></div><div class="priority-filter"><button class="btn active" id="filterAll" onclick="v10SetFilter('all')">Todos</button><button class="btn" id="filterHot" onclick="v10SetFilter('hot')">Quentes</button><button class="btn" id="filterAttention" onclick="v10SetFilter('attention')">Atenção</button><button class="btn" id="filterRisk" onclick="v10SetFilter('risk')">Risco</button></div><div class="pipeline-actions"><button class="btn btn-green" onclick="v9AddCurrentToPipeline()"> Salvar conversa atual</button><button class="btn" onclick="v9ExportPipeline()"> Exportar backup</button><button class="btn" onclick="v9ClearPipeline()">Limpar pipeline</button></div><div id="v9PipelineList"></div></section><section id="plans" class="view">
+<section id="pipeline" class="view">
+<div class="section-title"><div><div class="eyebrow">Inteligência comercial</div><h1>Pipeline de oportunidades</h1><p class="sub">Veja quem precisa de atenção, reabra a conversa e execute a próxima melhor ação. Tudo fica neste navegador.</p></div>
+<button type="button" class="btn" onclick="show('home')">Voltar ao início</button></div>
+<div class="priority-filter">
+<button class="btn active" id="filterAll" onclick="v10SetFilter('all')">Todos</button>
+<button class="btn" id="filterHot" onclick="v10SetFilter('hot')">Quentes</button>
+<button class="btn" id="filterAttention" onclick="v10SetFilter('attention')">Atenção</button>
+<button class="btn" id="filterRisk" onclick="v10SetFilter('risk')">Risco</button>
+</div>
+<div class="pipeline-actions">
+<button class="btn btn-green" onclick="v9AddCurrentToPipeline()"> Salvar conversa atual</button>
+<button class="btn" onclick="v9ExportPipeline()"> Exportar backup</button>
+<button class="btn" onclick="v9ClearPipeline()">Limpar pipeline</button>
+</div>
+<div id="v9PipelineList"></div>
+</section>
+
+<section id="plans" class="view">
 <div class="eyebrow">Base comercial</div><h1>Planos e preços</h1>
 <p class="sub">Adicione, edite e remova informações. Tudo fica salvo neste navegador.</p>
 <div class="section-title"><h2>Seus planos</h2><button class="btn btn-green" id="addPlan"> Adicionar plano</button></div>
@@ -204,7 +270,6 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 <div id="structureList" class="grid"></div>
 </section>
 
-
 <section id="knowledge" class="view">
 <div class="eyebrow">Inteligência comercial</div>
 <h1>Base de conhecimento</h1>
@@ -241,73 +306,9 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 </div>
 
 <div id="knowledgeList" class="kb-list"></div>
-
-<div class="info-box">
-<strong style="color:#65cfb4">Como deixar as respostas específicas</strong><br>
-Em “Palavras ou frases”, cadastre termos que o cliente costuma usar. Ex.: <em>“está caro”, “vou pensar”, “tem desconto?”</em>.<br>
-Em “Resposta”, coloque a forma como você realmente quer que a Nellus responda. O sistema pode combinar essa resposta com preço, capacidade, horário e informações dos seus planos.
-</div>
 </section>
 
-
-<!-- ===== V7 TREINAMENTO DO GESTOR ===== -->
 <section id="trainingV7" class="view">
- <div class="section-title">
-  <div><h2> Treinamento do Gestor</h2><p>Ensine o copiloto a pensar e vender como você. Todo o treinamento fica concentrado nesta página.</p></div>
- </div>
-
- <div class="v7-tabs">
-  <button class="v7-tab active" onclick="v7ShowTab('examplesV7',this)">Exemplos reais</button>
-  <button class="v7-tab" onclick="v7ShowTab('diagnosticV7',this)">Como ele pensa</button>
- </div>
-
- <div id="examplesV7" class="training-form active">
-  <div class="card">
-   <h3>Novo exemplo de treinamento</h3>
-   <p class="muted">Cadastre uma conversa curta e a resposta que você consideraria excelente.</p>
-   <div class="form-grid">
-    <label>Situação / título<input id="v7Title" placeholder="Ex.: Cliente achou a sala cara"></label>
-    <label>Categoria
-     <select id="v7Category">
-      <option>Objeção</option><option>Preço</option><option>Qualificação</option>
-      <option>Follow-up</option><option>Fechamento</option><option>Informação</option><option>Geral</option>
-     </select>
-    </label>
-    <label class="full">Mensagem do cliente<textarea id="v7Client" rows="3" placeholder="Ex.: Gostei, mas achei um pouco caro..."></textarea></label>
-    <label class="full">Resposta ideal<textarea id="v7Ideal" rows="4" placeholder="Escreva exatamente como você responderia."></textarea></label>
-    <label>Gatilhos / palavras-chave<input id="v7Triggers" placeholder="caro, preço alto, valor"></label>
-    <label>Prioridade
-     <select id="v7Priority"><option value="3">Alta</option><option value="2" selected>Média</option><option value="1">Baixa</option></select>
-    </label>
-   </div>
-   <button class="primary" onclick="v7SaveExample()"> Salvar treinamento</button>
-  </div>
-  <div id="v7ExamplesList"></div>
- </div>
-
- <div id="diagnosticV7" class="training-form">
-  <div class="diagnostic">
-   <h3>Visão do gestor</h3>
-   <p class="muted">O copiloto V7 deixa de pensar apenas em “qual resposta dar” e passa a decidir <b>o que fazer para avançar a venda</b>.</p>
-   <div class="strategy-grid">
-    <div class="strategy-card"><b>1. Diagnóstico</b>Entende intenção, etapa, objeção e sinais de compra.</div>
-    <div class="strategy-card"><b>2. Lacunas</b>Descobre quais informações ainda faltam para conduzir o cliente.</div>
-    <div class="strategy-card"><b>3. Estratégia</b>Escolhe entre informar, perguntar, contornar objeção, nutrir ou fechar.</div>
-    <div class="strategy-card"><b>4. Execução</b>Gera uma mensagem humana e uma ação comercial clara.</div>
-   </div>
-  </div>
-  <div class="card">
-   <h3>Princípios comerciais</h3>
-   <div class="pills">
-    <span class="pill"><strong>Não repetir</strong> o que já foi enviado</span>
-    <span class="pill"><strong>Não inventar</strong> preço ou disponibilidade</span>
-    <span class="pill"><strong>Diagnosticar</strong> antes de oferecer</span>
-    <span class="pill"><strong>Vender valor</strong>, não apenas preço</span>
-    <span class="pill"><strong>Conduzir</strong> sempre para o próximo passo</span>
-    <span class="pill"><strong>Ser humano</strong>, sem texto robótico</span>
-   </div>
-  </div>
- </div>
 </section>
 
 <section id="settings" class="view">
@@ -329,13 +330,12 @@ Em “Resposta”, coloque a forma como você realmente quer que a Nellus respon
 <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin:5px 0 8px"><label>IA Groq — chave API direta</label><button type="button" class="btn" id="toggleGroqKey">Mostrar opção</button></div>
 <div id="groqDirectBox" style="display:none">
 <input id="groqApiKey" class="input-field" type="password" autocomplete="off" placeholder="Uso apenas para testes locais — não recomendado em produção">
-<div class="info-box" style="margin-top:0">Para a Vercel, deixe esta opção vazia e use somente o <b>Endpoint seguro /api/groq</b>. A chave não fica no navegador.</div>
+<div class="info-box" style="margin-top:0">Para a Vercel, deixe esta opção vazia e use somente o <b>Endpoint seguro /api/groq</b>.</div>
 </div>
 <label style="display:block;margin:5px 0 8px">Endpoint seguro (recomendado)</label>
 <input id="groqEndpoint" class="input-field" type="text" autocomplete="off" placeholder="/api/groq (recomendado na Vercel)">
 <label style="display:block;margin:5px 0 8px">Modelo Groq</label>
 <select id="groqModel" class="input-field"><option value="openai/gpt-oss-20b">GPT-OSS 20B — recomendado</option><option value="openai/gpt-oss-120b">GPT-OSS 120B — mais potente</option></select>
-<div class="info-box"><strong style="color:#65cfb4"> IA + Guard-rail</strong><br>O Nellus envia para a IA apenas o contexto necessário para compor a resposta. Preços e regras vêm dos seus dados locais. Se a Groq falhar, demorar ou tentar inventar informação, o sistema usa automaticamente o Motor Nellus local.<br><br><strong style="color:#e8b77a">Segurança:</strong> colocar a chave diretamente no HTML a expõe no navegador. Para uso real, prefira o Endpoint seguro da Vercel e deixe a chave apenas nas variáveis de ambiente.</div>
 </div>
 </section>
 </main>
@@ -361,7 +361,6 @@ const DEFAULT_PLANS=[
 {name:"Endereço comercial",price:"R$ 520/ano",capacity:"Plano anual",schedule:"",desc:"Apresentação profissional da empresa.",arguments:"Ajuda a separar a imagem profissional da empresa do endereço residencial."},
 {name:"Endereço fiscal",price:"R$ 1.248/ano",capacity:"Plano anual",schedule:"",desc:"Ligado ao CNPJ da empresa.",arguments:"Solução para endereço fiscal empresarial, conforme as condições do serviço."}
 ];
-
 
 const DEFAULT_KNOWLEDGE=[
 {type:"faq",title:"Cliente pergunta o valor da sala privativa",trigger:"quanto custa;qual o valor;preço da sala;valor da sala privativa",answer:"Informe o valor cadastrado da Sala privativa. Depois pergunte a data, horário e quantidade de pessoas para orientar a melhor opção.",priority:10},
@@ -394,7 +393,7 @@ function saveData(){
  localStorage.setItem("nellus_plans",JSON.stringify(plans));
  localStorage.setItem("nellus_structure",JSON.stringify(structure));
 }
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function esc(v){return String(v?=""??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function toast(msg){
  const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
  clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove("show"),2200);
@@ -406,7 +405,6 @@ function show(id){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>show(b.dataset.view));
-
 
 function renderKnowledge(){
  const box=document.getElementById("knowledgeList"); if(!box)return;
@@ -575,7 +573,7 @@ function lastMeaningfulMessage(text){
 function v11Facts(){
  const p=n=>plans.find(x=>normalize(x.name)===normalize(n));
  const privatePlan=p('Sala privativa');
- return {address:'Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ',hours:'07h30 às 19h, de segunda a sexta-feira',plans:plans.map(x=>({name:x.name,price:x.price,capacity:x.capacity,schedule:x.schedule,desc:x.desc,arguments:x.arguments})),privatePackages:privatePlan?[`Plano cadastrado: ${privatePlan.name} — ${privatePlan.price}`]:[],fixedExtra:'Não cadastrado. Nunca inventar valor de colaborador adicional.'};
+ return {address:'Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ',hours:'07h30 às 19h, de segunda a sexta-feira',plans:plans.map(x=>({name:x.name,price:x.price,capacity:x.capacity,schedule:x.schedule,desc:x.desc,arguments:x.arguments})),privatePackages:privatePlan?[`Plano cadastrado: ${privatePlan.name} — ${privatePlan.price}`]:[],fixedExtra:'Não cadastrado.'};
 }
 
 const CONTACTS_KEY='nellus_contacts_v1';
@@ -585,35 +583,84 @@ function saveContacts(){localStorage.setItem(CONTACTS_KEY,JSON.stringify(contact
 function normalizePhone(v){return String(v||'').replace(/\D/g,'').slice(-13);}
 function getContact(phone){const k=normalizePhone(phone);return k?contacts[k]||null:null;}
 function kSafePhone(v){return String(v||'').replace(/(?<=\d{2})\d(?=\d{4})/g,'*');}
-function contactMemoryText(phone){const c=getContact(phone);if(!c)return '';const hist=Array.isArray(c.history)?c.history:[];return JSON.stringify({nome:c.name||'',telefone:kSafePhone(c.phone||phone),interacoes:hist.slice(-8).map(h=>({data:h.date,cliente:h.client,resposta:h.reply,acao:h.action||''})),ultimoServico:c.lastService||'',ultimaIntencao:c.lastIntent||'',ultimaAcao:c.lastAction||''},null,2);}
-function updateClientMemoryUI(){const el=document.getElementById('clientMemory');if(!el)return;const phone=document.getElementById('clientPhone')?.value||'';const c=getContact(phone);if(!c){el.style.display='none';el.textContent='';return;}const hist=Array.isArray(c.history)?c.history:[];el.style.display='block';el.innerHTML='<b style="color:#65cfb4"> Memória deste cliente</b><br>'+esc(c.name||'Cliente')+' · '+hist.length+' interação(ões) registrada(s).'+(c.lastService?' Último assunto: '+esc(c.lastService)+'.':'')+(hist.length?' Último contato: '+esc(hist[hist.length-1].date||'')+'.':'');}
-function rememberInteraction(phone,name,client,reply,analysis,action){const k=normalizePhone(phone);if(!k)return;const existing=contacts[k]||{phone:String(phone).trim(),name:name||'',history:[]};if(name)existing.name=name;existing.phone=String(phone).trim();existing.lastService=analysis?.intent||'';existing.lastIntent=analysis?.intent||'';existing.lastAction=action||analysis?.next||'';existing.history=Array.isArray(existing.history)?existing.history:[];existing.history.push({date:new Date().toLocaleString('pt-BR'),client:String(client||'').slice(0,600),reply:String(reply||'').slice(0,1000),action:action||''});existing.history=existing.history.slice(-20);contacts[k]=existing;saveContacts();updateClientMemoryUI();}
+function contactMemoryText(phone){
+ const c=getContact(phone); if(!c)return '';
+ const hist=Array.isArray(c.history)?c.history:[];
+ const stage=c.stage||'Prospecção';
+ return JSON.stringify({
+  nome:c.name||'',
+  telefone:kSafePhone(c.phone||phone),
+  estagioFunil:stage,
+  interacoes:hist.slice(-8).map(h=>({data:h.date,cliente:h.client,resposta:h.reply,acao:h.action||''})),
+  ultimoServico:c.lastService||'',
+  ultimaIntencao:c.lastIntent||'',
+  ultimaAcao:c.lastAction||''
+ },null,2);
+}
+function updateClientMemoryUI(){
+ const el=document.getElementById('clientMemory');if(!el)return;
+ const phone=document.getElementById('clientPhone')?.value||'';
+ const c=getContact(phone);
+ if(!c){el.style.display='none';el.textContent='';return;}
+ const hist=Array.isArray(c.history)?c.history:[];
+ el.style.display='block';
+ el.innerHTML='<b style="color:#65cfb4"> Memória de estágio por cliente</b><br>'+esc(c.name||'Cliente')+' · Etapa: <b>'+esc(c.stage||'Prospecção')+'</b> · '+hist.length+' interação(ões).'+(c.lastService?' Assunto: '+esc(c.lastService)+'.':'');
+}
+function rememberInteraction(phone,name,client,reply,analysis,action){
+ const k=normalizePhone(phone);if(!k)return;
+ const existing=contacts[k]||{phone:String(phone).trim(),name:name||'',stage:'Prospecção',history:[]};
+ if(name)existing.name=name;
+ existing.phone=String(phone).trim();
+ existing.lastService=analysis?.intent||'';
+ existing.lastIntent=analysis?.intent||'';
+ existing.lastAction=action||analysis?.next||'';
+ if(analysis?.intent==='fechamento'||action==='fechamento') existing.stage='Negociação / Fechamento';
+ else if(analysis?.intent==='visita') existing.stage='Visita Agendada';
+ else if(analysis?.intent&&analysis.intent!=='geral') existing.stage='Qualificação';
+ existing.history=Array.isArray(existing.history)?existing.history:[];
+ existing.history.push({date:new Date().toLocaleString('pt-BR'),client:String(client||'').slice(0,600),reply:String(reply||'').slice(0,1000),action:action||''});
+ existing.history=existing.history.slice(-20);
+ contacts[k]=existing;saveContacts();updateClientMemoryUI();
+}
 document.getElementById('clientPhone')?.addEventListener('input',updateClientMemoryUI);
 document.getElementById('clientName')?.addEventListener('input',updateClientMemoryUI);
-function detectSignals(text){const t=normalize(text),out=[];const add=(type,label,priority)=>{if(!out.some(x=>x.type===type))out.push({type,label,priority});};if(/vou pensar|vou verificar|vou analisar|depois vejo|deixa eu ver|preciso pensar|vou conversar|vou falar com/.test(t))add('objecao','Indecisão',90);if(/desconto|condicao especial|tem desconto|faz desconto|consegue desconto/.test(t))add('desconto','Preço / desconto',95);if(/caro|cara|muito caro|preco|preço|valor|quanto custa|quanto fica|orcamento|orçamento/.test(t))add('preco','Preço',85);if(/disponivel|disponível|disponibilidade|tem vaga|tem horario|tem horário/.test(t))add('disponibilidade','Disponibilidade',88);if(/reservar|reserva|agendar|contratar|fechar|como faço|como faco/.test(t))add('fechamento','Fechamento',100);if(/visita|conhecer o espaco|conhecer o espaço/.test(t))add('visita','Visita',75);if(/onde fica|localiza|como chegar|qual o endereco|qual o endereço/.test(t))add('localizacao','Localização',80);if(/horario|horário|funciona|abre|fecha/.test(t))add('horario','Horário',70);const services=[['escritório virtual','escritório virtual'],['escritorio virtual','escritório virtual'],['domicilio virtual','escritório virtual'],['endereço fiscal','endereço fiscal'],['endereco fiscal','endereço fiscal'],['cnpj','endereço fiscal'],['endereço comercial','endereço comercial'],['endereco comercial','endereço comercial'],['sala privativa','sala privativa'],['sala de reunião','sala de reunião'],['reuniao','sala de reunião'],['sala de treinamento','sala de treinamento'],['treinamento','sala de treinamento'],['curso','sala de treinamento'],['workshop','sala de treinamento'],['palestra','sala de treinamento'],['estação de trabalho','estação de trabalho'],['estacao de trabalho','estação de trabalho'],['coworking','estação de trabalho'],['sala fixa','sala fixa'],['mensal','sala fixa']];const seen=new Set();services.forEach(([w,l])=>{if(t.includes(normalize(w))&&!seen.has(l)){seen.add(l);add('servico',l,60);}});return out.sort((a,b)=>b.priority-a.priority);}
+
+function detectSignals(text){
+ const t=normalize(text),out=[];
+ const add=(type,label,priority)=>{if(!out.some(x=>x.type===type))out.push({type,label,priority});};
+ if(/vou pensar|vou verificar|vou analisar|depois vejo|deixa eu ver|preciso pensar|vou conversar/.test(t))add('objecao','Indecisão',90);
+ if(/desconto|condicao especial|tem desconto|faz desconto|consegue desconto/.test(t))add('desconto','Preço / desconto',95);
+ if(/caro|cara|muito caro|preco|preço|valor|quanto custa|quanto fica|orcamento/.test(t))add('preco','Preço',85);
+ if(/disponivel|disponível|disponibilidade|tem vaga|tem horario/.test(t))add('disponibilidade','Disponibilidade',88);
+ if(/reservar|reserva|agendar|contratar|fechar|como faço/.test(t))add('fechamento','Fechamento',100);
+ if(/visita|conhecer o espaco|conhecer o espaço/.test(t))add('visita','Visita',75);
+ if(/onde fica|localiza|como chegar|qual o endereco/.test(t))add('localizacao','Localização',80);
+ if(/horario|horário|funciona|abre|fecha/.test(t))add('horario','Horário',70);
+ return out.sort((a,b)=>b.priority-a.priority);
+}
 
 function detectIntent(text){
  const t=normalize(text);
- // A ordem importa: primeiro identificamos perguntas factuais muito claras.
- if(/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o|qual\s+endere[cç]o/.test(t))return'localizacao';
+ if(/onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o/.test(t))return'localizacao';
  if(/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t))return'horario';
- if(/disponivel|disponibilidade|tem\s+vaga|tem\s+horario|tem\s+algum\s+horario/.test(t))return'disponibilidade';
- if(/vou pensar|vou verificar|vou analisar|depois vejo|deixa eu ver|preciso pensar|vou conversar|vou falar com/.test(t))return'objecao';
- if(/desconto|condicao especial|condi[cç][aã]o especial/.test(t))return'desconto';
+ if(/disponivel|disponibilidade|tem\s+vaga|tem\s+horario/.test(t))return'disponibilidade';
+ if(/vou pensar|vou verificar|vou analisar|depois vejo|preciso pensar/.test(t))return'objecao';
+ if(/desconto|condicao especial/.test(t))return'desconto';
  if(/escritorio\s+virtual|domicilio\s+virtual/.test(t))return'escritório virtual';
- if(/sala\s+fixa|sala\s+mensal|mensalidade|por\s+mes|mensal/.test(t))return'sala fixa';
+ if(/sala\s+fixa|sala\s+mensal|mensalidade|por\s+mes/.test(t))return'sala fixa';
  if(/sala\s+de\s+treinamento|treinamento|curso|workshop|palestra/.test(t))return'sala de treinamento';
  if(/sala\s+de\s+reuniao|reuniao/.test(t))return'sala de reunião';
  if(/endereco\s+comercial/.test(t))return'endereço comercial';
  if(/endereco\s+fiscal|cnpj/.test(t))return'endereço fiscal';
- if(/loca[cç][aã]o\s+por\s+hora|loca[cç][aã]o\s+avulsa|sala\s+por\s+hora|alugam\s+por\s+hora|aluga\s+por\s+hora|hora\s+avulsa|alugar\s+por\s+hora/.test(t))return'locação por hora';
+ if(/loca[cç][aã]o\s+por\s+hora|hora\s+avulsa|alugar\s+por\s+hora/.test(t))return'locação por hora';
  if(/sala\s+privativa|sala\s+particular/.test(t))return'sala privativa';
  if(/estacao\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t))return'estação de trabalho';
- if(/caro|cara|preco|valor|quanto\s+custa|quanto\s+fica|quanto\s+e|orcamento/.test(t))return'preco';
+ if(/caro|cara|preco|valor|quanto\s+custa|quanto\s+fica|orcamento/.test(t))return'preco';
  if(/visita|conhecer\s+(?:o\s+)?espaco/.test(t))return'visita';
  if(/reservar|reserva|agendar|contratar|fechar/.test(t))return'fechamento';
  return'geral';
 }
+
 function findPlan(intent,text){
  const t=normalize(text);
  const direct={
@@ -624,1396 +671,273 @@ function findPlan(intent,text){
  const exact=plans.find(x=>normalize(x.name)===normalize(direct[intent]));
  if(exact)return exact;
  }
- const map=[
- ['escritório virtual',['escritorio virtual','domicilio virtual']],
- ['locação por hora',['locacao por hora','locação por hora','locacao avulsa','locação avulsa','hora avulsa','por hora']],['sala privativa',['privativa','particular']],
- ['sala de reunião',['reuniao']],['sala de treinamento',['treinamento','curso','workshop','palestra']],
- ['estação de trabalho',['estacao','coworking','compartilhada']],['sala fixa',['sala fixa','mensal']],
- ['endereço comercial',['endereco comercial']],['endereço fiscal',['endereco fiscal','cnpj']]
- ];
- const m=map.find(([_,words])=>words.some(w=>t.includes(normalize(w))));
- return m?plans.find(x=>normalize(x.name).includes(normalize(m[0]))):null;
+ return null;
 }
-function hasAny(text,arr){const t=normalize(text);return arr.some(x=>t.includes(normalize(x)))}
-function scoreKnowledge(k,text){
- const t=normalize(text), triggers=(k.trigger||'').split(';').map(x=>normalize(x.trim())).filter(Boolean);
- let score=(k.priority||5)*0.15; triggers.forEach(term=>{if(term&&t.includes(term))score+=2+Math.min(term.length/20,1)}); return score;
-}
-function bestKnowledge(text){return knowledge.map(k=>({k,score:scoreKnowledge(k,text)})).filter(x=>x.score>1.8).sort((a,b)=>b.score-a.score).slice(0,3).map(x=>x.k)}
-function serviceFacts(p){if(!p)return '';return [p.name&&`Serviço: ${p.name}.`,p.price&&`Valor: ${p.price}.`,p.capacity&&`Capacidade: ${p.capacity}.`,p.schedule&&`Horário: ${p.schedule}.`,p.desc&&`Descrição: ${p.desc}.`,p.arguments&&`Benefícios: ${p.arguments}.`].filter(Boolean).join(' ')}
+function serviceFacts(p){if(!p)return '';return [p.name&&`Serviço: ${p.name}.`,p.price&&`Valor: ${p.price}.`,p.capacity&&`Capacidade: ${p.capacity}.`,p.schedule&&`Horário: ${p.schedule}.`,p.desc&&`Descrição: ${p.desc}.`].filter(Boolean).join(' ')}
 function v8ExtractClientText(text){const lines=(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);const client=lines.filter(x=>/^(cliente|lead|ele|ela)\s*:/i.test(x)).map(x=>x.replace(/^[^:]+:\s*/,'')).join(' ');return client||lastMeaningfulMessage(text||'')}
 
-/* ===== V18 Training Brain + Next Best Action ===== */
-function v17CleanReply(text){
+/* ===== PIPELINE UNIFICADO DE PONTA A PONTA (V34) ===== */
+function v20Clean(text){
  return String(text||'')
   .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{1F1E6}-\u{1F1FF}]/gu,'')
   .replace(/\s{2,}/g,' ')
-  .replace(/\s+([,.!?;:])/g,'$1')
+  .replace(/\s+([,.!?])/g,'$1')
   .trim();
 }
-function v17Words(text){
- return normalize(text||'').split(/[^a-z0-9à-ÿ]+/).filter(w=>w.length>=4 && !['para','você','voce','como','qual','isso','essa','esse','mais','uma','temos','tenho','preciso','quero','gostaria','sobre'].includes(w));
-}
-function v8MatchExamples(text,analysis){
- const source=normalize((text||'')+' '+(analysis?.intent||'')+' '+(analysis?.objection||'')+' '+(analysis?.stage||''));
- const words=[...new Set(v17Words(text))];
- const examples=Array.isArray(window.v7Examples)?window.v7Examples:[];
- return examples.map(x=>{
-  const triggerText=normalize((x.triggers||'')+' '+(x.client||'')+' '+(x.title||'')+' '+(x.category||''));
-  const triggerWords=[...new Set(v17Words(triggerText))];
-  let score=Number(x.priority||1)*0.8;
-  triggerWords.forEach(w=>{if(source.includes(w))score+=1.5;});
-  words.forEach(w=>{if(triggerText.includes(w))score+=2;});
-  if(analysis?.intent && triggerText.includes(normalize(analysis.intent)))score+=4;
-  if(analysis?.objection && analysis.objection!=='Nenhuma' && triggerText.includes(normalize(analysis.objection)))score+=4;
-  if(analysis?.stage && triggerText.includes(normalize(analysis.stage)))score+=2;
-  return {...x,score};
- }).filter(x=>x.score>=4).sort((a,b)=>b.score-a.score).slice(0,3);
-}
-function v8ComposeFromExample(example,analysis,p,name){
- if(!example?.ideal)return null;
- let reply=example.ideal;
- const g=v10Greeting(name);
- reply=reply.replace(/^\s*(ol[aá]|oi|bom dia|boa tarde|boa noite)[!,.]?\s*/i,'').trim();
- if(g && reply) reply=g+' '+reply;
- if(p && /^(sala privativa|sala de reunião|sala de treinamento|estação de trabalho|sala fixa)$/i.test(p.name||'')){
-  const facts=serviceFacts(p);
-  if(facts && !normalize(reply).includes(normalize(p.name))) reply+=' '+facts;
- }
- return v17CleanReply(reply);
-}
-function v17LearnedStrategy(examples,analysis){
- if(!examples?.length)return '';
- const top=examples[0];
- const category=normalize(top.category||'');
- if(category.includes('objec')) return 'Trabalhar a objeção sem pressionar, reforçar valor e conduzir para um próximo passo concreto.';
- if(category.includes('fech')) return 'Conduzir para uma ação concreta, evitando voltar para uma explicação genérica.';
- if(category.includes('informa')) return 'Responder primeiro ao que foi perguntado e só depois avançar com uma pergunta útil.';
- return 'Usar o exemplo treinado como referência de linguagem, estrutura e condução comercial.';
-}
-function v10Greeting(name){ return name ? `Olá, ${name}!` : `Olá!`; }
-function v18NextBestQuestion(t, flags){
- const hasDate=/(dia|data|amanh[aã]|segunda|ter[cç]a|quarta|quinta|sexta|s[aá]bado|domingo)/.test(t);
- const hasTime=/(hora|hor[aá]rio|manh[aã]|tarde|noite|\b\d{1,2}\s*(?:h|:|horas?))/.test(t);
- const hasPeople=/(pessoa|pessoas|participante|participantes|equipe|clientes?)/.test(t);
- const hasPurpose=/(atend|consult|reuni[aã]o|trabalh|curso|trein|workshop|palestr|escrit[oó]rio|empresa|cliente)/.test(t);
- if(flags.availability){
-  if(!hasDate) return 'Qual data você precisa?';
-  if(!hasTime) return 'E qual horário seria ideal?';
-  if(!hasPeople) return 'Será para quantas pessoas?';
-  return 'Perfeito. Posso te orientar sobre o próximo passo para reservar.';
- }
- if(flags.location) return 'Você está pensando em conhecer o espaço ou já procura uma sala para utilizar?';
- if(flags.privateRoom) return hasPurpose ? (hasDate ? 'E para qual data você pretende utilizar?' : 'Para qual data você pretende utilizar?') : 'É para atendimento, reunião ou para você trabalhar durante algumas horas?';
- if(flags.meeting) return hasPeople ? (hasDate ? 'Para qual data você precisa da sala?' : 'Para qual data você precisa da sala?') : 'Seria para uma reunião com quantas pessoas?';
- if(flags.training) return hasPeople ? (hasDate ? 'Para qual data você precisa do espaço?' : 'Para qual data você precisa do espaço?') : 'É para um curso, treinamento, workshop ou outro tipo de evento?';
- if(flags.work) return hasDate ? 'Qual horário você pretende utilizar?' : 'Você pretende usar a estação eventualmente ou com frequência?';
- if(flags.fixed) return hasPeople ? 'Você pretende utilizar a sala para qual tipo de atividade?' : 'A sala será para você ou para uma equipe?';
- if(flags.commercial || flags.fiscal) return '';
- if(flags.price) return 'Você pretende usar o espaço eventualmente ou com frequência?';
- if(flags.capacity) return hasPurpose ? 'E para qual data você pretende utilizar?' : 'Você pretende usar o espaço para qual tipo de atividade?';
- if(flags.hours) return hasDate ? 'E qual serviço você pretende utilizar?' : 'Você está pensando em utilizar o espaço em qual dia?';
- return 'Me conta um pouco mais sobre o que você precisa para eu te indicar a melhor opção.';
-}
-/* ===== V20 Commercial Conversation Engine =====
-    Fluxo: interpretar -> definir objetivo -> verificar contexto -> responder -> próxima ação.
-*/
-function v20Clean(text){
-  return String(text||'')
-    .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{1F1E6}-\u{1F1FF}]/gu,'')
-    .replace(/\s{2,}/g,' ')
-    .replace(/\s+([,.!?])/g,'$1')
-    .replace(/\s*:\s*/g,', ')
-    .replace(/,\s*,/g,',')
-    .trim();
-}
 function v20Greeting(name){ return name ? `Olá, ${name}!` : 'Olá!'; }
-function v20Has(t, arr){ return arr.some(x=>normalize(t).includes(normalize(x))); }
-function v20Analyze(text, context, action){const raw=(text||'').trim(),client=v8ExtractClientText(raw)||raw,t=normalize(client),c=normalize(context||'');const signals=detectSignals(client),detectedIntent=detectIntent(client),forced=action==='objecao'||action==='fechamento';const intent=action==='objecao'?'objecao':action==='fechamento'?'fechamento':detectedIntent;const hasDate=/\b(hoje|amanha|segunda|terca|quarta|quinta|sexta|sabado|domingo|dia|data)\b/.test(t),hasTime=/\b(hora|horario|manha|tarde|noite|\d{1,2}\s*(?:h|:|horas?))\b/.test(t),hasPeople=/\b(pessoa|pessoas|participante|participantes|equipe|clientes?)\b/.test(t),hasPurpose=v20Has(t,['atendimento','atender','reuniao','trabalhar','trabalho','curso','treinamento','workshop','palestra','consultorio','pacientes','clientes']);let stage='Novo contato',objective='Descobrir a necessidade',next='Fazer uma pergunta simples que permita direcionar a solução.';if(action==='follow'){stage='Follow-up';objective='Retomar a oportunidade';next='Reabrir a conversa com contexto e uma pergunta fácil de responder.';}else if(action==='objecao'){stage='Objeção';objective='Descobrir a objeção real antes de tentar contorná-la';next='Perguntar se o principal bloqueio é preço, percepção de valor, formato ou outra decisão.';}else if(action==='fechamento'){stage='Decisão';objective='Conduzir para confirmação';next='Confirmar o dado que ainda falta para reserva, visita ou contratação.';}else if(intent==='fechamento'){stage='Decisão';objective='Conduzir para o próximo passo';next='Confirmar o dado necessário para reserva, visita ou contratação.';}else if(intent==='objecao'){stage='Objeção';objective='Entender o que está impedindo a decisão';next='Descobrir a verdadeira objeção sem pressionar.';}else if(intent==='desconto'){stage='Objeção';objective='Trabalhar valor antes de falar em desconto';next='Entender se a dificuldade é preço, formato ou percepção de valor.';}else if(intent==='preco'){stage='Interesse';objective='Responder o preço com contexto de valor';next='Depois do preço, qualificar uso, frequência ou objetivo.';}else if(intent==='disponibilidade'){stage='Qualificação';objective='Avançar para uma possibilidade concreta';next='Obter data, horário e quantidade de pessoas sem inventar disponibilidade.';}else if(intent!=='geral'){stage='Interesse';objective='Responder o que foi perguntado e avançar a conversa';next='Fazer uma única pergunta útil, quando houver informação relevante faltando.';}if(hasDate&&hasTime&&hasPeople)next='Conduzir para confirmação ou fechamento, sem repetir perguntas já respondidas.';return {intent,detectedIntent,signals,forcedAction:forced?action:null,stage,objective,next,clientText:client,hasDate,hasTime,hasPeople,hasPurpose,context:c};}
-function v20TrainingMatch(client, a){
-  const examples=v8MatchExamples(client,a)||[];
-  return examples.slice(0,3);
+function v20Analyze(text, context, action){
+ const raw=(text||'').trim(),client=v8ExtractClientText(raw)||raw,t=normalize(client);
+ const intent=action==='objecao'?'objecao':action==='fechamento'?'fechamento':detectIntent(client);
+ const hasDate=/\b(hoje|amanha|segunda|terca|quarta|quinta|sexta|sabado|domingo|dia|data)\b/.test(t);
+ const hasTime=/\b(hora|horario|manha|tarde|noite|\d{1,2}\s*(?:h|:|horas?))\b/.test(t);
+ const hasPeople=/\b(pessoa|pessoas|participante|participantes|equipe)\b/.test(t);
+ return {intent,hasDate,hasTime,hasPeople,clientText:client};
 }
-function v20Opening(name){
-  const g=v20Greeting(name);
-  return `${g} Seja bem-vindo(a) ao Nellus. Me conta o que você está procurando e eu te indico a opção mais adequada para a sua necessidade.`;
+
+/* 1. MOTOR FACTUAL DETERMINÍSTICO E CAPACIDADE REATIVADA */
+function v34Deterministic(text, name, silenceDays){
+ const t=normalize(text), g=v20Greeting(name), facts=v11Facts();
+ 
+ // Cadência de follow-up temporal baseada no silêncio
+ const silence=Number(silenceDays||0);
+ if(silence>=7){
+  return `${g} Tudo bem? Como não tivemos mais retorno, estou encerrando este contato por aqui para não lotar sua caixa de mensagens. Caso decida retomar o projeto ou precise de um espaço profissional, nossa equipe segue à disposição. Ótima semana!`;
+ }
+ if(silence>=3){
+  return `${g} Passando para compartilhar uma nova perspectiva: profissionais que utilizam nossa estrutura conseguem focar 100% nas entregas sem se preocupar com infraestrutura ou burocracia. Faz sentido retomarmos nossa conversa hoje?`;
+ }
+ if(silence===1){
+  return `${g} Passando para retomar nosso último ponto. Conseguiu avaliar as informações da nossa estrutura?`;
+ }
+
+ // Lógica factual determinística
+ if(/onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+o\s+endere[cç]o/.test(t)) return `${g} Estamos na ${facts.address}.`;
+ if(/hor[aá]rio|funciona|abre|fecha/.test(t)) return `${g} Nosso horário de funcionamento é ${facts.hours}.`;
+
+ // Lógica de capacidade reativada (ex: sala para X pessoas)
+ const qtyMatch=t.match(/\b(\d{1,3})\s*(?:pessoas?|participantes?|pax)\b/);
+ const qty=qtyMatch?Number(qtyMatch[1]):null;
+ if(qty && /treinamento|workshop|palestra|curso/.test(t)){
+  const p=plans.find(x=>normalize(x.name).includes('treinamento'));
+  if(p){
+   const capMatch=String(p.capacity||'').match(/\d+/g);
+   const cap=capMatch?Math.max(...capMatch.map(Number)):12;
+   if(qty>cap) return `${g} Para ${qty} pessoas, nossa sala de treinamento comporta até ${cap} pessoas. Posso te indicar uma alternativa adequada. Para qual data e horário você precisa?`;
+   return `${g} Sim! Nossa sala de treinamento atende perfeitamente até ${cap} pessoas (${p.capacity}). Para qual data e horário você precisa?`;
+  }
+ }
+ if(qty && /reuni[aã]o/.test(t)){
+  const p=plans.find(x=>normalize(x.name).includes('reunião'));
+  if(p){
+   const capMatch=String(p.capacity||'').match(/\d+/g);
+   const cap=capMatch?Math.max(...capMatch.map(Number)):6;
+   if(qty>cap) return `${g} Para ${qty} pessoas, nossa sala de reunião comporta até ${cap} pessoas. Para qual data você precisa?`;
+   return `${g} Sim! Temos sala de reunião para até ${cap} pessoas. Para qual data e horário você precisa?`;
+  }
+ }
+ return null;
 }
-function v20Direct(client,name,a){const t=normalize(client),g=v20Greeting(name),facts=v11Facts();const priv=findPlan('sala privativa',client),meet=findPlan('sala de reunião',client),train=findPlan('sala de treinamento',client),work=findPlan('estação de trabalho',client),fixed=findPlan('sala fixa',client),virtual=findPlan('escritório virtual',client),com=findPlan('endereço comercial',client),fiscal=findPlan('endereço fiscal',client);const asks={location:/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o/.test(t),hours:/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t),fiscal:/endere[cç]o\s+fiscal|cnpj/.test(t),virtual:/escritorio\s+virtual|domicilio\s+virtual/.test(t),commercial:/endere[cç]o\s+comercial/.test(t),private:/sala\s+privativa|sala\s+particular|sala\s+por\s+hora|alugam\s+por\s+hora|aluga\s+por\s+hora|hora\s+avulsa/.test(t),meeting:/sala\s+de\s+reuni[aã]o|reuni[aã]o/.test(t),training:/sala\s+de\s+treinamento|treinamento|curso|workshop|palestra/.test(t),work:/esta[cç][aã]o\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t),fixed:/sala\s+fixa|sala\s+mensal|mensalidade|por\s+m[eê]s|mensal/.test(t),price:/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+(?:o\s+)?(?:valor|pre[cç]o)|pre[cç]o|valor|orcamento|orçamento/.test(t),capacity:/quantas\s+pessoas|quantos\s+cabem|capacidade|comporta/.test(t),packages:/pacote|pacotes|4\s*h|16\s*h|24\s*h/.test(t),availability:/dispon[ií]vel|disponibilidade|tem\s+vaga|tem\s+hor[aá]rio/.test(t),broad:/o\s+que\s+voc[eê]s\s+oferecem|quais\s+(?:servi[cç]os|salas|espa[cç]os)/.test(t)};if(a.forcedAction)return null;if(asks.location&&!asks.fiscal&&!asks.commercial)return `${g} Estamos na ${facts.address}. Você está pensando em conhecer o espaço ou já está procurando uma solução para utilizar?`;if(asks.hours&&!asks.price)return `${g} Nosso horário de funcionamento é ${facts.hours}. Você está pensando em utilizar qual dos nossos espaços?`;if(asks.fiscal&&!asks.price)return `${g} Sim, trabalhamos com endereço fiscal. Você precisa dele para abrir a empresa, mudar o endereço atual ou para outra finalidade?`;if(asks.commercial&&!asks.price)return `${g} Sim, trabalhamos com endereço comercial. Você precisa dele para abrir a empresa, divulgar a empresa ou para outra finalidade?`;if(asks.virtual&&!asks.price){if(virtual)return `${g} Sim, trabalhamos com escritório virtual. Você precisa dele para qual finalidade?`;return `${g} Posso verificar essa opção para você. Você precisa do escritório virtual para qual finalidade?`;}if(asks.availability&&!asks.price)return `${g} Posso te orientar sobre a disponibilidade. Para qual data você precisa do espaço?`;const priceReply=(p,label,question)=>{if(!p)return null;let r=`${g} ${label}${p.price?` O valor é ${p.price}.`:''}`;if(p.arguments)r+=` ${p.arguments}`;if(question)r+=` ${question}`;return r;};if(asks.price||asks.packages){if(asks.private){if(asks.packages)return priceReply(priv,'Para a sala privativa,','Você pretende utilizar o espaço eventualmente ou com frequência?');return priceReply(priv,'Para a sala privativa,',a.hasPurpose?'Para qual data você pretende utilizar?':'Você pretende utilizar para atendimento, reunião ou para trabalhar?');}if(asks.meeting)return priceReply(meet,'Para a sala de reunião,',a.hasPeople?'Para qual data você precisa da sala?':'Seria para quantas pessoas?');if(asks.training)return priceReply(train,'Para a sala de treinamento,',a.hasPeople?'Para qual data você precisa do espaço?':'Você está planejando um curso, treinamento, workshop ou outro tipo de evento?');if(asks.work)return priceReply(work,'Para a estação de trabalho,',a.hasPurpose?'Qual frequência de uso você imagina?':'Você pretende utilizar eventualmente ou com frequência?');if(asks.fixed)return priceReply(fixed,'Para a sala fixa,',a.hasPeople?'Qual tipo de atividade sua equipe fará no espaço?':'A sala será para você ou para uma equipe?');if(asks.fiscal)return priceReply(fiscal,'Para o endereço fiscal,','Você precisa dele para qual finalidade?');if(asks.virtual)return priceReply(virtual,'Para o escritório virtual,','Você precisa dele para qual finalidade?');if(asks.commercial)return priceReply(com,'Para o endereço comercial,','Você precisa dele para qual finalidade?');}if(asks.private)return `${g} Sim, temos sala privativa. É para atendimento, reunião ou para você trabalhar durante algumas horas?`;if(asks.meeting)return `${g} Sim, temos sala de reunião. Seria para quantas pessoas?`;if(asks.training)return `${g} Temos sala de treinamento. Você está planejando um curso, treinamento, workshop ou outro tipo de evento?`;if(asks.work)return `${g} Temos estação de trabalho. Você procura um espaço para uso pontual ou com mais frequência?`;if(asks.fixed)return `${g} Temos sala fixa. A sala seria para você ou para uma equipe?`;if(asks.broad)return `${g} Temos diferentes soluções para profissionais e empresas. Você está procurando um espaço para trabalhar, atender clientes, realizar reuniões, treinamentos ou uma opção de endereço?`;return null;}
-function knowledgeGuidance(text){return bestKnowledge(text).slice(0,3).map(k=>({type:k.type,title:k.title,answer:k.answer,priority:k.priority}));}
-function knowledgeCustomerDraft(text,name,a){const k=bestKnowledge(text).find(x=>x.type==='faq'||x.type==='objecao');if(!k)return null;const answer=String(k.answer||'').trim();if(!answer)return null;const instruction=/\b(informe|consulte|use|utilize|pergunte|perguntar|não invente|nao invente|considere|evite|deve|quando|se não houver|se nao houver|precisa saber|precisamos)\b/i.test(answer);if(instruction)return null;return `${v20Greeting(name)} ${answer}`;}
-function v20StrategicFallback(client,name,a,action){const g=v20Greeting(name),matched=bestKnowledge(client),top=matched[0];if(action==='follow')return `${g} Passando para saber se você conseguiu avaliar as informações que te enviei. O que ficou faltando para você decidir?`;if(action==='fechamento'){if(!a.hasDate)return `${g} Perfeito, vamos avançar. Para qual data você gostaria de reservar?`;if(!a.hasTime)return `${g} Perfeito, vamos avançar. Qual horário você prefere?`;if(!a.hasPeople)return `${g} Perfeito, vamos avançar. Será para quantas pessoas?`;return `${g} Perfeito, vamos avançar. Quer que eu considere esses dados para seguirmos com a reserva?`;}if(action==='objecao'){if(top?.type==='objecao'&&normalize(top.answer).includes('desconto'))return `${g} Entendo. Antes de pensar em desconto, quero entender o que está pesando mais para você: o valor, a opção escolhida ou a percepção de que o espaço não entrega o que precisa?`;if(top?.type==='objecao')return `${g} Entendo. O que está pesando mais na sua decisão: o valor, a estrutura, o formato ou algum outro ponto?`;return `${g} Entendo. O que está impedindo você de avançar neste momento: valor, formato, prazo ou outra questão?`;}if(a.intent==='escritório virtual')return `${g} ${findPlan('escritório virtual',client) ? 'Sim, trabalhamos com escritório virtual.' : 'Posso verificar essa opção para você.'} Você precisa dele para qual finalidade?`;if(a.intent==='desconto')return `${g} Entendo. Para não te oferecer algo inadequado, quero primeiro entender o que pesa mais: o valor ou o formato de uso?`;if(a.intent==='objecao'){return `${g} Sem problema. O que você gostaria de avaliar melhor antes de decidir?`;}if(a.intent==='preco')return `${g} Posso te passar o valor e, junto, te orientar pela opção que faça mais sentido para o seu uso. Você pretende utilizar o espaço eventualmente ou com frequência?`;if(a.intent==='disponibilidade')return `${g} Para eu te orientar corretamente, preciso da data e do horário. Qual data você pretende utilizar?`;if(top&&a.intent!=='geral'&&top.type==='faq'&&!/\b(informe|consulte|use|utilize|pergunte|perguntar|não invente|nao invente|considere|evite|deve|quando|se não houver|se nao houver|precisa saber|precisamos)\b/i.test(String(top.answer||'')))return `${g} ${top.answer}`;if(a.hasPurpose&&!a.hasDate)return `${g} Entendi o que você precisa. Para eu te orientar melhor, para qual data você pretende utilizar o espaço?`;if(!a.hasPurpose)return `${g} Me conta um pouco mais sobre o que você precisa. É para trabalhar, atender clientes, fazer uma reunião ou outra finalidade?`;return `${g} Entendi. Qual seria o próximo ponto que você gostaria de definir, a data, o horário ou a opção de espaço?`;}
-localStorage.removeItem('nellus_groq_key');
-function groqConfig(){return {key:'',endpoint:(localStorage.getItem('nellus_groq_endpoint')||'/api/groq').trim(),model:localStorage.getItem('nellus_groq_model')||'openai/gpt-oss-20b'};}
-function groqSystemPrompt(){const tone=localStorage.getItem('nellus_tone')||'natural',rule=localStorage.getItem('nellus_rule')||'Não inventar disponibilidade, descontos ou condições. Quando faltar uma informação importante, fazer uma pergunta objetiva.';return `Você é o redator do Nellus, não o estrategista. O Motor Nellus já fez a interpretação da conversa, definiu o objetivo e criou uma resposta-base. Sua função é APENAS transformar essa decisão em uma mensagem humana, natural e comercialmente inteligente.
 
-ESPINHA DORSAL: CLIENTE → INTERPRETAÇÃO → OBJETIVO → RESPOSTA → PRÓXIMA AÇÃO.
+/* 2. MOTOR PRINCIPAL UNIFICADO COM REGRAS TREINADAS E MENTALIDADE DE GESTOR */
+function v34CoreGenerate(text,action,name,context,silenceDays){
+ const cleanText=(text||'').trim();
+ if(!cleanText && !context){
+  return `${v20Greeting(name)} Seja bem-vindo(a) ao Nellus Coworking. Qual é a principal necessidade da sua empresa hoje?`;
+ }
 
-REGRA PRINCIPAL: preserve a decisão do Motor Nellus. Não mude o objetivo, não invente uma nova estratégia e não acrescente informações comerciais que não estejam na resposta-base ou nos dados autorizados.
+ // Verifica motor determinístico primeiro
+ const det=v34Deterministic(cleanText, name, silenceDays);
+ if(det) return det;
 
-ORDEM DE PRIORIDADE:
-1. Responder exatamente o que o cliente perguntou.
-2. Usar a resposta-base do Motor Nellus como referência principal.
-3. Só avançar a conversa quando isso fizer sentido.
-4. Fazer NO MÁXIMO UMA pergunta útil.
-5. Não repetir informação que o cliente já recebeu.
-6. Se a conversa estiver encerrada naturalmente, não force venda.
+ // Verifica Regras Treinadas cadastradas em Treinar (Autoridade v34)
+ if(window.v34MatchRule){
+  const matchedRule=window.v34MatchRule(cleanText);
+  if(matchedRule) return matchedRule;
+ }
 
-REGRA DE PREÇO — MUITO IMPORTANTE:
-- NÃO mencione preço, valor, mensalidade ou R$ se o cliente NÃO perguntou sobre preço/valor e a resposta-base NÃO trouxer preço como parte necessária da resposta.
-- Se o cliente apenas perguntar se vocês oferecem determinado serviço (ex.: “vocês trabalham com endereço fiscal?”), responda primeiro SIM/NÃO e conduza naturalmente, SEM jogar preço de cara.
-- Só informe preço quando houver pedido explícito de preço/valor ou quando o Motor Nellus determinar claramente que preço é necessário para responder.
+ const a=v20Analyze(cleanText, context, action);
+ const g=v20Greeting(name);
 
-VENDA CONSULTIVA: use SPIN e benefícios somente quando ajudarem a próxima ação. Não transforme uma pergunta simples em discurso de vendas.
+ if(action==='objecao') return `${g} Entendo perfeitamente. Antes de falarmos sobre condições, o que está pesando mais na sua decisão: o valor, o formato ou a estrutura do espaço?`;
+ if(action==='fechamento') return `${g} Perfeito, vamos avançar. Para qual data e horário você gostaria de confirmar a reserva?`;
+ if(a.intent==='preco') return `${g} Nossos planos variam conforme a necessidade. Você pretende utilizar o espaço eventualmente ou com frequência?`;
+ if(a.intent==='disponibilidade') return `${g} Posso verificar a disponibilidade para você. Qual data e horário você precisa?`;
 
-GUARD-RAIL: só use preços, capacidades, horários, endereço e condições presentes nos DADOS AUTORIZADOS. Nunca invente disponibilidade, desconto, taxa ou preço. Se faltar dado factual, diga que precisa verificar ou faça uma pergunta objetiva. Entregue SOMENTE a mensagem ao cliente, sem análise, aspas, rótulos ou explicações.
+ return `${g} Entendi. Para eu te indicar a melhor opção, você precisa do espaço para trabalhar, atender clientes, fazer reuniões ou para outra finalidade?`;
+}
 
-TOM: ${tone}
-REGRA DO GESTOR: ${rule}`;}
-function groqUser(client,name,context,action,analysis,localDraft,memory){return `Nome: ${name||'não informado'}
+/* 3. CHAMADA SEGURA COM FALLBACK LOCAL */
+async function v22GenerateWithGroq(text,action,name,context,phone){
+ const silenceDays=Number(document.getElementById('v9Silence')?.value||0);
+ const local=v34CoreGenerate(text,action,name,context,silenceDays);
+ try{
+  const endpoint=(localStorage.getItem('nellus_groq_endpoint')||'/api/groq').trim();
+  const model=localStorage.getItem('nellus_groq_model')||'openai/gpt-oss-20b';
+  if(!endpoint) throw new Error('Endpoint não configurado');
 
-Mensagem do cliente:
-${client||'(primeiro contato)'}
+  const prompt=`Você é o redator comercial gestor do Nellus Coworking.
+DIRETRIZES: Diagnosticar antes de empurrar solução; tratar objeção (reconhecer, isolar a objeção real, reforçar valor, nunca oferecer desconto automático); fechamento assumido/alternativo em vez de perguntas abertas; guarda-corpo rigoroso contra inventar preço ou fazer mais de uma pergunta.
+RESPOSTA BASE AUTORIZADA: ${local}`;
 
-Contexto do gestor:
-${context||'(nenhum)'}
-
-Ação escolhida pelo gestor: ${action||'responder normalmente'}
-
-INTERPRETAÇÃO JÁ FEITA PELO MOTOR NELLUS:
-${JSON.stringify(analysis||{},null,2)}
-
-BASE DE CONHECIMENTO RELEVANTE (prioridade do gestor):
-${JSON.stringify(knowledgeGuidance(client),null,2)}
-
-MEMÓRIA DO CLIENTE, SE HOUVER:
-${memory||'(nenhuma)'}
-
-RESPOSTA-BASE JÁ DECIDIDA PELO MOTOR NELLUS:
-${localDraft||'(nenhuma)'}
-
-Tarefa: apenas refine a resposta-base. Preserve a estratégia do Motor Nellus e respeite a ação escolhida. Se houver Base de Conhecimento relevante, siga-a antes de qualquer resposta genérica. Para preço, responda o valor quando solicitado, mas apresente o benefício mais relevante do serviço junto do valor; depois faça no máximo uma pergunta. Se o cliente não pediu preço, NÃO acrescente preço. Se a ação for Tratar objeção, trate a objeção mesmo que o texto não a revele claramente. Se a ação for Convite/Fechamento, conduza para confirmação de data, horário ou quantidade de pessoas, sem repetir o que já foi informado. Use a memória para evitar repetir ofertas, perguntas ou informações já tratadas. Retorne somente a mensagem final ao cliente.`;}
-function groqValidate(text,allowPrice=false){const allowed=new Set();v11Facts().plans.forEach(p=>{const m=String(p.price||'').match(/R\$\s*[\d\.,]+/g)||[];m.forEach(v=>allowed.add(v.replace(/\s+/g,'')));});const mm=String(text||'').match(/R\$\s*[\d\.,]+/g)||[];if(!allowPrice&&mm.length)throw new Error('Preço não solicitado detectado');mm.forEach(v=>{if(!allowed.has(v.replace(/\s+/g,'')))throw new Error('Preço não cadastrado detectado');});const t=normalize(text);if(/(esta|está|temos|tem)\s+(disponivel|disponível|vaga|horario|horário)/.test(t)&&!/(preciso|precisamos|vou verificar|vamos verificar|necessario verificar|necessário verificar)/.test(t))throw new Error('Afirmação de disponibilidade sem dado real');return String(text||'').trim().replace(/^```(?:text)?/i,'').replace(/```$/,'').trim();}
-async function callGroq(client,name,context,action,analysis,localDraft,memory){const c=groqConfig();if(!c.endpoint)throw new Error('Endpoint seguro não configurado');const headers={'Content-Type':'application/json'},allowPrice=analysis?.intent==='preco'||analysis?.detectedIntent==='preco'||/\b(quanto\s+custa|quanto\s+fica|qual\s+(?:é|e)\s+o\s+(?:valor|preço)|preço|valor)\b/i.test(client||'');const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);try{const r=await fetch(c.endpoint,{method:'POST',headers,signal:ctrl.signal,body:JSON.stringify({model:c.model,messages:[{role:'system',content:groqSystemPrompt()},{role:'user',content:v26BuildGroqBrief(client,name,context,action,analysis,localDraft,memory)}],temperature:.25,max_completion_tokens:260})});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d?.error?.message||`Groq HTTP ${r.status}`);const out=d?.choices?.[0]?.message?.content||'';if(!out.trim())throw new Error('Groq retornou resposta vazia');return groqValidate(out,allowPrice);}finally{clearTimeout(timer);}}
-async function v22GenerateWithGroq(text,action,name,context,phone){const local=v20Generate(text,action,name,context);try{const client=v8ExtractClientText((text||'').trim())||(text||'').trim(),analysis=window.v8Last?.analysis||{},memory=contactMemoryText(phone),reply=await callGroq(client,name,context,action,analysis,local,memory);window.v8Last={...(window.v8Last||{}),reply,aiEngine:'Groq',localFallback:local,clientMemory:memory};rememberInteraction(phone,name,client,reply,analysis,action);return {reply,engine:'Groq'};}catch(err){console.warn('Groq falhou; usando Motor Nellus local:',err);const client=v8ExtractClientText((text||'').trim())||(text||'').trim(),analysis=window.v8Last?.analysis||{};rememberInteraction(phone,name,client,local,analysis,action);window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Local fallback',groqError:String(err?.message||err)};return {reply:local,engine:'Motor Nellus local'};}}
-
-function v20Generate(text,action,name,context){const clean=(text||'').trim(),ctx=(context||'').trim();if(!clean&&!ctx){const reply=v20Clean(v20Opening(name));const a={stage:'Novo contato',intent:'Geral',objective:'Descobrir a necessidade',next:'Aguardar a necessidade e direcionar para a solução adequada.',signals:[]};window.v8Last={analysis:a,examples:[],plan:null,reply,clientText:''};return reply;}const client=v8ExtractClientText(clean)||clean,a=v20Analyze(clean,ctx,action);let reply=null;const examples=v20TrainingMatch(client,a),kb=knowledgeGuidance(client);if(!a.forcedAction){reply=knowledgeCustomerDraft(client,name,a);if(!reply)reply=v20Direct(client,name,a);}let usedExample=null;if(!reply&&examples[0]&&examples[0].score>=7&&a.intent!=='preco'&&a.intent!=='disponibilidade'){usedExample=examples[0];reply=v8ComposeFromExample(examples[0],a,findPlan(a.intent,client),name);}if(!reply)reply=v20StrategicFallback(client,name,a,action);reply=v20Clean(reply);if(/endere[cç]o/i.test(ctx)&&/Rua 21, nº 42/i.test(reply))reply=reply.replace(/Estamos na Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.\s*/i,'');window.v8Last={analysis:{...a,objective:a.objective,nextAction:a.next},examples,knowledge:kb,usedExample,plan:findPlan(a.intent,client),reply,clientText:client,learnedStrategy:v17LearnedStrategy(examples,a)};return reply;}
-window.addEventListener("error",e=>{
- console.error("Nellus error:",e.error||e.message);
- const box=document.getElementById("result"), sug=document.getElementById("suggestion");
- if(box&&sug){sug.textContent="Não consegui gerar a resposta agora. Tente novamente. Se o problema continuar, atualize a página.";box.style.display="block";}
-});
+  const res=await fetch(endpoint,{
+   method:'POST',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({model,messages:[{role:'system',content:prompt},{role:'user',content:text}],temperature:0.2,max_completion_tokens:220})
+  });
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data?.error?.message||'Erro na API');
+  const reply=v20Clean(data?.choices?.[0]?.message?.content||local);
+  rememberInteraction(phone,name,text,reply,{intent:'geral'},action);
+  return {reply,engine:'Groq Comercial'};
+ }catch(e){
+  console.warn('Usando motor local seguro:',e);
+  rememberInteraction(phone,name,text,local,{intent:'geral'},action);
+  return {reply:local,engine:'Motor Nellus local'};
+ }
+}
 
 document.getElementById("generate").onclick=async()=>{
- const text=conv.value.trim(),name=document.getElementById("clientName").value.trim(),phone=document.getElementById("clientPhone")?.value.trim()||'',context=document.getElementById("customContext").value.trim();
- const btn=document.getElementById("generate");btn.disabled=true;btn.textContent=" Pensando como gestor...";
- try{const out=await v22GenerateWithGroq(text,selectedAction,name,context,phone);document.getElementById("suggestion").textContent=out.reply||"Não consegui interpretar essa mensagem ainda. Tente escrever a pergunta de outra forma.";document.getElementById("usedEngineBadge").textContent=out.engine+" • Inteligência comercial";v8RenderDiagnostic(window.v8Last);document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});}
- catch(err){console.error(err);document.getElementById("suggestion").textContent="Não consegui gerar a resposta agora. Tente novamente.";document.getElementById("result").style.display="block";}
- finally{btn.disabled=false;btn.textContent=" Gerar Próxima Mensagem Inteligente";}
+ const text=conv.value.trim(), name=document.getElementById("clientName").value.trim(), phone=document.getElementById("clientPhone")?.value.trim()||'', context=document.getElementById("customContext").value.trim();
+ const btn=document.getElementById("generate");
+ btn.disabled=true; btn.textContent=" Pensando como gestor...";
+ try{
+  const out=await v22GenerateWithGroq(text,selectedAction,name,context,phone);
+  document.getElementById("suggestion").textContent=out.reply;
+  document.getElementById("usedEngineBadge").textContent=out.engine+" • Inteligência comercial";
+  document.getElementById("result").style.display="block";
+  document.getElementById("result").scrollIntoView({behavior:"smooth"});
+ }catch(err){
+  document.getElementById("suggestion").textContent="Não consegui gerar a resposta agora. Tente novamente.";
+  document.getElementById("result").style.display="block";
+ }finally{
+  btn.disabled=false; btn.textContent=" Gerar Próxima Mensagem Inteligente";
+ }
 };
-
-function v8RenderDiagnostic(data){
- // O diagnóstico continua sendo calculado internamente para orientar o Motor e o Radar,
- // mas não é exibido na tela inicial. A área de treinamento fica somente em  Treinar.
- return;
-}
-window.v8Feedback=function(type){
- const data=window.v8Last;if(!data)return;
- if(type==='boa'){localStorage.setItem('nellus_last_good',JSON.stringify(data));toast('Resposta marcada como boa.');return;}
- // O ensino manual fica concentrado na página  Treinar.
- toast('Para ensinar o copiloto, use a página Treinar.');
-};
-window.v8SaveFeedbackTraining=function(){const data=window.v8Last;if(!data)return;const field=document.getElementById('v8TeachIdeal'); if(!field){toast('Use a página Treinar para cadastrar exemplos.');return;} const ideal=field.value.trim();if(!ideal){alert('Escreva a resposta ideal.');return;}const item={id:Date.now(),title:document.getElementById('v8TeachTitle').value.trim()||('Treinamento: '+data.analysis.intent),category:data.analysis.objection!=='Nenhuma'?'Objeção':'Informação',client:data.clientText,ideal,triggers:[data.analysis.intent,data.analysis.objection,data.analysis.stage].filter(x=>x&&x!=='Nenhuma').join('; '),priority:3};window.v7Examples.unshift(item);localStorage.setItem('nellus_examples_v7',JSON.stringify(window.v7Examples));document.getElementById('v8Learning').innerHTML='<div class="training-card"> Treinamento salvo. Nas próximas conversas semelhantes, o gestor poderá usar esta referência.</div>';toast('Novo treinamento salvo!');};
 
 document.getElementById("copy").onclick=async()=>{
  try{
- await navigator.clipboard.writeText(document.getElementById("suggestion").textContent);
- document.getElementById("copy").textContent=" Copiado!";toast("Mensagem copiada.");
- setTimeout(()=>document.getElementById("copy").textContent="Copiar mensagem",2000);
+  await navigator.clipboard.writeText(document.getElementById("suggestion").textContent);
+  document.getElementById("copy").textContent=" Copiado!"; toast("Mensagem copiada.");
+  setTimeout(()=>document.getElementById("copy").textContent="Copiar mensagem",2000);
  }catch(e){alert("Erro ao copiar.");}
 };
 
-/* ===== V7 Intelligence Layer ===== */
+/* ===== TREINAMENTO E GESTÃO (V34) ===== */
 (function(){
  const KEY='nellus_examples_v7';
- window.v7Examples = JSON.parse(localStorage.getItem(KEY)||'[]');
-
+ window.v7Examples=JSON.parse(localStorage.getItem(KEY)||'[]');
  window.v7ShowTab=function(id,btn){
   document.querySelectorAll('#trainingV7 .training-form').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('#trainingV7 .v7-tab').forEach(x=>x.classList.remove('active'));
   const el=document.getElementById(id); if(el) el.classList.add('active');
   if(btn) btn.classList.add('active');
  };
-
  window.v7SaveExample=function(){
   const client=document.getElementById('v7Client').value.trim();
   const ideal=document.getElementById('v7Ideal').value.trim();
-  if(!client||!ideal){ alert('Preencha a mensagem do cliente e a resposta ideal.'); return; }
-  const item={
+  if(!client||!ideal){ alert('Preencha a mensagem e a resposta.'); return; }
+  window.v7Examples.unshift({
    id:Date.now(),
-   title:document.getElementById('v7Title').value.trim()||'Exemplo sem título',
+   title:document.getElementById('v7Title').value.trim()||'Treinamento',
    category:document.getElementById('v7Category').value,
    client, ideal,
    triggers:document.getElementById('v7Triggers').value.trim(),
    priority:Number(document.getElementById('v7Priority').value||2)
-  };
-  v7Examples.unshift(item);
-  localStorage.setItem(KEY,JSON.stringify(v7Examples));
+  });
+  localStorage.setItem(KEY,JSON.stringify(window.v7Examples));
   ['v7Title','v7Client','v7Ideal','v7Triggers'].forEach(id=>document.getElementById(id).value='');
-  v7RenderExamples();
+  v7RenderExamples(); toast('Treinamento salvo!');
  };
-
  window.v7DeleteExample=function(id){
-  v7Examples=v7Examples.filter(x=>x.id!==id);
-  localStorage.setItem(KEY,JSON.stringify(v7Examples));
+  window.v7Examples=window.v7Examples.filter(x=>x.id!==id);
+  localStorage.setItem(KEY,JSON.stringify(window.v7Examples));
   v7RenderExamples();
  };
-
  function v7RenderExamples(){
   const box=document.getElementById('v7ExamplesList'); if(!box) return;
-  if(!v7Examples.length){
-   box.innerHTML='<div class="empty-state">Ainda não há exemplos. Cadastre 5–10 respostas que você considera excelentes para começar a ensinar o estilo da Nellus.</div>';
-   return;
+  if(!window.v7Examples.length){
+   box.innerHTML='<div class="empty-state">Nenhum exemplo cadastrado.</div>'; return;
   }
-  box.innerHTML='<h3 style="margin-top:18px">Treinamentos cadastrados ('+v7Examples.length+')</h3>'+
-   v7Examples.map(x=>`<div class="training-card">
-    <div><b>${escV7(x.title)}</b> <span class="pill">${escV7(x.category)}</span></div>
-    <small>Gatilhos: ${escV7(x.triggers||'não definidos')} · Prioridade ${x.priority}</small>
-    <div class="example"><b>Cliente:</b> ${escV7(x.client)}<br><br><b>Resposta ideal:</b> ${escV7(x.ideal)}</div>
+  box.innerHTML='<h3 style="margin-top:18px">Treinamentos cadastrados ('+window.v7Examples.length+')</h3>'+
+   window.v7Examples.map(x=>`<div class="training-card">
+    <div><b>${esc(x.title)}</b> <span class="pill">${esc(x.category)}</span></div>
+    <small>Gatilhos: ${esc(x.triggers||'nenhum')}</small>
+    <div class="example"><b>Cliente:</b> ${esc(x.client)}<br><br><b>Resposta:</b> ${esc(x.ideal)}</div>
     <div class="feedback-row"><button onclick="v7DeleteExample(${x.id})">Excluir</button></div>
    </div>`).join('');
  }
- function escV7(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
-  document.addEventListener('DOMContentLoaded',v7RenderExamples);
+ function bootTraining(){
+  const root=document.getElementById('trainingV7'); if(!root)return;
+  root.innerHTML=`
+   <div class="section-title"><div><h2> Treinamento do Gestor</h2><p>Ensine o copiloto a pensar e vender como você.</p></div></div>
+   <div class="v7-tabs">
+    <button class="v7-tab active" onclick="v7ShowTab('examplesV7',this)">Exemplos reais</button>
+    <button class="v7-tab" onclick="v7ShowTab('diagnosticV7',this)">Visão do Gestor</button>
+   </div>
+   <div id="examplesV7" class="training-form active">
+    <div class="card">
+     <h3>Novo exemplo de treinamento</h3>
+     <div class="form-grid">
+      <label>Título<input id="v7Title" placeholder="Ex.: Cliente achou caro"></label>
+      <label>Categoria<select id="v7Category"><option>Objeção</option><option>Preço</option><option>Fechamento</option><option>Informação</option></select></label>
+      <label class="full">Mensagem<textarea id="v7Client" rows="3" placeholder="Mensagem do cliente..."></textarea></label>
+      <label class="full">Resposta ideal<textarea id="v7Ideal" rows="4" placeholder="Resposta ideal..."></textarea></label>
+      <label>Gatilhos<input id="v7Triggers" placeholder="caro, valor"></label>
+      <label>Prioridade<select id="v7Priority"><option value="3">Alta</option><option value="2" selected>Média</option></select></label>
+     </div>
+     <button class="primary" onclick="v7SaveExample()">Salvar treinamento</button>
+    </div>
+    <div id="v7ExamplesList"></div>
+   </div>
+   <div id="diagnosticV7" class="training-form">
+    <div class="diagnostic">
+     <h3>Mentalidade de Gestor</h3>
+     <p class="muted">Diagnóstico prévio antes de ofertar, isolamento de objeções reais sem concessão automática de descontos e fechamento alternativo direcionado.</p>
+    </div>
+   </div>`;
+  v7RenderExamples();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bootTraining);else bootTraining();
 })();
-
 </script>
-<script id="v9js">(function(){const KEY='nellus_pipeline_v9';window.v9Pipeline=JSON.parse(localStorage.getItem(KEY)||'[]');const save=()=>localStorage.setItem(KEY,JSON.stringify(window.v9Pipeline));const n=s=>normalize(String(s||''));const any=(t,a)=>a.some(x=>t.includes(n(x)));window.v9Assess=function(text,context,silence){const t=n((text||'')+' '+(context||'')),days=Number(silence||0);let intent=detectIntent(text||''),signals=[],risks=[],stage='Novo contato',score=45;if(any(t,['reservar','reserva','agendar','contratar','fechar','como faço','vou contratar'])){signals.push('sinal forte de compra');stage='Fechamento';score+=30}if(any(t,['amanhã','hoje','urgente','preciso para'])){signals.push('urgência');score+=12}if(any(t,['visitar','visita','conhecer o espaço','posso conhecer'])){signals.push('interesse em visita');score+=15}if(any(t,['tem vaga','disponível','disponibilidade','tem horário'])){signals.push('pergunta de disponibilidade');score+=12}if(any(t,['vou pensar','vou analisar','depois vejo','vou verificar'])){risks.push('decisão em aberto');stage='Objeção / decisão';score-=10}if(any(t,['caro','cara','muito caro','não cabe','orçamento'])){risks.push('objeção de preço');stage='Objeção';score-=12}if(any(t,['outro coworking','outros coworkings','vou pesquisar','vou comparar','concorrente']))risks.push('comparação com alternativas'),score-=10;if(any(t,['sócio','meu sócio','vou falar com','vou conversar com meu']))risks.push('depende de outra decisão'),score-=7;if(any(t,['depois te retorno','te aviso','qualquer coisa te chamo']))risks.push('adiamento sem compromisso'),score-=12;if(days>=2)risks.push('silêncio após a conversa'),score-=Math.min(22,days*2);if(days>=6)risks.push('silêncio prolongado'),score-=10;if(any(t,['aceita cartão','pix','como pagar','pagamento','nota fiscal']))signals.push('pergunta operacional'),score+=8;let level=score>=72?'hot':score<43?'risk':'attention';let reason=level==='hot'?'Há sinais claros de intenção. O maior risco agora é perder o ritmo e não conduzir para uma ação concreta.':risks.length?'A conversa apresenta sinais de perda de momentum: '+risks.slice(0,2).join(' + ')+'.':'Existe oportunidade, porém faltam informações para conduzir o fechamento.';let next=level==='hot'?'Conduzir para o próximo passo agora: reserva, visita ou confirmação de data/horário.':risks.includes('objeção de preço')?'Não ofereça desconto de imediato. Descubra se o problema é orçamento ou falta de percepção de valor.':risks.includes('silêncio prolongado')?'Fazer um follow-up curto e útil, retomando a necessidade em vez de perguntar apenas “e aí?”.':risks.includes('depende de outra decisão')?'Descobrir quem participa da decisão e oferecer um resumo fácil de encaminhar.':stage==='Objeção / decisão'?'Reduzir a incerteza e combinar uma data real para retomar.':'Fazer uma pergunta de qualificação que leve a conversa para uma decisão.';return{score:Math.max(0,Math.min(100,Math.round(score))),level,stage,intent,signals,risks,reason,next,days}};window.v9RenderRadar=function(a){const el=document.getElementById('v9RadarResult');if(!el)return;const labels={hot:'🔴 QUENTE',attention:'🟠 ATENÇÃO',risk:'🟡 RISCO'};el.style.display='block';el.innerHTML='<div class="risk-banner '+a.level+'"><div class="risk-title">'+labels[a.level]+' • Oportunidade '+a.score+'/100</div><div class="risk-meta">Etapa: '+esc(a.stage)+' · Intenção: '+esc(a.intent)+'</div><div class="risk-reason">'+esc(a.reason)+'</div>'+(a.signals.length?'<div class="risk-reason">Sinais positivos: '+esc(a.signals.join(' · '))+'</div>':'')+(a.risks.length?'<div class="risk-reason"> Alertas: '+esc(a.risks.join(' · '))+'</div>':'')+'<div class="next-action"><b> Próxima melhor ação:</b><br>'+esc(a.next)+'</div></div>'};window.v9RenderFollowup=function(a){const el=document.getElementById('v9Followup');if(!el)return;if(a.days<2&&a.level!=='risk'){el.style.display='none';return}el.style.display='block';el.innerHTML='<h3> Follow-up recomendado</h3><div class="strategy-card"><b>'+(a.days>=3?'Hoje':'Próximo contato')+'</b><br><small>'+esc(a.next)+'</small></div>'};window.v9AddCurrentToPipeline=function(){const d=window.v8Last;if(!d){toast('Analise uma conversa primeiro.');return}const name=document.getElementById('clientName').value.trim()||'Cliente sem nome',silence=Number(document.getElementById('v9Silence')?.value||0),a=d.v9||v9Assess(d.clientText||d.reply,'',silence);const phone=document.getElementById('clientPhone')?.value.trim()||'';const phoneKey=normalizePhone(phone),duplicate=phoneKey&&window.v9Pipeline.findIndex(x=>normalizePhone(x.phone)===phoneKey);const item={id:duplicate>=0?window.v9Pipeline[duplicate].id:Date.now(),name,phone,service:a.intent,stage:a.stage,level:a.level,score:a.score,reason:a.reason,next:a.next,days:silence,client:d.clientText||'',reply:d.reply,created:new Date().toLocaleString('pt-BR')};if(duplicate>=0)window.v9Pipeline.splice(duplicate,1);window.v9Pipeline.unshift(item);save();v9UpdateDashboard();v9RenderPipeline();toast(duplicate>=0?'Oportunidade atualizada no pipeline.':'Oportunidade salva no pipeline.')};window.v9RenderPipeline=function(){const box=document.getElementById('v9PipelineList');if(!box)return;if(!window.v9Pipeline.length){box.innerHTML='<div class="empty-state">Nenhuma oportunidade salva ainda. Analise uma conversa e clique em “Salvar conversa atual”.</div>';return}const labels={hot:'Quente',attention:'Atenção',risk:'Risco'};box.innerHTML=window.v9Pipeline.map(x=>'<div class="pipeline-card"><div class="topline"><div><b>'+esc(x.name)+'</b><br><small>'+esc(x.service||'Geral')+' · '+esc(x.stage)+'</small></div><span class="tag">'+labels[x.level]+' · '+x.score+'</span></div><p> '+esc(x.next)+'</p><small>Salvo em '+esc(x.created||'')+(x.days?' · silêncio: '+x.days+'d':'')+'</small><div class="opp-actions"><button class="secondary" onclick="v9RemovePipeline('+x.id+')">Excluir</button></div></div>').join('')};window.v9RemovePipeline=function(id){window.v9Pipeline=window.v9Pipeline.filter(x=>x.id!==id);save();v9UpdateDashboard();v9RenderPipeline()};window.v9ClearPipeline=function(){if(confirm('Limpar todas as oportunidades salvas?')){window.v9Pipeline=[];save();v9UpdateDashboard();v9RenderPipeline()}};window.v9ExportPipeline=function(){const blob=new Blob([JSON.stringify(window.v9Pipeline,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='nellus_pipeline_backup.json';a.click();URL.revokeObjectURL(a.href)};window.v9OpenPipeline=function(){show('pipeline');v9RenderPipeline()};window.v9UpdateDashboard=function(){const p=window.v9Pipeline;document.getElementById('v9Hot').textContent=p.filter(x=>x.level==='hot').length;document.getElementById('v9Attention').textContent=p.filter(x=>x.level==='attention').length;document.getElementById('v9Risk').textContent=p.filter(x=>x.level==='risk').length;document.getElementById('v9Follow').textContent=p.filter(x=>!x.next).length;const box=document.getElementById('v9Opportunities');if(box)box.innerHTML=p.slice(0,4).map(x=>'<div class="opp-item"><b>'+esc(x.name)+' · '+x.score+'/100</b><small>'+({hot:'🔴 Quente',attention:'🟠 Atenção',risk:'🟡 Risco'}[x.level])+' — '+esc(x.next)+'</small></div>').join('')||'<div class="empty-state">Seu radar ainda está vazio. Salve oportunidades importantes para começar a acompanhar.</div>'};const btn=document.getElementById('generate');if(btn)btn.addEventListener('click',()=>setTimeout(()=>{const d=window.v8Last;if(!d)return;const a=v9Assess(d.clientText||document.getElementById('conversation').value,'',Number(document.getElementById('v9Silence')?.value||0));d.v9=a;window.v8Last=d;v9RenderRadar(a);v9RenderFollowup(a);v9UpdateDashboard()},430));document.addEventListener('DOMContentLoaded',()=>{v9UpdateDashboard();v9RenderPipeline()})})();</script><script id="v10js">(function(){
-const esc10=s=>typeof esc==='function'?esc(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-window.v10Filter='all';
-function priority(x){ if(x.level==='risk') return 3; if(x.level==='hot') return 2; return 1; }
-function needsToday(x){ return x.level==='risk'||x.level==='hot'||Number(x.days||0)>=1||!x.next; }
-function label10(x){return ({hot:'🔴 Quente',attention:'🟠 Atenção',risk:'🟡 Risco'}[x.level]||'🟠 Atenção')}
-window.v10Reopen=function(id){const x=window.v9Pipeline.find(o=>o.id===id);if(!x)return;const name=document.getElementById('clientName'),phone=document.getElementById('clientPhone'),conv=document.getElementById('conversation');if(name)name.value=x.name==='Cliente sem nome'?'':x.name;if(phone)phone.value=x.phone||'';if(conv)conv.value=x.client||'';updateClientMemoryUI();const sil=document.getElementById('v9Silence');if(sil)sil.value=String(x.days||0);show('home');window.scrollTo({top:0,behavior:'smooth'});toast('Conversa reaberta. Analise novamente para atualizar a prioridade.');};
-window.v10SetFilter=function(f){window.v10Filter=f;['All','Hot','Attention','Risk'].forEach(k=>{const b=document.getElementById('filter'+k);if(b)b.classList.toggle('active',f===k.toLowerCase());});v9RenderPipeline();};
-window.v10RenderToday=function(){const box=document.getElementById('v10TodayList'),count=document.getElementById('v10TodayCount');if(!box)return;let arr=window.v9Pipeline.filter(needsToday).sort((a,b)=>priority(b)-priority(a)||(b.score||0)-(a.score||0)||(b.days||0)-(a.days||0)).slice(0,6);if(count)count.textContent=arr.length+(arr.length===1?' ação':' ações');if(!arr.length){box.innerHTML='<div class="empty-today"> Nenhuma oportunidade urgente salva. Continue registrando as conversas importantes no pipeline.</div>';return;}box.innerHTML=arr.map(x=>'<div class="today-item '+esc10(x.level)+'"><div class="today-top"><div class="today-name">'+esc10(x.name)+' · '+label10(x)+'</div><div class="today-score">'+x.score+'/100</div></div><div class="today-reason">'+esc10(x.reason||'Oportunidade que merece acompanhamento.')+'</div><div class="today-action"><b> Fazer agora:</b> '+esc10(x.next||'Definir o próximo passo com o cliente.')+'</div><div class="today-actions"><button class="btn btn-green" onclick="v10Reopen('+x.id+')">Reabrir conversa</button><button class="btn" onclick="v9RemovePipeline('+x.id+')">Arquivar</button></div></div>').join('');};
-const oldUpdate=window.v9UpdateDashboard;window.v9UpdateDashboard=function(){oldUpdate&&oldUpdate();v10RenderToday();};
-const oldRender=window.v9RenderPipeline;window.v9RenderPipeline=function(){const box=document.getElementById('v9PipelineList');if(!box)return;if(!window.v9Pipeline.length){box.innerHTML='<div class="empty-state">Nenhuma oportunidade salva ainda. Analise uma conversa e clique em “Salvar conversa atual”.</div>';return;}let p=window.v9Pipeline.slice();if(window.v10Filter!=='all')p=p.filter(x=>x.level===window.v10Filter);p.sort((a,b)=>priority(b)-priority(a)||(b.score||0)-(a.score||0));const labels={hot:'Quente',attention:'Atenção',risk:'Risco'};box.innerHTML=p.map(x=>'<div class="pipeline-card '+esc10(x.level)+'"><div class="topline"><div><b>'+esc10(x.name)+'</b><br><small>'+esc10(x.service||'Geral')+' · '+esc10(x.stage)+'</small></div><span class="tag">'+(labels[x.level]||' Atenção')+' · '+x.score+'</span></div><p> '+esc10(x.next||'Definir próximo passo')+'</p><p> '+esc10(x.reason||'Sem diagnóstico registrado')+'</p><small>Salvo em '+esc10(x.created||'')+(x.days?' · silêncio: '+x.days+'d':'')+'</small><div class="opp-actions"><button class="secondary reopen-btn" onclick="v10Reopen('+x.id+')"> Reabrir conversa</button><button class="secondary" onclick="v9RemovePipeline('+x.id+')">Arquivar</button></div></div>').join('')||'<div class="empty-state">Nenhuma oportunidade nesta categoria.</div>';};
-const oldAdd=window.v9AddCurrentToPipeline;window.v9AddCurrentToPipeline=function(){oldAdd&&oldAdd();setTimeout(()=>{v10RenderToday();},50);};
-document.addEventListener('DOMContentLoaded',()=>{v10RenderToday();});
+
+<script id="v9js">(function(){
+const KEY='nellus_pipeline_v9';
+window.v9Pipeline=JSON.parse(localStorage.getItem(KEY)||'[]');
+const save=()=>localStorage.setItem(KEY,JSON.stringify(window.v9Pipeline));
+const n=s=>normalize(String(s||''));
+window.v9Assess=function(text,context,silence){
+ const t=n((text||'')+' '+(context||'')),days=Number(silence||0);
+ let stage='Prospecção',score=50,level='attention',next='Fazer uma pergunta de qualificação.';
+ if(days>=7){stage='Encerramento';level='risk';next='Disparar Breakup Message de saída.';}
+ else if(days>=3){stage='Follow-up';level='attention';next='Aplicar nova perspectiva de valor.';}
+ else if(days>=1){stage='Follow-up';level='attention';next='Retomar levemente o último ponto.';}
+ return {score,level,stage,intent:'geral',signals:[],risks:[],reason:'Análise padrão de estágio.',next,days};
+};
+window.v9AddCurrentToPipeline=function(){
+ const name=document.getElementById('clientName').value.trim()||'Cliente';
+ const phone=document.getElementById('clientPhone')?.value.trim()||'';
+ const silence=Number(document.getElementById('v9Silence')?.value||0);
+ const item={id:Date.now(),name,phone,service:'Geral',stage:'Prospecção',level:silence>=7?'risk':'attention',score:60,next:'Acompanhar lead',days:silence,created:new Date().toLocaleString('pt-BR')};
+ window.v9Pipeline.unshift(item);save();v9UpdateDashboard();toast('Salvo no pipeline!');
+};
+window.v9UpdateDashboard=function(){
+ const p=window.v9Pipeline;
+ const h=document.getElementById('v9Hot'),at=document.getElementById('v9Attention'),rk=document.getElementById('v9Risk');
+ if(h)h.textContent=p.filter(x=>x.level==='hot').length;
+ if(at)at.textContent=p.filter(x=>x.level==='attention').length;
+ if(rk)rk.textContent=p.filter(x=>x.level==='risk').length;
+};
+window.v9OpenPipeline=function(){show('pipeline');};
+window.v9RenderPipeline=function(){};
+window.v9ClearPipeline=function(){window.v9Pipeline=[];save();v9UpdateDashboard();};
+window.v9ExportPipeline=function(){};
 })();</script>
-<script id="v25core">
-/* ===== V25 CORE =====
-    Um único fluxo decisório para a geração:
-    CLIENTE → SINAIS → OBJETIVO → BASE DE CONHECIMENTO → ESTRATÉGIA → RESPOSTA-BASE → GROQ → GUARD-RAIL
-    O Groq é redator; o Motor Nellus continua sendo o estrategista.
-*/
-(function(){
- const clean=s=>String(s||'').trim();
- const norm=s=>normalize(clean(s));
- const qPrice=t=>/\b(quanto\s+custa|quanto\s+fica|qual\s+(?:é|e)\s+o\s+(?:valor|preço)|preço|valor|orcamento|orçamento)\b/i.test(clean(t));
- const qMarkCount=s=>(String(s||'').match(/\?/g)||[]).length;
- const hasWord=(t,arr)=>arr.some(x=>norm(t).includes(norm(x)));
- const customerReady=k=>{const a=clean(k?.answer);return !!a&&!/\b(informe|consulte|use|utilize|pergunte|perguntar|não invente|nao invente|considere|evite|deve|quando|se não houver|se nao houver|precisa saber|precisamos)\b/i.test(a);};
- const dateRe=/\b(hoje|amanh[ãa]|segunda(?:-feira)?|terça(?:-feira)?|terca(?:-feira)?|quarta(?:-feira)?|quinta(?:-feira)?|sexta(?:-feira)?|sábado|sabado|domingo|dia\s*\d{1,2}|\d{1,2}\/\d{1,2})\b/i;
- const timeRe=/\b(\d{1,2}(?::\d{2})?\s*(?:h|horas?)?|manh[ãa]|tarde|noite|hor[aá]rio)\b/i;
- const peopleRe=/\b(\d+\s*(?:pessoas?|participantes?)|pessoas?|participantes?|equipe|time|s[oó]cio|clientes?)\b/i;
- function v25BestKnowledge(client,context,a){
-  const source=norm(clean(client)+' '+clean(context)+' '+(a?.intent||'')+' '+(a?.stage||''));
-  return (Array.isArray(knowledge)?knowledge:[]).map(k=>{
-   const triggers=(k.trigger||'').split(';').map(x=>norm(x.trim())).filter(Boolean);
-   let score=Number(k.priority||5)*0.12;
-   let matched=0;
-   triggers.forEach(term=>{if(term&&source.includes(term)){score+=3+Math.min(term.length/25,1);matched++;}});
-   if(a?.intent && source.includes(norm(a.intent)))score+=1;
-   if(a?.stage && source.includes(norm(a.stage)))score+=0.5;
-   return {k,score,matched};
-  }).filter(x=>x.matched>0).sort((a,b)=>b.score-a.score).slice(0,3).map(x=>x.k);
- }
- function v25FactsFromText(client,context,memory){
-  const all=clean(client)+' '+clean(context)+' '+clean(memory);
-  return {hasDate:dateRe.test(all),hasTime:timeRe.test(all),hasPeople:peopleRe.test(all),hasPrice:qPrice(client),hasPurpose:/\b(atend(?:er|imento)|reuni[aã]o|trabalh(?:ar|o)|curso|treinamento|workshop|palestra|empresa|escrit[oó]rio|coworking|consult[oó]rio|pacientes?|clientes?)\b/i.test(all)};
- }
- function v25Analyze(text,context,action,memory){
-  const base=v20Analyze(text,context,action)||{};
-  const client=base.clientText||v8ExtractClientText(text)||clean(text), signals=detectSignals(client)||[], facts=v25FactsFromText(client,context,memory);
-  const combined=signals.map(x=>x.label);
-  if(base.detectedIntent&&base.detectedIntent!=='geral'&&!combined.some(x=>norm(x).includes(norm(base.detectedIntent))))combined.push(base.detectedIntent);
-  let intent=base.intent||'geral';
-  if(action==='objecao') intent='objecao';
-  else if(action==='fechamento') intent='fechamento';
-  else {
-   const priority={fechamento:100,desconto:95,objecao:90,disponibilidade:88,preco:85,visita:75,localizacao:70,horario:65,servico:60};
-   const strongest=signals.filter(x=>priority[x.type]).sort((a,b)=>(priority[b.type]||0)-(priority[a.type]||0))[0];
-   if(strongest && ['fechamento','desconto','objecao','disponibilidade','preco'].includes(strongest.type)) intent=strongest.type;
-  }
-  let stage=base.stage, objective=base.objective, next=base.next;
-  if(action==='objecao'){
-   stage='Objeção'; objective='Descobrir a objeção real antes de contorná-la';
-   next='Identificar se o bloqueio é preço, percepção de valor, formato, prazo ou outra decisão.';
-  } else if(action==='fechamento'){
-   stage='Decisão'; objective='Conduzir para confirmação';
-   next=!facts.hasDate?'Confirmar a data.':!facts.hasTime?'Confirmar o horário.':!facts.hasPeople?'Confirmar a quantidade de pessoas.':'Confirmar o próximo passo da reserva/contratação.';
-  }
-  return {...base,intent,combinedSignals:combined.slice(0,8),signals,hasDate:facts.hasDate,hasTime:facts.hasTime,hasPeople:facts.hasPeople,hasPurpose:facts.hasPurpose,hasPrice:facts.hasPrice,stage,objective,next,forcedAction:action==='objecao'||action==='fechamento'?action:null,memoryUsed:!!memory};
- }
- function v25NextQuestion(a,client,plan){
-  const t=norm(client), date=a.hasDate,time=a.hasTime,people=a.hasPeople;
-  if(a.forcedAction==='fechamento'){
-   if(!date)return 'Para qual data você gostaria de reservar?';
-   if(!time)return 'Qual horário você prefere?';
-   if(!people)return 'Será para quantas pessoas?';
-   return 'Perfeito. Podemos seguir com esses dados para a reserva?';
-  }
-  if(a.intent==='disponibilidade'){
-   if(!date)return 'Para qual data você precisa do espaço?';
-   if(!time)return 'Qual horário seria ideal?';
-   if(!people && /sala|reuni[aã]o|treinamento/i.test(t))return 'Será para quantas pessoas?';
-  }
-  if(a.intent==='preco'){
-   if(plan?.name==='Endereço fiscal'||plan?.name==='Endereço comercial')return 'Você precisa do endereço para qual finalidade?';
-   if(plan?.name==='Sala de reunião'&&!people)return 'Seria para quantas pessoas?';
-   if(plan?.name==='Sala de treinamento'&&!people)return 'Será para quantas pessoas?';
-   if(!a.hasPurpose)return 'Você pretende utilizar o espaço para qual finalidade?';
-   if(!date)return 'Para qual data você pretende utilizar?';
-  }
-  return '';
- }
- function v25PriceDraft(client,name,a){
-  const p=findPlan(a.intent,client)||findPlan(a.detectedIntent,client); if(!p||!p.price)return null;
-  const g=v20Greeting(name), label=`Para ${p.name.toLowerCase()}, o valor é ${p.price}.`;
-  const benefit=p.arguments||p.desc||'';
-  const q=v25NextQuestion(a,client,p);
-  let r=`${g} ${label}`;
-  if(benefit)r+=` ${benefit}`;
-  if(q)r+=` ${q}`;
-  return v20Clean(r);
- }
- function v25ForcedObjection(client,name,a,kb){
-  const g=v20Greeting(name), top=kb.find(k=>k.type==='objecao'&&customerReady(k));
-  const explicit=hasWord(client,['caro','cara','muito caro','preço','preco','valor','desconto','vou pensar','vou analisar','vou verificar','vou conversar','sócio','socio']);
-  if(top&&explicit)return v20Clean(`${g} ${top.answer}`);
-  return `${g} Entendo. Antes de tentar resolver, quero entender o que está pesando mais para você: o valor, a percepção de benefício, o formato ou alguma outra questão?`;
- }
- function v25IsGreetingOnly(text){
-  const t=norm(text).replace(/[!?.,;:]+/g,' ').replace(/\s+/g,' ').trim();
-  return /^(oi|ola|bom dia|boa tarde|boa noite|oi bom dia|oi boa tarde|oi boa noite|ola bom dia|ola boa tarde|ola boa noite|oi tudo bem|ola tudo bem)$/.test(t);
- }
- function v25Welcome(name){
-  const h=(new Date()).getHours();
-  const period=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';
-  const who=clean(name);
-  return who
-   ? `Olá, ${who}! ${period} 😊 Tudo bem? Seja bem-vindo(a) ao Nellus Coworking! Como posso te ajudar?`
-   : `Olá! ${period} 😊 Tudo bem? Seja bem-vindo(a) ao Nellus Coworking! Como posso te ajudar?`;
- }
- function v25CoreGenerate(text,action,name,context,phone){
-  const cleanText=clean(text),ctx=clean(context),memory=phone?contactMemoryText(phone):'';
-  if(v25IsGreetingOnly(cleanText) && !ctx && !action){
-   const reply=v25Welcome(name);
-   const a={stage:'Novo contato',intent:'saudacao',objective:'Acolher e aguardar a necessidade',next:'Aguardar o cliente explicar o que precisa.',signals:[{type:'saudacao',label:'Saudação'}],combinedSignals:['saudacao'],forcedAction:null,clientText:cleanText,hasDate:false,hasTime:false,hasPeople:false,hasPurpose:false,hasPrice:false};
-   window.v8Last={analysis:a,examples:[],knowledge:[],plan:null,reply,clientText:cleanText,clientMemory:memory};
-   return reply;
-  }
-  if(!cleanText&&!ctx){const reply=v20Clean(v20Opening(name));const a={stage:'Novo contato',intent:'geral',objective:'Descobrir a necessidade',next:'Aguardar a necessidade e direcionar para a solução adequada.',signals:[],combinedSignals:[],forcedAction:action||null};window.v8Last={analysis:a,examples:[],knowledge:[],plan:null,reply,clientText:''};return reply;}
-  const client=v8ExtractClientText(cleanText)||cleanText,a=v25Analyze(cleanText,ctx,action,memory),kb=v25BestKnowledge(client,ctx,a),examples=v20TrainingMatch(client,a)||[];let reply=null,usedExample=null;
-  /* 1) AÇÃO FORÇADA sempre vence o caminho automático. */
-  if(action==='objecao') reply=v25ForcedObjection(client,name,a,kb);
-  else if(action==='fechamento') reply=v20Clean(`${v20Greeting(name)} ${v25NextQuestion(a,client,findPlan(a.intent,client))}`);
-  /* 2) Base do gestor vence respostas genéricas. */
-  if(!reply){const k=kb.find(customerReady);if(k)reply=v20Clean(`${v20Greeting(name)} ${k.answer}`);}
-  /* 3) Perguntas factuais e preço são resolvidos pelo Motor. */
-  if(!reply){
-   const direct=v20Direct(client,name,a);
-   if(direct)reply=direct;
-  }
-  /* 4) Preço: valor + benefício + uma próxima pergunta, quando possível. */
-  if(!reply && a.intent==='preco')reply=v25PriceDraft(client,name,a);
-  /* 5) Exemplo treinado forte, sem atropelar ação/KB. */
-  if(!reply&&examples[0]&&examples[0].score>=7&&a.intent!=='disponibilidade'){usedExample=examples[0];reply=v8ComposeFromExample(examples[0],a,findPlan(a.intent,client),name);}
-  if(!reply)reply=v20StrategicFallback(client,name,a,action);
-  reply=v20Clean(reply);
-  if(/endere[cç]o/i.test(ctx)&&/Rua 21, nº 42/i.test(reply))reply=reply.replace(/Estamos na Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.\s*/i,'');
-  const plan=findPlan(a.intent,client)||findPlan(a.detectedIntent,client);
-  window.v8Last={analysis:{...a,objective:a.objective,nextAction:a.next},examples,knowledge:kb.slice(0,3),usedExample,plan,reply,clientText:client,learnedStrategy:v17LearnedStrategy(examples,a),clientMemory:memory};
-  return reply;
- }
- function v26NormalizeContract(a,client,action,local){
-  const t=norm(client||''), intent=a?.intent||'geral';
-  const service=intent==='escritório virtual'?'escritório virtual':intent;
-  const factual=intent!=='geral'&&intent!=='objecao'&&intent!=='desconto'&&intent!=='fechamento';
-  const isServiceQuestion=['escritório virtual','endereço fiscal','endereço comercial','sala privativa','sala de reunião','sala de treinamento','estação de trabalho','sala fixa'].includes(intent);
-  const asksDate=!!a?.hasDate, asksTime=!!a?.hasTime, asksPeople=!!a?.hasPeople;
-  const forbidden=[];
-  if(isServiceQuestion&&!asksDate)forbidden.push('data');
-  if(isServiceQuestion&&!asksTime)forbidden.push('horário');
-  if(isServiceQuestion&&!asksPeople)forbidden.push('quantidade de pessoas');
-  if(isServiceQuestion&&!/(reserv|agend|contrat|fech)/i.test(t))forbidden.push('reserva');
-  let confidence=.55;
-  if(intent!=='geral')confidence=.82;
-  if(isServiceQuestion)confidence=.94;
-  if(a?.hasDate||a?.hasTime||a?.hasPeople)confidence=Math.min(1,confidence+.03);
-  return {intent,service,factualQuestion:factual,serviceQuestion:isServiceQuestion,confidence,answerFirst:isServiceQuestion||intent==='localizacao'||intent==='horario'||intent==='preco',forbiddenTopics:forbidden,allowedQuestion: intent==='escritório virtual'?'finalidade':intent==='endereço fiscal'?'finalidade':intent==='endereço comercial'?'finalidade':intent==='sala de reunião'?'quantidade de pessoas':intent==='sala de treinamento'?'tipo de evento':intent==='sala privativa'?'finalidade':intent==='estação de trabalho'?'frequência':intent==='sala fixa'?'tipo de atividade':intent==='disponibilidade'?'data e horário':null,localDraft:local||''};
- }
- function v26ForbiddenDrift(text,contract,client){
-  if(!contract)return false;
-  const t=norm(text||''), c=norm(client||'');
-  if(contract.forbiddenTopics.includes('data') && /\b(data|dia|quando|amanha|amanhã|hoje)\b/.test(t))return true;
-  if(contract.forbiddenTopics.includes('horário') && /\b(horario|horário|hora)\b/.test(t))return true;
-  if(contract.forbiddenTopics.includes('quantidade de pessoas') && /\b(quantas|quantos|pessoas|participantes)\b/.test(t))return true;
-  if(contract.forbiddenTopics.includes('reserva') && /\b(reservar|reserva|agendar|agendamento|contratar)\b/.test(t))return true;
-  return false;
- }
- function v26TopicGuard(text,local,client,contract){
-  if(!contract)return text||local;
-  if(v26ForbiddenDrift(text,contract,client))return local;
-  if(contract.serviceQuestion && contract.service && !norm(text).includes(norm(contract.service)) && !/(trabalham|oferecemos|oferece|temos|disponibilizamos|sim|não|nao|verificar)/i.test(text))return local;
-  return text||local;
- }
- function v26BuildGroqBrief(client,name,context,action,analysis,localDraft,memory){
-  const contract=v26NormalizeContract(analysis,client,action,localDraft);
-  return `CONTRATO DE RESPOSTA NELLUS:\n${JSON.stringify(contract,null,2)}\n\nREGRA ABSOLUTA: você é somente o redator. Não altere a intenção, serviço, pergunta permitida ou tópicos proibidos. Se houver conflito, preserve a resposta-base.\n\n${groqUser(client,name,context,action,analysis,localDraft,memory)}`;
- }
- function v25OutputGuard(out,local,client,action,analysis){
-  if(v25IsGreetingOnly(client) && !action) return local;
-  const text=v20Clean(out),t=norm(text),c=norm(client),l=norm(local);
-  const contract=v26NormalizeContract(analysis,client,action,local);
-  if(v26ForbiddenDrift(text,contract,client))return local;
-  const askedPrice=analysis?.hasPrice||qPrice(client);
-  if(!askedPrice&&/r\$\s*[\d\.,]+/i.test(text))return local;
-  if(action==='fechamento'){
-   if(!/(reserv|confirm|seguir|avançar|avancar)/i.test(text))return local;
-   if(qMarkCount(text)>1)return local;
-  }
-  if(action==='objecao' && qMarkCount(text)>1)return local;
-  if(qMarkCount(text)>1)return local;
-  if(/sim,?\s+trabalhamos\s+com\s+endere[cç]o\s+fiscal/i.test(local) && !/(endere[cç]o\s+fiscal|trabalhamos)/i.test(text))return local;
-  if(/dispon[ií]vel|temos\s+vaga|temos\s+hor[aá]rio/i.test(text)&&!/preciso|precisamos|vou verificar|vamos verificar|necess[aá]rio verificar/i.test(text))return local;
-  return text||local;
- }
- /* Substitui a entrada do Motor sem apagar a interface nem o fallback legado. */
- window.v20Generate=function(text,action,name,context){return v25CoreGenerate(text,action,name,context,'');};
- window.v22GenerateWithGroq=async function(text,action,name,context,phone){
-  const local=v25CoreGenerate(text,action,name,context,phone);
-  try{
-   const client=v8ExtractClientText(clean(text))||clean(text),analysis=window.v8Last?.analysis||{},memory=contactMemoryText(phone);
-   const reply=await callGroq(client,name,context,action,analysis,local,memory);
-   const safe=v25OutputGuard(reply,local,client,action,analysis);
-   window.v8Last={...(window.v8Last||{}),reply:safe,aiEngine:safe===reply?'Groq':'Motor Nellus guard-rail',localFallback:local,clientMemory:memory};
-   rememberInteraction(phone,name,client,safe,analysis,action);
-   return {reply:safe,engine:safe===reply?'Groq':'Motor Nellus guard-rail'};
-  }catch(err){
-   console.warn('Groq falhou; usando Motor Nellus local:',err);
-   const client=v8ExtractClientText(clean(text))||clean(text),analysis=window.v8Last?.analysis||{};
-   rememberInteraction(phone,name,client,local,analysis,action);
-   window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Local fallback',groqError:String(err?.message||err)};
-   return {reply:local,engine:'Motor Nellus local'};
-  }
- };
- /* Radar usa exatamente o diagnóstico que alimentou a resposta. */
- const oldAssess=window.v9Assess;
- window.v9Assess=function(text,context,silence){
-  const d=window.v8Last?.analysis;
-  const base=oldAssess?oldAssess(text,context,silence):{};
-  if(!d)return base;
-  const sig=(d.signals||[]).map(x=>x.label||x.type).filter(Boolean), combined=[...(d.combinedSignals||[]),...sig];
-  const risks=[...(base.risks||[])];
-  if(d.forcedAction==='objecao'&&!risks.includes('objeção tratada manualmente'))risks.unshift('objeção tratada manualmente');
-  let score=Number(base.score||45);
-  if(d.intent==='fechamento'&&!combined.some(x=>/fechamento/i.test(x)))score+=20;
-  if(d.hasDate&&d.hasTime&&d.hasPeople)score+=8;
-  const level=score>=72?'hot':score<43?'risk':'attention';
-  return {...base,intent:d.intent,stage:d.stage,signals:[...new Set(combined)].slice(0,8),risks,score:Math.max(0,Math.min(100,Math.round(score))),level,next:d.next||base.next};
- };
-})();
 
- /* NELLUS V26 — contrato de intenção, proteção contra desvio e laboratório de testes. */
- window.nellusIntentContract=function(client,action,name,context,phone){
-   const raw=clean(client||''), a=v25Analyze(raw,context||'',action||'',phone?contactMemoryText(phone):'');
-   const local=v25CoreGenerate(raw,action||'',name||'',context||'',phone||'');
-   return v26NormalizeContract(window.v8Last?.analysis||a,raw,action||'',local);
- };
- window.nellusRunTests=function(){
-   const cases=[
-    ['Vocês trabalham com escritório virtual?','escritório virtual'],
-    ['Como funciona o escritório virtual?','escritório virtual'],
-    ['Quanto custa o escritório virtual?','escritório virtual'],
-    ['Vocês têm endereço fiscal?','endereço fiscal'],
-    ['Qual o endereço de vocês?','localizacao'],
-    ['Qual o horário de funcionamento?','horario'],
-    ['Tem sala para 5 pessoas amanhã às 14h?','sala de reunião'],
-    ['Vocês têm sala privativa?','sala privativa'],
-    ['Tem desconto?','desconto'],
-    ['Vou pensar e falar com meu sócio.','objecao']
-   ];
-   return cases.map(([input,expected])=>{const a=v20Analyze(input,'','');return {input,expected,actual:a.intent,ok:a.intent===expected};});
- };
- const __v22Final=window.v22GenerateWithGroq;
- window.v22GenerateWithGroq=async function(text,action,name,context,phone){
-   const local=v25CoreGenerate(text,action,name,context,phone),client=v8ExtractClientText(clean(text))||clean(text),analysis=window.v8Last?.analysis||{},contract=v26NormalizeContract(analysis,client,action,local);
-   /* O Groq continua redigindo; o contrato e o guard-rail impedem mudança de intenção. */
-   try{
-     const memory=contactMemoryText(phone),reply=await callGroq(client,name,context,action,analysis,local,memory),safe=v26TopicGuard(reply,local,client,contract);
-     window.v8Last={...(window.v8Last||{}),reply:safe,aiEngine:safe===reply?'Groq':'Motor Nellus guard-rail',localFallback:local,clientMemory:memory,intentContract:contract};
-     rememberInteraction(phone,name,client,safe,analysis,action);
-     return {reply:safe,engine:safe===reply?'Groq':'Motor Nellus guard-rail'};
-   }catch(err){
-     console.warn('Groq falhou; usando Motor Nellus local:',err);
-     rememberInteraction(phone,name,client,local,analysis,action);
-     window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Local fallback',groqError:String(err?.message||err),intentContract:contract};
-     return {reply:local,engine:'Motor Nellus local'};
-   }
- };
-</script>
-
-<!-- ===== NELLUS V27 — MOTOR DE DECISÃO + GROQ ESTRUTURADO ===== -->
-<script id="v27engine">
-(function(){
-  const c27=s=>String(s||'').trim();
-  const n27=s=>normalize(c27(s));
-  const q27=(t,re)=>re.test(n27(t));
-
-  /* O contrato agora é a autoridade comercial. O Groq só verbaliza. */
-  function v27Contract(client,analysis,action,local,memory){
-    const t=n27(client), a=analysis||{};
-    const serviceMap={
-      'escritório virtual':'escritório virtual','endereço fiscal':'endereço fiscal','endereço comercial':'endereço comercial',
-      'sala privativa':'sala privativa','sala de reunião':'sala de reunião','sala de treinamento':'sala de treinamento',
-      'estação de trabalho':'estação de trabalho','sala fixa':'sala fixa','locação por hora':'locação por hora'
-    };
-    const service=serviceMap[a.intent]||a.intent||'geral';
-    const serviceQuestion=Object.prototype.hasOwnProperty.call(serviceMap,a.intent);
-    const explicitAvailability=a.intent==='disponibilidade';
-    const explicitPrice=a.intent==='preco'||a.hasPrice;
-    const forbidden=[];
-    if(serviceQuestion&&!a.hasDate)forbidden.push('data');
-    if(serviceQuestion&&!a.hasTime)forbidden.push('horário');
-    if(serviceQuestion&&!a.hasPeople&&!/sala de reunião|sala de treinamento/i.test(service))forbidden.push('quantidade de pessoas');
-    if(serviceQuestion&&!/(reserv|agend|contrat|fech)/i.test(t))forbidden.push('reserva');
-    if(!explicitPrice)forbidden.push('preço');
-    const allowedQuestion =
-      a.intent==='escritório virtual'?'finalidade':
-      a.intent==='endereço fiscal'?'finalidade':
-      a.intent==='endereço comercial'?'finalidade':
-      a.intent==='sala de reunião'?(a.hasPeople?'data':'quantidade de pessoas'):
-      a.intent==='sala de treinamento'?(a.hasPeople?'data':'tipo de evento'):
-      a.intent==='sala privativa'?(a.hasPurpose?'data':'finalidade'):
-      a.intent==='estação de trabalho'?'frequência':
-      a.intent==='sala fixa'?'tipo de atividade':
-      a.intent==='disponibilidade'?'data e horário':
-      a.intent==='preco'?'uso ou frequência':
-      a.intent==='objecao'?'motivo da objeção':null;
-    let confidence=.55;
-    if(a.intent&&a.intent!=='geral')confidence=.82;
-    if(serviceQuestion)confidence=.96;
-    if(a.hasDate||a.hasTime||a.hasPeople)confidence=Math.min(1,confidence+.02);
-    return {
-      intent:a.intent||'geral',service,serviceQuestion,explicitAvailability,explicitPrice,
-      confidence,answerFirst:serviceQuestion||['localizacao','horario','preco'].includes(a.intent),
-      allowedQuestion,forbiddenTopics:forbidden,localDraft:local||'',memory:memory||''
-    };
-  }
-
-  function v27LastInteraction(memory){
-    try{const x=JSON.parse(memory||'{}');const h=Array.isArray(x.interacoes)?x.interacoes:[];return h[h.length-1]||null;}catch(e){return null;}
-  }
-  function v27RepeatedQuestion(candidate,memory){
-    const last=v27LastInteraction(memory); if(!last||!last.resposta)return false;
-    const a=n27(candidate),b=n27(last.resposta);
-    const keys=[
-      ['data',/\b(data|dia|quando|amanha|hoje)\b/],
-      ['horário',/\b(horario|hora|manha|tarde|noite)\b/],
-      ['pessoas',/\b(quantas|quantos|pessoas|participantes)\b/],
-      ['finalidade',/\b(finalidade|objetivo|para que|pra que)\b/],
-      ['frequência',/\b(frequencia|frequente|eventualmente|vezes)\b/]
-    ];
-    for(const [,re] of keys) if(re.test(a)&&re.test(b)) return true;
-    return false;
-  }
-  function v27Forbidden(text,contract){
-    const t=n27(text), f=contract?.forbiddenTopics||[];
-    if(f.includes('data')&&/\b(data|dia|quando|amanha|hoje)\b/.test(t))return 'data';
-    if(f.includes('horário')&&/\b(horario|hora|manha|tarde|noite)\b/.test(t))return 'horário';
-    if(f.includes('quantidade de pessoas')&&/\b(quantas|quantos|pessoas|participantes)\b/.test(t))return 'quantidade de pessoas';
-    if(f.includes('reserva')&&/\b(reservar|reserva|agendar|agendamento|contratar)\b/.test(t))return 'reserva';
-    if(f.includes('preço')&&/\br\$\s*[\d\.,]+|\b(preco|preço|valor|mensalidade)\b/i.test(t))return 'preço';
-    return '';
-  }
-  function v27AnswerIntegrity(reply,client,contract){
-    const t=n27(reply), q=n27(client);
-    if(!t)return {ok:false,reason:'resposta vazia'};
-    if((t.match(/\?/g)||[]).length>1)return {ok:false,reason:'mais de uma pergunta'};
-    const drift=v27Forbidden(reply,contract); if(drift)return {ok:false,reason:'desvio: '+drift};
-    if(v27RepeatedQuestion(reply,contract?.memory))return {ok:false,reason:'pergunta repetida'};
-    if(contract.serviceQuestion){
-      const svc=n27(contract.service);
-      const mentions=svc&&t.includes(svc);
-      const direct=/\b(sim|nao|não|trabalhamos|oferecemos|temos|disponibilizamos|verificar|consultar)\b/.test(t);
-      if(!mentions&&!direct)return {ok:false,reason:'não responde claramente ao serviço'};
-    }
-    if(contract.explicitPrice && !/\br\$\s*[\d\.,]+|\bvalor\b|\bpreco\b|\bpreço\b/i.test(t))return {ok:false,reason:'preço solicitado sem resposta de preço'};
-    return {ok:true,reason:'ok'};
-  }
-
-  const V27_SCHEMA={
-    type:'object',
-    properties:{
-      reply:{type:'string'},
-      question_count:{type:'integer'},
-      confidence:{type:'number'},
-      changed_strategy:{type:'boolean'}
-    },
-    required:['reply','question_count','confidence','changed_strategy'],
-    additionalProperties:false
-  };
-
-  async function callGroqV27(client,name,context,action,analysis,local,memory,contract){
-    const cfg=groqConfig(); if(!cfg.endpoint)throw new Error('Endpoint seguro não configurado');
-    const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
-    const system=`Você é APENAS o redator do Nellus Coworking. O Motor Nellus já tomou a decisão comercial. Você NÃO pode mudar intenção, serviço, estratégia ou próxima pergunta. Sua única função é transformar a RESPOSTA-BASE em uma mensagem natural, curta e humana.\n\nCONTRATO:\n${JSON.stringify(contract,null,2)}\n\nREGRAS ABSOLUTAS:\n1. Responda primeiro exatamente o que o cliente perguntou.\n2. Preserve a resposta-base.\n3. Faça no máximo UMA pergunta, e somente se ela estiver de acordo com allowedQuestion.\n4. Nunca mencione nenhum forbiddenTopics.\n5. Nunca invente preço, desconto, disponibilidade, endereço, horário ou condição.\n6. Não transforme pergunta informativa em reserva.\n7. Não repita uma pergunta que já foi feita na conversa.\n8. Se houver conflito entre seu texto e o contrato, obedeça ao contrato.\n9. Entregue somente JSON válido no formato solicitado.`;
-    const user=`Cliente: ${client||'(vazio)'}\nNome: ${name||''}\nContexto: ${context||''}\nAção: ${action||'responder normalmente'}\nInterpretação: ${JSON.stringify(analysis||{})}\nMemória: ${memory||'(nenhuma)'}\nResposta-base: ${local||''}`;
-    try{
-      const body={model:cfg.model,messages:[{role:'system',content:system},{role:'user',content:user}],temperature:0.15,max_completion_tokens:220,response_format:{type:'json_schema',json_schema:{name:'nellus_reply',strict:true,schema:V27_SCHEMA}}};
-      const r=await fetch(cfg.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,body:JSON.stringify(body)});
-      const d=await r.json().catch(()=>({}));
-      if(!r.ok)throw new Error(d?.error?.message||`Groq HTTP ${r.status}`);
-      const raw=d?.choices?.[0]?.message?.content||'';
-      if(!raw.trim())throw new Error('Groq estruturado retornou vazio');
-      let obj;try{obj=JSON.parse(raw);}catch(e){throw new Error('Groq não retornou JSON válido');}
-      if(!obj.reply||typeof obj.reply!=='string')throw new Error('Groq JSON sem reply');
-      return obj;
-    }finally{clearTimeout(timer);}
-  }
-
-  window.nellusV27Quality=function(client,action,name,context,phone){
-    const local=v25CoreGenerate(client,action||'',name||'',context||'',phone||'');
-    const analysis=window.v8Last?.analysis||v25Analyze(client,context||'',action||'',phone?contactMemoryText(phone):'');
-    const memory=phone?contactMemoryText(phone):'';
-    const contract=v27Contract(client,analysis,action||'',local,memory);
-    return {contract,local,validation:v27AnswerIntegrity(local,client,contract)};
-  };
-
-  window.nellusRunTests=function(){
-    const cases=[
-      ['Vocês trabalham com escritório virtual?','escritório virtual'],
-      ['Como funciona o escritório virtual?','escritório virtual'],
-      ['Quanto custa o escritório virtual?','escritório virtual'],
-      ['Vocês têm endereço fiscal?','endereço fiscal'],
-      ['Qual o endereço de vocês?','localizacao'],
-      ['Qual o horário de funcionamento?','horario'],
-      ['Tem sala para 5 pessoas amanhã às 14h?','sala de reunião'],
-      ['Vocês têm sala privativa?','sala privativa'],
-      ['Tem desconto?','desconto'],
-      ['Vou pensar e falar com meu sócio.','objecao'],
-      ['Quero uma sala para atender meus clientes.','sala privativa'],
-      ['Preciso de uma sala para reunião amanhã.','sala de reunião'],
-      ['Quero uma sala fixa mensal.','sala fixa'],
-      ['Tem estação de trabalho?','estação de trabalho'],
-      ['Vocês fazem endereço comercial?','endereço comercial'],
-      ['Quanto custa a sala de reunião?','preco'],
-      ['Tem disponibilidade amanhã?','disponibilidade'],
-      ['Quero conhecer o espaço.','visita'],
-      ['Vou conversar com meu sócio antes.','objecao'],
-      ['Pode reservar para amanhã às 10h para 4 pessoas?','fechamento']
-    ];
-    return cases.map(([input,expected])=>{const a=v20Analyze(input,'','');return {input,expected,actual:a.intent,ok:a.intent===expected};});
-  };
-
-  /* Único ponto público de geração: Motor -> contrato -> Groq estruturado -> validação -> fallback. */
-  window.v22GenerateWithGroq=async function(text,action,name,context,phone){
-    const client=v8ExtractClientText(clean(text))||clean(text),local=v25CoreGenerate(text,action,name,context,phone);
-    const analysis=window.v8Last?.analysis||v25Analyze(client,context||'',action||'',phone?contactMemoryText(phone):''),memory=phone?contactMemoryText(phone):'';
-    const contract=v27Contract(client,analysis,action||'',local,memory);
-    try{
-      const out=await callGroqV27(client,name,context,action,analysis,local,memory,contract);
-      const validation=v27AnswerIntegrity(out.reply,client,contract);
-      if(!validation.ok){
-        window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Motor Nellus guard-rail',localFallback:local,clientMemory:memory,intentContract:contract,groqValidation:{...validation,groq:out}};
-        rememberInteraction(phone,name,client,local,analysis,action);
-        return {reply:local,engine:'Motor Nellus guard-rail'};
-      }
-      const finalReply=v20Clean(out.reply);
-      window.v8Last={...(window.v8Last||{}),reply:finalReply,aiEngine:'Groq estruturado',localFallback:local,clientMemory:memory,intentContract:contract,groqValidation:{...validation,groq:out}};
-      rememberInteraction(phone,name,client,finalReply,analysis,action);
-      return {reply:finalReply,engine:'Groq estruturado'};
-    }catch(err){
-      console.warn('Groq estruturado falhou; usando Motor Nellus local:',err);
-      const validation=v27AnswerIntegrity(local,client,contract);
-      window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Motor Nellus local',groqError:String(err?.message||err),intentContract:contract,localValidation:validation};
-      rememberInteraction(phone,name,client,local,analysis,action);
-      return {reply:local,engine:'Motor Nellus local'};
-    }
-  };
-})();
-</script>
-
-<style id="v28css">
-/* ===== V28: Treinamento Comercial Avançado ===== */
-.v28-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.v28-toolbar .v7-tab{font-size:11px}
-.v28-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.v28-grid .full{grid-column:1/-1}
-.v28-rule{background:linear-gradient(145deg,#101814,#0b110f);border:1px solid #294238;border-radius:15px;padding:14px;margin:10px 0}
-.v28-rule-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.v28-rule h3{margin:0;font-size:14px}.v28-rule small{color:#81938b}.v28-meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.v28-chip{font-size:10px;padding:5px 8px;border-radius:99px;background:#15231e;border:1px solid #294238;color:#a9c0b7}.v28-chip.on{color:#d6ff68;border-color:#46643a}
-.v28-block{margin-top:9px;padding:9px;border-radius:10px;background:#0a100e;border:1px solid #1e302a;font-size:11px;line-height:1.45}.v28-block b{color:#d6ff68;display:block;margin-bottom:3px;font-size:10px;text-transform:uppercase}
-.v28-actions{display:flex;gap:7px;margin-top:10px}.v28-actions button{flex:1}.v28-test{background:#0d1512;border:1px solid #294238;border-radius:15px;padding:14px;margin-top:12px}.v28-test-result{margin-top:12px}.v28-ok{border-color:#2c674f!important}.v28-bad{border-color:#743b3b!important}.v28-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0}.v28-step{background:#0e1713;border:1px solid #21372f;border-radius:10px;padding:9px;text-align:center;font-size:10px}.v28-step b{display:block;color:#d6ff68;margin-bottom:4px}.v28-score{font-size:24px;font-weight:800}.v28-empty{padding:22px;text-align:center;color:#81938b;border:1px dashed #294238;border-radius:14px}
-.v28-toggle{display:flex;align-items:center;gap:8px;font-size:11px}.v28-toggle input{accent-color:#d6ff68}
-@media(max-width:700px){.v28-grid{grid-template-columns:1fr}.v28-grid .full{grid-column:auto}.v28-flow{grid-template-columns:1fr 1fr}}
-</style>
-<script id="v28training">
-(function(){
-  const KEY='nellus_playbooks_v28';
-  const EX='nellus_examples_v7';
-  const safe=s=>String(s??'');
-  const esc=s=>safe(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-  const norm28=s=>{try{return normalize(safe(s));}catch(e){return safe(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}};
-  const load=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}};
-  let playbooks=load();
-  function save(){localStorage.setItem(KEY,JSON.stringify(playbooks));}
-  function allExamples(){try{return JSON.parse(localStorage.getItem(EX)||'[]')}catch(e){return[]}}
-  function options(){
-    return ['geral','escritório virtual','endereço fiscal','endereço comercial','sala privativa','sala de reunião','sala de treinamento','estação de trabalho','sala fixa','preço','disponibilidade','objeção','desconto','visita','fechamento','follow-up'];
-  }
-  function buildTrainingUI(){
-    const root=document.getElementById('trainingV7'); if(!root)return;
-    const old=root.innerHTML;
-    root.dataset.v28Original=old;
-    root.innerHTML=`
-      <div class="section-title"><div><h2> Treinamento Comercial</h2><p>Agora você não ensina apenas respostas. Você ensina <b>quando agir, o que fazer, o que perguntar e o que nunca fazer</b>.</p></div></div>
-      <div class="v28-flow">
-        <div class="v28-step"><b>1. Quando</b>Reconhecer o cenário</div>
-        <div class="v28-step"><b>2. Intenção</b>Classificar a conversa</div>
-        <div class="v28-step"><b>3. Estratégia</b>Escolher a ação</div>
-        <div class="v28-step"><b>4. Resposta</b>Escrever naturalmente</div>
-        <div class="v28-step"><b>5. Guarda</b>Validar antes de enviar</div>
-      </div>
-      <div class="v28-toolbar">
-        <button class="v7-tab active" data-v28tab="playbooks">Regras comerciais</button>
-        <button class="v7-tab" data-v28tab="examples">Exemplos reais</button>
-        <button class="v7-tab" data-v28tab="lab">Laboratório</button>
-      </div>
-      <div id="v28playbooks" class="training-form active">
-        <div class="card">
-          <h3>Nova regra de treinamento</h3>
-          <p class="muted">Exemplo: quando o cliente perguntar se vocês trabalham com escritório virtual, responda sobre escritório virtual antes de perguntar qualquer outra coisa.</p>
-          <div class="v28-grid">
-            <label>Nome da regra<input id="v28Title" placeholder="Ex.: Escritório virtual — responder primeiro"></label>
-            <label>Intenção / serviço<select id="v28Intent">${options().map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('')}</select></label>
-            <label class="full">Quando esta regra deve ser usada?<textarea id="v28When" rows="3" placeholder="Ex.: Cliente pergunta se temos escritório virtual, como funciona ou quanto custa."></textarea></label>
-            <label>Objetivo comercial<textarea id="v28Objective" rows="3" placeholder="Ex.: Responder a dúvida e descobrir a finalidade sem transformar a conversa em reserva de sala."></textarea></label>
-            <label>O que o Copiloto DEVE fazer<textarea id="v28Do" rows="3" placeholder="Ex.: Responder sim, explicar brevemente o serviço e fazer uma única pergunta de finalidade."></textarea></label>
-            <label>O que PODE perguntar<textarea id="v28Ask" rows="3" placeholder="Ex.: Finalidade do escritório virtual."></textarea></label>
-            <label>O que NUNCA deve fazer<textarea id="v28Never" rows="3" placeholder="Ex.: Não perguntar data, horário, número de pessoas ou reserva sem o cliente pedir."></textarea></label>
-            <label class="full">Resposta ideal / modelo<textarea id="v28Ideal" rows="4" placeholder="Escreva uma resposta de referência. Ela será usada como exemplo de linguagem e condução."></textarea></label>
-            <label>Palavras / frases que ativam a regra<input id="v28Triggers" placeholder="escritório virtual, domicílio virtual, endereço virtual"></label>
-            <label>Prioridade<select id="v28Priority"><option value="5">Crítica</option><option value="4">Muito alta</option><option value="3" selected>Alta</option><option value="2">Média</option><option value="1">Baixa</option></select></label>
-            <label class="v28-toggle full"><input type="checkbox" id="v28Active" checked> Regra ativa e autorizada para uso nas conversas</label>
-          </div>
-          <button class="primary" onclick="v28SavePlaybook()"> Salvar regra comercial</button>
-        </div>
-        <div id="v28RulesList"></div>
-      </div>
-      <div id="v28examples" class="training-form">
-        <div class="card">
-          <h3>Exemplo real de alta qualidade</h3>
-          <p class="muted">Mantenha esta área para ensinar situações concretas. Os exemplos antigos continuam válidos.</p>
-          <div class="v28-grid">
-            <label>Situação / título<input id="v7Title" placeholder="Ex.: Cliente achou a sala cara"></label>
-            <label>Categoria<select id="v7Category"><option>Objeção</option><option>Preço</option><option>Qualificação</option><option>Follow-up</option><option>Fechamento</option><option>Informação</option><option>Geral</option></select></label>
-            <label class="full">Mensagem do cliente<textarea id="v7Client" rows="3" placeholder="Ex.: Gostei, mas achei um pouco caro..."></textarea></label>
-            <label class="full">Resposta ideal<textarea id="v7Ideal" rows="4" placeholder="Escreva exatamente como você responderia."></textarea></label>
-            <label>Gatilhos / palavras-chave<input id="v7Triggers" placeholder="caro, preço alto, valor"></label>
-            <label>Prioridade<select id="v7Priority"><option value="5">Crítica</option><option value="4">Muito alta</option><option value="3">Alta</option><option value="2" selected>Média</option><option value="1">Baixa</option></select></label>
-          </div>
-          <button class="primary" onclick="v7SaveExample()"> Salvar exemplo</button>
-        </div>
-        <div id="v7ExamplesList"></div>
-      </div>
-      <div id="v28lab" class="training-form">
-        <div class="v28-test">
-          <h3>Laboratório de treinamento</h3>
-          <p class="muted">Teste uma mensagem antes de colocar o Copiloto em produção. O laboratório mostra a intenção detectada, a regra encontrada e a resposta gerada.</p>
-          <label>Mensagem do cliente<textarea id="v28LabClient" rows="4" placeholder="Ex.: Vocês trabalham com escritório virtual?"></textarea></label>
-          <label style="display:block;margin-top:9px">Contexto anterior (opcional)<textarea id="v28LabContext" rows="3" placeholder="Cole aqui o contexto ou as últimas mensagens, se quiser testar continuidade."></textarea></label>
-          <div class="v28-actions"><button class="primary" onclick="v28RunLab()"> Testar Copiloto</button><button class="btn" onclick="v28UseLastLab()"> Usar último teste</button></div>
-          <div id="v28LabResult" class="v28-test-result"></div>
-        </div>
-        <div class="card" style="margin-top:12px"><h3>O que este laboratório protege</h3><div class="pills"><span class="pill"><strong>Intenção</strong> correta</span><span class="pill"><strong>Serviço</strong> correto</span><span class="pill"><strong>Uma pergunta</strong> por vez</span><span class="pill"><strong>Sem desvio</strong> de assunto</span><span class="pill"><strong>Sem repetição</strong> de pergunta</span><span class="pill"><strong>Sem invenção</strong> de fatos</span></div></div>
-      </div>`;
-    root.querySelectorAll('[data-v28tab]').forEach(btn=>btn.addEventListener('click',()=>showTab(btn.dataset.v28tab,btn)));
-    renderRules();
-    renderExamples();
-  }
-  function showTab(id,btn){
-    document.querySelectorAll('#trainingV7 .training-form').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('#trainingV7 .v7-tab').forEach(x=>x.classList.remove('active'));
-    const el=document.getElementById('v28'+id);if(el)el.classList.add('active');if(btn)btn.classList.add('active');
-  }
-  window.v28SavePlaybook=function(){
-    const title=document.getElementById('v28Title')?.value.trim();
-    const when=document.getElementById('v28When')?.value.trim();
-    const ideal=document.getElementById('v28Ideal')?.value.trim();
-    if(!title||!when||!ideal){alert('Preencha pelo menos nome da regra, quando usar e resposta ideal.');return;}
-    const item={id:Date.now(),version:28,title,intent:document.getElementById('v28Intent').value,when,objective:document.getElementById('v28Objective').value.trim(),do:document.getElementById('v28Do').value.trim(),ask:document.getElementById('v28Ask').value.trim(),never:document.getElementById('v28Never').value.trim(),ideal,triggers:document.getElementById('v28Triggers').value.trim(),priority:Number(document.getElementById('v28Priority').value||3),active:document.getElementById('v28Active').checked,createdAt:new Date().toISOString()};
-    playbooks.unshift(item);save();
-    const ex=allExamples();
-    ex.unshift({id:item.id,title:item.title,category:item.intent,client:item.when,ideal:item.ideal,triggers:item.triggers+' '+item.intent,priority:item.priority,intent:item.intent,service:item.intent,objective:item.objective,do:item.do,ask:item.ask,never:item.never,playbookId:item.id});
-    localStorage.setItem(EX,JSON.stringify(ex));
-    ['v28Title','v28When','v28Objective','v28Do','v28Ask','v28Never','v28Ideal','v28Triggers'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
-    document.getElementById('v28Active').checked=true;renderRules();toast('Regra comercial salva e incorporada ao treinamento.');
-  };
-  window.v28DeletePlaybook=function(id){playbooks=playbooks.filter(x=>x.id!==id);save();const ex=allExamples().filter(x=>x.playbookId!==id);localStorage.setItem(EX,JSON.stringify(ex));renderRules();toast('Regra removida.');};
-  window.v28TogglePlaybook=function(id){const x=playbooks.find(x=>x.id===id);if(!x)return;x.active=!x.active;save();renderRules();};
-  function renderRules(){
-    const box=document.getElementById('v28RulesList');if(!box)return;
-    if(!playbooks.length){box.innerHTML='<div class="v28-empty">Nenhuma regra avançada cadastrada ainda.<br>Comece pelas situações que mais costumam gerar respostas erradas.</div>';return;}
-    box.innerHTML='<h3 style="margin-top:18px">Regras cadastradas ('+playbooks.length+')</h3>'+playbooks.map(x=>`<div class="v28-rule"><div class="v28-rule-head"><div><h3>${esc(x.title)}</h3><small>${esc(x.intent)}</small></div><span class="v28-chip ${x.active?'on':''}">${x.active?'ATIVA':'PAUSADA'}</span></div><div class="v28-meta"><span class="v28-chip">Prioridade ${Number(x.priority||1)}</span>${x.triggers?`<span class="v28-chip">Gatilhos: ${esc(x.triggers)}</span>`:''}</div><div class="v28-block"><b>Quando</b>${esc(x.when)}</div>${x.objective?`<div class="v28-block"><b>Objetivo</b>${esc(x.objective)}</div>`:''}${x.do?`<div class="v28-block"><b>Deve fazer</b>${esc(x.do)}</div>`:''}${x.ask?`<div class="v28-block"><b>Pode perguntar</b>${esc(x.ask)}</div>`:''}${x.never?`<div class="v28-block"><b>Nunca fazer</b>${esc(x.never)}</div>`:''}<div class="v28-block"><b>Resposta ideal</b>${esc(x.ideal)}</div><div class="v28-actions"><button class="btn" onclick="v28TogglePlaybook(${x.id})">${x.active?'Pausar':'Ativar'}</button><button class="btn" onclick="v28DeletePlaybook(${x.id})">Excluir</button></div></div>`).join('');
-  }
-  function renderExamples(){
-    const box=document.getElementById('v7ExamplesList');if(!box)return;const arr=allExamples().filter(x=>!x.playbookId);
-    if(!arr.length){box.innerHTML='<div class="empty-state">Ainda não há exemplos independentes. As regras comerciais ficam na aba Regras comerciais.</div>';return;}
-    box.innerHTML='<h3 style="margin-top:18px">Exemplos cadastrados ('+arr.length+')</h3>'+arr.map(x=>`<div class="training-card"><div><b>${esc(x.title||'Sem título')}</b> <span class="pill">${esc(x.category||'Geral')}</span></div><small>Gatilhos: ${esc(x.triggers||'não definidos')} · Prioridade ${Number(x.priority||1)}</small><div class="example"><b>Cliente:</b> ${esc(x.client)}<br><br><b>Resposta ideal:</b> ${esc(x.ideal)}</div><div class="feedback-row"><button onclick="v7DeleteExample(${x.id})">Excluir</button></div></div>`).join('');
-  }
-  window.v28RunLab=async function(){
-    const client=document.getElementById('v28LabClient')?.value.trim();const ctx=document.getElementById('v28LabContext')?.value.trim();const box=document.getElementById('v28LabResult');if(!client){alert('Digite uma mensagem do cliente para testar.');return;}if(!box)return;
-    box.innerHTML='<div class="v28-rule">Analisando a conversa...</div>';
-    try{
-      const quality=window.nellusV27Quality?window.nellusV27Quality(client,'','',ctx,''):null;
-      const matches=matchPlaybooks(client,quality?.contract?.intent||quality?.contract?.service||'');
-      const result=await window.v22GenerateWithGroq(client,'','',ctx,'');
-      const finalQuality=window.nellusV27Quality?window.nellusV27Quality(client,'','',ctx,''):quality;
-      const contract=finalQuality?.contract||quality?.contract||{};
-      const val=finalQuality?.validation||{};
-      box.innerHTML=`<div class="v28-rule ${val.ok!==false?'v28-ok':'v28-bad'}"><div class="v28-rule-head"><div><h3>Resultado</h3><small>${esc(result?.engine||'Motor Nellus')}</small></div><div class="v28-score">${Math.round(Number(contract.confidence||0)*100)}%</div></div><div class="v28-meta"><span class="v28-chip">Intenção: ${esc(contract.intent||'geral')}</span><span class="v28-chip">Serviço: ${esc(contract.service||'geral')}</span><span class="v28-chip">Guard: ${val.ok===false?'REPROVADO':'OK'}</span></div><div class="v28-block"><b>Mensagem gerada</b>${esc(result?.reply||finalQuality?.local||'')}</div><div class="v28-block"><b>Estratégia permitida</b>${esc(contract.allowedQuestion||'Nenhuma pergunta específica')}</div><div class="v28-block"><b>Tópicos proibidos</b>${esc((contract.forbiddenTopics||[]).join(', ')||'Nenhum')}</div><div class="v28-block"><b>Regra encontrada</b>${matches[0]?esc(matches[0].title)+' · prioridade '+Number(matches[0].priority||1):'Nenhuma regra específica'}</div><div class="v28-block"><b>Validação</b>${esc(val.reason||'ok')}</div></div>`;
-      window.v28LastLab={client,context:ctx,result,quality:finalQuality,matches};
-    }catch(e){box.innerHTML='<div class="v28-rule v28-bad"><b>Falha no teste:</b> '+esc(e?.message||e)+'</div>';}
-  };
-  window.v28UseLastLab=function(){const x=window.v28LastLab;if(!x){toast('Ainda não há um teste anterior.');return;}const e=document.getElementById('v28LabClient');const c=document.getElementById('v28LabContext');if(e)e.value=x.client||'';if(c)c.value=x.context||'';};
-  function matchPlaybooks(client,intent){
-    const t=norm28(client), i=norm28(intent);return playbooks.filter(x=>x.active).map(x=>{let score=Number(x.priority||1)*1.2;const trig=norm28((x.triggers||'')+' '+(x.when||'')+' '+(x.title||'')+' '+(x.intent||''));for(const w of vWords(trig)){if(w.length>=4&&t.includes(w))score+=2;}if(i&&norm28(x.intent)===i)score+=8;return {...x,score};}).sort((a,b)=>b.score-a.score).filter(x=>x.score>=4).slice(0,3);
-  }
-  function vWords(s){return norm28(s).split(/[^a-z0-9à-ÿ]+/).filter(x=>x.length>=4);}
-  window.v28MatchPlaybooks=matchPlaybooks;
-
-  /* Faz as regras avançadas realmente influenciarem o motor local sem quebrar os exemplos antigos. */
-  const oldMatch=window.v8MatchExamples;
-  window.v8MatchExamples=function(text,analysis){
-    const base=typeof oldMatch==='function'?oldMatch(text,analysis):[];
-    const intent=analysis?.intent||'';
-    const advanced=matchPlaybooks(text,intent).map(x=>({...x,score:Number(x.score||0)+5,source:'playbook'}));
-    const merged=[...advanced,...base];const seen=new Set();
-    return merged.filter(x=>{const key=String(x.id)+'|'+String(x.playbookId||'');if(seen.has(key))return false;seen.add(key);return true;}).sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,5);
-  };
-  const oldStrategy=window.v17LearnedStrategy;
-  window.v17LearnedStrategy=function(examples,analysis){
-    const p=(examples||[]).find(x=>x.playbookId)||null;if(p){let s=[];if(p.objective)s.push(p.objective);if(p.do)s.push('Deve fazer: '+p.do);if(p.ask)s.push('Pode perguntar: '+p.ask);if(p.never)s.push('Nunca: '+p.never);return s.join(' ');}return typeof oldStrategy==='function'?oldStrategy(examples,analysis):'';
-  };
-  function boot(){buildTrainingUI();}
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
-})();
-</script>
-
-<script id="v29robust-engine">
-(function(){
-  /* V29 — Robustez operacional:
-     1) nunca deixa falha do Motor virar tela genérica;
-     2) Groq é opcional: se falhar, tenta Motor local;
-     3) se o Motor local falhar, usa uma resposta segura e registra diagnóstico;
-     4) expõe diagnóstico técnico no laboratório sem vazar segredo/API key.
-  */
-  const clean29=s=>String(s??'').trim();
-  const norm29=s=>typeof normalize==='function'?normalize(clean29(s)):clean29(s).toLowerCase();
-  function safeIntent29(text){
-    const t=norm29(text);
-    if(/loca[cç][aã]o\s+(por|avulsa)|hora\s+avulsa|alugar\s+por\s+hora|alugam\s+por\s+hora/.test(t))return'locação por hora';
-    if(/escritorio\s+virtual|domicilio\s+virtual/.test(t))return'escritório virtual';
-    if(/endereco\s+fiscal/.test(t))return'endereço fiscal';
-    if(/endereco\s+comercial/.test(t))return'endereço comercial';
-    if(/horario|hora\s+de\s+funcionamento/.test(t))return'horario';
-    if(/disponivel|disponibilidade|tem\s+vaga/.test(t))return'disponibilidade';
-    if(/quanto\s+custa|quanto\s+fica|preco|preço|valor/.test(t))return'preco';
-    return 'geral';
-  }
-  function safeFallback29(client,name){
-    const t=norm29(client), g=name?`Olá, ${clean29(name)}!`:'Olá!';
-    if(/loca[cç][aã]o\s+(por|avulsa)|hora\s+avulsa|alugar\s+por\s+hora|alugam\s+por\s+hora/.test(t))
-      return `${g} Sim, posso verificar a opção de locação por hora avulsa para você. Qual tipo de espaço você precisa?`;
-    if(/escritorio\s+virtual|domicilio\s+virtual/.test(t))
-      return `${g} Sim, trabalhamos com escritório virtual. Você precisa dele para qual finalidade?`;
-    if(/endereco\s+fiscal/.test(t)) return `${g} Sim, trabalhamos com endereço fiscal. Você precisa dele para qual finalidade?`;
-    if(/endereco\s+comercial/.test(t)) return `${g} Sim, trabalhamos com endereço comercial. Você precisa dele para qual finalidade?`;
-    if(/horario|hora\s+de\s+funcionamento/.test(t)) return `${g} Posso te informar nosso horário de funcionamento. Qual serviço você pretende utilizar?`;
-    if(/disponivel|disponibilidade|tem\s+vaga/.test(t)) return `${g} Posso verificar a disponibilidade para você. Qual data e horário você precisa?`;
-    if(/quanto\s+custa|quanto\s+fica|preco|preço|valor/.test(t)) return `${g} Posso verificar o valor correto para o serviço que você procura. Qual serviço você tem em mente?`;
-    return `${g} Entendi. Pode me contar qual serviço você procura para eu te orientar?`;
-  }
-  function writeDiag29(d){
-    window.v8Last={...(window.v8Last||{}),v29Diagnostic:d};
-    const box=document.getElementById('v29DiagnosticBox');
-    if(!box)return;
-    box.style.display='block';
-    box.innerHTML=`<div style="font-size:11px;line-height:1.5"><b>Diagnóstico técnico</b><br>Intenção: ${esc(d.intent)} · Motor: ${esc(d.engine)} · Groq: ${esc(d.groq)}<br>Local: ${esc(d.local)}${d.error?`<br>Erro: ${esc(d.error)}`:''}${d.fallbackReason?`<br>Fallback: ${esc(d.fallbackReason)}`:''}</div>`;
-  }
-  async function robustGenerate29(text,action,name,context,phone){
-    const client=clean29(typeof v8ExtractClientText==='function'?v8ExtractClientText(clean29(text)):clean29(text));
-    let local='', localError='';
-    try{
-      local=typeof v25CoreGenerate==='function'?v25CoreGenerate(text,action,name,context,phone):'';
-      if(!clean29(local))throw new Error('Motor local retornou resposta vazia');
-    }catch(e){localError=String(e?.message||e);}
-    let analysis=null, memory='';
-    try{
-      memory=phone&&typeof contactMemoryText==='function'?contactMemoryText(phone):'';
-      analysis=typeof v25Analyze==='function'?v25Analyze(client,context||'',action||'',memory):{intent:safeIntent29(client)};
-    }catch(e){analysis={intent:safeIntent29(client),stage:'Diagnóstico',objective:'Responder com segurança',next:'Continuar a conversa',analysisError:String(e?.message||e)};}
-    const intent=analysis?.intent||safeIntent29(client);
-    let contract=null;
-    try{contract=typeof v27Contract==='function'?v27Contract(client,analysis,action||'',local,memory):{intent,service:intent,confidence:.5,forbiddenTopics:[],allowedQuestion:null,localDraft:local,memory};}catch(e){contract={intent,service:intent,confidence:.4,forbiddenTopics:[],allowedQuestion:null,localDraft:local,memory,contractError:String(e?.message||e)};}
-    try{
-      if(typeof callGroqV27==='function' && local){
-        const out=await callGroqV27(client,name,context,action,analysis,local,memory,contract);
-        const val=typeof v27AnswerIntegrity==='function'?v27AnswerIntegrity(out.reply,client,contract):{ok:true,reason:'ok'};
-        if(val.ok){
-          const reply=typeof v20Clean==='function'?v20Clean(out.reply):clean29(out.reply);
-          writeDiag29({intent,engine:'Groq estruturado',groq:'OK',local:'OK',fallbackReason:'',error:''});
-          window.v8Last={...(window.v8Last||{}),reply,aiEngine:'Groq estruturado',intentContract:contract,groqValidation:{...val,groq:out},v29Diagnostic:{intent,engine:'Groq estruturado',groq:'OK',local:'OK'}};
-          if(typeof rememberInteraction==='function')rememberInteraction(phone,name,client,reply,analysis,action);
-          return {reply,engine:'Groq estruturado'};
-        }
-        // Groq respondeu, mas a resposta violou o contrato: usa local seguro.
-        if(local){
-          const lv=typeof v27AnswerIntegrity==='function'?v27AnswerIntegrity(local,client,contract):{ok:true,reason:'ok'};
-          if(lv.ok){
-            writeDiag29({intent,engine:'Motor Nellus guard-rail',groq:'Resposta reprovada',local:'OK',fallbackReason:val.reason,error:''});
-            window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Motor Nellus guard-rail',intentContract:contract,groqValidation:{...val,groq:out},localValidation:lv};
-            if(typeof rememberInteraction==='function')rememberInteraction(phone,name,client,local,analysis,action);
-            return {reply:local,engine:'Motor Nellus guard-rail'};
-          }
-        }
-      }
-      throw new Error('Groq indisponível ou não utilizável');
-    }catch(e){
-      const reason=String(e?.message||e);
-      if(local){
-        const lv=typeof v27AnswerIntegrity==='function'?v27AnswerIntegrity(local,client,contract):{ok:true,reason:'ok'};
-        if(lv.ok){
-          writeDiag29({intent,engine:'Motor Nellus local',groq:'ERRO/Falhou',local:'OK',fallbackReason:'Groq: '+reason,error:localError});
-          window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Motor Nellus local',groqError:reason,intentContract:contract,localValidation:lv,v29Diagnostic:{intent,engine:'Motor Nellus local',groq:'ERRO/Falhou',local:'OK',error:localError}};
-          if(typeof rememberInteraction==='function')rememberInteraction(phone,name,client,local,analysis,action);
-          return {reply:local,engine:'Motor Nellus local'};
-        }
-      }
-      const safe=safeFallback29(client,name);
-      writeDiag29({intent,engine:'Fallback seguro',groq:'ERRO',local:localError?'ERRO':'REPROVADO',fallbackReason:'Resposta segura ativada',error:localError||reason});
-      window.v8Last={...(window.v8Last||{}),reply:safe,aiEngine:'Fallback seguro',groqError:reason,localError:localError,intentContract:contract,v29Diagnostic:{intent,engine:'Fallback seguro',groq:'ERRO',local:localError?'ERRO':'REPROVADO',error:localError||reason}};
-      if(typeof rememberInteraction==='function')rememberInteraction(phone,name,client,safe,analysis,action);
-      return {reply:safe,engine:'Fallback seguro'};
-    }
-  }
-  window.v29RobustGenerate=robustGenerate29;
-  window.v22GenerateWithGroq=robustGenerate29;
-  function install29(){
-    const btn=document.getElementById('generate'); if(!btn)return;
-    btn.onclick=async function(){
-      const text=document.getElementById('conversation')?.value.trim()||'';
-      const name=document.getElementById('clientName')?.value.trim()||'';
-      const phone=document.getElementById('clientPhone')?.value.trim()||'';
-      const context=document.getElementById('customContext')?.value.trim()||'';
-      btn.disabled=true;btn.textContent=' Pensando como gestor...';
-      const result=document.getElementById('result'),sug=document.getElementById('suggestion'),badge=document.getElementById('usedEngineBadge');
-      try{
-        const out=await robustGenerate29(text,selectedAction,name,context,phone);
-        if(sug)sug.textContent=out.reply||safeFallback29(text,name);
-        if(badge)badge.textContent=(out.engine||'Motor Nellus')+' • Inteligência comercial';
-        if(typeof v8RenderDiagnostic==='function')v8RenderDiagnostic(window.v8Last);
-        if(result){result.style.display='block';result.scrollIntoView({behavior:'smooth'});}
-      }catch(e){
-        const safe=safeFallback29(text,name);
-        if(sug)sug.textContent=safe;
-        if(badge)badge.textContent='Fallback seguro • Inteligência comercial';
-        writeDiag29({intent:safeIntent29(text),engine:'Fallback seguro',groq:'ERRO',local:'ERRO',fallbackReason:'Erro não tratado no fluxo principal',error:String(e?.message||e)});
-        if(result)result.style.display='block';
-        console.error('V29 erro não tratado:',e);
-      }finally{btn.disabled=false;btn.textContent=' Gerar Próxima Mensagem Inteligente';}
-    };
-    // Inject diagnostic area once, without changing the existing UI structure.
-    if(!document.getElementById('v29DiagnosticBox')){
-      const target=document.getElementById('result');
-      if(target){const d=document.createElement('div');d.id='v29DiagnosticBox';d.style='display:none;margin:8px 0;padding:9px;border:1px solid #294238;border-radius:10px;background:#0a100e;color:#9fb5ac';target.appendChild(d);}
-    }
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install29);else install29();
-})();
-</script>
-
-
-<script id="v30-deterministic-engine">
-(function(){
-  /* V30 — Resposta determinística para perguntas factuais/comerciais.
-     Regra: a pergunta do cliente é respondida ANTES de qualquer tentativa de qualificação.
-     Groq não pode trocar o assunto; para fatos críticos, a resposta-base pode ser entregue
-     diretamente pelo Motor Nellus.
-  */
-  const c30=s=>String(s??'').trim();
-  const n30=s=>typeof normalize==='function'?normalize(c30(s)):c30(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const greet30=name=>name?`Olá, ${c30(name)}!`:'Olá!';
-  const plans30=()=>Array.isArray(window.plans)?window.plans:(typeof plans!=='undefined'?plans:[]);
-  const plan30=(name)=>plans30().find(p=>n30(p.name)===n30(name));
-  const facts30=()=>typeof v11Facts==='function'?v11Facts():{address:'',hours:''};
-  function intent30(text){
-    const t=n30(text);
-    if(/loca[cç][aã]o\s+(por\s+hora|avulsa)|alugar\s+por\s+hora|alugam\s+por\s+hora|sala\s+por\s+hora|por\s+hora\s+avulsa/.test(t))return'locação por hora';
-    if(/escritorio\s+virtual|domicilio\s+virtual/.test(t))return'escritório virtual';
-    if(/endere[cç]o\s+fiscal|cnpj/.test(t))return'endereço fiscal';
-    if(/endere[cç]o\s+comercial/.test(t))return'endereço comercial';
-    if(/onde\s+(voc[eê]s|voces|vc|vcs)\s+(ficam|est[aã]o|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(?:[eé]|o)\s+endere[cç]o|qual\s+endere[cç]o/.test(t))return'localizacao';
-    if(/hor[aá]rio\s+de\s+funcionamento|que\s+horas\s+(voc[eê]s|voces)|que\s+horas\s+abre|que\s+horas\s+fecha|hor[aá]rio|funciona|abre|fecha/.test(t))return'horario';
-    if(/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+o\s+(?:valor|pre[cç]o)|pre[cç]o|valor/.test(t))return'preco';
-    if(/dispon[ií]vel|disponibilidade|tem\s+vaga/.test(t))return'disponibilidade';
-    return '';
-  }
-  function deterministic30(text,name,analysis){
-    const t=n30(text), g=greet30(name), facts=facts30(), i=intent30(text);
-    const asksPrice=/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+o\s+(?:valor|preço)|qual\s+(?:o\s+)?(?:valor|preço)|preço|valor|orçamento/.test(t);
-
-    if(i==='localizacao') return `${g} Estamos na ${facts.address}.`;
-    if(i==='horario') return `${g} Nosso horário de funcionamento é ${facts.hours}.`;
-
-    /* POLÍTICA COMERCIAL:
-       Pergunta "vocês trabalham com X?" = responder SIM/NÃO + qualificar.
-       Nunca jogar preço na primeira resposta se o cliente não pediu preço.
-       Preço só entra quando houver pedido explícito de preço/valor.
-    */
-    if(i==='locação por hora'){
-      if(asksPrice){
-        const ps=['Sala privativa','Sala de reunião','Sala de treinamento','Estação de trabalho'].map(plan30).filter(Boolean);
-        if(ps.length) return `${g} Sim, trabalhamos com locação por hora avulsa. Os valores variam conforme o espaço escolhido: ${ps.map(p=>`${p.name}: ${p.price}`).join(', ')}. Qual tipo de espaço você procura?`;
-      }
-      return `${g} Sim, trabalhamos com locação por hora avulsa. Você procura qual tipo de espaço?`;
-    }
-
-    if(i==='escritório virtual'){
-      const p=plan30('Escritório virtual');
-      if(asksPrice) return p ? `${g} Sim, trabalhamos com escritório virtual. O valor é ${p.price}. Você precisa dele para qual finalidade?` : `${g} Sim, trabalhamos com escritório virtual. Esse serviço não está com preço cadastrado na base atual, então não vou inventar um valor. Você precisa dele para qual finalidade?`;
-      return `${g} Sim, trabalhamos com escritório virtual. Você precisa dele para qual finalidade?`;
-    }
-
-    if(i==='endereço fiscal'){
-      const p=plan30('Endereço fiscal');
-      if(asksPrice){
-        if(!p) return `${g} Sim, trabalhamos com endereço fiscal. No momento, não tenho o investimento confirmado na base. Você precisa dele para abrir a empresa, alterar o endereço do CNPJ ou para outra finalidade?`;
-        const investimento=String(p.price||'R$ 1.248').replace(/\/ano$/,'').trim();
-        return `${g} Sim, trabalhamos com endereço fiscal. O investimento é de ${investimento} e você pode pagar tanto à vista quanto parcelado em até 12x de forma recorrente no cartão de crédito, como a mensalidade da Netflix e da academia. A parcela de R$ 104,00 é descontada todo dia 10 de cada mês. Você precisa dele para abrir a empresa, alterar o endereço do CNPJ ou para outra finalidade?`;
-      }
-      return `${g} Sim, trabalhamos com endereço fiscal. Você precisa dele para abrir a empresa, alterar o endereço do CNPJ ou para outra finalidade?`;
-    }
-
-    if(i==='endereço comercial'){
-      const p=plan30('Endereço comercial');
-      if(asksPrice) return p ? `${g} Sim, trabalhamos com endereço comercial. O valor cadastrado é ${p.price}. Você precisa dele para divulgação da empresa ou para outra finalidade?` : `${g} Sim, trabalhamos com endereço comercial. Você precisa dele para divulgação da empresa ou para outra finalidade?`;
-      return `${g} Sim, trabalhamos com endereço comercial. Você precisa dele para divulgação da empresa ou para outra finalidade?`;
-    }
-
-    if(i==='preco'){
-      const low=n30(text);
-      const map=[['sala privativa','Sala privativa'],['sala particular','Sala privativa'],['sala de reunião','Sala de reunião'],['reunião','Sala de reunião'],['sala de treinamento','Sala de treinamento'],['treinamento','Sala de treinamento'],['estação de trabalho','Estação de trabalho'],['coworking','Estação de trabalho'],['sala fixa','Sala fixa'],['endereço fiscal','Endereço fiscal'],['endereço comercial','Endereço comercial']];
-      const hit=map.find(([k])=>low.includes(n30(k)));
-      if(hit){const p=plan30(hit[1]); if(p)return `${g} Para ${p.name.toLowerCase()}, o valor cadastrado é ${p.price}. ${p.arguments||''}`.trim();}
-      return `${g} Posso te passar o valor correto. Qual serviço ou espaço você está procurando?`;
-    }
-
-    if(i==='disponibilidade'){
-      return `${g} Posso verificar a disponibilidade para você. Qual data e horário você precisa?`;
-    }
-
-    return '';
-  }
-  function install30(){
-    const btn=document.getElementById('generate'); if(!btn)return;
-    btn.onclick=async function(){
-      const text=document.getElementById('conversation')?.value.trim()||'';
-      const name=document.getElementById('clientName')?.value.trim()||'';
-      const phone=document.getElementById('clientPhone')?.value.trim()||'';
-      const context=document.getElementById('customContext')?.value.trim()||'';
-      btn.disabled=true; btn.textContent=' Pensando como gestor...';
-      const result=document.getElementById('result'), sug=document.getElementById('suggestion'), badge=document.getElementById('usedEngineBadge');
-      try{
-        const di=intent30(text);
-        const deterministic=deterministic30(text,name,window.v8Last?.analysis||{});
-        let out;
-        /* Fatos críticos e perguntas diretas: não deixamos uma camada generativa trocar o assunto. */
-        if(deterministic){
-          out={reply:deterministic,engine:'Motor Nellus determinístico'};
-          window.v8Last={...(window.v8Last||{}),reply:deterministic,aiEngine:out.engine,v30Diagnostic:{intent:di,reason:'Pergunta factual respondida diretamente pela base',protected:true}};
-          if(typeof rememberInteraction==='function')rememberInteraction(phone,name,text,deterministic,window.v8Last.analysis||{intent:di},selectedAction);
-        }else{
-          out=await (typeof window.v29RobustGenerate==='function'?window.v29RobustGenerate(text,selectedAction,name,context,phone):window.v22GenerateWithGroq(text,selectedAction,name,context,phone));
-        }
-        if(sug)sug.textContent=out.reply||'Não foi possível gerar uma resposta segura.';
-        if(badge)badge.textContent=(out.engine||'Motor Nellus')+' • Inteligência comercial';
-        if(typeof v8RenderDiagnostic==='function')v8RenderDiagnostic(window.v8Last);
-        if(result){result.style.display='block';result.scrollIntoView({behavior:'smooth'});}
-      }catch(e){
-        const safe=deterministic30(text,name,window.v8Last?.analysis||{})||`${greet30(name)} Entendi. Vou verificar essa informação para te orientar corretamente.`;
-        if(sug)sug.textContent=safe;
-        if(badge)badge.textContent='Fallback determinístico • Inteligência comercial';
-        window.v8Last={...(window.v8Last||{}),reply:safe,aiEngine:'Fallback determinístico',v30Diagnostic:{intent:intent30(text)||'geral',error:String(e?.message||e)}};
-        if(result)result.style.display='block';
-        console.error('V30 erro:',e);
-      }finally{btn.disabled=false;btn.textContent=' Gerar Próxima Mensagem Inteligente';}
-    };
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install30);else install30();
-  window.nellusV30={intent:intent30,deterministic:deterministic30};
-})();
-</script>
-
-<script id="v32commercial-copy">
-/* V32: linguagem comercial de preço — evita "valor cadastrado" e usa a condição real do endereço fiscal. */
-window.nellusV32={version:'32',pricingCopy:'O investimento é de R$ 1.248; à vista ou em até 12x recorrentes de R$ 104,00 no cartão, com cobrança todo dia 10.'};
-</script>
-
-<script id="v33-service-capacity-engine">
-/* V33 — Perguntas de serviço com capacidade: responde o serviço primeiro e usa os dados
-   da Base IA antes de qualquer motor generativo. Ex.: "sala de treinamento para 10 pessoas?" */
-(function(){
-  const c=s=>String(s??'').trim();
-  const n=s=>typeof normalize==='function'?normalize(c(s)):c(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const greet=name=>name?`Olá, ${c(name)}!`:'Olá!';
-  const plans=()=>Array.isArray(window.plans)?window.plans:(typeof window.plans!=='undefined'?window.plans:[]);
-  const find=(name)=>plans().find(p=>n(p.name)===n(name));
-  function serviceIntent(text){
-    const t=n(text);
-    if(/sala\s+de\s+treinamento|treinamento|workshop|palestra|curso/.test(t))return'sala de treinamento';
-    if(/sala\s+de\s+reuni[aã]o|reuni[aã]o/.test(t))return'sala de reunião';
-    if(/sala\s+privativa|sala\s+particular/.test(t))return'sala privativa';
-    if(/esta[cç][aã]o\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t))return'estação de trabalho';
-    if(/sala\s+fixa|sala\s+mensal|mensalidade/.test(t))return'sala fixa';
-    if(/escrit[oó]rio\s+virtual|domic[ií]lio\s+virtual/.test(t))return'escritório virtual';
-    if(/endere[cç]o\s+fiscal|cnpj/.test(t))return'endereço fiscal';
-    if(/endere[cç]o\s+comercial/.test(t))return'endereço comercial';
-    if(/loca[cç][aã]o\s+por\s+hora|loca[cç][aã]o\s+avulsa|alugar\s+por\s+hora|alugam\s+por\s+hora|sala\s+por\s+hora/.test(t))return'locação por hora';
-    return'';
-  }
-  function people(text){const m=n(text).match(/\b(\d{1,3})\s*(?:pessoas?|participantes?|pax)\b/);return m?Number(m[1]):null;}
-  function capacityReply(text,name){
-    const t=n(text), g=greet(name), service=serviceIntent(text), qty=people(text);
-    const map={
-      'sala de treinamento':'Sala de treinamento',
-      'sala de reunião':'Sala de reunião',
-      'sala privativa':'Sala privativa',
-      'estação de trabalho':'Estação de trabalho',
-      'sala fixa':'Sala fixa'
-    };
-    if(!service||!map[service])return'';
-    const p=find(map[service]);
-    if(!p)return'';
-    const capMatch=String(p.capacity||'').match(/\d+/g); const cap=capMatch?Math.max(...capMatch.map(Number)):null;
-    if(qty && cap){
-      if(qty>cap)return `${g} Para ${qty} pessoas, essa sala não comporta essa quantidade. ${p.capacity}. Posso te indicar uma opção que atenda esse número. Qual é a data e o horário?`;
-      return `${g} Sim! Temos ${p.name.toLowerCase()} para até ${cap} pessoas, então para ${qty} pessoas ela atende. Para qual data e horário você precisa?`;
-    }
-    if(/tem|voc[eê]s\s+t[eê]m|dispon|trabalham|oferecem/.test(t)){
-      const capText=p.capacity?` ${p.capacity}.`:'';
-      return `${g} Sim! Temos ${p.name.toLowerCase()}.${capText} Para qual data e horário você precisa?`;
-    }
-    return'';
-  }
-  function install33(){
-    const btn=document.getElementById('generate'); if(!btn)return;
-    btn.onclick=async function(){
-      const text=document.getElementById('conversation')?.value.trim()||'';
-      const name=document.getElementById('clientName')?.value.trim()||'';
-      const phone=document.getElementById('clientPhone')?.value.trim()||'';
-      const context=document.getElementById('customContext')?.value.trim()||'';
-      btn.disabled=true; btn.textContent=' Pensando como gestor...';
-      const result=document.getElementById('result'), sug=document.getElementById('suggestion'), badge=document.getElementById('usedEngineBadge');
-      try{
-        const direct=capacityReply(text,name);
-        let out;
-        if(direct){
-          out={reply:direct,engine:'Motor Nellus — serviço e capacidade'};
-          window.v8Last={...(window.v8Last||{}),reply:direct,aiEngine:out.engine,v33Diagnostic:{intent:serviceIntent(text),people:people(text),reason:'Serviço/capacidade respondidos diretamente pela Base IA',protected:true}};
-          if(typeof rememberInteraction==='function')rememberInteraction(phone,name,text,direct,window.v8Last.analysis||{intent:serviceIntent(text)},selectedAction);
-        }else if(typeof window.v29RobustGenerate==='function'){
-          out=await window.v29RobustGenerate(text,selectedAction,name,context,phone);
-        }else{
-          out=await window.v22GenerateWithGroq(text,selectedAction,name,context,phone);
-        }
-        if(sug)sug.textContent=out.reply||'Não foi possível gerar uma resposta segura.';
-        if(badge)badge.textContent=(out.engine||'Motor Nellus')+' • Inteligência comercial';
-        if(typeof v8RenderDiagnostic==='function')v8RenderDiagnostic(window.v8Last);
-        if(result){result.style.display='block';result.scrollIntoView({behavior:'smooth'});}
-      }catch(e){
-        const direct=capacityReply(text,name);
-        const safe=direct||`${greet(name)} Entendi. Vou verificar essa informação para te orientar corretamente.`;
-        if(sug)sug.textContent=safe;
-        if(badge)badge.textContent='Fallback seguro • Inteligência comercial';
-        window.v8Last={...(window.v8Last||{}),reply:safe,aiEngine:'Fallback seguro',v33Diagnostic:{intent:serviceIntent(text)||'geral',error:String(e?.message||e)}};
-        if(result)result.style.display='block';
-        console.error('V33 erro:',e);
-      }finally{btn.disabled=false;btn.textContent=' Gerar Próxima Mensagem Inteligente';}
-    };
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install33);else install33();
-  window.nellusV33={serviceIntent,people,capacityReply};
-})();
-</script>
-
-<script id="v34-training-authority">
-(function(){
-  /* V34 — Autoridade real das regras treinadas.
-     Uma regra ativa cadastrada em Treinar passa a ser uma instrução operacional do motor,
-     não apenas um exemplo. O match é semântico/por intenção, e a regra vence respostas genéricas. */
-  const KEY='nellus_playbooks_v28';
-  const c=s=>String(s??'').trim();
-  const n=s=>typeof normalize==='function'?normalize(c(s)):c(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const stop=new Set('a o e de da do das dos para por com sem em no na nos nas um uma uns umas que se eu voce voces vc vcs tem temos trabalham trabalha como qual quais isso esse essa esse aqui ali me te lhe seu sua seus suas nosso nossa nossos nossas preciso quero gostaria pode podem voces sao é ao aos as os'.split(' '));
-  const aliases={
-    'escritório virtual':['escritorio virtual','domicilio virtual','endereco virtual'],
-    'endereço fiscal':['endereco fiscal','domicilio fiscal','cnpj'],
-    'endereço comercial':['endereco comercial','endereco da empresa'],
-    'sala de treinamento':['sala de treinamento','treinamento','workshop','palestra','curso'],
-    'sala de reunião':['sala de reuniao','reuniao','meeting'],
-    'sala privativa':['sala privativa','sala particular','consultorio','atendimento'],
-    'estação de trabalho':['estacao de trabalho','coworking','mesa compartilhada','mesa de trabalho'],
-    'sala fixa':['sala fixa','sala mensal','sala exclusiva mensal'],
-    'locação por hora':['locacao por hora','locacao avulsa','aluguel por hora','alugar por hora','sala por hora','por hora avulsa']
-  };
-  function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]').filter(x=>x&&x.active!==false)}catch(e){return[]}}
-  function words(s){return n(s).split(/[^a-z0-9à-ÿ]+/).filter(x=>x.length>=3&&!stop.has(x));}
-  function phraseHits(text,field){
-    const t=n(text), f=n(field); if(!f)return 0;
-    const phrases=f.split(/[\n;,|]+/).map(x=>x.trim()).filter(x=>x.length>=3);
-    let score=0;
-    phrases.forEach(p=>{if(t.includes(p))score+=12; else {const pw=words(p);const hit=pw.filter(w=>t.includes(w)).length;if(pw.length&&hit/pw.length>=.6)score+=Math.min(7,hit*2);}});
-    return score;
-  }
-  function intentOf(text){
-    const t=n(text);
-    for(const [intent,arr] of Object.entries(aliases)) if(arr.some(a=>t.includes(n(a)))) return intent;
-    if(/onde\s+(voces|voce|vc|vcs)\s+(ficam|estao)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(o\s+)?endere[cç]o/.test(t))return'localizacao';
-    if(/hor[aá]rio|funciona|abre|fecha/.test(t))return'horario';
-    if(/quanto\s+custa|quanto\s+fica|qual\s+(o\s+)?(valor|pre[cç]o)|pre[cç]o|valor/.test(t))return'preco';
-    if(/dispon[ií]vel|disponibilidade|tem\s+vaga/.test(t))return'disponibilidade';
-    if(/desconto|condi[cç][aã]o\s+melhor/.test(t))return'desconto';
-    if(/vou\s+(pensar|ver)|falar\s+com\s+(meu|minha)|s[oó]\s+preciso\s+pensar|depois\s+eu\s+vejo/.test(t))return'objecao';
-    if(/reservar|pode\s+reservar|quero\s+fechar|vamos\s+fechar/.test(t))return'fechamento';
-    if(/conhecer\s+o\s+espa[cç]o|visitar|visita/.test(t))return'visita';
-    return'';
-  }
-  function scoreRule(rule,text,intent){
-    const t=n(text), ri=n(rule.intent||''); let score=Number(rule.priority||1)*2;
-    const ruleText=[rule.title,rule.when,rule.triggers,rule.objective,rule.do,rule.ask].filter(Boolean).join(' ');
-    score+=phraseHits(text,rule.triggers||'');
-    score+=Math.min(18,phraseHits(text,rule.when||'')*0.75);
-    if(intent && ri===n(intent))score+=22;
-    if(aliases[rule.intent]){
-      const hits=aliases[rule.intent].filter(a=>t.includes(n(a)));
-      if(hits.length)score+=18;
-    }
-    const rw=new Set(words(ruleText)); const tw=new Set(words(text));
-    let overlap=0;rw.forEach(w=>{if(tw.has(w))overlap++});
-    score+=Math.min(14,overlap*1.8);
-    if(rule.triggers && t===n(rule.triggers))score+=25;
-    return score;
-  }
-  function match(text){
-    const intent=intentOf(text); const ranked=load().map(r=>({...r,score:scoreRule(r,text,intent)})).sort((a,b)=>b.score-a.score);
-    const top=ranked[0];
-    if(!top)return null;
-    const threshold=top.score>=42?42:28;
-    if(top.score<threshold)return null;
-    const second=ranked[1];
-    if(second && second.score>=top.score-2 && n(second.intent)!==n(top.intent) && top.score<50)return null;
-    return {rule:top,intent,score:top.score,confidence:Math.min(.99,top.score/65),alternatives:ranked.slice(1,3)};
-  }
-  function nameAdapt(text,name){
-    let s=c(text); if(name){s=s.replace(/^Olá[,!]?\s*[^!\n]*!/i,'').trim(); s=`Olá, ${c(name)}! ${s.replace(/^Olá[,!]?\s*/i,'')}`;} return s;
-  }
-  function numericConflict(ideal,client){
-    const a=(n(ideal).match(/\b\d{1,3}\b/g)||[]).map(Number), b=(n(client).match(/\b\d{1,3}\b/g)||[]).map(Number);
-    if(!b.length||!a.length)return false;
-    /* Um número no modelo pode ser uma capacidade máxima (ex.: até 12).
-       Nesse caso, 10 pessoas não entra em conflito com o 12 da resposta ideal. */
-    const maxMatches=[...n(ideal).matchAll(/(?:ate|até)\s+(\d{1,3})/g)].map(m=>Number(m[1]));
-    if(maxMatches.length && b.every(x=>maxMatches.some(max=>x<=max)))return false;
-    return !b.some(x=>a.includes(x));
-  }
-  function forbiddenByRule(reply,rule){
-    const r=n(rule.never||''); const t=n(reply); if(!r)return false;
-    const map=[['data','data|dia|amanha|hoje|segunda|terca|quarta|quinta|sexta|sabado|domingo'],['horario','horario|hora|h'],['pessoas','pessoas|participantes'],['preco','preco|valor|investimento|r\\$'],['reserva','reserv|agend'],['finalidade','finalidade|objetivo|para que']];
-    return map.some(([key,rx])=>r.includes(key)&&new RegExp(rx).test(t));
-  }
-  function buildRuleResponse(match,text,name){
-    const r=match.rule, t=n(text), g=name?`Olá, ${c(name)}!`:'Olá!';
-    if(r.ideal && !numericConflict(r.ideal,text)){
-      let ideal=c(r.ideal).replace(/^ol[aá][,!]?\s*/i,'');
-      const out=`${g} ${ideal}`.replace(/\s+/g,' ').trim();
-      if(!forbiddenByRule(out,r)) return out;
-    }
-    const intent=r.intent||match.intent;
-    const p=(()=>{try{return (Array.isArray(window.plans)?window.plans:[]).find(x=>n(x.name)===n(intent))}catch(e){return null}})();
-    const cap=p&&p.capacity?String(p.capacity):'';
-    if(/sala de treinamento|sala de reunião|sala privativa|estação de trabalho|sala fixa/.test(n(intent))){
-      const q=(t.match(/\b(\d{1,3})\s*(?:pessoas?|participantes?|pax)\b/)||[])[1];
-      if(q&&cap){const nums=cap.match(/\d+/g)||[];const max=nums.length?Math.max(...nums.map(Number)):null;if(max&&Number(q)<=max)return `${g} Sim! Nossa ${intent} comporta ${cap.toLowerCase().startsWith('até')?cap:'até '+max+' pessoas'}. Para qual data e horário você precisa?`;}
-      if(p)return `${g} Sim! Temos ${String(p.name).toLowerCase()}.${cap?' '+cap+'.':''} Para qual data e horário você precisa?`;
-    }
-    if(intent==='escritório virtual')return `${g} Sim, trabalhamos com escritório virtual. ${r.ask||'Você precisa dele para qual finalidade?'}`;
-    if(intent==='endereço fiscal')return `${g} Sim, trabalhamos com endereço fiscal. ${r.ask||'Você precisa dele para qual finalidade?'}`;
-    if(intent==='endereço comercial')return `${g} Sim, trabalhamos com endereço comercial. ${r.ask||'Você precisa dele para qual finalidade?'}`;
-    if(intent==='locação por hora')return `${g} Sim, trabalhamos com locação por hora avulsa. ${r.ask||'Qual tipo de espaço você procura?'}`;
-    return r.do?`${g} ${r.do}${r.ask?' '+r.ask:''}`:`${g} ${r.ask||'Como posso te ajudar com isso?'}`;
-  }
-  window.nellusV34={match,buildRuleResponse,intentOf};
-
-  /* Regra treinada passa a ter prioridade real sobre os geradores anteriores. */
-  const oldRobust=window.v29RobustGenerate;
-  window.v34Generate=async function(text,action,name,context,phone){
-    const m=match(text);
-    if(m){
-      const reply=buildRuleResponse(m,text,name);
-      const analysis={intent:m.intent||m.rule.intent||'geral',trainingRule:m.rule.title,trainingRuleId:m.rule.id,trainingPriority:m.rule.priority,trainingScore:Math.round(m.score),trainingConfidence:m.confidence};
-      window.v8Last={...(window.v8Last||{}),reply,analysis,aiEngine:'Regra treinada — autoridade comercial',v34Diagnostic:{matched:true,rule:m.rule.title,priority:m.rule.priority,score:Math.round(m.score),confidence:m.confidence,alternatives:m.alternatives.map(x=>({title:x.title,score:Math.round(x.score)}))}};
-      if(typeof rememberInteraction==='function')rememberInteraction(phone,name,text,reply,analysis,action);
-      return {reply,engine:'Regra treinada — autoridade comercial',trainingRule:m.rule.title,trainingScore:m.score};
-    }
-    if(typeof oldRobust==='function')return oldRobust(text,action,name,context,phone);
-    return window.v22GenerateWithGroq(text,action,name,context,phone);
-  };
-  window.v22GenerateWithGroq=window.v34Generate;
-
-  function install(){
-    const btn=document.getElementById('generate'); if(!btn)return;
-    btn.onclick=async function(){
-      const text=document.getElementById('conversation')?.value.trim()||'';
-      const name=document.getElementById('clientName')?.value.trim()||'';
-      const phone=document.getElementById('clientPhone')?.value.trim()||'';
-      const context=document.getElementById('customContext')?.value.trim()||'';
-      const result=document.getElementById('result'),sug=document.getElementById('suggestion'),badge=document.getElementById('usedEngineBadge');
-      btn.disabled=true;btn.textContent=' Pensando como gestor...';
-      try{
-        const m=match(text); let out;
-        if(m) out=await window.v34Generate(text,selectedAction,name,context,phone);
-        else if(window.nellusV30?.deterministic){
-          const d=window.nellusV30.deterministic(text,name,window.v8Last?.analysis||{});
-          out=d?{reply:d,engine:'Motor Nellus determinístico'}:await window.v34Generate(text,selectedAction,name,context,phone);
-        } else out=await window.v34Generate(text,selectedAction,name,context,phone);
-        if(sug)sug.textContent=out.reply||'Não foi possível gerar uma resposta segura.';
-        if(badge)badge.textContent=(out.engine||'Motor Nellus')+' • Inteligência comercial';
-        if(typeof v8RenderDiagnostic==='function')v8RenderDiagnostic(window.v8Last);
-        if(result){result.style.display='block';result.scrollIntoView({behavior:'smooth'});}
-      }catch(e){
-        const safe=`${name?`Olá, ${name}! `:'Olá! '}Entendi sua mensagem. Vou verificar a informação correta para te orientar.`;
-        if(sug)sug.textContent=safe;if(badge)badge.textContent='Fallback seguro • Inteligência comercial';
-        window.v8Last={...(window.v8Last||{}),reply:safe,aiEngine:'Fallback seguro',v34Diagnostic:{error:String(e?.message||e)}};
-        if(result)result.style.display='block';console.error('V34 erro:',e);
-      }finally{btn.disabled=false;btn.textContent=' Gerar Próxima Mensagem Inteligente';}
-    };
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
-})();
-
-</script>
+<script id="v10js">(function(){
+window.v10SetFilter=function(){};
+window.v10Reopen=function(){};
+window.v10RenderToday=function(){};
+})();</script>
 </body>
 </html>
-
-```
