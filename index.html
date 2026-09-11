@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nellus | Copiloto Comercial Pro V18</title>
+<title>Nellus | Copiloto Comercial Pro V24</title>
 <meta name="theme-color" content="#050806">
 <style>
 :root{
@@ -131,7 +131,7 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 <main>
 <section id="home" class="view active">
 <div class="hero">
-<div class="eyebrow">Nellus • Copiloto Comercial Pro V21</div>
+<div class="eyebrow">Nellus • Copiloto Comercial Pro V24</div>
 <h1>Atendimento</h1>
 <p class="sub">Analise a conversa, descubra o risco de perder a venda e receba a próxima ação comercial.</p>
 </div>
@@ -139,6 +139,8 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 <div class="section-title"><h2>Objetivo da resposta</h2></div><div class="quick"><button type="button" data-action="gerar"><b>Resposta consultiva</b><span>Dar sequência natural à conversa</span></button><button type="button" data-action="follow"><b>Follow-up</b><span>Retomar sem parecer cobrança</span></button><button type="button" data-action="objecao"><b>Tratar objeção</b><span>Preço, vou pensar, data etc.</span></button><button type="button" data-action="fechamento"><b>Convite / Fechamento</b><span>Convidar para visita ou reserva</span></button></div><div class="composer">
 <div class="head"><label>Nome do cliente (opcional)</label></div>
 <input type="text" id="clientName" class="input-field" placeholder="Ex: Juliana">
+<input type="tel" id="clientPhone" class="input-field" inputmode="tel" autocomplete="tel" placeholder="Telefone / WhatsApp (opcional, usado para lembrar o cliente)">
+<div id="clientMemory" class="info-box" style="display:none;margin-top:-2px;margin-bottom:10px"></div>
 
 <div class="head"><label>O que você JÁ FEZ / Áudios / Fotos enviadas</label></div>
 <input type="text" id="customContext" class="input-field" placeholder="Ex: Já mandei fotos da sala e o endereço."><div class="head"><label>Há quanto tempo o cliente está sem responder? (opcional)</label></div><select id="v9Silence" class="input-field"><option value="0">Agora / acabou de responder</option><option value="1">Menos de 1 dia</option><option value="2">1–2 dias</option><option value="3">3–5 dias</option><option value="6">6–7 dias</option><option value="10">Mais de 7 dias</option></select>
@@ -323,8 +325,11 @@ Em “Resposta”, coloque a forma como você realmente quer que a Nellus respon
 <textarea id="commercialRule" style="min-height:120px" placeholder="Ex.: Nunca inventar disponibilidade. Quando faltar data ou horário, perguntar ao cliente."></textarea>
 
 <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
-<label style="display:block;margin:5px 0 8px">IA Groq — chave API</label>
-<input id="groqApiKey" class="input-field" type="password" autocomplete="off" placeholder="Cole sua chave Groq aqui (opcional)">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin:5px 0 8px"><label>IA Groq — chave API direta</label><button type="button" class="btn" id="toggleGroqKey">Mostrar opção</button></div>
+<div id="groqDirectBox" style="display:none">
+<input id="groqApiKey" class="input-field" type="password" autocomplete="off" placeholder="Uso apenas para testes locais — não recomendado em produção">
+<div class="info-box" style="margin-top:0">Para a Vercel, deixe esta opção vazia e use somente o <b>Endpoint seguro /api/groq</b>. A chave não fica no navegador.</div>
+</div>
 <label style="display:block;margin:5px 0 8px">Endpoint seguro (recomendado)</label>
 <input id="groqEndpoint" class="input-field" type="text" autocomplete="off" placeholder="/api/groq (recomendado na Vercel)">
 <label style="display:block;margin:5px 0 8px">Modelo Groq</label>
@@ -559,6 +564,7 @@ document.getElementById("tone").onchange=e=>{localStorage.setItem("nellus_tone",
 document.getElementById("commercialRule").oninput=e=>localStorage.setItem("nellus_rule",e.target.value);
 document.getElementById("groqApiKey").value=localStorage.getItem("nellus_groq_key")||"";document.getElementById("groqEndpoint").value=localStorage.getItem("nellus_groq_endpoint")||"/api/groq";document.getElementById("groqModel").value=localStorage.getItem("nellus_groq_model")||"openai/gpt-oss-20b";
 document.getElementById("groqApiKey").oninput=e=>localStorage.setItem("nellus_groq_key",e.target.value.trim());document.getElementById("groqEndpoint").oninput=e=>localStorage.setItem("nellus_groq_endpoint",e.target.value.trim());document.getElementById("groqModel").onchange=e=>localStorage.setItem("nellus_groq_model",e.target.value);
+document.getElementById("toggleGroqKey").onclick=()=>{const box=document.getElementById("groqDirectBox"),open=box.style.display!=='none';box.style.display=open?'none':'block';document.getElementById("toggleGroqKey").textContent=open?'Mostrar opção':'Ocultar opção';};
 
 function normalize(t){return (t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
 function lastMeaningfulMessage(text){
@@ -570,6 +576,20 @@ function v11Facts(){
  const privatePlan=p('Sala privativa');
  return {address:'Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ',hours:'07h30 às 19h, de segunda a sexta-feira',plans:plans.map(x=>({name:x.name,price:x.price,capacity:x.capacity,schedule:x.schedule,desc:x.desc,arguments:x.arguments})),privatePackages:privatePlan?[`Plano cadastrado: ${privatePlan.name} — ${privatePlan.price}`]:[],fixedExtra:'Não cadastrado. Nunca inventar valor de colaborador adicional.'};
 }
+
+const CONTACTS_KEY='nellus_contacts_v1';
+function loadContacts(){try{const x=JSON.parse(localStorage.getItem(CONTACTS_KEY)||'{}');return x&&typeof x==='object'?x:{};}catch(e){return {};}}
+let contacts=loadContacts();
+function saveContacts(){localStorage.setItem(CONTACTS_KEY,JSON.stringify(contacts));}
+function normalizePhone(v){return String(v||'').replace(/\D/g,'').slice(-13);}
+function getContact(phone){const k=normalizePhone(phone);return k?contacts[k]||null:null;}
+function kSafePhone(v){return String(v||'').replace(/(?<=\d{2})\d(?=\d{4})/g,'*');}
+function contactMemoryText(phone){const c=getContact(phone);if(!c)return '';const hist=Array.isArray(c.history)?c.history:[];return JSON.stringify({nome:c.name||'',telefone:kSafePhone(c.phone||phone),interacoes:hist.slice(-8).map(h=>({data:h.date,cliente:h.client,resposta:h.reply,acao:h.action||''})),ultimoServico:c.lastService||'',ultimaIntencao:c.lastIntent||'',ultimaAcao:c.lastAction||''},null,2);}
+function updateClientMemoryUI(){const el=document.getElementById('clientMemory');if(!el)return;const phone=document.getElementById('clientPhone')?.value||'';const c=getContact(phone);if(!c){el.style.display='none';el.textContent='';return;}const hist=Array.isArray(c.history)?c.history:[];el.style.display='block';el.innerHTML='<b style="color:#65cfb4"> Memória deste cliente</b><br>'+esc(c.name||'Cliente')+' · '+hist.length+' interação(ões) registrada(s).'+(c.lastService?' Último assunto: '+esc(c.lastService)+'.':'')+(hist.length?' Último contato: '+esc(hist[hist.length-1].date||'')+'.':'');}
+function rememberInteraction(phone,name,client,reply,analysis,action){const k=normalizePhone(phone);if(!k)return;const existing=contacts[k]||{phone:String(phone).trim(),name:name||'',history:[]};if(name)existing.name=name;existing.phone=String(phone).trim();existing.lastService=analysis?.intent||'';existing.lastIntent=analysis?.intent||'';existing.lastAction=action||analysis?.next||'';existing.history=Array.isArray(existing.history)?existing.history:[];existing.history.push({date:new Date().toLocaleString('pt-BR'),client:String(client||'').slice(0,600),reply:String(reply||'').slice(0,1000),action:action||''});existing.history=existing.history.slice(-20);contacts[k]=existing;saveContacts();updateClientMemoryUI();}
+document.getElementById('clientPhone')?.addEventListener('input',updateClientMemoryUI);
+document.getElementById('clientName')?.addEventListener('input',updateClientMemoryUI);
+function detectSignals(text){const t=normalize(text),out=[];const add=(type,label,priority)=>{if(!out.some(x=>x.type===type))out.push({type,label,priority});};if(/vou pensar|vou verificar|vou analisar|depois vejo|deixa eu ver|preciso pensar|vou conversar|vou falar com/.test(t))add('objecao','Indecisão',90);if(/desconto|condicao especial|tem desconto|faz desconto|consegue desconto/.test(t))add('desconto','Preço / desconto',95);if(/caro|cara|muito caro|preco|preço|valor|quanto custa|quanto fica|orcamento|orçamento/.test(t))add('preco','Preço',85);if(/disponivel|disponível|disponibilidade|tem vaga|tem horario|tem horário/.test(t))add('disponibilidade','Disponibilidade',88);if(/reservar|reserva|agendar|contratar|fechar|como faço|como faco/.test(t))add('fechamento','Fechamento',100);if(/visita|conhecer o espaco|conhecer o espaço/.test(t))add('visita','Visita',75);if(/onde fica|localiza|como chegar|qual o endereco|qual o endereço/.test(t))add('localizacao','Localização',80);if(/horario|horário|funciona|abre|fecha/.test(t))add('horario','Horário',70);const services=[['endereço fiscal','endereço fiscal'],['endereco fiscal','endereço fiscal'],['cnpj','endereço fiscal'],['endereço comercial','endereço comercial'],['endereco comercial','endereço comercial'],['sala privativa','sala privativa'],['sala de reunião','sala de reunião'],['reuniao','sala de reunião'],['sala de treinamento','sala de treinamento'],['treinamento','sala de treinamento'],['curso','sala de treinamento'],['workshop','sala de treinamento'],['palestra','sala de treinamento'],['estação de trabalho','estação de trabalho'],['estacao de trabalho','estação de trabalho'],['coworking','estação de trabalho'],['sala fixa','sala fixa'],['mensal','sala fixa']];const seen=new Set();services.forEach(([w,l])=>{if(t.includes(normalize(w))&&!seen.has(l)){seen.add(l);add('servico',l,60);}});return out.sort((a,b)=>b.priority-a.priority);}
 
 function detectIntent(text){
  const t=normalize(text);
@@ -667,26 +687,6 @@ function v17LearnedStrategy(examples,analysis){
  if(category.includes('informa')) return 'Responder primeiro ao que foi perguntado e só depois avançar com uma pergunta útil.';
  return 'Usar o exemplo treinado como referência de linguagem, estrutura e condução comercial.';
 }
-function v11Analyze(text,context){
- const all=((text||'')+' '+(context||'')); const msg=v8ExtractClientText(text); const t=normalize(all), m=normalize(msg); const intent=detectIntent(msg||all);
- let stage='Novo contato',objection='Nenhuma',action='Descobrir a necessidade',score=25;
- if(intent==='fechamento'){stage='Fechamento';action='Conduzir para reserva/agendamento';score=90}
- else if(intent==='objecao'){stage='Objeção / decisão';objection='Indecisão';action='Reduzir incerteza e combinar próximo passo';score=62}
- else if(intent==='desconto'){stage='Objeção';objection='Preço';action='Explicar as condições existentes sem inventar desconto';score=66}
- else if(intent==='preco'){stage='Interesse';action='Responder o valor da opção tratada';score=58}
- else if(intent==='disponibilidade'){stage='Qualificação';action='Confirmar data e horário antes de prometer disponibilidade';score=68}
- else if(intent!=='geral'){stage='Interesse';action='Responder a pergunta e só depois avançar para o próximo passo';score=52}
- const missing=[];
- if(!hasAny(m,['dia','data','amanha','segunda','terca','quarta','quinta','sexta','sabado','domingo']))missing.push('data');
- if(!hasAny(m,['hora','horario','horas','manha','tarde','noite','as']))missing.push('horário');
- if(!hasAny(m,['pessoa','pessoas','participante','participantes','equipe']))missing.push('quantidade de pessoas');
- const already=[];
- if(hasAny(t,['fotos','foto'])||/fotos?\s+(enviad|mandad)/.test(t))already.push('fotos');
- if(hasAny(t,['endereco enviado','ja mandei o endereco','endereco ja enviado']))already.push('endereço');
- if(hasAny(t,['valores enviados','ja mandei os valores','valores ja enviados']))already.push('valores');
- return {stage,intent:intent==='preco'?'Preço':intent==='objecao'?'Geral':intent,objection,action,score,missing:[...new Set(missing)].slice(0,3),already};
-}
-function v11FindStructure(keyword){return structure.find(x=>normalize(x.name).includes(normalize(keyword))||normalize(x.desc).includes(normalize(keyword)))}
 function v10Greeting(name){ return name ? `Olá, ${name}!` : `Olá!`; }
 function v18NextBestQuestion(t, flags){
  const hasDate=/(dia|data|amanh[aã]|segunda|ter[cç]a|quarta|quinta|sexta|s[aá]bado|domingo)/.test(t);
@@ -711,71 +711,6 @@ function v18NextBestQuestion(t, flags){
  if(flags.hours) return hasDate ? 'E qual serviço você pretende utilizar?' : 'Você está pensando em utilizar o espaço em qual dia?';
  return 'Me conta um pouco mais sobre o que você precisa para eu te indicar a melhor opção.';
 }
-function v12DirectAnswer(text,name,context){
- const msg=(text||'').trim(), all=((text||'')+' '+(context||'')).trim(), t=normalize(msg||all), g=v10Greeting(name), facts=v11Facts();
- if(!t)return null;
- const get=(intent)=>findPlan(intent,msg||all);
- const priv=get('sala privativa'), meet=get('sala de reunião'), train=get('sala de treinamento'), work=get('estação de trabalho'), fixed=get('sala fixa'), com=get('endereço comercial'), fiscal=get('endereço fiscal');
- const asksLocation=/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza(?:do|dos|da|das|cao|ção)?|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o\b/.test(t);
- const asksHours=/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t);
- const asksPackages=/pacote|pacotes|4\s*h|16\s*h|24\s*h/.test(t);
- const asksPrice=/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+o\s+(?:valor|pre[cç]o)|qual\s+o\s+(?:valor|pre[cç]o)|pre[cç]o|valor|quanto\s+e/.test(t);
- const asksCapacity=/quantas\s+pessoas|quantos\s+cabem|capacidade|comporta|cabe\s+\d+/.test(t);
- const asksPrivate=/sala\s+privativa|sala\s+particular|sala\s+por\s+hora|hora\s+avulsa|alugam\s+por\s+hora|aluga\s+por\s+hora|aluguel\s+por\s+hora/.test(t);
- const asksMeeting=/sala\s+de\s+reuni[aã]o|reuni[aã]o/.test(t);
- const asksTraining=/sala\s+de\s+treinamento|treinamento|curso|workshop|palestra/.test(t);
- const asksWork=/esta[cç][aã]o\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t);
- const asksFixed=/sala\s+fixa|sala\s+mensal|mensalidade|por\s+m[eê]s|mensal/.test(t);
- const asksCom=/endere[cç]o\s+comercial/.test(t);
- const asksFiscal=/endere[cç]o\s+fiscal|cnpj/.test(t);
- const asksDiscount=/tem\s+desconto|faz\s+desconto|consegue\s+desconto|desconto/.test(t);
- const asksAvailability=/tem\s+vaga|tem\s+hor[aá]rio|dispon[ií]vel|disponibilidade|tem\s+disponibilidade/.test(t);
- const broadOffer=/quais\s+(?:salas|espa[cç]os)|o\s+que\s+voc[eê]s\s+oferecem|tem\s+alguma\s+sala|quais\s+servi[cç]os/.test(t);
- let parts=[];
- if(asksLocation && !asksCom && !asksFiscal) parts.push(`Estamos na ${facts.address}.`);
- if(asksHours) parts.push(`Nosso horário de funcionamento é ${facts.hours}.`);
- if(asksPackages && (asksPrivate||/sala|hora/.test(t))) parts.push(`Para a sala privativa, temos ${facts.privatePackages.join('; ')}.`);
- if(asksPrice||asksCapacity){
-  if(asksMeeting){if(asksPrice)parts.push(`A sala de reunião custa ${meet?.price||'R$ 59,90/h'}.`);if(asksCapacity)parts.push(`Ela comporta ${meet?.capacity?.toLowerCase()||'até 6 pessoas'}.`);}
-  else if(asksTraining){if(asksPrice)parts.push(`A sala de treinamento custa ${train?.price||'R$ 69,90/h'}.`);if(asksCapacity)parts.push(`Ela comporta ${train?.capacity?.toLowerCase()||'até 12 pessoas'}.`);}
-  else if(asksWork){if(asksPrice)parts.push(`A estação de trabalho custa ${work?.price||'R$ 10/h'}.`);if(asksCapacity)parts.push(`A estação é de uso compartilhado.`);}
-  else if(asksFixed){if(asksPrice)parts.push(`A sala fixa custa ${fixed?.price||'R$ 1.900/mês'} para ${fixed?.capacity?.toLowerCase()||'até 6 pessoas'}.`);if(asksCapacity)parts.push(`A capacidade é ${fixed?.capacity?.toLowerCase()||'até 6 pessoas'}.`);}
-  else if(asksCom){if(asksPrice)parts.push(`O endereço comercial custa ${com?.price||'R$ 520/ano'}.`);}
-  else if(asksFiscal){if(asksPrice)parts.push(`O endereço fiscal custa ${fiscal?.price||'R$ 1.248/ano'}.`);}
-  else if(asksPrivate||/\bsala\b|espa[cç]o/.test(t)){if(asksPrice)parts.push(`A sala privativa custa ${priv?.price||'R$ 45/h'}.`);if(asksCapacity)parts.push(`Ela comporta ${priv?.capacity?.toLowerCase()||'até 4 pessoas'}.`);}
-  else if(asksPrice)parts.push(`Temos opções a partir de R$ 10/h na estação de trabalho. Para salas, a privativa custa R$ 45/h, a de reunião R$ 59,90/h e a de treinamento R$ 69,90/h.`);
-  else if(asksCapacity)parts.push(`A capacidade depende do espaço: sala privativa até 4 pessoas, reunião até 6 e treinamento até 12.`);
- }
- if(asksPrivate && !asksPrice && !asksCapacity && !asksPackages) parts.push(`Sim. Temos sala privativa por ${priv?.price||'R$ 45/h'}, para ${priv?.capacity?.toLowerCase()||'até 4 pessoas'}.`);
- if(asksMeeting && !asksPrice && !asksCapacity) parts.push(`Sim. A sala de reunião custa ${meet?.price||'R$ 59,90/h'} e comporta ${meet?.capacity?.toLowerCase()||'até 6 pessoas'}.`);
- if(asksTraining && !asksPrice && !asksCapacity) parts.push(`Temos sala de treinamento por ${train?.price||'R$ 69,90/h'}, para ${train?.capacity?.toLowerCase()||'até 12 pessoas'}.`);
- if(asksWork && !asksPrice && !asksCapacity) parts.push(`Temos estação de trabalho por ${work?.price||'R$ 10/h'}, com uso das ${work?.schedule||'08h às 18h'}.`);
- if(asksFixed && !asksPrice && !asksCapacity) parts.push(`Temos sala fixa por ${fixed?.price||'R$ 1.900/mês'}, para ${fixed?.capacity?.toLowerCase()||'até 6 pessoas'}.`);
- if(asksCom && !asksPrice) parts.push('Sim. Trabalhamos com endereço comercial. Você precisa dele para qual finalidade?');
- if(asksFiscal && !asksPrice) parts.push('Sim. Trabalhamos com endereço fiscal. Você precisa dele para qual finalidade?');
- if(asksDiscount) parts.push(`Posso te indicar a opção mais vantajosa conforme o uso. Não vou prometer um desconto que não esteja cadastrado.`);
- if(asksAvailability) parts.push(`Consigo te orientar sobre a disponibilidade, mas não vou inventar um horário. Preciso da data e do horário para verificar.`);
- if(broadOffer && !parts.length) return `${g} Temos sala privativa (R$ 45/h, até 4 pessoas), sala de reunião (R$ 59,90/h, até 6), sala de treinamento (R$ 69,90/h, até 12), estação de trabalho (R$ 10/h) e opções de endereço comercial e fiscal. Qual desses você procura?`;
- if(parts.length){
-  const question=v18NextBestQuestion(t,{location:asksLocation,hours:asksHours,packages:asksPackages,price:asksPrice,capacity:asksCapacity,privateRoom:asksPrivate,meeting:asksMeeting,training:asksTraining,work:asksWork,fixed:asksFixed,commercial:asksCom,fiscal:asksFiscal,availability:asksAvailability});
-  let answer=`${g} ${parts.join(' ')}`;
-  if(question) answer+=' '+question;
-  if(answer && !v20OneQuestion(answer)){
-    const first=answer.split('?')[0].trim(); answer=first+(first?'?':'');
-   }
-   return answer;
-  }
- return null;
-}
-
-function v10NextQuestion(a){
- const m=a.missing||[]; if(!m.length)return '';
- if(a.intent==='Sala privativa'||a.intent==='Sala de reunião'||a.intent==='Sala de treinamento'||a.intent==='Geral')return m.includes('data')?'Para qual data você precisa do espaço?':m.includes('horário')?'E qual horário você precisa?':'Seria para quantas pessoas?';
- if(a.intent==='Estação de trabalho')return m.includes('data')?'Para qual dia você pretende utilizar?':m.includes('horário')?'Qual horário você precisa?':'Você pretende usar o espaço com que frequência?';
- return m.includes('data')?'Para qual data você precisa?':m.includes('horário')?'Qual horário seria ideal?':'Quantas pessoas vão utilizar?';
-}
-function v10Opening(name){const g=v10Greeting(name);return `${g} Seja bem-vindo(a) ao Nellus! Como posso te ajudar hoje? Você está procurando uma sala, espaço para reunião, treinamento ou endereço comercial?`;}
-
 /* ===== V20 Commercial Conversation Engine =====
    Fluxo: interpretar -> definir objetivo -> verificar contexto -> responder -> próxima ação.
 */
@@ -790,24 +725,7 @@ function v20Clean(text){
 }
 function v20Greeting(name){ return name ? `Olá, ${name}!` : 'Olá!'; }
 function v20Has(t, arr){ return arr.some(x=>normalize(t).includes(normalize(x))); }
-function v20Analyze(text, context, action){
-  const raw=(text||'').trim(), client=v8ExtractClientText(raw)||raw, t=normalize(client), c=normalize(context||'');
-  const intent=detectIntent(client);
-  const hasDate=/\b(hoje|amanha|segunda|terca|quarta|quinta|sexta|sabado|domingo|dia|data)\b/.test(t);
-  const hasTime=/\b(hora|horario|manha|tarde|noite|\d{1,2}\s*(?:h|:|horas?))\b/.test(t);
-  const hasPeople=/\b(pessoa|pessoas|participante|participantes|equipe|clientes?)\b/.test(t);
-  const hasPurpose=v20Has(t,['atendimento','atender','reuniao','trabalhar','trabalho','curso','treinamento','workshop','palestra','escritorio','empresa','coworking','consultorio','pacientes','clientes']);
-  let stage='Novo contato', objective='Descobrir a necessidade', next='Fazer uma pergunta simples que permita direcionar a solução.';
-  if(action==='follow'){stage='Follow-up';objective='Retomar a oportunidade';next='Reabrir a conversa com contexto e uma pergunta fácil de responder.';}
-  else if(intent==='fechamento'){stage='Decisão';objective='Conduzir para o próximo passo';next='Confirmar o dado necessário para reserva, visita ou contratação.';}
-  else if(intent==='objecao'){stage='Objeção';objective='Entender o que está impedindo a decisão';next='Descobrir a verdadeira objeção sem pressionar.';}
-  else if(intent==='desconto'){stage='Objeção';objective='Trabalhar valor antes de falar em desconto';next='Entender se a dificuldade é preço, formato ou percepção de valor.';}
-  else if(intent==='preco'){stage='Interesse';objective='Entender o cenário antes de oferecer a melhor opção';next='Depois de responder ao preço, qualificar o uso ou frequência.';}
-  else if(intent==='disponibilidade'){stage='Qualificação';objective='Avançar para uma possibilidade concreta';next='Obter data, horário e quantidade de pessoas sem inventar disponibilidade.';}
-  else if(intent!=='geral'){stage='Interesse';objective='Responder o que foi perguntado e avançar a conversa';next='Fazer uma única pergunta útil, quando houver informação relevante faltando.';}
-  if(hasDate&&hasTime&&hasPeople) next='Conduzir para confirmação ou fechamento, sem repetir perguntas já respondidas.';
-  return {intent,stage,objective,next,clientText:client,hasDate,hasTime,hasPeople,hasPurpose,context:c};
-}
+function v20Analyze(text, context, action){const raw=(text||'').trim(),client=v8ExtractClientText(raw)||raw,t=normalize(client),c=normalize(context||'');const signals=detectSignals(client),detectedIntent=detectIntent(client),forced=action==='objecao'||action==='fechamento';const intent=action==='objecao'?'objecao':action==='fechamento'?'fechamento':detectedIntent;const hasDate=/\b(hoje|amanha|segunda|terca|quarta|quinta|sexta|sabado|domingo|dia|data)\b/.test(t),hasTime=/\b(hora|horario|manha|tarde|noite|\d{1,2}\s*(?:h|:|horas?))\b/.test(t),hasPeople=/\b(pessoa|pessoas|participante|participantes|equipe|clientes?)\b/.test(t),hasPurpose=v20Has(t,['atendimento','atender','reuniao','trabalhar','trabalho','curso','treinamento','workshop','palestra','escritorio','empresa','coworking','consultorio','pacientes','clientes']);let stage='Novo contato',objective='Descobrir a necessidade',next='Fazer uma pergunta simples que permita direcionar a solução.';if(action==='follow'){stage='Follow-up';objective='Retomar a oportunidade';next='Reabrir a conversa com contexto e uma pergunta fácil de responder.';}else if(action==='objecao'){stage='Objeção';objective='Descobrir a objeção real antes de tentar contorná-la';next='Perguntar se o principal bloqueio é preço, percepção de valor, formato ou outra decisão.';}else if(action==='fechamento'){stage='Decisão';objective='Conduzir para confirmação';next='Confirmar o dado que ainda falta para reserva, visita ou contratação.';}else if(intent==='fechamento'){stage='Decisão';objective='Conduzir para o próximo passo';next='Confirmar o dado necessário para reserva, visita ou contratação.';}else if(intent==='objecao'){stage='Objeção';objective='Entender o que está impedindo a decisão';next='Descobrir a verdadeira objeção sem pressionar.';}else if(intent==='desconto'){stage='Objeção';objective='Trabalhar valor antes de falar em desconto';next='Entender se a dificuldade é preço, formato ou percepção de valor.';}else if(intent==='preco'){stage='Interesse';objective='Responder o preço com contexto de valor';next='Depois do preço, qualificar uso, frequência ou objetivo.';}else if(intent==='disponibilidade'){stage='Qualificação';objective='Avançar para uma possibilidade concreta';next='Obter data, horário e quantidade de pessoas sem inventar disponibilidade.';}else if(intent!=='geral'){stage='Interesse';objective='Responder o que foi perguntado e avançar a conversa';next='Fazer uma única pergunta útil, quando houver informação relevante faltando.';}if(hasDate&&hasTime&&hasPeople)next='Conduzir para confirmação ou fechamento, sem repetir perguntas já respondidas.';return {intent,detectedIntent,signals,forcedAction:forced?action:null,stage,objective,next,clientText:client,hasDate,hasTime,hasPeople,hasPurpose,context:c};}
 function v20TrainingMatch(client, a){
   const examples=v8MatchExamples(client,a)||[];
   return examples.slice(0,3);
@@ -816,62 +734,12 @@ function v20Opening(name){
   const g=v20Greeting(name);
   return `${g} Seja bem-vindo(a) ao Nellus. Me conta o que você está procurando e eu te indico a opção mais adequada para a sua necessidade.`;
 }
-function v20Direct(client,name,a){
-  const t=normalize(client), g=v20Greeting(name), facts=v11Facts();
-  const priv=findPlan('sala privativa',client), meet=findPlan('sala de reunião',client), train=findPlan('sala de treinamento',client), work=findPlan('estação de trabalho',client), fixed=findPlan('sala fixa',client), com=findPlan('endereço comercial',client), fiscal=findPlan('endereço fiscal',client);
-  const asks={
-    location:/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o/.test(t),
-    hours:/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t),
-    fiscal:/endere[cç]o\s+fiscal|cnpj/.test(t),
-    commercial:/endere[cç]o\s+comercial/.test(t),
-    private:/sala\s+privativa|sala\s+particular|sala\s+por\s+hora|alugam\s+por\s+hora|aluga\s+por\s+hora|hora\s+avulsa/.test(t),
-    meeting:/sala\s+de\s+reuni[aã]o|reuni[aã]o/.test(t),
-    training:/sala\s+de\s+treinamento|treinamento|curso|workshop|palestra/.test(t),
-    work:/esta[cç][aã]o\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t),
-    fixed:/sala\s+fixa|sala\s+mensal|mensalidade|por\s+m[eê]s|mensal/.test(t),
-    price:/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+(?:o\s+)?(?:valor|pre[cç]o)|pre[cç]o|valor/.test(t),
-    capacity:/quantas\s+pessoas|quantos\s+cabem|capacidade|comporta/.test(t),
-    packages:/pacote|pacotes|4\s*h|16\s*h|24\s*h/.test(t),
-    availability:/dispon[ií]vel|disponibilidade|tem\s+vaga|tem\s+hor[aá]rio/.test(t),
-    broad:/o\s+que\s+voc[eê]s\s+oferecem|quais\s+(?:servi[cç]os|salas|espa[cç]os)/.test(t)
-  };
-  if(asks.location && !asks.fiscal && !asks.commercial) return `${g} Estamos na ${facts.address}. Você está pensando em conhecer o espaço ou já está procurando uma solução para utilizar?`;
-  if(asks.hours) return `${g} Nosso horário de funcionamento é ${facts.hours}. Você está pensando em utilizar qual dos nossos espaços?`;
-  if(asks.fiscal && !asks.price){ return `${g} Sim, trabalhamos com endereço fiscal. Você está buscando o endereço para abrir sua empresa, mudar o endereço atual ou tem outra necessidade?`; }
-  if(asks.commercial && !asks.price){ return `${g} Sim, trabalhamos com endereço comercial. Você está buscando o endereço para abrir sua empresa, mudar o endereço atual ou tem outra necessidade?`; }
-  if(asks.availability) return `${g} Posso te orientar sobre a disponibilidade. Para qual data você precisa do espaço?`;
-  if(asks.price || asks.packages){
-    if(asks.private){
-      if(asks.packages) return `${g} Para a sala privativa, temos ${facts.privatePackages.join('; ')}. Você pretende utilizar o espaço eventualmente ou com frequência?`;
-      if(asks.price) return `${g} A sala privativa custa ${priv?.price||'R$ 45/h'} e comporta ${priv?.capacity?.toLowerCase()||'até 4 pessoas'}. Você pretende utilizar para atendimento, reunião ou para trabalhar?`;
-    }
-    if(asks.meeting){ return `${g} A sala de reunião custa ${meet?.price||'R$ 59,90/h'} e comporta ${meet?.capacity?.toLowerCase()||'até 6 pessoas'}. Seria para quantas pessoas?`; }
-    if(asks.training){ return `${g} A sala de treinamento custa ${train?.price||'R$ 69,90/h'} e comporta ${train?.capacity?.toLowerCase()||'até 12 pessoas'}. Você está planejando um curso, treinamento, workshop ou outro tipo de evento?`; }
-    if(asks.work){ return `${g} A estação de trabalho custa ${work?.price||'R$ 10/h'}. Você pretende utilizar eventualmente ou com frequência?`; }
-    if(asks.fixed){ return `${g} A sala fixa custa ${fixed?.price||'R$ 1.900/mês'} para ${fixed?.capacity?.toLowerCase()||'até 6 pessoas'}. A sala será para você ou para uma equipe?`; }
-    if(asks.broad) return `${g} Temos salas privativas, sala de reunião, sala de treinamento, estação de trabalho e opções de endereço comercial e fiscal. O que você está procurando neste momento?`;
-  }
-  if(asks.private) return `${g} Sim, temos sala privativa. É para atendimento, reunião ou para você trabalhar durante algumas horas?`;
-  if(asks.meeting) return `${g} Sim, temos sala de reunião. Seria para quantas pessoas e para qual finalidade?`;
-  if(asks.training) return `${g} Temos sala de treinamento. Você está planejando um curso, treinamento, workshop ou outro tipo de evento?`;
-  if(asks.work) return `${g} Temos estação de trabalho. Você procura um espaço para uso pontual ou com mais frequência?`;
-  if(asks.fixed) return `${g} Temos sala fixa. A sala seria para você ou para uma equipe?`;
-  if(asks.broad) return `${g} Temos diferentes soluções para profissionais e empresas. Você está procurando um espaço para trabalhar, atender clientes, realizar reuniões, treinamentos ou uma opção de endereço?`;
-  return null;
-}
-function v20StrategicFallback(client,name,a,action){
-  const g=v20Greeting(name), t=normalize(client), matched=bestKnowledge(client).find(k=>k.type==='objecao'||k.type==='faq');
-  if(action==='follow') return `${g} Passando para saber se você conseguiu avaliar as informações que te enviei. O que ficou faltando para você decidir?`;
-  if(a.intent==='objecao') return `${g} Entendo. Para eu te orientar melhor, o que está pesando mais na sua decisão, o valor, a opção que faz mais sentido ou algum outro ponto?`;
-  if(a.intent==='desconto') return `${g} Posso te indicar a opção mais vantajosa conforme o seu uso. Antes disso, me conta, você pretende utilizar o espaço com que frequência?`;
-  if(a.intent==='preco') return `${g} Posso te orientar pela opção que melhor se encaixa no seu uso. Você pretende utilizar o espaço eventualmente ou com frequência?`;
-  if(a.intent==='disponibilidade') return `${g} Para eu te orientar corretamente, preciso saber a data que você pretende utilizar. Qual seria?`;
-  if(matched) return `${g} ${matched.answer}`;
-  if(a.hasPurpose && !a.hasDate) return `${g} Entendi o que você precisa. Para eu te orientar melhor, para qual data você pretende utilizar o espaço?`;
-  if(!a.hasPurpose) return `${g} Me conta um pouco mais sobre o que você precisa. É para trabalhar, atender clientes, fazer uma reunião ou outra finalidade?`;
-  return `${g} Entendi. Qual seria o próximo ponto que você gostaria de definir, a data, o horário ou a opção de espaço?`;
-}
-function groqConfig(){return {key:(localStorage.getItem('nellus_groq_key')||'').trim(),endpoint:(localStorage.getItem('nellus_groq_endpoint')||'').trim(),model:localStorage.getItem('nellus_groq_model')||'openai/gpt-oss-20b'};}
+function v20Direct(client,name,a){const t=normalize(client),g=v20Greeting(name),facts=v11Facts();const priv=findPlan('sala privativa',client),meet=findPlan('sala de reunião',client),train=findPlan('sala de treinamento',client),work=findPlan('estação de trabalho',client),fixed=findPlan('sala fixa',client),com=findPlan('endereço comercial',client),fiscal=findPlan('endereço fiscal',client);const asks={location:/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o/.test(t),hours:/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t),fiscal:/endere[cç]o\s+fiscal|cnpj/.test(t),commercial:/endere[cç]o\s+comercial/.test(t),private:/sala\s+privativa|sala\s+particular|sala\s+por\s+hora|alugam\s+por\s+hora|aluga\s+por\s+hora|hora\s+avulsa/.test(t),meeting:/sala\s+de\s+reuni[aã]o|reuni[aã]o/.test(t),training:/sala\s+de\s+treinamento|treinamento|curso|workshop|palestra/.test(t),work:/esta[cç][aã]o\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t),fixed:/sala\s+fixa|sala\s+mensal|mensalidade|por\s+m[eê]s|mensal/.test(t),price:/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+(?:o\s+)?(?:valor|pre[cç]o)|pre[cç]o|valor|orcamento|orçamento/.test(t),capacity:/quantas\s+pessoas|quantos\s+cabem|capacidade|comporta/.test(t),packages:/pacote|pacotes|4\s*h|16\s*h|24\s*h/.test(t),availability:/dispon[ií]vel|disponibilidade|tem\s+vaga|tem\s+hor[aá]rio/.test(t),broad:/o\s+que\s+voc[eê]s\s+oferecem|quais\s+(?:servi[cç]os|salas|espa[cç]os)/.test(t)};if(a.forcedAction)return null;if(asks.location&&!asks.fiscal&&!asks.commercial)return `${g} Estamos na ${facts.address}. Você está pensando em conhecer o espaço ou já está procurando uma solução para utilizar?`;if(asks.hours&&!asks.price)return `${g} Nosso horário de funcionamento é ${facts.hours}. Você está pensando em utilizar qual dos nossos espaços?`;if(asks.fiscal&&!asks.price)return `${g} Sim, trabalhamos com endereço fiscal. Você precisa dele para abrir a empresa, mudar o endereço atual ou para outra finalidade?`;if(asks.commercial&&!asks.price)return `${g} Sim, trabalhamos com endereço comercial. Você precisa dele para abrir a empresa, divulgar a empresa ou para outra finalidade?`;if(asks.availability&&!asks.price)return `${g} Posso te orientar sobre a disponibilidade. Para qual data você precisa do espaço?`;const priceReply=(p,label,question)=>{if(!p)return null;let r=`${g} ${label}${p.price?` O valor é ${p.price}.`:''}`;if(p.arguments)r+=` ${p.arguments}`;if(question)r+=` ${question}`;return r;};if(asks.price||asks.packages){if(asks.private){if(asks.packages)return priceReply(priv,'Para a sala privativa,','Você pretende utilizar o espaço eventualmente ou com frequência?');return priceReply(priv,'Para a sala privativa,',a.hasPurpose?'Para qual data você pretende utilizar?':'Você pretende utilizar para atendimento, reunião ou para trabalhar?');}if(asks.meeting)return priceReply(meet,'Para a sala de reunião,',a.hasPeople?'Para qual data você precisa da sala?':'Seria para quantas pessoas?');if(asks.training)return priceReply(train,'Para a sala de treinamento,',a.hasPeople?'Para qual data você precisa do espaço?':'Você está planejando um curso, treinamento, workshop ou outro tipo de evento?');if(asks.work)return priceReply(work,'Para a estação de trabalho,',a.hasPurpose?'Qual frequência de uso você imagina?':'Você pretende utilizar eventualmente ou com frequência?');if(asks.fixed)return priceReply(fixed,'Para a sala fixa,',a.hasPeople?'Qual tipo de atividade sua equipe fará no espaço?':'A sala será para você ou para uma equipe?');if(asks.fiscal)return priceReply(fiscal,'Para o endereço fiscal,','Você precisa dele para qual finalidade?');if(asks.commercial)return priceReply(com,'Para o endereço comercial,','Você precisa dele para qual finalidade?');}if(asks.private)return `${g} Sim, temos sala privativa. É para atendimento, reunião ou para você trabalhar durante algumas horas?`;if(asks.meeting)return `${g} Sim, temos sala de reunião. Seria para quantas pessoas?`;if(asks.training)return `${g} Temos sala de treinamento. Você está planejando um curso, treinamento, workshop ou outro tipo de evento?`;if(asks.work)return `${g} Temos estação de trabalho. Você procura um espaço para uso pontual ou com mais frequência?`;if(asks.fixed)return `${g} Temos sala fixa. A sala seria para você ou para uma equipe?`;if(asks.broad)return `${g} Temos diferentes soluções para profissionais e empresas. Você está procurando um espaço para trabalhar, atender clientes, realizar reuniões, treinamentos ou uma opção de endereço?`;return null;}
+function knowledgeGuidance(text){return bestKnowledge(text).slice(0,3).map(k=>({type:k.type,title:k.title,answer:k.answer,priority:k.priority}));}
+function knowledgeCustomerDraft(text,name,a){const k=bestKnowledge(text).find(x=>x.type==='faq'||x.type==='objecao');if(!k)return null;const answer=String(k.answer||'').trim();if(!answer)return null;const instruction=/\b(informe|consulte|use|utilize|pergunte|perguntar|não invente|nao invente|considere|evite|deve|quando|se não houver|se nao houver|precisa saber|precisamos)\b/i.test(answer);if(instruction)return null;return `${v20Greeting(name)} ${answer}`;}
+function v20StrategicFallback(client,name,a,action){const g=v20Greeting(name),matched=bestKnowledge(client),top=matched[0];if(action==='follow')return `${g} Passando para saber se você conseguiu avaliar as informações que te enviei. O que ficou faltando para você decidir?`;if(action==='fechamento'){if(!a.hasDate)return `${g} Perfeito, vamos avançar. Para qual data você gostaria de reservar?`;if(!a.hasTime)return `${g} Perfeito, vamos avançar. Qual horário você prefere?`;if(!a.hasPeople)return `${g} Perfeito, vamos avançar. Será para quantas pessoas?`;return `${g} Perfeito, vamos avançar. Quer que eu considere esses dados para seguirmos com a reserva?`;}if(action==='objecao'){if(top?.type==='objecao'&&normalize(top.answer).includes('desconto'))return `${g} Entendo. Antes de pensar em desconto, quero entender o que está pesando mais para você: o valor, a opção escolhida ou a percepção de que o espaço não entrega o que precisa?`;if(top?.type==='objecao')return `${g} Entendo. O que está pesando mais na sua decisão: o valor, a estrutura, o formato ou algum outro ponto?`;return `${g} Entendo. O que está impedindo você de avançar neste momento: valor, formato, prazo ou outra questão?`;}if(a.intent==='desconto')return `${g} Entendo. Para não te oferecer algo inadequado, quero primeiro entender o que pesa mais: o valor ou o formato de uso?`;if(a.intent==='objecao'){return `${g} Sem problema. O que você gostaria de avaliar melhor antes de decidir?`;}if(a.intent==='preco')return `${g} Posso te passar o valor e, junto, te orientar pela opção que faça mais sentido para o seu uso. Você pretende utilizar o espaço eventualmente ou com frequência?`;if(a.intent==='disponibilidade')return `${g} Para eu te orientar corretamente, preciso da data e do horário. Qual data você pretende utilizar?`;if(top&&a.intent!=='geral'&&top.type==='faq'&&!/\b(informe|consulte|use|utilize|pergunte|perguntar|não invente|nao invente|considere|evite|deve|quando|se não houver|se nao houver|precisa saber|precisamos)\b/i.test(String(top.answer||'')))return `${g} ${top.answer}`;if(a.hasPurpose&&!a.hasDate)return `${g} Entendi o que você precisa. Para eu te orientar melhor, para qual data você pretende utilizar o espaço?`;if(!a.hasPurpose)return `${g} Me conta um pouco mais sobre o que você precisa. É para trabalhar, atender clientes, fazer uma reunião ou outra finalidade?`;return `${g} Entendi. Qual seria o próximo ponto que você gostaria de definir, a data, o horário ou a opção de espaço?`;}
+localStorage.removeItem('nellus_groq_key');
+function groqConfig(){return {key:'',endpoint:(localStorage.getItem('nellus_groq_endpoint')||'/api/groq').trim(),model:localStorage.getItem('nellus_groq_model')||'openai/gpt-oss-20b'};}
 function groqSystemPrompt(){const tone=localStorage.getItem('nellus_tone')||'natural',rule=localStorage.getItem('nellus_rule')||'Não inventar disponibilidade, descontos ou condições. Quando faltar uma informação importante, fazer uma pergunta objetiva.';return `Você é o redator do Nellus, não o estrategista. O Motor Nellus já fez a interpretação da conversa, definiu o objetivo e criou uma resposta-base. Sua função é APENAS transformar essa decisão em uma mensagem humana, natural e comercialmente inteligente.
 
 ESPINHA DORSAL: CLIENTE → INTERPRETAÇÃO → OBJETIVO → RESPOSTA → PRÓXIMA AÇÃO.
@@ -897,7 +765,7 @@ GUARD-RAIL: só use preços, capacidades, horários, endereço e condições pre
 
 TOM: ${tone}
 REGRA DO GESTOR: ${rule}`;}
-function groqUser(client,name,context,action,analysis,localDraft){return `Nome: ${name||'não informado'}
+function groqUser(client,name,context,action,analysis,localDraft,memory){return `Nome: ${name||'não informado'}
 
 Mensagem do cliente:
 ${client||'(primeiro contato)'}
@@ -910,55 +778,21 @@ Ação escolhida pelo gestor: ${action||'responder normalmente'}
 INTERPRETAÇÃO JÁ FEITA PELO MOTOR NELLUS:
 ${JSON.stringify(analysis||{},null,2)}
 
+BASE DE CONHECIMENTO RELEVANTE (prioridade do gestor):
+${JSON.stringify(knowledgeGuidance(client),null,2)}
+
+MEMÓRIA DO CLIENTE, SE HOUVER:
+${memory||'(nenhuma)'}
+
 RESPOSTA-BASE JÁ DECIDIDA PELO MOTOR NELLUS:
 ${localDraft||'(nenhuma)'}
 
-Tarefa: apenas refine a resposta-base para soar mais humana e natural. Preserve a intenção, a estratégia e o nível de informação. Não acrescente preço se ele não foi solicitado. Não faça perguntas extras. Retorne somente a mensagem final ao cliente.`;}
+Tarefa: apenas refine a resposta-base. Preserve a estratégia do Motor Nellus e respeite a ação escolhida. Se houver Base de Conhecimento relevante, siga-a antes de qualquer resposta genérica. Para preço, responda o valor quando solicitado, mas apresente o benefício mais relevante do serviço junto do valor; depois faça no máximo uma pergunta. Se o cliente não pediu preço, NÃO acrescente preço. Se a ação for Tratar objeção, trate a objeção mesmo que o texto não a revele claramente. Se a ação for Convite/Fechamento, conduza para confirmação de data, horário ou quantidade de pessoas, sem repetir o que já foi informado. Use a memória para evitar repetir ofertas, perguntas ou informações já tratadas. Retorne somente a mensagem final ao cliente.`;}
 function groqValidate(text,allowPrice=false){const allowed=new Set();v11Facts().plans.forEach(p=>{const m=String(p.price||'').match(/R\$\s*[\d\.,]+/g)||[];m.forEach(v=>allowed.add(v.replace(/\s+/g,'')));});const mm=String(text||'').match(/R\$\s*[\d\.,]+/g)||[];if(!allowPrice&&mm.length)throw new Error('Preço não solicitado detectado');mm.forEach(v=>{if(!allowed.has(v.replace(/\s+/g,'')))throw new Error('Preço não cadastrado detectado');});const t=normalize(text);if(/(esta|está|temos|tem)\s+(disponivel|disponível|vaga|horario|horário)/.test(t)&&!/(preciso|precisamos|vou verificar|vamos verificar|necessario verificar|necessário verificar)/.test(t))throw new Error('Afirmação de disponibilidade sem dado real');return String(text||'').trim().replace(/^```(?:text)?/i,'').replace(/```$/,'').trim();}
-async function callGroq(client,name,context,action,analysis,localDraft){const c=groqConfig();if(!c.key&&!c.endpoint)throw new Error('Groq não configurada');const endpoint=c.endpoint||'https://api.groq.com/openai/v1/chat/completions';const headers={'Content-Type':'application/json'};if(!c.endpoint)headers.Authorization='Bearer '+c.key;const allowPrice=analysis?.intent==='preco'||/\b(quanto\s+custa|quanto\s+fica|qual\s+(?:é|e)\s+o\s+(?:valor|preço)|preço|valor)\b/i.test(client||'');const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);try{const r=await fetch(endpoint,{method:'POST',headers,signal:ctrl.signal,body:JSON.stringify({model:c.model,messages:[{role:'system',content:groqSystemPrompt()},{role:'user',content:groqUser(client,name,context,action,analysis,localDraft)}],temperature:.35,max_completion_tokens:220})});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d?.error?.message||`Groq HTTP ${r.status}`);const out=d?.choices?.[0]?.message?.content||'';if(!out.trim())throw new Error('Groq retornou resposta vazia');return groqValidate(out,allowPrice);}finally{clearTimeout(timer);}}
-async function v22GenerateWithGroq(text,action,name,context){const local=v20Generate(text,action,name,context);try{const client=v8ExtractClientText((text||'').trim())||(text||'').trim();const analysis=window.v8Last?.analysis||{};const reply=await callGroq(client,name,context,action,analysis,local);window.v8Last={...(window.v8Last||{}),reply,aiEngine:'Groq',localFallback:local};return {reply,engine:'Groq'};}catch(err){console.warn('Groq falhou; usando Motor Nellus local:',err);window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Local fallback',groqError:String(err?.message||err)};return {reply:local,engine:'Motor Nellus local'};}}
+async function callGroq(client,name,context,action,analysis,localDraft,memory){const c=groqConfig();if(!c.endpoint)throw new Error('Endpoint seguro não configurado');const headers={'Content-Type':'application/json'},allowPrice=analysis?.intent==='preco'||analysis?.detectedIntent==='preco'||/\b(quanto\s+custa|quanto\s+fica|qual\s+(?:é|e)\s+o\s+(?:valor|preço)|preço|valor)\b/i.test(client||'');const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);try{const r=await fetch(c.endpoint,{method:'POST',headers,signal:ctrl.signal,body:JSON.stringify({model:c.model,messages:[{role:'system',content:groqSystemPrompt()},{role:'user',content:groqUser(client,name,context,action,analysis,localDraft,memory)}],temperature:.25,max_completion_tokens:260})});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d?.error?.message||`Groq HTTP ${r.status}`);const out=d?.choices?.[0]?.message?.content||'';if(!out.trim())throw new Error('Groq retornou resposta vazia');return groqValidate(out,allowPrice);}finally{clearTimeout(timer);}}
+async function v22GenerateWithGroq(text,action,name,context,phone){const local=v20Generate(text,action,name,context);try{const client=v8ExtractClientText((text||'').trim())||(text||'').trim(),analysis=window.v8Last?.analysis||{},memory=contactMemoryText(phone),reply=await callGroq(client,name,context,action,analysis,local,memory);window.v8Last={...(window.v8Last||{}),reply,aiEngine:'Groq',localFallback:local,clientMemory:memory};rememberInteraction(phone,name,client,reply,analysis,action);return {reply,engine:'Groq'};}catch(err){console.warn('Groq falhou; usando Motor Nellus local:',err);const client=v8ExtractClientText((text||'').trim())||(text||'').trim(),analysis=window.v8Last?.analysis||{};rememberInteraction(phone,name,client,local,analysis,action);window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Local fallback',groqError:String(err?.message||err)};return {reply:local,engine:'Motor Nellus local'};}}
 
-function v20Generate(text,action,name,context){
-  const clean=(text||'').trim(), ctx=(context||'').trim();
-  if(!clean&&!ctx){const reply=v20Clean(v20Opening(name));const a={stage:'Novo contato',intent:'Geral',objective:'Descobrir a necessidade',next:'Aguardar a necessidade e direcionar para a solução adequada.'};window.v8Last={analysis:a,examples:[],plan:null,reply,clientText:''};return reply;}
-  const client=v8ExtractClientText(clean)||clean, a=v20Analyze(clean,ctx,action);
-  let reply=v20Direct(client,name,a);
-  const examples=v20TrainingMatch(client,a);
-  let usedExample=null;
-  // Treinamento tem prioridade quando existe correspondência forte e não é uma pergunta factual simples.
-  if(!reply && examples[0] && examples[0].score>=7){ usedExample=examples[0]; reply=v8ComposeFromExample(examples[0],a,findPlan(a.intent,client),name); }
-  if(!reply) reply=v20StrategicFallback(client,name,a,action);
-  reply=v20Clean(reply);
-  // Nunca repetir uma informação explicitamente registrada como já enviada.
-  if(/endere[cç]o/i.test(ctx) && /Rua 21, nº 42/i.test(reply)) reply=reply.replace(/Estamos na Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.\s*/i,'');
-  window.v8Last={analysis:{...a,objective:a.objective,nextAction:a.next},examples,plan:findPlan(a.intent,client),reply,clientText:client,learnedStrategy:v17LearnedStrategy(examples,a)};
-  return reply;
-}
-function generateLocal(text,action,name,context){
- const cleanText=(text||'').trim(), cleanContext=(context||'').trim();
- if(!cleanText&&!cleanContext){const reply=v17CleanReply(v10Opening(name));window.v8Last={analysis:{stage:'Novo contato',intent:'Geral',objection:'Nenhuma',action:'Descobrir a necessidade',score:25,missing:[],already:[]},examples:[],plan:null,reply,clientText:''};return reply;}
- // V12: primeiro responde o que o cliente perguntou. Qualificação só acontece quando a pergunta já foi atendida.
- const direct=v12DirectAnswer(v8ExtractClientText(cleanText)||cleanText,name,cleanContext);
- if(direct){const a=v11Analyze(cleanText,cleanContext);a.missing=[];const cleanReply=v17CleanReply(direct);window.v8Last={analysis:a,examples:[],plan:findPlan(a.intent,cleanText),reply:cleanReply,clientText:v8ExtractClientText(cleanText)||cleanText};return cleanReply;}
- const analysis=v11Analyze(cleanText,cleanContext), clientText=v8ExtractClientText(cleanText), p=findPlan(analysis.intent,cleanText), examples=v8MatchExamples(clientText||cleanText,analysis), matched=bestKnowledge(cleanText+' '+cleanContext);
- let reply=null;
- // Só usar exemplo treinado se ele realmente responde ao mesmo assunto; exemplos não podem transformar uma pergunta factual em pergunta de qualificação.
- if(examples[0] && (analysis.intent!=='Geral' || examples[0].score>=7))reply=v8ComposeFromExample(examples[0],analysis,p,name);
- const g=v10Greeting(name), nextQ=v10NextQuestion(analysis);
- if(!reply){
- const main=matched.find(k=>k.type==='faq'||k.type==='objecao');
- if(action==='follow')reply=`${g} Passando para saber se você conseguiu avaliar as informações que te enviei. Se quiser, posso te ajudar a decidir a melhor opção.`;
- else if(analysis.objection==='Preço')reply=`${g} Entendo! Quero te indicar uma opção que faça sentido para o que você precisa, e não só pelo preço. ${nextQ||'Me conta um pouco mais sobre como pretende usar o espaço.'}`;
- else if(analysis.objection==='Indecisão')reply=`${g} Sem problema. O que você gostaria de avaliar melhor: o valor, a estrutura ou qual opção faz mais sentido para você?`;
- else if(action==='fechamento'||analysis.stage==='Fechamento')reply=`${g} Perfeito! Vamos avançar. ${nextQ||'Posso te orientar sobre o próximo passo.'}`;
- else if(main&&analysis.objection!=='Nenhuma')reply=main.answer;
- else if(p){reply=`${g} A ${p.name} fica em ${p.price}${p.capacity?', '+p.capacity.toLowerCase():''}.`;if(p.arguments)reply+=` ${p.arguments}`;if(nextQ)reply+=` ${nextQ}`;}
- else reply=`${g} Claro! Me conta o que você precisa e eu te indico a opção mais adequada.`;
- }
- if(analysis.already.includes('endereço'))reply=reply.replace(/[^.]*Volta Redonda\/RJ\.?/ig,'').replace(/Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.?/ig,'');
- reply=v17CleanReply(reply);window.v8Last={analysis,examples,plan:p,reply,clientText,learnedStrategy:v17LearnedStrategy(examples,analysis)};return reply;
-}
-
+function v20Generate(text,action,name,context){const clean=(text||'').trim(),ctx=(context||'').trim();if(!clean&&!ctx){const reply=v20Clean(v20Opening(name));const a={stage:'Novo contato',intent:'Geral',objective:'Descobrir a necessidade',next:'Aguardar a necessidade e direcionar para a solução adequada.',signals:[]};window.v8Last={analysis:a,examples:[],plan:null,reply,clientText:''};return reply;}const client=v8ExtractClientText(clean)||clean,a=v20Analyze(clean,ctx,action);let reply=null;const examples=v20TrainingMatch(client,a),kb=knowledgeGuidance(client);if(!a.forcedAction){reply=knowledgeCustomerDraft(client,name,a);if(!reply)reply=v20Direct(client,name,a);}let usedExample=null;if(!reply&&examples[0]&&examples[0].score>=7&&a.intent!=='preco'&&a.intent!=='disponibilidade'){usedExample=examples[0];reply=v8ComposeFromExample(examples[0],a,findPlan(a.intent,client),name);}if(!reply)reply=v20StrategicFallback(client,name,a,action);reply=v20Clean(reply);if(/endere[cç]o/i.test(ctx)&&/Rua 21, nº 42/i.test(reply))reply=reply.replace(/Estamos na Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.\s*/i,'');window.v8Last={analysis:{...a,objective:a.objective,nextAction:a.next},examples,knowledge:kb,usedExample,plan:findPlan(a.intent,client),reply,clientText:client,learnedStrategy:v17LearnedStrategy(examples,a)};return reply;}
 window.addEventListener("error",e=>{
  console.error("Nellus error:",e.error||e.message);
  const box=document.getElementById("result"), sug=document.getElementById("suggestion");
@@ -966,9 +800,9 @@ window.addEventListener("error",e=>{
 });
 
 document.getElementById("generate").onclick=async()=>{
- const text=conv.value.trim(),name=document.getElementById("clientName").value.trim(),context=document.getElementById("customContext").value.trim();
+ const text=conv.value.trim(),name=document.getElementById("clientName").value.trim(),phone=document.getElementById("clientPhone")?.value.trim()||'',context=document.getElementById("customContext").value.trim();
  const btn=document.getElementById("generate");btn.disabled=true;btn.textContent=" Pensando como gestor...";
- try{const out=await v22GenerateWithGroq(text,selectedAction,name,context);document.getElementById("suggestion").textContent=out.reply||"Não consegui interpretar essa mensagem ainda. Tente escrever a pergunta de outra forma.";document.getElementById("usedEngineBadge").textContent=out.engine+" • Inteligência comercial";v8RenderDiagnostic(window.v8Last);document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});}
+ try{const out=await v22GenerateWithGroq(text,selectedAction,name,context,phone);document.getElementById("suggestion").textContent=out.reply||"Não consegui interpretar essa mensagem ainda. Tente escrever a pergunta de outra forma.";document.getElementById("usedEngineBadge").textContent=out.engine+" • Inteligência comercial";v8RenderDiagnostic(window.v8Last);document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});}
  catch(err){console.error(err);document.getElementById("suggestion").textContent="Não consegui gerar a resposta agora. Tente novamente.";document.getElementById("result").style.display="block";}
  finally{btn.disabled=false;btn.textContent=" Gerar Próxima Mensagem Inteligente";}
 };
@@ -1045,42 +879,17 @@ document.getElementById("copy").onclick=async()=>{
    </div>`).join('');
  }
  function escV7(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
- window.v7FindExamples=function(text){
-  const t=(text||'').toLowerCase();
-  return v7Examples.map(x=>{
-   const words=((x.triggers||'')+' '+x.client).toLowerCase().split(/[\s,.;!?/|]+/).filter(w=>w.length>2);
-   let score=0;
-   words.forEach(w=>{if(t.includes(w))score+=1;});
-   score+=Math.min(5,(x.priority||1));
-   return {...x,score};
-  }).filter(x=>x.score>3).sort((a,b)=>b.score-a.score).slice(0,3);
- };
- window.v7AnalyzeConversation=function(text){
-  const t=(text||'').toLowerCase();
-  const has=(arr)=>arr.some(x=>t.includes(x));
-  let stage='Novo contato', intent='Geral', objection='Nenhuma detectada', action='Descobrir a necessidade';
-  if(has(['vou pensar','vou analisar','vou verificar','depois eu vejo'])){stage='Objeção / decisão';objection='Indecisão';action='Reduzir incerteza e combinar próximo passo';}
-  else if(has(['caro','cara','alto','preço','valor'])){stage='Objeção';intent='Preço';objection='Preço';action='Reforçar valor e entender necessidade';}
-  else if(has(['reservar','reserva','agendar','fechar','contratar','como faço'])){stage='Fechamento';action='Conduzir para reserva/agendamento';}
-  else if(has(['disponibilidade','disponível','horário','data'])){stage='Qualificação';intent='Disponibilidade';action='Confirmar data/horário e avançar';}
-  else if(has(['sala','reunião','coworking','endereço','fiscal','comercial'])){stage='Interesse';intent='Serviço';action='Entender uso e recomendar a opção adequada';}
-  const missing=[];
-  if(!has(['dia','data','amanhã','segunda','terça','quarta','quinta','sexta','sábado','domingo']))missing.push('data');
-  if(!has(['hora','horas','manhã','tarde','noite','às ']))missing.push('horário');
-  if(!has(['pessoa','pessoas','participante','participantes']))missing.push('quantidade de pessoas');
-  return {stage,intent,objection,action,missing};
- };
- document.addEventListener('DOMContentLoaded',v7RenderExamples);
+  document.addEventListener('DOMContentLoaded',v7RenderExamples);
 })();
 
 </script>
-<script id="v9js">(function(){const KEY='nellus_pipeline_v9';window.v9Pipeline=JSON.parse(localStorage.getItem(KEY)||'[]');const save=()=>localStorage.setItem(KEY,JSON.stringify(window.v9Pipeline));const n=s=>normalize(String(s||''));const any=(t,a)=>a.some(x=>t.includes(n(x)));window.v9Assess=function(text,context,silence){const t=n((text||'')+' '+(context||'')),days=Number(silence||0);let intent=detectIntent(text||''),signals=[],risks=[],stage='Novo contato',score=45;if(any(t,['reservar','reserva','agendar','contratar','fechar','como faço','vou contratar'])){signals.push('sinal forte de compra');stage='Fechamento';score+=30}if(any(t,['amanhã','hoje','urgente','preciso para'])){signals.push('urgência');score+=12}if(any(t,['visitar','visita','conhecer o espaço','posso conhecer'])){signals.push('interesse em visita');score+=15}if(any(t,['tem vaga','disponível','disponibilidade','tem horário'])){signals.push('pergunta de disponibilidade');score+=12}if(any(t,['vou pensar','vou analisar','depois vejo','vou verificar'])){risks.push('decisão em aberto');stage='Objeção / decisão';score-=10}if(any(t,['caro','cara','muito caro','não cabe','orçamento'])){risks.push('objeção de preço');stage='Objeção';score-=12}if(any(t,['outro coworking','outros coworkings','vou pesquisar','vou comparar','concorrente']))risks.push('comparação com alternativas'),score-=10;if(any(t,['sócio','meu sócio','vou falar com','vou conversar com meu']))risks.push('depende de outra decisão'),score-=7;if(any(t,['depois te retorno','te aviso','qualquer coisa te chamo']))risks.push('adiamento sem compromisso'),score-=12;if(days>=2)risks.push('silêncio após a conversa'),score-=Math.min(22,days*2);if(days>=6)risks.push('silêncio prolongado'),score-=10;if(any(t,['aceita cartão','pix','como pagar','pagamento','nota fiscal']))signals.push('pergunta operacional'),score+=8;let level=score>=72?'hot':score<43?'risk':'attention';let reason=level==='hot'?'Há sinais claros de intenção. O maior risco agora é perder o ritmo e não conduzir para uma ação concreta.':risks.length?'A conversa apresenta sinais de perda de momentum: '+risks.slice(0,2).join(' + ')+'.':'Existe oportunidade, porém faltam informações para conduzir o fechamento.';let next=level==='hot'?'Conduzir para o próximo passo agora: reserva, visita ou confirmação de data/horário.':risks.includes('objeção de preço')?'Não ofereça desconto de imediato. Descubra se o problema é orçamento ou falta de percepção de valor.':risks.includes('silêncio prolongado')?'Fazer um follow-up curto e útil, retomando a necessidade em vez de perguntar apenas “e aí?”.':risks.includes('depende de outra decisão')?'Descobrir quem participa da decisão e oferecer um resumo fácil de encaminhar.':stage==='Objeção / decisão'?'Reduzir a incerteza e combinar uma data real para retomar.':'Fazer uma pergunta de qualificação que leve a conversa para uma decisão.';return{score:Math.max(0,Math.min(100,Math.round(score))),level,stage,intent,signals,risks,reason,next,days}};window.v9RenderRadar=function(a){const el=document.getElementById('v9RadarResult');if(!el)return;const labels={hot:' QUENTE',attention:' ATENÇÃO',risk:' RISCO'};el.style.display='block';el.innerHTML='<div class="risk-banner '+a.level+'"><div class="risk-title">'+labels[a.level]+' • Oportunidade '+a.score+'/100</div><div class="risk-meta">Etapa: '+esc(a.stage)+' · Intenção: '+esc(a.intent)+'</div><div class="risk-reason">'+esc(a.reason)+'</div>'+(a.signals.length?'<div class="risk-reason">Sinais positivos: '+esc(a.signals.join(' · '))+'</div>':'')+(a.risks.length?'<div class="risk-reason"> Alertas: '+esc(a.risks.join(' · '))+'</div>':'')+'<div class="next-action"><b> Próxima melhor ação:</b><br>'+esc(a.next)+'</div></div>'};window.v9RenderFollowup=function(a){const el=document.getElementById('v9Followup');if(!el)return;if(a.days<2&&a.level!=='risk'){el.style.display='none';return}el.style.display='block';el.innerHTML='<h3> Follow-up recomendado</h3><div class="strategy-card"><b>'+(a.days>=3?'Hoje':'Próximo contato')+'</b><br><small>'+esc(a.next)+'</small></div>'};window.v9AddCurrentToPipeline=function(){const d=window.v8Last;if(!d){toast('Analise uma conversa primeiro.');return}const name=document.getElementById('clientName').value.trim()||'Cliente sem nome',silence=Number(document.getElementById('v9Silence')?.value||0),a=d.v9||v9Assess(d.clientText||d.reply,'',silence);window.v9Pipeline.unshift({id:Date.now(),name,service:a.intent,stage:a.stage,level:a.level,score:a.score,reason:a.reason,next:a.next,days:silence,client:d.clientText||'',reply:d.reply,created:new Date().toLocaleString('pt-BR')});save();v9UpdateDashboard();v9RenderPipeline();toast('Oportunidade salva no pipeline.')};window.v9RenderPipeline=function(){const box=document.getElementById('v9PipelineList');if(!box)return;if(!window.v9Pipeline.length){box.innerHTML='<div class="empty-state">Nenhuma oportunidade salva ainda. Analise uma conversa e clique em “Salvar conversa atual”.</div>';return}const labels={hot:'Quente',attention:'Atenção',risk:'Risco'};box.innerHTML=window.v9Pipeline.map(x=>'<div class="pipeline-card"><div class="topline"><div><b>'+esc(x.name)+'</b><br><small>'+esc(x.service||'Geral')+' · '+esc(x.stage)+'</small></div><span class="tag">'+labels[x.level]+' · '+x.score+'</span></div><p> '+esc(x.next)+'</p><small>Salvo em '+esc(x.created||'')+(x.days?' · silêncio: '+x.days+'d':'')+'</small><div class="opp-actions"><button class="secondary" onclick="v9RemovePipeline('+x.id+')">Excluir</button></div></div>').join('')};window.v9RemovePipeline=function(id){window.v9Pipeline=window.v9Pipeline.filter(x=>x.id!==id);save();v9UpdateDashboard();v9RenderPipeline()};window.v9ClearPipeline=function(){if(confirm('Limpar todas as oportunidades salvas?')){window.v9Pipeline=[];save();v9UpdateDashboard();v9RenderPipeline()}};window.v9ExportPipeline=function(){const blob=new Blob([JSON.stringify(window.v9Pipeline,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='nellus_pipeline_backup.json';a.click();URL.revokeObjectURL(a.href)};window.v9OpenPipeline=function(){show('pipeline');v9RenderPipeline()};window.v9UpdateDashboard=function(){const p=window.v9Pipeline;document.getElementById('v9Hot').textContent=p.filter(x=>x.level==='hot').length;document.getElementById('v9Attention').textContent=p.filter(x=>x.level==='attention').length;document.getElementById('v9Risk').textContent=p.filter(x=>x.level==='risk').length;document.getElementById('v9Follow').textContent=p.filter(x=>!x.next).length;const box=document.getElementById('v9Opportunities');if(box)box.innerHTML=p.slice(0,4).map(x=>'<div class="opp-item"><b>'+esc(x.name)+' · '+x.score+'/100</b><small>'+({hot:' Quente',attention:' Atenção',risk:' Risco'}[x.level])+' — '+esc(x.next)+'</small></div>').join('')||'<div class="empty-state">Seu radar ainda está vazio. Salve oportunidades importantes para começar a acompanhar.</div>'};const btn=document.getElementById('generate');if(btn)btn.addEventListener('click',()=>setTimeout(()=>{const d=window.v8Last;if(!d)return;const a=v9Assess(d.clientText||document.getElementById('conversation').value,'',Number(document.getElementById('v9Silence')?.value||0));d.v9=a;window.v8Last=d;v9RenderRadar(a);v9RenderFollowup(a);v9UpdateDashboard()},430));document.addEventListener('DOMContentLoaded',()=>{v9UpdateDashboard();v9RenderPipeline()})})();</script><script id="v10js">(function(){
+<script id="v9js">(function(){const KEY='nellus_pipeline_v9';window.v9Pipeline=JSON.parse(localStorage.getItem(KEY)||'[]');const save=()=>localStorage.setItem(KEY,JSON.stringify(window.v9Pipeline));const n=s=>normalize(String(s||''));const any=(t,a)=>a.some(x=>t.includes(n(x)));window.v9Assess=function(text,context,silence){const t=n((text||'')+' '+(context||'')),days=Number(silence||0);let intent=detectIntent(text||''),signals=[],risks=[],stage='Novo contato',score=45;if(any(t,['reservar','reserva','agendar','contratar','fechar','como faço','vou contratar'])){signals.push('sinal forte de compra');stage='Fechamento';score+=30}if(any(t,['amanhã','hoje','urgente','preciso para'])){signals.push('urgência');score+=12}if(any(t,['visitar','visita','conhecer o espaço','posso conhecer'])){signals.push('interesse em visita');score+=15}if(any(t,['tem vaga','disponível','disponibilidade','tem horário'])){signals.push('pergunta de disponibilidade');score+=12}if(any(t,['vou pensar','vou analisar','depois vejo','vou verificar'])){risks.push('decisão em aberto');stage='Objeção / decisão';score-=10}if(any(t,['caro','cara','muito caro','não cabe','orçamento'])){risks.push('objeção de preço');stage='Objeção';score-=12}if(any(t,['outro coworking','outros coworkings','vou pesquisar','vou comparar','concorrente']))risks.push('comparação com alternativas'),score-=10;if(any(t,['sócio','meu sócio','vou falar com','vou conversar com meu']))risks.push('depende de outra decisão'),score-=7;if(any(t,['depois te retorno','te aviso','qualquer coisa te chamo']))risks.push('adiamento sem compromisso'),score-=12;if(days>=2)risks.push('silêncio após a conversa'),score-=Math.min(22,days*2);if(days>=6)risks.push('silêncio prolongado'),score-=10;if(any(t,['aceita cartão','pix','como pagar','pagamento','nota fiscal']))signals.push('pergunta operacional'),score+=8;let level=score>=72?'hot':score<43?'risk':'attention';let reason=level==='hot'?'Há sinais claros de intenção. O maior risco agora é perder o ritmo e não conduzir para uma ação concreta.':risks.length?'A conversa apresenta sinais de perda de momentum: '+risks.slice(0,2).join(' + ')+'.':'Existe oportunidade, porém faltam informações para conduzir o fechamento.';let next=level==='hot'?'Conduzir para o próximo passo agora: reserva, visita ou confirmação de data/horário.':risks.includes('objeção de preço')?'Não ofereça desconto de imediato. Descubra se o problema é orçamento ou falta de percepção de valor.':risks.includes('silêncio prolongado')?'Fazer um follow-up curto e útil, retomando a necessidade em vez de perguntar apenas “e aí?”.':risks.includes('depende de outra decisão')?'Descobrir quem participa da decisão e oferecer um resumo fácil de encaminhar.':stage==='Objeção / decisão'?'Reduzir a incerteza e combinar uma data real para retomar.':'Fazer uma pergunta de qualificação que leve a conversa para uma decisão.';return{score:Math.max(0,Math.min(100,Math.round(score))),level,stage,intent,signals,risks,reason,next,days}};window.v9RenderRadar=function(a){const el=document.getElementById('v9RadarResult');if(!el)return;const labels={hot:' QUENTE',attention:' ATENÇÃO',risk:' RISCO'};el.style.display='block';el.innerHTML='<div class="risk-banner '+a.level+'"><div class="risk-title">'+labels[a.level]+' • Oportunidade '+a.score+'/100</div><div class="risk-meta">Etapa: '+esc(a.stage)+' · Intenção: '+esc(a.intent)+'</div><div class="risk-reason">'+esc(a.reason)+'</div>'+(a.signals.length?'<div class="risk-reason">Sinais positivos: '+esc(a.signals.join(' · '))+'</div>':'')+(a.risks.length?'<div class="risk-reason"> Alertas: '+esc(a.risks.join(' · '))+'</div>':'')+'<div class="next-action"><b> Próxima melhor ação:</b><br>'+esc(a.next)+'</div></div>'};window.v9RenderFollowup=function(a){const el=document.getElementById('v9Followup');if(!el)return;if(a.days<2&&a.level!=='risk'){el.style.display='none';return}el.style.display='block';el.innerHTML='<h3> Follow-up recomendado</h3><div class="strategy-card"><b>'+(a.days>=3?'Hoje':'Próximo contato')+'</b><br><small>'+esc(a.next)+'</small></div>'};window.v9AddCurrentToPipeline=function(){const d=window.v8Last;if(!d){toast('Analise uma conversa primeiro.');return}const name=document.getElementById('clientName').value.trim()||'Cliente sem nome',silence=Number(document.getElementById('v9Silence')?.value||0),a=d.v9||v9Assess(d.clientText||d.reply,'',silence);const phone=document.getElementById('clientPhone')?.value.trim()||'';const phoneKey=normalizePhone(phone),duplicate=phoneKey&&window.v9Pipeline.findIndex(x=>normalizePhone(x.phone)===phoneKey);const item={id:duplicate>=0?window.v9Pipeline[duplicate].id:Date.now(),name,phone,service:a.intent,stage:a.stage,level:a.level,score:a.score,reason:a.reason,next:a.next,days:silence,client:d.clientText||'',reply:d.reply,created:new Date().toLocaleString('pt-BR')};if(duplicate>=0)window.v9Pipeline.splice(duplicate,1);window.v9Pipeline.unshift(item);save();v9UpdateDashboard();v9RenderPipeline();toast(duplicate>=0?'Oportunidade atualizada no pipeline.':'Oportunidade salva no pipeline.')};window.v9RenderPipeline=function(){const box=document.getElementById('v9PipelineList');if(!box)return;if(!window.v9Pipeline.length){box.innerHTML='<div class="empty-state">Nenhuma oportunidade salva ainda. Analise uma conversa e clique em “Salvar conversa atual”.</div>';return}const labels={hot:'Quente',attention:'Atenção',risk:'Risco'};box.innerHTML=window.v9Pipeline.map(x=>'<div class="pipeline-card"><div class="topline"><div><b>'+esc(x.name)+'</b><br><small>'+esc(x.service||'Geral')+' · '+esc(x.stage)+'</small></div><span class="tag">'+labels[x.level]+' · '+x.score+'</span></div><p> '+esc(x.next)+'</p><small>Salvo em '+esc(x.created||'')+(x.days?' · silêncio: '+x.days+'d':'')+'</small><div class="opp-actions"><button class="secondary" onclick="v9RemovePipeline('+x.id+')">Excluir</button></div></div>').join('')};window.v9RemovePipeline=function(id){window.v9Pipeline=window.v9Pipeline.filter(x=>x.id!==id);save();v9UpdateDashboard();v9RenderPipeline()};window.v9ClearPipeline=function(){if(confirm('Limpar todas as oportunidades salvas?')){window.v9Pipeline=[];save();v9UpdateDashboard();v9RenderPipeline()}};window.v9ExportPipeline=function(){const blob=new Blob([JSON.stringify(window.v9Pipeline,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='nellus_pipeline_backup.json';a.click();URL.revokeObjectURL(a.href)};window.v9OpenPipeline=function(){show('pipeline');v9RenderPipeline()};window.v9UpdateDashboard=function(){const p=window.v9Pipeline;document.getElementById('v9Hot').textContent=p.filter(x=>x.level==='hot').length;document.getElementById('v9Attention').textContent=p.filter(x=>x.level==='attention').length;document.getElementById('v9Risk').textContent=p.filter(x=>x.level==='risk').length;document.getElementById('v9Follow').textContent=p.filter(x=>!x.next).length;const box=document.getElementById('v9Opportunities');if(box)box.innerHTML=p.slice(0,4).map(x=>'<div class="opp-item"><b>'+esc(x.name)+' · '+x.score+'/100</b><small>'+({hot:' Quente',attention:' Atenção',risk:' Risco'}[x.level])+' — '+esc(x.next)+'</small></div>').join('')||'<div class="empty-state">Seu radar ainda está vazio. Salve oportunidades importantes para começar a acompanhar.</div>'};const btn=document.getElementById('generate');if(btn)btn.addEventListener('click',()=>setTimeout(()=>{const d=window.v8Last;if(!d)return;const a=v9Assess(d.clientText||document.getElementById('conversation').value,'',Number(document.getElementById('v9Silence')?.value||0));d.v9=a;window.v8Last=d;v9RenderRadar(a);v9RenderFollowup(a);v9UpdateDashboard()},430));document.addEventListener('DOMContentLoaded',()=>{v9UpdateDashboard();v9RenderPipeline()})})();</script><script id="v10js">(function(){
 const esc10=s=>typeof esc==='function'?esc(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 window.v10Filter='all';
 function priority(x){ if(x.level==='risk') return 3; if(x.level==='hot') return 2; return 1; }
 function needsToday(x){ return x.level==='risk'||x.level==='hot'||Number(x.days||0)>=1||!x.next; }
 function label10(x){return ({hot:' Quente',attention:' Atenção',risk:' Risco'}[x.level]||' Atenção')}
-window.v10Reopen=function(id){const x=window.v9Pipeline.find(o=>o.id===id);if(!x)return;const name=document.getElementById('clientName'),conv=document.getElementById('conversation');if(name)name.value=x.name==='Cliente sem nome'?'':x.name;if(conv)conv.value=x.client||'';const sil=document.getElementById('v9Silence');if(sil)sil.value=String(x.days||0);show('home');window.scrollTo({top:0,behavior:'smooth'});toast('Conversa reaberta. Analise novamente para atualizar a prioridade.');};
+window.v10Reopen=function(id){const x=window.v9Pipeline.find(o=>o.id===id);if(!x)return;const name=document.getElementById('clientName'),phone=document.getElementById('clientPhone'),conv=document.getElementById('conversation');if(name)name.value=x.name==='Cliente sem nome'?'':x.name;if(phone)phone.value=x.phone||'';if(conv)conv.value=x.client||'';updateClientMemoryUI();const sil=document.getElementById('v9Silence');if(sil)sil.value=String(x.days||0);show('home');window.scrollTo({top:0,behavior:'smooth'});toast('Conversa reaberta. Analise novamente para atualizar a prioridade.');};
 window.v10SetFilter=function(f){window.v10Filter=f;['All','Hot','Attention','Risk'].forEach(k=>{const b=document.getElementById('filter'+k);if(b)b.classList.toggle('active',f===k.toLowerCase());});v9RenderPipeline();};
 window.v10RenderToday=function(){const box=document.getElementById('v10TodayList'),count=document.getElementById('v10TodayCount');if(!box)return;let arr=window.v9Pipeline.filter(needsToday).sort((a,b)=>priority(b)-priority(a)||(b.score||0)-(a.score||0)||(b.days||0)-(a.days||0)).slice(0,6);if(count)count.textContent=arr.length+(arr.length===1?' ação':' ações');if(!arr.length){box.innerHTML='<div class="empty-today"> Nenhuma oportunidade urgente salva. Continue registrando as conversas importantes no pipeline.</div>';return;}box.innerHTML=arr.map(x=>'<div class="today-item '+esc10(x.level)+'"><div class="today-top"><div class="today-name">'+esc10(x.name)+' · '+label10(x)+'</div><div class="today-score">'+x.score+'/100</div></div><div class="today-reason">'+esc10(x.reason||'Oportunidade que merece acompanhamento.')+'</div><div class="today-action"><b> Fazer agora:</b> '+esc10(x.next||'Definir o próximo passo com o cliente.')+'</div><div class="today-actions"><button class="btn btn-green" onclick="v10Reopen('+x.id+')">Reabrir conversa</button><button class="btn" onclick="v9RemovePipeline('+x.id+')">Arquivar</button></div></div>').join('');};
 const oldUpdate=window.v9UpdateDashboard;window.v9UpdateDashboard=function(){oldUpdate&&oldUpdate();v10RenderToday();};
