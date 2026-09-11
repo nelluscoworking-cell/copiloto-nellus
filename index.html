@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nellus | Copiloto Comercial Avançado</title>
+<title>Nellus | Copiloto Comercial Pro</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#050806">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -65,8 +65,10 @@ color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green
 .edit-actions{display:flex;gap:7px}
 .save{border:0;border-radius:12px;padding:9px 13px;background:#0d5e4f;color:#fff;font-weight:850;cursor:pointer}.save:hover{background:#10a083}
 .ghost{border:1px solid var(--line);background:transparent;color:#c7d7d1;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}
+
+/* CORREÇÃO DO MENU INFERIOR: Agora com 4 abas visíveis */
 .bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:820px;height:78px;padding:8px 12px max(8px,env(safe-area-inset-bottom));
-display:grid;grid-template-columns:repeat(4,1fr);background:rgba(7,11,9,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}
+display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}
 .nav{border:0;background:transparent;color:#718078;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:800}.nav i{font-style:normal;font-size:18px}.nav.active{background:#0c251e;color:#65cfb4}
 .connection-pill{display:flex;align-items:center;gap:7px;border:1px solid #1f594b;background:#0b110f;color:#70d3bc;border-radius:999px;padding:8px 10px;font-size:10px;font-weight:850}
 .connection-dot{width:7px;height:7px;border-radius:50%;background:#10a083;box-shadow:0 0 0 3px rgba(16,160,131,.13)}
@@ -101,7 +103,7 @@ display:grid;grid-template-columns:repeat(4,1fr);background:rgba(7,11,9,.96);bac
 <input type="text" id="clientName" class="input-field" placeholder="Ex: Juliana">
 
 <div class="head"><label>O que você JÁ FEZ / Áudios / Fotos enviadas (Crucial!)</label></div>
-<input type="text" id="customContext" class="input-field" placeholder="Ex: Já mandei fotos da sala e do espaço de coffee break. Ela não respondeu.">
+<input type="text" id="customContext" class="input-field" placeholder="Ex: Já mandei fotos da sala e do espaço de coffee break.">
 
 <div class="head"><label>Conversa com o cliente (Histórico do WhatsApp)</label><span class="count" id="count">0/6000</span></div>
 <textarea id="conversation" maxlength="6000" placeholder="Cole aqui o texto da conversa..."></textarea>
@@ -122,8 +124,9 @@ display:grid;grid-template-columns:repeat(4,1fr);background:rgba(7,11,9,.96);bac
 <div id="structureList" class="grid"></div>
 </section>
 
+<!-- ABA AJUSTES / CHAVE API -->
 <section id="settings" class="view">
-<div class="eyebrow">Configurações</div><h1>Chave da IA (OpenAI)</h1><p class="sub">Para inteligência 100% dinâmica sem frases prontas, insira sua chave da OpenAI (sk-...). Se deixada em branco, usaremos o motor local com filtro de redundância.</p>
+<div class="eyebrow">Configurações</div><h1>Chave da IA (OpenAI)</h1><p class="sub">Insira sua chave da OpenAI (sk-...) para respostas 100% dinâmicas. Se deixada em branco, usaremos o motor de alta precisão local.</p>
 <div class="composer" style="margin-top:20px">
 <label style="display:block;margin-bottom:8px">OpenAI API Key (sk-...)</label>
 <input type="password" id="apiKeyInput" class="input-field" placeholder="sk-proj-..." style="margin-bottom:12px">
@@ -175,9 +178,9 @@ document.getElementById("saveApiKeyBtn").onclick=()=>{
 function updateApiStatus(){
  const st = document.getElementById("apiStatus");
  if(apiKey){
-  st.textContent = "IA Modo Turbinado (OpenAI)";
+  st.textContent = "IA Modo OpenAI";
  }else{
-  st.textContent = "Modo Local Filtro Avançado";
+  st.textContent = "Motor Inteligente Local";
  }
 }
 updateApiStatus();
@@ -282,10 +285,11 @@ DADOS DO NOSSO COWORKING:
 
 REGRA DE OURO (EXTREMAMENTE IMPORTANTE):
 1. NUNCA REPITA INFORMAÇÕES QUE JÁ FORAM DITAS NA CONVERSA OU QUE CONSTAM NO CONTEXTO.
-2. Se o vendedor avisou no campo "Contexto / O que você já fez" que JÁ ENVIOU FOTOS, JÁ FALOU DO COFFEE BREAK ou JÁ EXPLICOU O PREÇO, NÃO FALE DISSO NOVAMENTE!
-3. Avance a conversa com uma abordagem NOVA (ex: convidar para conhecer a sala presencialmente, perguntar sobre a data do evento, duração, número estimado de horas, etc).
-4. O tom deve ser extremamente cordial, profissional e focado em fechar negócio ou agendar visita.
-5. Escreva APENAS a mensagem final que será enviada ao cliente no WhatsApp (sem aspas, sem explicações para o vendedor).`;
+2. Se o vendedor avisou no campo "Contexto / O que você já fez" que JÁ ENVIOU FOTOS, VÍDEOS ou JÁ FALOU DO COFFEE BREAK/PREÇO, NÃO FALE DISSO NOVAMENTE!
+3. Avance a conversa com uma abordagem NOVA e natural (ex: convidar para vir tomar um café e conhecer a sala presencialmente, perguntar sobre a data do evento, duração, etc).
+4. USE A LINGUAGEM: "vir até o Nellus" ou "dar uma passadinha aqui no Nellus". NUNCA use expressões gírias como "dar um pulo".
+5. O tom deve ser extremamente cordial, acolhedor, profissional e focado em fechar negócio.
+6. Escreva APENAS a mensagem final que será enviada ao cliente no WhatsApp (sem aspas, sem explicações para o vendedor).`;
 
  const promptUser = `
 Nome do Cliente: ${clientName || "Não informado"}
@@ -321,21 +325,21 @@ ${text}
  return data.choices[0].message.content.trim();
 }
 
-// Fallback sem API com filtro ativo de redundância
+// Fallback sem API com linguagem aprimorada ("dar uma passadinha" / "vir até o Nellus")
 function fallbackSmartResponse(text, action, clientName, customContext){
  const c = (customContext + " " + text).toLowerCase();
  const nameStr = clientName ? ` ${clientName}` : "";
 
- const photosSent = c.includes("foto") || c.includes("imagem");
+ const photosSent = c.includes("foto") || c.includes("imagem") || c.includes("vídeo") || c.includes("video");
  const coffeeBreakSent = c.includes("coffee") || c.includes("café") || c.includes("buffet");
 
  if(photosSent && coffeeBreakSent){
-  return `Olá${nameStr}! Passando para saber se você conseguiu dar uma olhadinha nas fotos que te mandei da sala e do nosso espaço. Se quiser, você está super convidada para vir tomar um café com a gente e conhecer o espaço de perto! Qual dia ficaria melhor para você dar um pulo aqui no Nellus?`;
+  return `Olá${nameStr}! Passando para saber se você conseguiu dar uma olhadinha nas fotos e vídeos que te mandei da sala e do nosso espaço. Se quiser, você está super convidada para vir tomar um café com a gente e conhecer a estrutura de perto! Qual dia ficaria melhor para você dar uma passadinha aqui no Nellus?`;
  }
  if(photosSent){
-  return `Olá${nameStr}! Tudo bem? Deu para ter uma boa ideia do espaço pelas fotos? Se precisar de mais detalhes sobre valores, datas ou quiser agendar uma rápida visita presencial para conhecer a estrutura de perto, me avisa por aqui!`;
+  return `Olá${nameStr}! Tudo bem? Deu para ter uma boa ideia do espaço pelas fotos e vídeos? Se quiser vir conhecer a sala de perto ou tirar alguma dúvida sobre datas, será um prazer te receber. Qual dia ficaria melhor para você vir até o Nellus?`;
  }
- return `Olá${nameStr}! Passando para ver se conseguiu avaliar a proposta para o seu espaço. Se ficou alguma dúvida sobre datas ou horários, estou à disposição!`;
+ return `Olá${nameStr}! Passando para ver se conseguiu avaliar a proposta para o seu espaço. Se ficou qualquer dúvida ou se quiser dar uma passadinha aqui no Nellus para conhecer presencialmente, estou à disposição!`;
 }
 
 async function run(){
@@ -354,16 +358,16 @@ async function run(){
  try{
   let msg = "";
   if(apiKey){
-   msg = await callOpenAI(text, action=selectedAction, clientName, customContext);
+   msg = await callOpenAI(text, selectedAction, clientName, customContext);
   }else{
-   await new Promise(r=>setTimeout(r, 400));
+   await new Promise(r=>setTimeout(r, 300));
    msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
   }
   document.getElementById("suggestion").textContent = msg;
   document.getElementById("result").style.display = "block";
   document.getElementById("result").scrollIntoView({ behavior: "smooth" });
  }catch(err){
-  alert("Não foi possível usar a API OpenAI. Usando motor secundário.\n" + err.message);
+  alert("Não foi possível conectar com a API da OpenAI. Usando o motor local.\n" + err.message);
   const msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
   document.getElementById("suggestion").textContent = msg;
   document.getElementById("result").style.display = "block";
