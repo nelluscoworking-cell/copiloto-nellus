@@ -449,11 +449,10 @@ ${text}
 
  const cleanKey = apiKey.trim();
  
- // Tentativas sequenciais contra congestionamento
+ // Modelos suportados e ativos na API v1beta
  const modelsToTry = [
   "gemini-3.6-flash",
-  "gemini-2.5-flash",
-  "gemini-1.5-flash"
+  "gemini-2.5-flash"
  ];
 
  let lastError = null;
