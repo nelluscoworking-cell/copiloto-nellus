@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nellus | Copiloto Comercial</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#050806">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{
+ --bg:#050806; --panel:#0b110f; --panel2:#101815; --line:#1d2b26;
+ --green:#087f6a; --green2:#10a083; --white:#f4f7f5; --muted:#91a09a;
+ --orange:#e27d4e; --danger:#d96b61; --shadow:0 18px 60px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;background:var(--bg);color:var(--white);
+font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,textarea{font:inherit} button{cursor:pointer}
+.app{max-width:820px;min-height:100vh;margin:auto;background:radial-gradient(circle at 80% 0%,rgba(8,127,106,.12),transparent 32%),var(--bg)}
+.top{height:82px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;
+position:sticky;top:0;z-index:10;background:rgba(5,8,6,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.logo{height:58px;width:175px;object-fit:contain;object-position:center}
+.iconbtn{width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:#0b110f;color:#dce7e2}
+main{padding:20px 17px 110px}.view{display:none}.view.active{display:block}
+.eyebrow{text-transform:uppercase;letter-spacing:.13em;color:#4ec4a9;font-weight:900;font-size:10px}
+h1{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:8px 0}
+h2{font-size:18px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;line-height:1.55;margin:0}
+.hero{padding:22px;border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,#0d1714,#08100e);box-shadow:var(--shadow)}
+.hero strong{color:#fff}.hero .accent{color:#55cbb0}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:24px 0 11px}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.quick button{
+padding:14px;text-align:left;border:1px solid var(--line);border-radius:17px;background:var(--panel);
+color:var(--white);transition:.2s}.quick button:hover{border-color:#2d5b4f;transform:translateY(-1px)}
+.quick b{display:block;font-size:13px;margin-bottom:4px}.quick span{font-size:11px;color:var(--muted)}
+.composer{margin-top:13px;background:var(--panel);border:1px solid var(--line);border-radius:21px;padding:14px}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+label{font-size:13px;font-weight:850}.count{font-size:10px;color:var(--muted)}
+textarea{width:100%;min-height:190px;resize:vertical;border:1px solid var(--line);border-radius:15px;background:#070c0a;
+padding:14px;color:var(--white);outline:none;font-size:14px;line-height:1.55}
+textarea:focus,input:focus{border-color:#2f8e79;box-shadow:0 0 0 3px rgba(16,160,131,.10)}
+.primary{width:100%;margin-top:10px;border:0;border-radius:15px;padding:14px;background:var(--green);
+color:white;font-weight:900}.primary:hover{background:var(--green2)}
+.result{display:none;margin-top:15px}.result-card{padding:15px;border:1px solid #21483d;border-radius:20px;background:#0b1511}
+.result-head{font-size:12px;font-weight:900;color:#63cfb5;margin-bottom:10px}
+.suggestion{white-space:pre-wrap;background:#070c0a;border:1px solid var(--line);border-radius:15px;padding:15px;line-height:1.6;font-size:14px}
+.actions{display:flex;gap:8px;margin-top:9px}.secondary{flex:1;padding:11px;border-radius:13px;background:transparent;border:1px solid #2a4d43;color:#dceae5;font-weight:800}
+.error{display:none;margin-top:10px;padding:11px;border-radius:13px;background:#24100f;border:1px solid #54211e;color:#ffb2a9;font-size:12px}
+.cards{display:grid;gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
+.product{display:flex;gap:12px;align-items:center}.badge{width:43px;height:43px;border-radius:14px;background:#0d2a22;color:#62cdb4;display:grid;place-items:center;font-weight:900}
+.product .info{flex:1}.product strong{font-size:13px;display:block}.product small{font-size:11px;color:var(--muted);line-height:1.4}.price{color:#fff;font-size:12px;font-weight:900;white-space:nowrap}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.feature{min-height:110px;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px}
+.feature .fi{font-size:20px;margin-bottom:8px}.feature b{font-size:12px}.feature span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:4px}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:820px;height:78px;padding:8px 12px max(8px,env(safe-area-inset-bottom));
+display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}
+.nav{border:0;background:transparent;color:#718078;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:800}.nav i{font-style:normal;font-size:18px}.nav.active{background:#0c251e;color:#65cfb4}
+.connection-pill{display:flex;align-items:center;gap:7px;border:1px solid #1f594b;background:#0b110f;color:#70d3bc;border-radius:999px;padding:8px 10px;font-size:10px;font-weight:850}
+.connection-dot{width:7px;height:7px;border-radius:50%;background:#10a083;box-shadow:0 0 0 3px rgba(16,160,131,.13)}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+<div style="font-weight:900;letter-spacing:-0.03em;font-size:18px;color:#65cfb4">Nellus Coworking</div>
+<div class="connection-pill"><span class="connection-dot"></span><span id="connLabel">Copiloto Conectado</span></div>
+</header>
+
+<main>
+<section id="home" class="view active">
+<div class="hero">
+<div class="eyebrow">Nellus • Copiloto comercial</div>
+<h1>Venda melhor.<br><span class="accent">Converse naturalmente.</span></h1>
+<p class="sub">Cole a conversa do WhatsApp e receba a resposta comercial ideal.</p>
+</div>
+
+<div class="section-title"><h2>Ações rápidas</h2></div>
+<div class="quick">
+<button data-action="gerar"><b>✨ Gerar resposta</b><span>Continuar com naturalidade</span></button>
+<button data-action="follow"><b>↗ Follow-up</b><span>Retomar contato sem cobrança</span></button>
+<button data-action="objecao"><b>💬 Tratar objeção</b><span>Preço, "vou pensar", etc.</span></button>
+<button data-action="fechamento"><b>✓ Fechar venda</b><span>Facilitar a reserva/pagamento</span></button>
+</div>
+
+<div class="composer">
+<div class="head"><label>Conversa com o cliente</label><span class="count" id="count">0/6000</span></div>
+<textarea id="conversation" maxlength="6000" placeholder="Cole aqui a mensagem do cliente no WhatsApp..."></textarea>
+<button class="primary" id="generate">✦ Gerar próxima mensagem</button>
+</div>
+<div class="error" id="error"></div>
+<div class="result" id="result"><div class="result-card"><div class="result-head">● RESPOSTA SUGERIDA (PRONTA PARA O WHATSAPP)</div><div class="suggestion" id="suggestion"></div><div class="actions"><button class="secondary" id="copy">⧉ Copiar Mensagem</button></div></div></div>
+</section>
+
+<section id="plans" class="view">
+<div class="eyebrow">Base comercial</div><h1>Planos e preços</h1>
+<div class="cards" style="margin-top:14px">
+<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Sala privativa</strong><small>Até 4 pessoas · atendimento focado.</small></div><div class="price">R$ 45/h</div></div></div>
+<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Sala de reunião</strong><small>Até 6 pessoas · reuniões executivas.</small></div><div class="price">R$ 59,90/h</div></div></div>
+<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Sala de treinamento</strong><small>Até 12 pessoas · workshops e cursos.</small></div><div class="price">R$ 69,90/h</div></div></div>
+<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Estação de trabalho</strong><small>Compartilhado (08h às 18h).</small></div><div class="price">R$ 10/h ou R$ 420/mês</div></div></div>
+<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Sala fixa</strong><small>Até 6 pessoas · plano anual.</small></div><div class="price">R$ 1.900/mês</div></div></div>
+<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Endereço comercial</strong><small>Plano anual para apresentação.</small></div><div class="price">R$ 520/ano</div></div></div>
+<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Endereço fiscal</strong><small>Plano anual para CNPJ.</small></div><div class="price">R$ 1.248/ano</div></div></div>
+</div>
+</section>
+
+<section id="structure" class="view">
+<div class="eyebrow">Estrutura</div><h1>Diferenciais Nellus</h1>
+<div class="grid" style="margin-top:14px">
+<div class="feature"><div class="fi">📶</div><b>Internet Rápida</b><span>Alta estabilidade para chamadas e trabalho.</span></div>
+<div class="feature"><div class="fi">☕</div><b>Café e Água</b><span>Cortesia durante toda a permanência.</span></div>
+<div class="feature"><div class="fi">🙋</div><b>Recepcionista</b><span>Atendimento profissional para receber seus clientes.</span></div>
+<div class="feature"><div class="fi">🍽️</div><b>Copa Compartilhada</b><span>Geladeira, micro-ondas e sanduicheira.</span></div>
+<div class="feature"><div class="fi">📍</div><b>Localização Nobre</b><span>Vila Santa Cecília, Volta Redonda/RJ.</span></div>
+</div>
+</section>
+</main>
+
+<nav class="bottom">
+<button class="nav active" data-view="home"><i>⌂</i>Início</button>
+<button class="nav" data-view="plans"><i>▦</i>Planos</button>
+<button class="nav" data-view="structure"><i>◇</i>Estrutura</button>
+</nav>
+</div>
+
+<script>
+const GEMINI_KEY = "AQ.Ab8RN6K1cJi4L9LO-4wXKA0szk42B28b0WrfezopI4zx4dqEiA";
+
+const SYSTEM_PROMPT = `Você é o consultor comercial do Nellus Coworking em Volta Redonda/RJ (Rua Vinte e Um, nº 42, Vila Santa Cecília).
+Seu objetivo é gerar a PRÓXIMA MENSAGEM que o atendente deve enviar ao cliente pelo WhatsApp.
+Escreva de forma humana, natural, com frases curtas (1 a 4 frases), tom brasileiro e objetivo.
+Responda primeiro ao que foi perguntado antes de qualificar.
+Nunca mostre pensamentos, diagnósticos ou explicações. Responda APENAS com o texto da mensagem pronto para copiar e colar.
+
+PREÇOS E PRODUTOS:
+- Sala Privativa (até 4 pessoas): R$ 45/h. Pacotes: 4h = R$ 160 (R$ 40/h), 16h = R$ 400 (R$ 25/h), 24h = R$ 600 (R$ 25/h), 40h = R$ 920 (R$ 23/h).
+- Sala de Reunião (até 6 pessoas): R$ 59,90/h.
+- Sala de Treinamento (até 12 pessoas): R$ 69,90/h.
+- Estação de Trabalho: R$ 10/h ou R$ 420/mês (08h às 18h, seg a sex).
+- Sala Fixa (até 6 pessoas): R$ 1.900/mês (plano anual, aviso de 60 dias sem multa).
+- Endereço Comercial: R$ 520/ano (apresentação).
+- Endereço Fiscal: R$ 1.248/ano (para CNPJ). Encomendas: +R$ 39,90/mês.
+- Todas as salas incluem: internet, café, água, recepcionista e copa compartilhada.
+- Fora do horário comercial ou finais de semana: adicional de 20%.`;
+
+function show(id){
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("active",x.dataset.view===id));
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>show(b.dataset.view));
+
+const conv=document.getElementById("conversation"), count=document.getElementById("count"), generate=document.getElementById("generate");
+conv.oninput=()=>{ count.textContent=conv.value.length+"/6000"; };
+
+const objectives={
+ follow:"[OBJETIVO: Faça um follow-up curto e sem cobrança para retomar o contato]",
+ objecao:"[OBJETIVO: O cliente apresentou objeção; responda valorizando o serviço e conduzindo o próximo passo]",
+ fechamento:"[OBJETIVO: O cliente quer fechar; oriente o próximo passo de reserva ou pagamento de forma simples]"
+};
+document.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>{
+ let a=b.dataset.action;
+ if(a==="gerar"){ conv.focus(); return; }
+ conv.value = (conv.value.trim() + "\n\n" + objectives[a]).trim();
+ conv.focus();
+});
+
+function err(t){
+ const e=document.getElementById("error");
+ e.textContent=t; e.style.display="block";
+}
+
+async function discoverModel(){
+ try {
+  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(GEMINI_KEY)}`);
+  if(r.ok){
+   const d = await r.json();
+   const available = (d.models || []).filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes("generateContent"));
+   const flash = available.find(m => m.name.includes("flash"));
+   if(flash) return flash.name;
+   if(available.length > 0) return available[0].name;
+  }
+ } catch(e){}
+ return "models/gemini-2.0-flash";
+}
+
+async function run(){
+ const text=conv.value.trim();
+ if(!text){
+  alert("Por favor, cole a mensagem do cliente antes de gerar!");
+  conv.focus();
+  return;
+ }
+ generate.disabled=true;
+ generate.textContent="✦ Consultando IA...";
+ document.getElementById("error").style.display="none";
+ document.getElementById("result").style.display="none";
+ 
+ try{
+  const modelName = await discoverModel();
+  const url = `https://generativelanguage.googleapis.com/v1beta/${modelName}:generateContent?key=${encodeURIComponent(GEMINI_KEY)}`;
+  
+  const response = await fetch(url, {
+   method: "POST",
+   headers: { "Content-Type": "application/json" },
+   body: JSON.stringify({
+    contents: [{
+     role: "user",
+     parts: [{
+      text: SYSTEM_PROMPT + "\n\n---\nCONVERSA COM O CLIENTE NO WHATSAPP:\n" + text + "\n\nEscreva a próxima mensagem ideal para enviar no WhatsApp."
+     }]
+    }],
+    generationConfig: { maxOutputTokens: 400, temperature: 0.7 }
+   })
+  });
+  
+  if(!response.ok){
+   let detail = "";
+   try{ const d = await response.json(); detail = d?.error?.message || ""; }catch{}
+   throw new Error(detail || ("Erro " + response.status));
+  }
+  
+  const data = await response.json();
+  const msg = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if(!msg) throw new Error("A IA não retornou texto.");
+  
+  document.getElementById("suggestion").textContent = msg.trim();
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+ } catch(e){
+  err("Aviso: " + e.message);
+ } finally{
+  generate.disabled = false;
+  generate.textContent = "✦ Gerar próxima mensagem";
+ }
+}
+
+generate.onclick = run;
+document.getElementById("copy").onclick = async()=>{
+ try{
+  await navigator.clipboard.writeText(document.getElementById("suggestion").textContent);
+  document.getElementById("copy").textContent="✓ Copiado com sucesso!";
+  setTimeout(()=>document.getElementById("copy").textContent="⧉ Copiar Mensagem", 1500);
+ }catch{}
+};
+</script>
+</body>
+</html>
