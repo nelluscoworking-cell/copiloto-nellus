@@ -62,7 +62,7 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 <div class="app">
 <header class="top">
 <div style="font-weight:900;letter-spacing:-0.03em;font-size:18px;color:#65cfb4">Nellus Coworking</div>
-<div class="connection-pill"><span class="connection-dot"></span><span id="connLabel">Copiloto Conectado</span></div>
+<div class="connection-pill"><span class="connection-dot"></span><span>Copiloto Ativo</span></div>
 </header>
 
 <main>
@@ -83,7 +83,7 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 
 <div class="composer">
 <div class="head"><label>Conversa com o cliente</label><span class="count" id="count">0/6000</span></div>
-<textarea id="conversation" maxlength="6000" placeholder="Cole aqui a mensagem do cliente no WhatsApp..."></textarea>
+<textarea id="conversation" maxlength="6000" placeholder="Cole aqui a mensagem ou conversa do WhatsApp..."></textarea>
 <button class="primary" id="generate">✦ Gerar próxima mensagem</button>
 </div>
 <div class="error" id="error"></div>
@@ -125,11 +125,11 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 <script>
 const GEMINI_KEY = "AQ.Ab8RN6K1cJi4L9LO-4wXKA0szk42B28b0WrfezopI4zx4dqEiA";
 
-const SYSTEM_PROMPT = `Você é o consultor comercial do Nellus Coworking em Volta Redonda/RJ (Rua Vinte e Um, nº 42, Vila Santa Cecília).
+const SYSTEM_PROMPT = `Você é o consultor comercial experiente do Nellus Coworking em Volta Redonda/RJ (Rua Vinte e Um, nº 42, Vila Santa Cecília).
 Seu objetivo é gerar a PRÓXIMA MENSAGEM que o atendente deve enviar ao cliente pelo WhatsApp.
-Escreva de forma humana, natural, com frases curtas (1 a 4 frases), tom brasileiro e objetivo.
+Escreva de forma humana, natural, com frases curtas (1 a 4 frases), tom acolhedor e profissional.
 Responda primeiro ao que foi perguntado antes de qualificar.
-Nunca mostre pensamentos, diagnósticos ou explicações. Responda APENAS com o texto da mensagem pronto para copiar e colar.
+Nunca mostre pensamentos, diagnósticos ou explicações. Responda APENAS com o texto da mensagem pronto para copiar e colar no WhatsApp.
 
 PREÇOS E PRODUTOS:
 - Sala Privativa (até 4 pessoas): R$ 45/h. Pacotes: 4h = R$ 160 (R$ 40/h), 16h = R$ 400 (R$ 25/h), 24h = R$ 600 (R$ 25/h), 40h = R$ 920 (R$ 23/h).
@@ -154,95 +154,11 @@ const conv=document.getElementById("conversation"), count=document.getElementByI
 conv.oninput=()=>{ count.textContent=conv.value.length+"/6000"; };
 
 const objectives={
- follow:"[OBJETIVO: Faça um follow-up curto e sem cobrança para retomar o contato]",
- objecao:"[OBJETIVO: O cliente apresentou objeção; responda valorizando o serviço e conduzindo o próximo passo]",
+ follow:"[OBJETIVO: Faça um follow-up curto e leve, sem cobrança, para retomar o contato]",
+ objecao:"[OBJETIVO: O cliente apresentou objeção; responda acolhendo, valorizando o serviço e conduzindo o próximo passo]",
  fechamento:"[OBJETIVO: O cliente quer fechar; oriente o próximo passo de reserva ou pagamento de forma simples]"
 };
 document.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>{
  let a=b.dataset.action;
  if(a==="gerar"){ conv.focus(); return; }
- conv.value = (conv.value.trim() + "\n\n" + objectives[a]).trim();
- conv.focus();
-});
-
-function err(t){
- const e=document.getElementById("error");
- e.textContent=t; e.style.display="block";
-}
-
-async function discoverModel(){
- try {
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(GEMINI_KEY)}`);
-  if(r.ok){
-   const d = await r.json();
-   const available = (d.models || []).filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes("generateContent"));
-   const flash = available.find(m => m.name.includes("flash"));
-   if(flash) return flash.name;
-   if(available.length > 0) return available[0].name;
-  }
- } catch(e){}
- return "models/gemini-2.0-flash";
-}
-
-async function run(){
- const text=conv.value.trim();
- if(!text){
-  alert("Por favor, cole a mensagem do cliente antes de gerar!");
-  conv.focus();
-  return;
- }
- generate.disabled=true;
- generate.textContent="✦ Consultando IA...";
- document.getElementById("error").style.display="none";
- document.getElementById("result").style.display="none";
- 
- try{
-  const modelName = await discoverModel();
-  const url = `https://generativelanguage.googleapis.com/v1beta/${modelName}:generateContent?key=${encodeURIComponent(GEMINI_KEY)}`;
-  
-  const response = await fetch(url, {
-   method: "POST",
-   headers: { "Content-Type": "application/json" },
-   body: JSON.stringify({
-    contents: [{
-     role: "user",
-     parts: [{
-      text: SYSTEM_PROMPT + "\n\n---\nCONVERSA COM O CLIENTE NO WHATSAPP:\n" + text + "\n\nEscreva a próxima mensagem ideal para enviar no WhatsApp."
-     }]
-    }],
-    generationConfig: { maxOutputTokens: 400, temperature: 0.7 }
-   })
-  });
-  
-  if(!response.ok){
-   let detail = "";
-   try{ const d = await response.json(); detail = d?.error?.message || ""; }catch{}
-   throw new Error(detail || ("Erro " + response.status));
-  }
-  
-  const data = await response.json();
-  const msg = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if(!msg) throw new Error("A IA não retornou texto.");
-  
-  document.getElementById("suggestion").textContent = msg.trim();
-  document.getElementById("result").style.display = "block";
-  document.getElementById("result").scrollIntoView({ behavior: "smooth" });
- } catch(e){
-  err("Aviso: " + e.message);
- } finally{
-  generate.disabled = false;
-  generate.textContent = "✦ Gerar próxima mensagem";
- }
-}
-
-generate.onclick = run;
-document.getElementById("copy").onclick = async()=>{
- try{
-  await navigator.clipboard.writeText(document.getElementById("suggestion").textContent);
-  document.getElementById("copy").textContent="✓ Copiado com sucesso!";
-  setTimeout(()=>document.getElementById("copy").textContent="⧉ Copiar Mensagem", 1500);
- }catch{}
-};
-</script>
-</body>
-</html>
+ conv.value = (conv.value.trim() + "\n\n"
