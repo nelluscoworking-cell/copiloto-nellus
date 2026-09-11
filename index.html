@@ -65,10 +65,6 @@ color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green
 .cards{display:grid;gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
 .product{display:flex;gap:12px;align-items:center;justify-content:space-between}.badge{width:43px;height:43px;border-radius:14px;background:#0d2a22;color:#62cdb4;display:grid;place-items:center;font-weight:900;flex-shrink:0}
 .product .info{flex:1}.product strong{font-size:13px;display:block}.product small{font-size:11px;color:var(--muted);line-height:1.4}.price{color:#fff;font-size:12px;font-weight:900;white-space:nowrap;margin-left:8px}
-.item-actions{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
-.btn-icon{border:1px solid var(--line);background:#070c0a;color:var(--white);padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer}
-.btn-icon:hover{border-color:#2a4d43;background:#0d1814}
-.btn-danger{color:var(--danger);border-color:#421b18}
 
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.feature{min-height:110px;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px;display:flex;flex-direction:column;justify-content:space-between}
 .feature .fi{font-size:20px;margin-bottom:4px}.feature b{font-size:12px}.feature span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:2px}
@@ -149,18 +145,6 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
 <div class="eyebrow">Base comercial</div><h1>Planos e preços</h1><p class="sub">O copiloto usa esses valores automaticamente ao responder.</p>
 <div class="section-title" style="margin-top:16px">
  <h2>Seus planos</h2>
- <button class="save" id="togglePlanFormBtn">＋ Criar Novo Plano</button>
-</div>
-<div id="planForm" class="form-box">
- <h3>Adicionar / Editar Plano</h3>
- <input type="hidden" id="editPlanIndex" value="-1">
- <input type="text" id="planNameInput" class="input-field" placeholder="Nome do Plano (Ex: Sala Privativa)">
- <input type="text" id="planPriceInput" class="input-field" placeholder="Preço (Ex: R$ 45/h ou R$ 1.900/mês)">
- <input type="text" id="planDescInput" class="input-field" placeholder="Descrição">
- <div style="display:flex;gap:8px;">
-  <button class="save" id="savePlanBtn">✓ Salvar Plano</button>
-  <button class="btn-icon" id="cancelPlanBtn">Cancelar</button>
- </div>
 </div>
 <div id="plansList" class="cards"></div>
 </section>
@@ -170,18 +154,6 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
 <div class="eyebrow">Estrutura</div><h1>Diferenciais Nellus</h1>
 <div class="section-title" style="margin-top:16px">
  <h2>Seus diferenciais</h2>
- <button class="save" id="toggleStructureFormBtn">＋ Criar Diferencial</button>
-</div>
-<div id="structureForm" class="form-box">
- <h3>Adicionar / Editar Diferencial</h3>
- <input type="hidden" id="editStructureIndex" value="-1">
- <input type="text" id="structIconInput" class="input-field" placeholder="Emoji">
- <input type="text" id="structNameInput" class="input-field" placeholder="Título">
- <input type="text" id="structDescInput" class="input-field" placeholder="Descrição">
- <div style="display:flex;gap:8px;">
-  <button class="save" id="saveStructureBtn">✓ Salvar Diferencial</button>
-  <button class="btn-icon" id="cancelStructureBtn">Cancelar</button>
- </div>
 </div>
 <div id="structureList" class="grid"></div>
 </section>
@@ -306,9 +278,9 @@ INSTRUÇÕES DE RESPOSTA:
 2. Se ele perguntar sobre hora avulsa ou diária, informe os valores exatos de maneira amigável.
 3. Não use marcações em Markdown exageradas. Escreva uma mensagem pronta para enviar no WhatsApp.`;
 
- // Usando a biblioteca oficial com o modelo flash recomendado
+ // Modelo atualizado para gemini-3.6-flash
  const response = await ai.models.generateContent({
-   model: 'gemini-2.5-flash',
+   model: 'gemini-3.6-flash',
    contents: promptUser,
  });
 
