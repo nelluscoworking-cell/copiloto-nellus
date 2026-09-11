@@ -426,7 +426,7 @@ Sua missão é gerar a PRÓXIMA MENSAGEM a ser enviada no WhatsApp para o client
 
 DADOS DO NOSSO COWORKING:
 - Planos: ${JSON.stringify(plans)}
-- Diferenciais: ${JSON.stringify(structure)}
+- Diferenciais e Endereço: ${JSON.stringify(structure)}
 
 TOM DE VOZ E LINGUAGEM HUMANA:
 1. Responda exatamente o que o cliente perguntou na conversa.
@@ -446,7 +446,7 @@ ${text}
 """`;
 
  const cleanKey = apiKey.trim();
- const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
+ const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
 
  const response = await fetch(url, {
   method: "POST",
@@ -470,14 +470,28 @@ ${text}
  throw new Error(`Falha na API (${response.status})`);
 }
 
+/* MOTOR LOCAL INTELIGENTE (ANALISA A PERGUNTA MESMO SEM INTERNET/API) */
 function fallbackSmartResponse(text, action, clientName, customContext){
  const c = (text + " " + customContext).toLowerCase();
  const nameStr = clientName ? ` ${clientName}` : "";
 
- if(c.includes("avulsa") || c.includes("hora") || c.includes("alugam")){
-  return `Olá${nameStr}! Sim, alugamos por hora avulsa sim! Nossas salas privativas saem a partir de R$ 45/h e a estação de trabalho por R$ 10/h. Para qual dia e horário você precisaria?`;
+ // Pergunta de Endereço / Localização
+ if(c.includes("onde") || c.includes("fica") || c.includes("localiz") || c.includes("endereço") || c.includes("rua") || c.includes("bairro")){
+  return `Olá${nameStr}! Ficamos localizados em uma excelente região: na Rua 21, nº 42, na Vila Santa Cecília em Volta Redonda/RJ. Quer agendar um horário para vir tomar um café e conhecer o espaço presencialmente?`;
  }
- return `Olá${nameStr}! Sim, alugamos por hora avulsa sim! Como posso te ajudar com a reserva?`;
+
+ // Pergunta de Hora Avulsa / Valores
+ if(c.includes("avulsa") || c.includes("hora") || c.includes("alugam") || c.includes("preço") || c.includes("quanto") || c.includes("valor")){
+  return `Olá${nameStr}! Alugamos por hora avulsa sim! Nossas salas privativas saem a partir de R$ 45/h e as estações de trabalho por R$ 10/h. Para qual dia e horário você precisaria?`;
+ }
+
+ // Pergunta sobre Reunião / Treinamento
+ if(c.includes("reunião") || c.includes("treinamento") || c.includes("curso")){
+  return `Olá${nameStr}! Temos salas de reunião (R$ 59,90/h) e treinamentos (R$ 69,90/h) equipadas com toda a estrutura. Para quantas pessoas seria o seu evento?`;
+ }
+
+ // Padrão
+ return `Olá${nameStr}! Estamos localizados na Vila Santa Cecília, em Volta Redonda. Como posso te ajudar a escolher o melhor espaço para o que você precisa?`;
 }
 
 async function run(){
@@ -511,10 +525,10 @@ async function run(){
   document.getElementById("result").style.display = "block";
   document.getElementById("result").scrollIntoView({ behavior: "smooth" });
  }catch(err){
-  console.warn("Usando motor local de emergência:", err);
+  console.warn("Usando motor local inteligente:", err);
   const msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
   document.getElementById("suggestion").textContent = msg;
-  badge.textContent = "Gerado via Motor Local (Segurança) ⚡";
+  badge.textContent = "Gerado via Motor Local Inteligente ⚡";
   badge.style.background = "#332213";
   document.getElementById("result").style.display = "block";
  }finally{
