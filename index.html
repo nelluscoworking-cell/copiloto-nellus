@@ -642,7 +642,7 @@ function v8Analyze(text,context){
  else if(has(['coworking','estação de trabalho','mesa compartilhada'])){stage='Interesse';intent='Estação de trabalho';action='Entender frequência e horário de uso';score=55;}
  else if(has(['endereço comercial'])){stage='Interesse';intent='Endereço comercial';action='Explicar benefício e confirmar necessidade empresarial';score=55;}
  else if(has(['endereço fiscal','cnpj'])){stage='Interesse';intent='Endereço fiscal';action='Explicar a solução e confirmar necessidade';score=55;}
- else if(has(['onde fica','onde vocês ficam','onde voces ficam','onde vocês estão','onde voces estao','localização','como chegar','endereço','qual o endereço','qual endereço'])){stage='Interesse';intent='Localização';action='Informar a localização diretamente';score=48;}
+ else if(has(['onde fica','onde vocês ficam','onde voces ficam','onde vocês estão','onde voces estao','onde vcs ficam','onde vcs estão','vocês ficam localizados','voces ficam localizados','localização','localizacao','como chegar','endereço','endereco','qual o endereço','qual endereco'])){stage='Interesse';intent='Localização';action='Informar a localização diretamente';score=48;}
  const missing=[];
  if(!has(['dia','data','amanhã','segunda','terça','quarta','quinta','sexta','sábado','domingo'],msg))missing.push('data');
  if(!has(['hora','horário','horas','manhã','tarde','noite','às'],msg))missing.push('horário');
@@ -687,6 +687,16 @@ function v10Opening(name){
 }
 function generateLocal(text,action,name,context){
  const cleanText=(text||'').trim(), cleanContext=(context||'').trim();
+ // Respostas factuais têm prioridade máxima: se o cliente perguntou onde fica,
+ // o copiloto responde o endereço e NÃO transforma a pergunta em qualificação.
+ const directLocation=/(onde\s+(?:voces|vocês)\s+(?:ficam|estao|estão)|onde\s+fica(?:\s+o\s+nellus)?|qual\s+(?:é|e)\s+o?\s*endere[cç]o|qual\s+endere[cç]o|localiza[cç][aã]o|como\s+chegar)/i.test(normalize(cleanText));
+ if(directLocation){
+  const g=v10Greeting(name);
+  const loc=structure.find(x=>normalize(x.name).includes('localiza'));
+  const reply=`${g} 📍 Estamos na ${loc?loc.desc:'Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ.'} Se quiser, também posso te explicar como chegar ou te apresentar nossas opções de salas e espaços.`;
+  window.v8Last={analysis:{stage:'Interesse',intent:'Localização',objection:'Nenhuma',action:'Informar a localização diretamente',score:48,missing:[],already:[]},examples:[],plan:null,reply,clientText:cleanText};
+  return reply;
+ }
  // Primeiro contato: conversa vazia gera uma abertura comercial natural, sem questionário.
  if(!cleanText&&!cleanContext){
   const reply=v10Opening(name);
@@ -696,11 +706,6 @@ function generateLocal(text,action,name,context){
  const analysis=v8Analyze(cleanText,cleanContext), clientText=v8ExtractClientText(cleanText), p=v8FindPlanByIntent(analysis,cleanText), examples=v8MatchExamples(clientText||cleanText,analysis), matched=bestKnowledge(cleanText+' '+cleanContext);
  let reply=v8ComposeFromExample(examples[0],analysis,p,name);
  const g=v10Greeting(name), nextQ=v10NextQuestion(analysis);
- // Perguntas objetivas de localização devem receber resposta direta, sem pedir data/horário/pessoas.
- if(analysis.intent==='Localização' && !analysis.objection){
-  const loc=structure.find(x=>normalize(x.name).includes('localiza'));
-  reply=`${g} 📍 ${loc?loc.desc:'Estamos na Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ.'}`;
- }
  if(!reply){
   const main=matched.find(k=>k.type==='faq'||k.type==='objecao');
   if(action==='follow')reply=`${g} Passando para saber se você conseguiu avaliar as informações que te enviei. Se quiser, posso te ajudar a decidir a melhor opção.`;
