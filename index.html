@@ -41,7 +41,8 @@ color:var(--white);transition:all .2s;cursor:pointer;position:relative}
 .composer{margin-top:13px;background:var(--panel);border:1px solid var(--line);border-radius:21px;padding:14px}
 .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
 label{font-size:13px;font-weight:850}.count{font-size:10px;color:var(--muted)}
-textarea{width:100%;min-height:170px;resize:vertical;border:1px solid var(--line);border-radius:15px;background:#070c0a;
+.input-field{width:100%;margin-bottom:10px;border:1px solid var(--line);border-radius:13px;background:#070c0a;padding:10px 14px;color:var(--white);outline:none;font-size:13px}
+textarea{width:100%;min-height:150px;resize:vertical;border:1px solid var(--line);border-radius:15px;background:#070c0a;
 padding:14px;color:var(--white);outline:none;font-size:14px;line-height:1.55}
 textarea:focus,input:focus{border-color:#2f8e79;box-shadow:0 0 0 3px rgba(16,160,131,.10)}
 .primary{width:100%;margin-top:10px;border:0;border-radius:15px;padding:14px;background:var(--green);
@@ -87,7 +88,7 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 <div class="hero">
 <div class="eyebrow">Nellus • Copiloto comercial</div>
 <h1>Venda melhor.<br><span class="accent">Converse naturalmente.</span></h1>
-<p class="sub">Selecione o objetivo (opcional), cole a mensagem do cliente e gere a resposta perfeita.</p>
+<p class="sub">Selecione o objetivo (opcional), informe o contexto e cole a mensagem para a resposta ideal.</p>
 </div>
 
 <div class="section-title"><h2>Objetivo da resposta (opcional)</h2></div>
@@ -99,6 +100,12 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 </div>
 
 <div class="composer">
+<div class="head"><label>Nome do cliente (opcional)</label></div>
+<input type="text" id="clientName" class="input-field" placeholder="Ex: Flavio">
+
+<div class="head"><label>Contexto / O que você já fez (opcional)</label></div>
+<input type="text" id="customContext" class="input-field" placeholder="Ex: Já mandei fotos da sala e mencionei capacidade de 12 pessoas">
+
 <div class="head"><label>Conversa com o cliente</label><span class="count" id="count">0/6000</span></div>
 <textarea id="conversation" maxlength="6000" placeholder="Cole aqui a mensagem do cliente no WhatsApp..."></textarea>
 <button class="primary" id="generate">✦ Gerar próxima mensagem</button>
@@ -257,8 +264,10 @@ function getPlanPrice(nameSubstr, fallback){
  return p ? p.price : fallback;
 }
 
-function generateNellusResponse(text, action){
+function generateNellusResponse(text, action, clientName, customContext){
  const t = text.toLowerCase();
+ const c = customContext.toLowerCase();
+ const nameStr = clientName ? ` ${clientName}` : "";
  const privativaPrice = getPlanPrice("privativa", "R$ 45/h");
  const reuniaoPrice = getPlanPrice("reunião", "R$ 59,90/h");
  const treinamentoPrice = getPlanPrice("treinamento", "R$ 69,90/h");
@@ -267,44 +276,40 @@ function generateNellusResponse(text, action){
  const fiscalPrice = getPlanPrice("fiscal", "R$ 1.248/ano");
  const comercialPrice = getPlanPrice("comercial", "R$ 520/ano");
 
+ const sentPhotos = c.includes("foto") || c.includes("imagem") || c.includes("fotos");
+ const sentAudio = c.includes("audio") || c.includes("áudio");
+
  if(action === "follow"){
-  if(t.includes("treinamento") || t.includes("curso") || t.includes("workshop") || t.includes("auditorio") || t.includes("auditório") || t.includes("12 pessoas")){
-   return `Olá! Conseguimos ajustar o layout da sala de treinamento dependendo do seu evento. Ah, e uma facilidade: temos espaço dedicado para coffee break e parceria com fornecedores para cuidar de tudo para você, se precisar. Me avisa se a capacidade para 12 pessoas te atende ou se quer alinhar mais detalhes!`;
+  if(t.includes("treinamento") || t.includes("curso") || t.includes("workshop") || t.includes("auditorio") || t.includes("auditório") || t.includes("12 pessoas") || c.includes("12 pessoas") || c.includes("treinamento")){
+   return `Olá${nameStr}! Conseguimos ajustar o layout da sala de treinamento dependendo do seu evento. Ah, e uma facilidade: temos espaço dedicado para coffee break e parceria com fornecedores para cuidar de tudo para você, se precisar. Me avisa se a capacidade para 12 pessoas te atende ou se quer alinhar mais detalhes!`;
   }
   if(t.includes("privativa") || t.includes("atendimento") || t.includes("psicólog") || t.includes("terapeut")){
-   return `Oi! Tudo bem? Passando para ver se você conseguiu avaliar a sala privativa (${privativaPrice}) para o seu atendimento. Se ficou alguma dúvida de horários ou pacotes, estou por aqui!`;
+   return `Oi${nameStr}! Tudo bem? Passando para ver se você conseguiu avaliar a sala privativa (${privativaPrice}) para o seu atendimento. Se ficou alguma dúvida de horários ou pacotes, estou por aqui!`;
   }
   if(t.includes("reunião")){
-   return `Olá! Tudo bem? Passando para saber se vocês já definiram a data para a reunião. A nossa sala de reunião (${reuniaoPrice}) está disponível com toda a estrutura pronta. Quer que eu verifique a agenda para você?`;
+   return `Olá${nameStr}! Tudo bem? Passando para saber se vocês já definiram a data para a reunião. A nossa sala de reunião (${reuniaoPrice}) está disponível com toda a estrutura pronta. Quer que eu verifique a agenda para você?`;
   }
-  if(t.includes("fiscal") || t.includes("cnpj")){
-   return `Olá! Tudo bem? Passando para ver se você conseguiu verificar com a contabilidade sobre o endereço fiscal (${fiscalPrice}). Se precisar de mais informações sobre nossa inscrição municipal, estou à disposição!`;
-  }
-  return "Oi! Tudo bem por aí? Passando só para ver se você conseguiu avaliar as opções que conversamos para o seu espaço. Se ficou qualquer dúvida de valores ou estrutura, me avise por aqui!";
+  return `Oi${nameStr}! Tudo bem por aí? Passando só para ver se você conseguiu avaliar as opções que conversamos para o seu espaço. Se ficou qualquer dúvida de valores ou estrutura, me avise por aqui!`;
  }
 
  if(action === "objecao"){
   if(t.includes("caro") || t.includes("preço") || t.includes("desconto") || t.includes("orçamento")){
-   return `Entendo perfeitamente a sua preocupação com o investimento! Uma excelente alternativa que muitos profissionais usam aqui são os nossos pacotes de horas para a sala privativa, onde o valor por hora cai bastante (a partir de R$ 23 a R$ 25/h em vez de ${privativaPrice}). Com qual frequência você pretende usar?`;
+   return `Entendo perfeitamente a sua preocupação com o investimento${nameStr}! Uma excelente alternativa que muitos profissionais usam aqui são os nossos pacotes de horas para a sala privativa, onde o valor por hora cai bastante (a partir de R$ 23 a R$ 25/h em vez de ${privativaPrice}). Com qual frequência você pretende usar?`;
   }
   if(t.includes("sócio") || t.includes("parceir") || t.includes("diretoria") || t.includes("equipe")){
-   return "Sem problemas! Se você quiser, posso preparar uma mensagem resumida com a opção mais indicada e os valores certinhos, aí fica super prático para você só encaminhar para eles avaliarem. O que acha?";
+   return `Sem problemas${nameStr}! Se você quiser, posso preparar uma mensagem resumida com a opção mais indicada e os valores certinhos, aí fica super prático para você só encaminhar para eles avaliarem. O que acha?`;
   }
-  if(t.includes("concorrente") || t.includes("outro") || t.includes("pesquisando")){
-   return "Com certeza, comparar é fundamental! Nosso diferencial aqui na Vila Santa Cecília é ter a estrutura 100% pronta: recepcionista para acolher seus clientes, internet de alta velocidade, café, água e copa compartilhada inclusos, sem você se preocupar com custos extras de manutenção. Se quiser vir tomar um café e conhecer sem compromisso, será um prazer te receber!";
-  }
-  return "Com certeza, fique super à vontade para avaliar! Você está analisando mais a questão do investimento ou ficou algum ponto sobre a nossa estrutura que eu possa te ajudar a esclarecer?";
+  return `Com certeza${nameStr}, fique super à vontade para avaliar! Você está analisando mais a questão do investimento ou ficou algum ponto sobre a nossa estrutura que eu possa te ajudar a esclarecer?`;
  }
 
  if(action === "fechamento"){
-  return "Perfeito! Para eu já organizar a sua reserva e garantir o horário na agenda, qual seria a data e o período que você precisa? Assim já te envio as instruções para confirmação!";
- }
-
- if(t.includes("fora do horário") || t.includes("final de semana") || t.includes("fim de semana") || t.includes("sábado") || t.includes("domingo") || t.includes("noite")){
-  return "Boa noite! Sim, atendemos fora do horário comercial e aos finais de semana com agendamento prévio. Nesses horários, temos um adicional de 20% sobre o valor da hora da sala, com toda a nossa estrutura inclusa (recepção, internet, café e copa compartilhada). Você precisaria para qual dia e para quantas pessoas?";
+  return `Perfeito${nameStr}! Para eu já organizar a sua reserva e garantir o horário na agenda, qual seria a data e o período que você precisa? Assim já te envio as instruções para confirmação!`;
  }
 
  if(t.includes("treinamento") || t.includes("curso") || t.includes("workshop") || t.includes("12 pessoas") || t.includes("palestra") || t.includes("auditorio") || t.includes("auditório")){
+  if(sentPhotos){
+   return `A nossa sala de treinamento comporta até 12 pessoas confortavelmente. Além do espaço que te mandei nas fotos, temos área para coffee break e parcerias com fornecedores para cuidar disso para você. Essa capacidade atende ao seu evento?`;
+  }
   return `A nossa sala de treinamento comporta até 12 pessoas e o valor é ${treinamentoPrice} (e para locações acima de 5 horas fora do horário comercial sai a R$ 65/h). Já inclui recepção, internet de alta velocidade, café, água e uso da copa. Além disso, temos espaço próprio para coffee break e parceria com fornecedores para cuidar do buffet se você precisar. Você já tem uma data prevista?`;
  }
 
@@ -312,37 +317,20 @@ function generateNellusResponse(text, action){
   return `A nossa sala de reunião acomoda até 6 pessoas com conforto por ${reuniaoPrice}, com internet rápida, recepcionista para receber seus convidados, café e água inclusos. Seria para uma reunião pontual ou com frequência?`;
  }
 
- if(t.includes("estação") || t.includes("mesa") || t.includes("coworking") || t.includes("compartilhad")){
-  return `Nossa estação de trabalho compartilhada fica ${estacaoPrice} ou R$ 420 no plano mensal (de segunda a sexta, das 08h às 18h), com internet de alta performance e café à vontade. Você prefere usar por horas avulsas ou busca um plano mensal?`;
+ if(t.includes("privativa") || t.includes("atendimento") || t.includes("4 pessoas")){
+  return `A nossa sala privativa é perfeita para atendimentos focados e comporta até 4 pessoas por ${privativaPrice}. Para quem atende toda semana, temos pacotes com valor a partir de R$ 23/h a R$ 25/h. Você pretende atender quantas vezes por semana?`;
  }
 
- if(t.includes("sala fixa") || t.includes("mensal") || t.includes("exclusiva")){
-  return `Nossa sala fixa comporta até 6 pessoas por ${fixaPrice} no plano anual (com saída sem multa mediante aviso prévio de 60 dias). O valor já inclui tudo: energia, condomínio, IPTU, limpeza diária, recepção e internet. Qual é o ramo de atividade de vocês?`;
- }
-
- if(t.includes("fiscal") || t.includes("cnpj") || t.includes("abrir empresa")){
-  return `O nosso endereço fiscal fica ${fiscalPrice} (podendo parcelar em até 12x no cartão) e você pode usar nossa inscrição municipal para abrir ou transferir seu CNPJ. (Recebimento de encomendas é opcional por R$ 39,90/mês). Você está abrindo empresa agora ou alterando endereço?`;
- }
-
- if(t.includes("comercial") || t.includes("divulga") || t.includes("cartão de visita")){
-  return `O nosso endereço comercial é ${comercialPrice} (em até 3x no cartão). É ideal para divulgar uma localização nobre em materiais, redes sociais e cartões de visita na Vila Santa Cecília. Seria para esse objetivo?`;
- }
-
- if(t.includes("privativa") || t.includes("atendimento") || t.includes("psicólog") || t.includes("terapeut") || t.includes("4 pessoas")){
-  return `A nossa sala privativa é perfeita para atendimentos focados e comporta até 4 pessoas por ${privativaPrice}. Para quem atende toda semana, temos pacotes com valor a partir de R$ 23/h a R$ 25/h (como 16h por R$ 400). Você pretende atender quantas vezes por semana?`;
- }
-
- if(t.includes("preço") || t.includes("valor") || t.includes("quanto custa") || t.includes("tabela")){
-  return `Temos várias opções conforme a sua necessidade: sala privativa (${privativaPrice} ou a partir de R$ 25/h no pacote), sala de reunião (${reuniaoPrice}), treinamento (${treinamentoPrice}) e estação compartilhada (${estacaoPrice}). Para eu te indicar a melhor opção, você precisa para quantas pessoas e qual a finalidade?`;
- }
-
- return "Olá! Tudo bem? Aqui no Nellus Coworking (na Vila Santa Cecília) temos salas privativas de atendimento, reunião, treinamento, estações compartilhadas e endereço fiscal/comercial, com café, internet e recepção inclusos. Me conta: para qual tipo de uso ou para quantas pessoas você precisa?";
+ return `Olá${nameStr}! Tudo bem? Aqui no Nellus Coworking temos salas privativas de atendimento, reunião, treinamento, estações compartilhadas e endereço fiscal/comercial, com café, internet e recepção inclusos. Me conta: para qual tipo de uso ou para quantas pessoas você precisa?`;
 }
 
 async function run(){
  const text=conv.value.trim();
- if(!text){
-  alert("Por favor, digite ou cole a mensagem do cliente antes de gerar!");
+ const clientName=document.getElementById("clientName").value.trim();
+ const customContext=document.getElementById("customContext").value.trim();
+ 
+ if(!text && !customContext){
+  alert("Por favor, cole a mensagem do cliente ou digite o contexto!");
   conv.focus();
   return;
  }
@@ -350,7 +338,7 @@ async function run(){
  generate.textContent="✦ Gerando resposta ideal...";
 
  setTimeout(()=>{
-  const msg = generateNellusResponse(text, selectedAction);
+  const msg = generateNellusResponse(text, selectedAction, clientName, customContext);
   document.getElementById("suggestion").textContent = msg;
   document.getElementById("result").style.display = "block";
   document.getElementById("result").scrollIntoView({ behavior: "smooth" });
