@@ -1,5 +1,429 @@
-async function callGemini(text, action, clientName, customContext) {
-  const promptSystem = `Você é o Copiloto Comercial do Nellus Coworking em Volta Redonda/RJ.
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nellus | Copiloto Comercial Pro</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#050806">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{
+ --bg:#050806; --panel:#0b110f; --panel2:#101815; --line:#1d2b26;
+ --green:#087f6a; --green2:#10a083; --white:#f4f7f5; --muted:#91a09a;
+ --orange:#e27d4e; --danger:#d96b61; --shadow:0 18px 60px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;background:var(--bg);color:var(--white);
+font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit} button{cursor:pointer}
+.app{max-width:820px;min-height:100vh;margin:auto;background:radial-gradient(circle at 80% 0%,rgba(8,127,106,.12),transparent 32%),var(--bg)}
+.top{height:82px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;
+position:sticky;top:0;z-index:10;background:rgba(5,8,6,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+
+.logo-box{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-0.03em;font-size:18px;color:#65cfb4}
+.logo-icon{width:32px;height:32px;display:block}
+
+main{padding:20px 17px 140px}.view{display:none}.view.active{display:block}
+.eyebrow{text-transform:uppercase;letter-spacing:.13em;color:#4ec4a9;font-weight:900;font-size:10px}
+h1{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:8px 0}
+h2{font-size:18px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;line-height:1.55;margin:0}
+.hero{padding:22px;border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,#0d1714,#08100e);box-shadow:var(--shadow)}
+.hero .accent{color:#55cbb0}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:24px 0 11px}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.quick button{
+padding:14px;text-align:left;border:1px solid var(--line);border-radius:17px;background:var(--panel);
+color:var(--white);transition:all .2s;cursor:pointer;position:relative}
+.quick button:hover{border-color:#2d5b4f;transform:translateY(-1px)}
+.quick button.selected{border-color:#10a083;background:#0c251e;box-shadow:0 0 0 2px rgba(16,160,131,.3)}
+.quick button.selected b{color:#65cfb4}
+.quick b{display:block;font-size:13px;margin-bottom:4px}
+.quick span{font-size:11px;color:var(--muted)}
+.composer{margin-top:13px;background:var(--panel);border:1px solid var(--line);border-radius:21px;padding:14px}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+label{font-size:13px;font-weight:850}.count{font-size:10px;color:var(--muted)}
+.input-field{width:100%;margin-bottom:10px;border:1px solid var(--line);border-radius:13px;background:#070c0a;padding:10px 14px;color:var(--white);outline:none;font-size:13px}
+select.input-field{appearance:none;cursor:pointer}
+textarea{width:100%;min-height:160px;resize:vertical;border:1px solid var(--line);border-radius:15px;background:#070c0a;
+padding:14px;color:var(--white);outline:none;font-size:13px;line-height:1.55}
+textarea:focus,input:focus,select:focus{border-color:#2f8e79;box-shadow:0 0 0 3px rgba(16,160,131,.10)}
+.primary{width:100%;margin-top:10px;border:0;border-radius:15px;padding:14px;background:var(--green);
+color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green2)}
+.result{display:none;margin-top:15px}.result-card{padding:15px;border:1px solid #21483d;border-radius:20px;background:#0b1511}
+.result-head{font-size:12px;font-weight:900;color:#63cfb5;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.suggestion{white-space:pre-wrap;background:#070c0a;border:1px solid var(--line);border-radius:15px;padding:15px;line-height:1.6;font-size:14px}
+.actions{display:flex;gap:8px;margin-top:9px}.secondary{flex:1;padding:11px;border-radius:13px;background:transparent;border:1px solid #2a4d43;color:#dceae5;font-weight:800}
+
+/* Estilos de Edição Direta */
+.cards{display:grid;gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
+.product{display:flex;gap:12px;align-items:center;justify-content:space-between}.badge{width:43px;height:43px;border-radius:14px;background:#0d2a22;color:#62cdb4;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+.product .info{flex:1}.product strong{font-size:13px;display:block}.product small{font-size:11px;color:var(--muted);line-height:1.4}.price{color:#fff;font-size:12px;font-weight:900;white-space:nowrap;margin-left:8px}
+.item-actions{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+.btn-icon{border:1px solid var(--line);background:#070c0a;color:var(--white);padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer}
+.btn-icon:hover{border-color:#2a4d43;background:#0d1814}
+.btn-danger{color:var(--danger);border-color:#421b18}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.feature{min-height:110px;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px;display:flex;flex-direction:column;justify-content:space-between}
+.feature .fi{font-size:20px;margin-bottom:4px}.feature b{font-size:12px}.feature span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:2px}
+.save{border:0;border-radius:12px;padding:9px 15px;background:#0d5e4f;color:#fff;font-weight:850;cursor:pointer}.save:hover{background:#10a083}
+
+/* Formulários embutidos */
+.form-box{background:#0e1714;border:1px solid #1a3c33;border-radius:18px;padding:15px;margin-bottom:15px;display:none}
+.form-box.active{display:block}
+.form-box h3{margin:0 0 10px 0;font-size:14px;color:#65cfb4}
+
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:820px;height:78px;padding:8px 12px max(8px,env(safe-area-inset-bottom));
+display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}
+.nav{border:0;background:transparent;color:#718078;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:800}.nav i{font-style:normal;font-size:18px}.nav.active{background:#0c251e;color:#65cfb4}
+.connection-pill{display:flex;align-items:center;gap:7px;border:1px solid #1f594b;background:#0b110f;color:#70d3bc;border-radius:999px;padding:8px 10px;font-size:10px;font-weight:850}
+.connection-dot{width:7px;height:7px;border-radius:50%;background:#10a083;box-shadow:0 0 0 3px rgba(16,160,131,.13)}
+.mode-tag{font-size:10px;padding:3px 8px;border-radius:6px;background:#133329;color:#65cfb4;border:1px solid #215e4f}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+<div class="logo-box">
+  <svg class="logo-icon" viewBox="0 0 100 100" fill="none" stroke="#10a083" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="50" r="42"/>
+    <line x1="50" y1="80" x2="50" y2="20"/>
+    <line x1="50" y1="65" x2="33" y2="52"/>
+    <line x1="50" y1="65" x2="67" y2="52"/>
+    <line x1="50" y1="50" x2="33" y2="37"/>
+    <line x1="50" y1="50" x2="67" y2="37"/>
+    <line x1="50" y1="35" x2="35" y2="24"/>
+    <line x1="50" y1="35" x2="65" y2="24"/>
+  </svg>
+  <span>Nellus Coworking</span>
+</div>
+<div class="connection-pill"><span class="connection-dot"></span><span id="apiStatus">IA Integrada</span></div>
+</header>
+
+<main>
+<section id="home" class="view active">
+<div class="hero">
+<div class="eyebrow">Nellus • Copiloto Comercial Pro</div>
+<h1>Atendimento</h1>
+<p class="sub">A IA analisa o histórico completo e não repete informações que você já enviou.</p>
+</div>
+
+<div class="section-title"><h2>Objetivo da resposta (opcional)</h2></div>
+<div class="quick">
+<button type="button" data-action="gerar"><b>✨ Resposta consultiva</b><span>Dar sequência natural à conversa</span></button>
+<button type="button" data-action="follow"><b>↗ Follow-up</b><span>Retomar sem ser chato ou repetitivo</span></button>
+<button type="button" data-action="objecao"><b>💬 Tratar objeção</b><span>Preço, "vou pensar", data</span></button>
+<button type="button" data-action="fechamento"><b>✓ Convite / Fechamento</b><span>Convidar para visita ou reserva</span></button>
+</div>
+
+<div class="composer">
+<div class="head"><label>Nome do cliente (opcional)</label></div>
+<input type="text" id="clientName" class="input-field" placeholder="Ex: Juliana">
+
+<div class="head"><label>O que você JÁ FEZ / Áudios / Fotos enviadas (Crucial!)</label></div>
+<input type="text" id="customContext" class="input-field" placeholder="Ex: Já mandei fotos da sala e do espaço de coffee break.">
+
+<div class="head"><label>Conversa com o cliente (Histórico do WhatsApp)</label><span class="count" id="count">0/6000</span></div>
+<textarea id="conversation" maxlength="6000" placeholder="Cole aqui o texto da conversa..."></textarea>
+<button class="primary" id="generate">✦ Gerar Próxima Mensagem Inteligente</button>
+</div>
+<div class="result" id="result">
+ <div class="result-card">
+  <div class="result-head">
+    <span>● RESPOSTA SUGERIDA</span>
+    <span id="usedEngineBadge" class="mode-tag">Google Gemini (Grátis)</span>
+  </div>
+  <div class="suggestion" id="suggestion"></div>
+  <div class="actions"><button class="secondary" id="copy">⧉ Copiar Mensagem</button></div>
+ </div>
+</div>
+</section>
+
+<!-- ABA PLANOS -->
+<section id="plans" class="view">
+<div class="eyebrow">Base comercial</div><h1>Planos e preços</h1><p class="sub">O copiloto usa esses valores automaticamente ao responder.</p>
+
+<div class="section-title" style="margin-top:16px">
+ <h2>Seus planos</h2>
+ <button class="save" id="togglePlanFormBtn">＋ Criar Novo Plano</button>
+</div>
+
+<div id="planForm" class="form-box">
+ <h3>Adicionar / Editar Plano</h3>
+ <input type="hidden" id="editPlanIndex" value="-1">
+ <input type="text" id="planNameInput" class="input-field" placeholder="Nome do Plano (Ex: Sala Privativa)">
+ <input type="text" id="planPriceInput" class="input-field" placeholder="Preço (Ex: R$ 45/h ou R$ 1.900/mês)">
+ <input type="text" id="planDescInput" class="input-field" placeholder="Descrição (Ex: Até 4 pessoas, focado em atendimento)">
+ <div style="display:flex;gap:8px;">
+  <button class="save" id="savePlanBtn">✓ Salvar Plano</button>
+  <button class="btn-icon" id="cancelPlanBtn">Cancelar</button>
+ </div>
+</div>
+
+<div id="plansList" class="cards"></div>
+</section>
+
+<!-- ABA ESTRUTURA -->
+<section id="structure" class="view">
+<div class="eyebrow">Estrutura</div><h1>Diferenciais Nellus</h1><p class="sub">Pontos fortes para o copiloto utilizar de apoio.</p>
+
+<div class="section-title" style="margin-top:16px">
+ <h2>Seus diferenciais</h2>
+ <button class="save" id="toggleStructureFormBtn">＋ Criar Diferencial</button>
+</div>
+
+<div id="structureForm" class="form-box">
+ <h3>Adicionar / Editar Diferencial</h3>
+ <input type="hidden" id="editStructureIndex" value="-1">
+ <input type="text" id="structIconInput" class="input-field" placeholder="Emoji (Ex: ☕ ou 📶)">
+ <input type="text" id="structNameInput" class="input-field" placeholder="Título (Ex: Café e Água)">
+ <input type="text" id="structDescInput" class="input-field" placeholder="Descrição (Ex: Cortesia para todos os clientes)">
+ <div style="display:flex;gap:8px;">
+  <button class="save" id="saveStructureBtn">✓ Salvar Diferencial</button>
+  <button class="btn-icon" id="cancelStructureBtn">Cancelar</button>
+ </div>
+</div>
+
+<div id="structureList" class="grid"></div>
+</section>
+
+<!-- ABA AJUSTES -->
+<section id="settings" class="view">
+<div class="eyebrow">Configurações</div><h1>Motor do Copiloto</h1><p class="sub">Escolha como prefere que o sistema gere as respostas.</p>
+
+<div class="composer" style="margin-top:20px">
+<label style="display:block;margin-bottom:8px">Modo de Operação Ativo</label>
+<select id="engineModeSelect" class="input-field" style="margin-bottom:15px">
+ <option value="gemini">✨ IA Google Gemini (Gratuito)</option>
+ <option value="local">⚡ Motor Inteligente Local (Offline)</option>
+</select>
+
+<label style="display:block;margin-bottom:8px">Chave API Google Gemini</label>
+<input type="password" id="apiKeyInput" class="input-field" placeholder="Cole sua chave do Google AI Studio..." style="margin-bottom:12px">
+
+<button class="save" id="saveApiKeyBtn">✓ Salvar Configurações</button>
+</div>
+</section>
+</main>
+
+<nav class="bottom">
+<button class="nav active" data-view="home"><i>⌂</i>Início</button>
+<button class="nav" data-view="plans"><i>▦</i>Planos</button>
+<button class="nav" data-view="structure"><i>◇</i>Estrutura</button>
+<button class="nav" data-view="settings"><i>⚙</i>Ajustes</button>
+</nav>
+</div>
+
+<script>
+const DEFAULT_PLANS=[
+{name:"Sala privativa",price:"R$ 45/h",desc:"Até 4 pessoas · atendimento e trabalho focado."},
+{name:"Sala de reunião",price:"R$ 59,90/h",desc:"Até 6 pessoas · reuniões executivas e encontros."},
+{name:"Sala de treinamento",price:"R$ 69,90/h",desc:"Até 12 pessoas · cursos, palestras e workshops."},
+{name:"Estação de trabalho",price:"R$ 10/h",desc:"Uso compartilhado profissional (08h às 18h)."},
+{name:"Sala fixa",price:"R$ 1.900/mês",desc:"Até 6 pessoas · plano anual (60 dias sem multa)."},
+{name:"Endereço comercial",price:"R$ 520/ano",desc:"Plano anual para apresentação profissional."},
+{name:"Endereço fiscal",price:"R$ 1.248/ano",desc:"Plano anual ligado ao CNPJ da empresa."}
+];
+const DEFAULT_STRUCTURE=[
+{name:"Internet Rápida",icon:"📶",desc:"Alta estabilidade para chamadas e trabalho."},
+{name:"Café e Água",icon:"☕",desc:"Cortesia e praticidade durante toda a permanência."},
+{name:"Recepcionista",icon:"🙋",desc:"Atendimento profissional para recepcionar seus clientes."},
+{name:"Copa Compartilhada",icon:"🍽️",desc:"Geladeira, micro-ondas e sanduicheira disponíveis."},
+{name:"Espaço para Coffee Break",icon:"🥐",desc:"Espaço dedicado e parceria com fornecedores de buffet."},
+{name:"Localização Nobre",icon:"📍",desc:"Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ."}
+];
+
+let plans=JSON.parse(localStorage.getItem("nellus_plans")||"null")||DEFAULT_PLANS;
+let structure=JSON.parse(localStorage.getItem("nellus_structure")||"null")||DEFAULT_STRUCTURE;
+let apiKey=localStorage.getItem("nellus_geminikey")||"";
+let engineMode=localStorage.getItem("nellus_enginemode")||"gemini";
+
+document.getElementById("apiKeyInput").value = apiKey;
+document.getElementById("engineModeSelect").value = engineMode;
+
+document.getElementById("saveApiKeyBtn").onclick=()=>{
+ apiKey = document.getElementById("apiKeyInput").value.trim();
+ engineMode = document.getElementById("engineModeSelect").value;
+ localStorage.setItem("nellus_geminikey", apiKey);
+ localStorage.setItem("nellus_enginemode", engineMode);
+ alert("Configurações salvas com sucesso!");
+ updateApiStatus();
+};
+
+function updateApiStatus(){
+ const st = document.getElementById("apiStatus");
+ if(engineMode === "gemini" && apiKey){
+  st.textContent = "Google Gemini Ativo";
+ }else if(engineMode === "gemini" && !apiKey){
+  st.textContent = "Sem Chave Gemini";
+ }else{
+  st.textContent = "Motor Local Ativo";
+ }
+}
+updateApiStatus();
+
+function show(id){
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+ const target = document.getElementById(id);
+ if(target) target.classList.add("active");
+ document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("active",x.dataset.view===id));
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>show(b.dataset.view));
+
+function esc(v){return String(v||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+
+/* --- PLANOS --- */
+function renderPlans(){
+ const box=document.getElementById("plansList"); if(!box) return; box.innerHTML="";
+ plans.forEach((p, idx)=>{
+  const d=document.createElement("div"); d.className="card";
+  d.innerHTML=`
+   <div class="product">
+     <div class="badge">R$</div>
+     <div class="info"><strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small></div>
+     <div class="price">${esc(p.price)}</div>
+   </div>
+   <div class="item-actions">
+     <button class="btn-icon" onclick="startEditPlan(${idx})">✏ Editar</button>
+     <button class="btn-icon btn-danger" onclick="deletePlan(${idx})">🗑 Excluir</button>
+   </div>
+  `;
+  box.appendChild(d);
+ });
+}
+
+const planForm = document.getElementById("planForm");
+document.getElementById("togglePlanFormBtn").onclick = ()=>{
+ document.getElementById("editPlanIndex").value = "-1";
+ document.getElementById("planNameInput").value = "";
+ document.getElementById("planPriceInput").value = "";
+ document.getElementById("planDescInput").value = "";
+ planForm.classList.add("active");
+};
+document.getElementById("cancelPlanBtn").onclick = ()=>{ planForm.classList.remove("active"); };
+
+document.getElementById("savePlanBtn").onclick = ()=>{
+ const idx = parseInt(document.getElementById("editPlanIndex").value);
+ const name = document.getElementById("planNameInput").value.trim();
+ const price = document.getElementById("planPriceInput").value.trim();
+ const desc = document.getElementById("planDescInput").value.trim();
+
+ if(!name){ alert("Digite o nome do plano."); return; }
+
+ if(idx === -1){
+  plans.push({ name, price, desc });
+ }else{
+  plans[idx] = { name, price, desc };
+ }
+
+ localStorage.setItem("nellus_plans", JSON.stringify(plans));
+ planForm.classList.remove("active");
+ renderPlans();
+};
+
+window.startEditPlan = (idx)=>{
+ const p = plans[idx];
+ document.getElementById("editPlanIndex").value = idx;
+ document.getElementById("planNameInput").value = p.name;
+ document.getElementById("planPriceInput").value = p.price;
+ document.getElementById("planDescInput").value = p.desc;
+ planForm.classList.add("active");
+ window.scrollTo({top: 0, behavior: 'smooth'});
+};
+
+window.deletePlan = (idx)=>{
+ if(confirm("Deseja apagar este plano?")){
+  plans.splice(idx, 1);
+  localStorage.setItem("nellus_plans", JSON.stringify(plans));
+  renderPlans();
+ }
+};
+
+/* --- ESTRUTURA --- */
+function renderStructure(){
+ const box=document.getElementById("structureList"); if(!box) return; box.innerHTML="";
+ structure.forEach((s, idx)=>{
+  const d=document.createElement("div"); d.className="feature";
+  d.innerHTML=`
+   <div>
+     <div class="fi">${esc(s.icon)}</div>
+     <b>${esc(s.name)}</b>
+     <span>${esc(s.desc)}</span>
+   </div>
+   <div class="item-actions">
+     <button class="btn-icon" onclick="startEditStructure(${idx})">✏ Editar</button>
+     <button class="btn-icon btn-danger" onclick="deleteStructure(${idx})">🗑</button>
+   </div>
+  `;
+  box.appendChild(d);
+ });
+}
+
+const structureForm = document.getElementById("structureForm");
+document.getElementById("toggleStructureFormBtn").onclick = ()=>{
+ document.getElementById("editStructureIndex").value = "-1";
+ document.getElementById("structIconInput").value = "✨";
+ document.getElementById("structNameInput").value = "";
+ document.getElementById("structDescInput").value = "";
+ structureForm.classList.add("active");
+};
+document.getElementById("cancelStructureBtn").onclick = ()=>{ structureForm.classList.remove("active"); };
+
+document.getElementById("saveStructureBtn").onclick = ()=>{
+ const idx = parseInt(document.getElementById("editStructureIndex").value);
+ const icon = document.getElementById("structIconInput").value.trim() || "✨";
+ const name = document.getElementById("structNameInput").value.trim();
+ const desc = document.getElementById("structDescInput").value.trim();
+
+ if(!name){ alert("Digite o nome do diferencial."); return; }
+
+ if(idx === -1){
+  structure.push({ icon, name, desc });
+ }else{
+  structure[idx] = { icon, name, desc };
+ }
+
+ localStorage.setItem("nellus_structure", JSON.stringify(structure));
+ structureForm.classList.remove("active");
+ renderStructure();
+};
+
+window.startEditStructure = (idx)=>{
+ const s = structure[idx];
+ document.getElementById("editStructureIndex").value = idx;
+ document.getElementById("structIconInput").value = s.icon;
+ document.getElementById("structNameInput").value = s.name;
+ document.getElementById("structDescInput").value = s.desc;
+ structureForm.classList.add("active");
+ window.scrollTo({top: 0, behavior: 'smooth'});
+};
+
+window.deleteStructure = (idx)=>{
+ if(confirm("Deseja apagar este diferencial?")){
+  structure.splice(idx, 1);
+  localStorage.setItem("nellus_structure", JSON.stringify(structure));
+  renderStructure();
+ }
+};
+
+renderPlans();
+renderStructure();
+
+let selectedAction = null;
+document.querySelectorAll(".quick button").forEach(b=>{
+ b.onclick=()=>{
+  const act=b.dataset.action;
+  selectedAction = (selectedAction===act) ? null : act;
+  document.querySelectorAll(".quick button").forEach(x=>x.classList.toggle("selected",x.dataset.action===selectedAction));
+ };
+});
+
+const conv=document.getElementById("conversation"), count=document.getElementById("count"), generate=document.getElementById("generate");
+conv.oninput=()=>{ count.textContent=conv.value.length+"/6000"; };
+
+async function callGemini(text, action, clientName, customContext){
+ const promptSystem = `Você é o Copiloto Comercial do Nellus Coworking em Volta Redonda/RJ.
 Sua missão é gerar a PRÓXIMA MENSAGEM a ser enviada no WhatsApp para o cliente.
 
 DADOS DO NOSSO COWORKING:
@@ -13,7 +437,7 @@ TOM DE VOZ E LINGUAGEM HUMANA:
 4. Para fechar ou agendar, pergunte sempre de forma natural: "Qual dia e horário fica melhor para você vir aqui no Nellus?" (use o verbo "vir").
 5. Escreva APENAS a mensagem final para o cliente.`;
 
-  const promptUser = `${promptSystem}
+ const promptUser = `${promptSystem}
 
 Nome do Cliente: ${clientName || "Não informado"}
 Objetivo Desejado: ${action || "Consultivo"}
@@ -23,84 +447,90 @@ Histórico da conversa:
 ${text}
 """`;
 
-  const cleanKey = apiKey.trim();
-  // Atualizado para a API do Gemini 3.6 Flash
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${cleanKey}`;
+ const cleanKey = apiKey.trim();
+ const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
 
-  // Tenta até 2 vezes em caso de oscilação momentânea de rede/servidor
-  for (let attempt = 1; attempt <= 2; attempt++) {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: promptUser }] }]
-        })
-      });
+ const response = await fetch(url, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+   contents: [{ parts: [{ text: promptUser }] }]
+  })
+ });
 
-      if (response.ok) {
-        const data = await response.json();
-        return data.candidates[0].content.parts[0].text.trim();
-      }
+ if (response.ok) {
+  const data = await response.json();
+  return data.candidates[0].content.parts[0].text.trim();
+ }
 
-      if (attempt < 2) await new Promise(r => setTimeout(r, 1000));
-    } catch (err) {
-      if (attempt === 2) throw err;
-      await new Promise(r => setTimeout(r, 1000));
-    }
-  }
-
-  throw new Error("Falha ao comunicar com a API do Gemini.");
+ throw new Error("Erro de conexão na API.");
 }
 
-async function run() {
-  const conv = document.getElementById("conv") || { value: "" }; // Ajustar conforme a ID do seu textarea
-  const text = conv.value ? conv.value.trim() : "";
-  const clientName = document.getElementById("clientName") ? document.getElementById("clientName").value.trim() : "";
-  const customContext = document.getElementById("customContext") ? document.getElementById("customContext").value.trim() : "";
-  const generate = document.getElementById("generate") || document.querySelector("button");
+function fallbackSmartResponse(text, action, clientName, customContext){
+ const c = (customContext + " " + text).toLowerCase();
+ const nameStr = clientName ? ` ${clientName}` : "";
 
-  if (!text && !customContext) {
-    alert("Por favor, cole a conversa ou escreva o contexto!");
-    return;
-  }
+ const photosSent = c.includes("foto") || c.includes("imagem") || c.includes("vídeo") || c.includes("video");
+ const coffeeBreakSent = c.includes("coffee") || c.includes("café") || c.includes("buffet");
 
-  generate.disabled = true;
-  generate.textContent = "✦ Gerando resposta...";
-
-  const badge = document.getElementById("usedEngineBadge");
-
-  try {
-    let msg = "";
-    if (typeof engineMode !== "undefined" && engineMode === "gemini" && typeof apiKey !== "undefined" && apiKey) {
-      msg = await callGemini(text, selectedAction, clientName, customContext);
-      if (badge) {
-        badge.textContent = "Gerado via Google Gemini ✨";
-        badge.style.background = "#133329";
-      }
-    } else {
-      await new Promise(r => setTimeout(r, 200));
-      msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
-      if (badge) {
-        badge.textContent = "Gerado via Motor Local ⚡";
-        badge.style.background = "#332213";
-      }
-    }
-    
-    document.getElementById("suggestion").textContent = msg;
-    document.getElementById("result").style.display = "block";
-    document.getElementById("result").scrollIntoView({ behavior: "smooth" });
-  } catch (err) {
-    // Redireciona silenciosamente para o motor local sem exibir o alerta/popup incômodo
-    const msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
-    document.getElementById("suggestion").textContent = msg;
-    if (badge) {
-      badge.textContent = "Gerado via Motor Local (Modo de Segurança) ⚡";
-      badge.style.background = "#332213";
-    }
-    document.getElementById("result").style.display = "block";
-  } finally {
-    generate.disabled = false;
-    generate.textContent = "✦ Gerar Próxima Mensagem Inteligente";
-  }
+ if(photosSent && coffeeBreakSent){
+  return `Olá${nameStr}! Passando para saber se você conseguiu dar uma olhadinha nas fotos e vídeos que te mandei da sala e do nosso espaço. Se quiser, você está super convidada para vir tomar um café com a gente e conhecer a estrutura de perto! Qual dia e horário fica melhor para você vir aqui no Nellus?`;
+ }
+ return `Olá${nameStr}! Passando para saber se você conseguiu avaliar a proposta da sala. Se ficou qualquer dúvida ou se quiser vir aqui no Nellus para tomar um café e conhecer a estrutura presencialmente, estou à disposição! Qual dia e horário fica melhor para você?`;
 }
+
+async function run(){
+ const text=conv.value.trim();
+ const clientName=document.getElementById("clientName").value.trim();
+ const customContext=document.getElementById("customContext").value.trim();
+ 
+ if(!text && !customContext){
+  alert("Por favor, cole a conversa ou escreva o contexto!");
+  return;
+ }
+
+ generate.disabled=true;
+ generate.textContent="✦ Gerando resposta...";
+
+ const badge = document.getElementById("usedEngineBadge");
+
+ try{
+  let msg = "";
+  if(engineMode === "gemini" && apiKey){
+   msg = await callGemini(text, selectedAction, clientName, customContext);
+   badge.textContent = "Gerado via Google Gemini ✨";
+   badge.style.background = "#133329";
+  }else{
+   await new Promise(r=>setTimeout(r, 200));
+   msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
+   badge.textContent = "Gerado via Motor Local ⚡";
+   badge.style.background = "#332213";
+  }
+  document.getElementById("suggestion").textContent = msg;
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+ }catch(err){
+  const msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
+  document.getElementById("suggestion").textContent = msg;
+  badge.textContent = "Gerado via Motor Local (Segurança) ⚡";
+  badge.style.background = "#332213";
+  document.getElementById("result").style.display = "block";
+ }finally{
+  generate.disabled = false;
+  generate.textContent = "✦ Gerar Próxima Mensagem Inteligente";
+ }
+}
+
+generate.onclick = run;
+document.getElementById("copy").onclick = async()=>{
+ try{
+  await navigator.clipboard.writeText(document.getElementById("suggestion").textContent);
+  document.getElementById("copy").textContent="✓ Copiado com sucesso!";
+  setTimeout(()=>document.getElementById("copy").textContent="⧉ Copiar Mensagem",2000);
+ }catch(e){
+  alert("Erro ao copiar.");
+ }
+};
+</script>
+</body>
+</html>
