@@ -566,145 +566,145 @@ function lastMeaningfulMessage(text){
  const lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);
  return lines.length?lines[lines.length-1]:text;
 }
+function v11Facts(){
+ return {
+  address:'Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ',
+  hours:'07h30 às 19h, de segunda a sexta-feira',
+  privatePackages:[
+   'Avulso: R$ 45/h',
+   'Pacote 4h: R$ 160 (R$ 40/h)',
+   'Pacote 16h: R$ 400 (R$ 25/h)',
+   'Pacote 24h: R$ 600 (R$ 25/h)'
+  ],
+  fixedExtra:'R$ 450 por colaborador adicional, respeitando o limite de 6 pessoas.'
+ };
+}
 function detectIntent(text){
  const t=normalize(text);
- if(/vou pensar|vou verificar|vou analisar|depois vejo|deixa eu ver|preciso pensar|vou conversar/.test(t))return"objecao";
- if(/caro|cara|preco|valor|quanto custa|quanto fica|quanto e|orcamento/.test(t))return"preco";
- if(/sala privativa|sala particular/.test(t))return"sala privativa";
- if(/sala de reuniao|reuniao/.test(t))return"sala de reunião";
- if(/treinamento|curso|workshop|palestra/.test(t))return"sala de treinamento";
- if(/estacao de trabalho|coworking|mesa compartilhada/.test(t))return"estação de trabalho";
- if(/sala fixa|sala mensal|mensalidade/.test(t))return"sala fixa";
- if(/endereco comercial/.test(t))return"endereço comercial";
- if(/endereco fiscal|cnpj/.test(t))return"endereço fiscal";
- if(/onde fica|onde voces ficam|onde voces estao|onde fica o nellus|localizacao|endereco|como chegar|qual o endereco|qual endereco/.test(t))return"localização";
- if(/horario|horas|hora avulsa|diaria|dia inteiro/.test(t))return"horário";
- if(/visita|conhecer|conhecer o espaco/.test(t))return"visita";
- if(/disponivel|disponibilidade|tem vaga|tem horario/.test(t))return"disponibilidade";
- return"geral";
+ // A ordem importa: primeiro identificamos perguntas factuais muito claras.
+ if(/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o|qual\s+endere[cç]o/.test(t))return'localizacao';
+ if(/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t))return'horario';
+ if(/disponivel|disponibilidade|tem\s+vaga|tem\s+horario|tem\s+algum\s+horario/.test(t))return'disponibilidade';
+ if(/vou pensar|vou verificar|vou analisar|depois vejo|deixa eu ver|preciso pensar|vou conversar|vou falar com/.test(t))return'objecao';
+ if(/desconto|condicao especial|condi[cç][aã]o especial/.test(t))return'desconto';
+ if(/sala\s+fixa|sala\s+mensal|mensalidade|por\s+mes|mensal/.test(t))return'sala fixa';
+ if(/sala\s+de\s+treinamento|treinamento|curso|workshop|palestra/.test(t))return'sala de treinamento';
+ if(/sala\s+de\s+reuniao|reuniao/.test(t))return'sala de reunião';
+ if(/endereco\s+comercial/.test(t))return'endereço comercial';
+ if(/endereco\s+fiscal|cnpj/.test(t))return'endereço fiscal';
+ if(/sala\s+privativa|sala\s+particular|sala\s+por\s+hora|alugam\s+por\s+hora|aluga\s+por\s+hora|hora\s+avulsa|alugar\s+por\s+hora/.test(t))return'sala privativa';
+ if(/estacao\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t))return'estação de trabalho';
+ if(/caro|cara|preco|valor|quanto\s+custa|quanto\s+fica|quanto\s+e|orcamento/.test(t))return'preco';
+ if(/visita|conhecer\s+(?:o\s+)?espaco/.test(t))return'visita';
+ if(/reservar|reserva|agendar|contratar|fechar/.test(t))return'fechamento';
+ return'geral';
 }
 function findPlan(intent,text){
  const t=normalize(text);
- let p=plans.find(x=>normalize(x.name).includes(intent)||intent.includes(normalize(x.name)));
- if(p)return p;
+ const direct={
+  'sala privativa':'sala privativa','sala de reunião':'sala de reunião','sala de treinamento':'sala de treinamento',
+  'estação de trabalho':'estação de trabalho','sala fixa':'sala fixa','endereço comercial':'endereço comercial','endereço fiscal':'endereço fiscal'
+ };
+ if(direct[intent]){
+  const exact=plans.find(x=>normalize(x.name)===normalize(direct[intent]));
+  if(exact)return exact;
+ }
  const map=[
-  ["sala privativa",["privativa","particular"]],
-  ["sala de reunião",["reuniao"]],
-  ["sala de treinamento",["treinamento","curso","workshop","palestra"]],
-  ["estação de trabalho",["estacao","coworking","compartilhada"]],
-  ["sala fixa",["sala fixa","mensal"]],
-  ["endereço comercial",["endereco comercial"]],
-  ["endereço fiscal",["endereco fiscal","cnpj"]]
+  ['sala privativa',['privativa','particular','por hora','hora avulsa']],
+  ['sala de reunião',['reuniao']],['sala de treinamento',['treinamento','curso','workshop','palestra']],
+  ['estação de trabalho',['estacao','coworking','compartilhada']],['sala fixa',['sala fixa','mensal']],
+  ['endereço comercial',['endereco comercial']],['endereço fiscal',['endereco fiscal','cnpj']]
  ];
  const m=map.find(([_,words])=>words.some(w=>t.includes(normalize(w))));
  return m?plans.find(x=>normalize(x.name).includes(normalize(m[0]))):null;
 }
 function hasAny(text,arr){const t=normalize(text);return arr.some(x=>t.includes(normalize(x)))}
 function scoreKnowledge(k,text){
- const t=normalize(text), triggers=(k.trigger||"").split(";").map(x=>normalize(x.trim())).filter(Boolean);
- let score=(k.priority||5)*0.15;
- triggers.forEach(term=>{if(term&&t.includes(term))score+=2+Math.min(term.length/20,1)});
- return score;
+ const t=normalize(text), triggers=(k.trigger||'').split(';').map(x=>normalize(x.trim())).filter(Boolean);
+ let score=(k.priority||5)*0.15; triggers.forEach(term=>{if(term&&t.includes(term))score+=2+Math.min(term.length/20,1)}); return score;
 }
-function bestKnowledge(text){
- return knowledge.map(k=>({k,score:scoreKnowledge(k,text)})).filter(x=>x.score>1.8)
-   .sort((a,b)=>b.score-a.score).slice(0,3).map(x=>x.k);
-}
-function serviceFacts(p){
- if(!p)return "";
- return [
-   p.name&&`Serviço: ${p.name}.`,
-   p.price&&`Valor: ${p.price}.`,
-   p.capacity&&`Capacidade: ${p.capacity}.`,
-   p.schedule&&`Horário: ${p.schedule}.`,
-   p.desc&&`Descrição: ${p.desc}.`,
-   p.arguments&&`Benefícios: ${p.arguments}.`
- ].filter(Boolean).join(" ");
-}
-function v8ExtractClientText(text){
- const lines=(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);
- const client=lines.filter(x=>/^(cliente|lead|ele|ela)\s*:/i.test(x)).map(x=>x.replace(/^[^:]+:\s*/,'')).join(' ');
- return client||lastMeaningfulMessage(text||'');
-}
-function v8Analyze(text,context){
- const all=((text||'')+' '+(context||'')); const t=normalize(all), msg=normalize(v8ExtractClientText(text));
- const has=(arr,s=t)=>arr.some(x=>s.includes(normalize(x)));
- let stage='Novo contato', intent='Geral', objection='Nenhuma', action='Descobrir a necessidade', score=25;
- if(has(['reservar','reserva','agendar','fechar','contratar','quero reservar'])){stage='Fechamento';action='Conduzir para reserva/agendamento';score=90;}
- else if(has(['vou pensar','vou analisar','vou verificar','depois te falo','depois vejo','preciso pensar'])){stage='Objeção / decisão';objection='Indecisão';action='Reduzir incerteza e combinar próximo passo';score=62;}
- else if(has(['caro','cara','muito caro','preço alto','valor alto','não cabe no orçamento'])){stage='Objeção';intent='Preço';objection='Preço';action='Reforçar valor e entender a necessidade antes de falar em desconto';score=72;}
- else if(has(['disponibilidade','disponível','tem vaga','tem horário','qual horário'])){stage='Qualificação';intent='Disponibilidade';action='Confirmar data e horário e avançar';score=68;}
- else if(has(['quanto custa','quanto fica','qual o valor','preço','valor'])){stage='Interesse';intent='Preço';action='Responder o valor e fazer uma pergunta de qualificação';score=58;}
- else if(has(['gostei','tenho interesse','quero conhecer','quero saber mais','me interessei'])){stage='Interesse';action='Transformar interesse em próximo passo';score=65;}
- else if(has(['sala privativa','sala particular'])){stage='Interesse';intent='Sala privativa';action='Entender uso, data, horário e pessoas';score=55;}
- else if(has(['sala de reunião','reunião'])){stage='Interesse';intent='Sala de reunião';action='Entender uso, data, horário e pessoas';score=55;}
- else if(has(['treinamento','curso','workshop','palestra'])){stage='Interesse';intent='Sala de treinamento';action='Entender quantidade de pessoas e duração';score=55;}
- else if(has(['coworking','estação de trabalho','mesa compartilhada'])){stage='Interesse';intent='Estação de trabalho';action='Entender frequência e horário de uso';score=55;}
- else if(has(['endereço comercial'])){stage='Interesse';intent='Endereço comercial';action='Explicar benefício e confirmar necessidade empresarial';score=55;}
- else if(has(['endereço fiscal','cnpj'])){stage='Interesse';intent='Endereço fiscal';action='Explicar a solução e confirmar necessidade';score=55;}
- else if(has(['onde fica','onde vocês ficam','onde voces ficam','onde vocês estão','onde voces estao','onde vcs ficam','onde vcs estão','vocês ficam localizados','voces ficam localizados','localização','localizacao','como chegar','endereço','endereco','qual o endereço','qual endereco'])){stage='Interesse';intent='Localização';action='Informar a localização diretamente';score=48;}
+function bestKnowledge(text){return knowledge.map(k=>({k,score:scoreKnowledge(k,text)})).filter(x=>x.score>1.8).sort((a,b)=>b.score-a.score).slice(0,3).map(x=>x.k)}
+function serviceFacts(p){if(!p)return '';return [p.name&&`Serviço: ${p.name}.`,p.price&&`Valor: ${p.price}.`,p.capacity&&`Capacidade: ${p.capacity}.`,p.schedule&&`Horário: ${p.schedule}.`,p.desc&&`Descrição: ${p.desc}.`,p.arguments&&`Benefícios: ${p.arguments}.`].filter(Boolean).join(' ')}
+function v8ExtractClientText(text){const lines=(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);const client=lines.filter(x=>/^(cliente|lead|ele|ela)\s*:/i.test(x)).map(x=>x.replace(/^[^:]+:\s*/,'')).join(' ');return client||lastMeaningfulMessage(text||'')}
+
+function v11Analyze(text,context){
+ const all=((text||'')+' '+(context||'')); const msg=v8ExtractClientText(text); const t=normalize(all), m=normalize(msg); const intent=detectIntent(msg||all);
+ let stage='Novo contato',objection='Nenhuma',action='Descobrir a necessidade',score=25;
+ if(intent==='fechamento'){stage='Fechamento';action='Conduzir para reserva/agendamento';score=90}
+ else if(intent==='objecao'){stage='Objeção / decisão';objection='Indecisão';action='Reduzir incerteza e combinar próximo passo';score=62}
+ else if(intent==='desconto'){stage='Objeção';objection='Preço';action='Explicar as condições existentes sem inventar desconto';score=66}
+ else if(intent==='preco'){stage='Interesse';action='Responder o valor da opção tratada';score=58}
+ else if(intent==='disponibilidade'){stage='Qualificação';action='Confirmar data e horário antes de prometer disponibilidade';score=68}
+ else if(intent!=='geral'){stage='Interesse';action='Responder a pergunta e só depois avançar para o próximo passo';score=52}
  const missing=[];
- if(!has(['dia','data','amanhã','segunda','terça','quarta','quinta','sexta','sábado','domingo'],msg))missing.push('data');
- if(!has(['hora','horário','horas','manhã','tarde','noite','às'],msg))missing.push('horário');
- if(!has(['pessoa','pessoas','participante','participantes','equipe'],msg))missing.push('quantidade de pessoas');
+ if(!hasAny(m,['dia','data','amanha','segunda','terca','quarta','quinta','sexta','sabado','domingo']))missing.push('data');
+ if(!hasAny(m,['hora','horario','horas','manha','tarde','noite','as']))missing.push('horário');
+ if(!hasAny(m,['pessoa','pessoas','participante','participantes','equipe']))missing.push('quantidade de pessoas');
  const already=[];
- if(has(['fotos','foto'],t)||/fotos? (enviad|mandad)/.test(t))already.push('fotos');
- if(has(['endereço enviado','endereco enviado','já mandei o endereço','ja mandei o endereco'],t))already.push('endereço');
- if(has(['valores enviados','já mandei os valores','ja mandei os valores'],t))already.push('valores');
- return {stage,intent,objection,action,score,missing:[...new Set(missing)].slice(0,3),already};
+ if(hasAny(t,['fotos','foto'])||/fotos?\s+(enviad|mandad)/.test(t))already.push('fotos');
+ if(hasAny(t,['endereco enviado','ja mandei o endereco','endereco ja enviado']))already.push('endereço');
+ if(hasAny(t,['valores enviados','ja mandei os valores','valores ja enviados']))already.push('valores');
+ return {stage,intent:intent==='preco'?'Preço':intent==='objecao'?'Geral':intent,objection,action,score,missing:[...new Set(missing)].slice(0,3),already};
 }
-function v8FindPlanByIntent(a,text){
- const map={'Sala privativa':'sala privativa','Sala de reunião':'sala de reunião','Sala de treinamento':'sala de treinamento','Estação de trabalho':'estação de trabalho','Sala fixa':'sala fixa','Endereço comercial':'endereço comercial','Endereço fiscal':'endereço fiscal'};
- return map[a.intent]?(plans.find(x=>normalize(x.name)===normalize(map[a.intent]))||findPlan(a.intent,text)):findPlan(a.intent,text);
-}
-function v8MatchExamples(text,analysis){
- const pool=(window.v7Examples||[]), t=normalize(text+' '+analysis.intent+' '+analysis.objection+' '+analysis.stage);
- return pool.map(x=>{let s=(Number(x.priority)||2)*0.5; const terms=((x.triggers||'')+' '+x.client+' '+x.category).toLowerCase().split(/[\s,.;!?/|]+/).filter(w=>w.length>2); terms.forEach(w=>{const n=normalize(w);if(n&&t.includes(n))s+=1;}); if(normalize(x.category).includes(normalize(analysis.objection))||normalize(x.category).includes(normalize(analysis.intent)))s+=3; return {...x,match:s};}).filter(x=>x.match>=2.5).sort((a,b)=>b.match-a.match).slice(0,2);
-}
-function v8ComposeFromExample(ex,analysis,plan,name){
- if(!ex)return null; let r=ex.ideal.trim(); const customer=name?', '+name:'';
- const hadGreeting=/^(olá|oi)\b/i.test(r); r=r.replace(/^(olá|oi)\s*,?\s*[^!\n]*!\s*/i,'');
- if(hadGreeting)r=`${name?'Olá'+customer+'! 😊 ':'Olá! 😊 '}${r}`;
- if(plan&&analysis.intent==='Preço'&&!normalize(r).includes(normalize(plan.price||'___')))r+=` ${plan.name}: ${plan.price}.`;
- if(analysis.missing.length&&!/data|horário|pessoas|quantas|quando/.test(normalize(r)))r+=` Para eu te orientar melhor, me passe ${analysis.missing.join(', ')}.`;
- return r.replace(/\s+/g,' ').trim();
-}
-function v10Greeting(name){
- const tone=localStorage.getItem('nellus_tone')||'natural';
- return tone==='objetivo'?`Olá${name?', '+name:''}!`:tone==='acolhedor'?`Oi${name?', '+name:''}! 😊`:`Olá${name?', '+name:''}! 😊`;
+function v11FindStructure(keyword){return structure.find(x=>normalize(x.name).includes(normalize(keyword))||normalize(x.desc).includes(normalize(keyword)))}
+function v11DirectAnswer(text,name){
+ const msg=(text||'').trim(), t=normalize(msg), g=v10Greeting(name), facts=v11Facts();
+ if(!msg)return null;
+ const pPriv=findPlan('sala privativa',msg), pMeet=findPlan('sala de reunião',msg), pTrain=findPlan('sala de treinamento',msg), pWork=findPlan('estação de trabalho',msg), pFixed=findPlan('sala fixa',msg), pCom=findPlan('endereço comercial',msg), pFiscal=findPlan('endereço fiscal',msg);
+ if(/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|endere[cç]o/.test(t)){
+  const loc=v11FindStructure('localiza');
+  return `${g} 📍 Estamos na ${loc?.desc||facts.address}. Se quiser, também posso te orientar sobre como chegar ou te apresentar as opções disponíveis.`;
+ }
+ if(/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t)){
+  return `${g} ⏰ Nosso horário de funcionamento é ${facts.hours}.`;
+ }
+ if(/voc[eê]s\s+(?:alugam|aluga)|alugam\s+por\s+hora|aluga\s+por\s+hora|hora\s+avulsa|sala\s+por\s+hora/.test(t) && !/reuniao|treinamento/.test(t)){
+  return `${g} Sim! 😊 Temos sala privativa para locação por hora: ${pPriv?.price||'R$ 45/h'}, para ${pPriv?.capacity?.toLowerCase()||'até 4 pessoas'}. Também temos pacotes: ${facts.privatePackages.slice(1).join('; ')}.`;
+ }
+ if(/pacote|pacotes|4\s*h|16\s*h|24\s*h/.test(t) && /sala|hora|privativa/.test(t)){
+  return `${g} Para a sala privativa, temos: ${facts.privatePackages.join('; ')}.`;
+ }
+ if(/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+o\s+valor|qual\s+o\s+preco|pre[cç]o|valor/.test(t)){
+  if(/reuniao/.test(t))return `${g} A sala de reunião custa ${pMeet?.price||'R$ 59,90/h'} e comporta ${pMeet?.capacity?.toLowerCase()||'até 6 pessoas'}.`;
+  if(/treinamento|curso|workshop|palestra/.test(t))return `${g} A sala de treinamento custa ${pTrain?.price||'R$ 69,90/h'} e comporta ${pTrain?.capacity?.toLowerCase()||'até 12 pessoas'}.`;
+  if(/estacao|coworking|mesa/.test(t))return `${g} A estação de trabalho custa ${pWork?.price||'R$ 10/h'} e funciona das ${pWork?.schedule||'08h às 18h'}.`;
+  if(/sala\s+fixa|mensal/.test(t))return `${g} A sala fixa custa ${pFixed?.price||'R$ 1.900/mês'} para até ${pFixed?.capacity?.replace(/[^0-9]/g,'')||'6'} pessoas. ${facts.fixedExtra}`;
+  if(/endereco\s+comercial/.test(t))return `${g} O endereço comercial custa ${pCom?.price||'R$ 520/ano'}.`;
+  if(/endereco\s+fiscal|cnpj/.test(t))return `${g} O endereço fiscal custa ${pFiscal?.price||'R$ 1.248/ano'}.`;
+  if(/sala|privativa/.test(t))return `${g} A sala privativa custa ${pPriv?.price||'R$ 45/h'} e comporta ${pPriv?.capacity?.toLowerCase()||'até 4 pessoas'}. ${facts.privatePackages.slice(1).join('; ')}.`;
+  return `${g} Temos opções a partir de ${pWork?.price||'R$ 10/h'}, como estação de trabalho, além de salas privativas, de reunião e treinamento. Se me disser qual espaço você procura, eu te passo o valor exato.`;
+ }
+ if(/quantas\s+pessoas|quantos\s+cabem|capacidade|comporta/.test(t)){
+  if(/reuniao/.test(t))return `${g} A sala de reunião comporta ${pMeet?.capacity?.toLowerCase()||'até 6 pessoas'}.`;
+  if(/treinamento|curso|workshop|palestra/.test(t))return `${g} A sala de treinamento comporta ${pTrain?.capacity?.toLowerCase()||'até 12 pessoas'}.`;
+  if(/privativa|particular|por\s+hora/.test(t))return `${g} A sala privativa comporta ${pPriv?.capacity?.toLowerCase()||'até 4 pessoas'}.`;
+  if(/fixa|mensal/.test(t))return `${g} A sala fixa comporta ${pFixed?.capacity?.toLowerCase()||'até 6 pessoas'}.`;
+ }
+ if(/tem\s+desconto|faz\s+desconto|consegue\s+desconto|desconto/.test(t)){
+  return `${g} Hoje eu não tenho uma condição de desconto cadastrada para te prometer. 😊 O que posso fazer é verificar qual opção ou pacote fica mais vantajoso para o uso que você precisa.`;
+ }
+ if(/disponivel|disponibilidade|tem\s+vaga|tem\s+horario/.test(t)){
+  return `${g} Posso te orientar, mas não vou afirmar disponibilidade sem verificar a data e o horário. Para qual data e horário você precisa?`;
+ }
+ return null;
 }
 function v10NextQuestion(a){
- const m=a.missing||[];
- // O copiloto pergunta apenas uma coisa por vez, escolhendo a informação que mais destrava o atendimento.
- if(!m.length)return '';
+ const m=a.missing||[]; if(!m.length)return '';
  if(a.intent==='Sala privativa'||a.intent==='Sala de reunião'||a.intent==='Sala de treinamento'||a.intent==='Geral')return m.includes('data')?'Para qual data você precisa do espaço?':m.includes('horário')?'E qual horário você precisa?':'Seria para quantas pessoas?';
  if(a.intent==='Estação de trabalho')return m.includes('data')?'Para qual dia você pretende utilizar?':m.includes('horário')?'Qual horário você precisa?':'Você pretende usar o espaço com que frequência?';
  return m.includes('data')?'Para qual data você precisa?':m.includes('horário')?'Qual horário seria ideal?':'Quantas pessoas vão utilizar?';
 }
-function v10Opening(name){
- const g=v10Greeting(name);
- return `${g} Seja bem-vindo(a) ao Nellus! Como posso te ajudar hoje? Você está procurando uma sala, espaço para reunião, treinamento ou endereço comercial?`;
-}
+function v10Opening(name){const g=v10Greeting(name);return `${g} Seja bem-vindo(a) ao Nellus! Como posso te ajudar hoje? Você está procurando uma sala, espaço para reunião, treinamento ou endereço comercial?`;}
 function generateLocal(text,action,name,context){
  const cleanText=(text||'').trim(), cleanContext=(context||'').trim();
- // Respostas factuais têm prioridade máxima: se o cliente perguntou onde fica,
- // o copiloto responde o endereço e NÃO transforma a pergunta em qualificação.
- const directLocation=/(onde\s+(?:voces|vocês)\s+(?:ficam|estao|estão)|onde\s+fica(?:\s+o\s+nellus)?|qual\s+(?:é|e)\s+o?\s*endere[cç]o|qual\s+endere[cç]o|localiza[cç][aã]o|como\s+chegar)/i.test(normalize(cleanText));
- if(directLocation){
-  const g=v10Greeting(name);
-  const loc=structure.find(x=>normalize(x.name).includes('localiza'));
-  const reply=`${g} 📍 Estamos na ${loc?loc.desc:'Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ.'} Se quiser, também posso te explicar como chegar ou te apresentar nossas opções de salas e espaços.`;
-  window.v8Last={analysis:{stage:'Interesse',intent:'Localização',objection:'Nenhuma',action:'Informar a localização diretamente',score:48,missing:[],already:[]},examples:[],plan:null,reply,clientText:cleanText};
-  return reply;
- }
- // Primeiro contato: conversa vazia gera uma abertura comercial natural, sem questionário.
- if(!cleanText&&!cleanContext){
-  const reply=v10Opening(name);
-  window.v8Last={analysis:{stage:'Novo contato',intent:'Geral',objection:'Nenhuma',action:'Descobrir a necessidade',score:25,missing:[],already:[]},examples:[],plan:null,reply,clientText:''};
-  return reply;
- }
- const analysis=v8Analyze(cleanText,cleanContext), clientText=v8ExtractClientText(cleanText), p=v8FindPlanByIntent(analysis,cleanText), examples=v8MatchExamples(clientText||cleanText,analysis), matched=bestKnowledge(cleanText+' '+cleanContext);
- let reply=v8ComposeFromExample(examples[0],analysis,p,name);
+ if(!cleanText&&!cleanContext){const reply=v10Opening(name);window.v8Last={analysis:{stage:'Novo contato',intent:'Geral',objection:'Nenhuma',action:'Descobrir a necessidade',score:25,missing:[],already:[]},examples:[],plan:null,reply,clientText:''};return reply;}
+ // V11: primeiro responde o que o cliente perguntou. Qualificação só acontece quando a pergunta já foi atendida.
+ const direct=v11DirectAnswer(v8ExtractClientText(cleanText)||cleanText,name);
+ if(direct){const a=v11Analyze(cleanText,cleanContext);a.missing=[];window.v8Last={analysis:a,examples:[],plan:findPlan(a.intent,cleanText),reply:direct,clientText:v8ExtractClientText(cleanText)||cleanText};return direct;}
+ const analysis=v11Analyze(cleanText,cleanContext), clientText=v8ExtractClientText(cleanText), p=findPlan(analysis.intent,cleanText), examples=v8MatchExamples(clientText||cleanText,analysis), matched=bestKnowledge(cleanText+' '+cleanContext);
+ let reply=null;
+ // Só usar exemplo treinado se ele realmente responde ao mesmo assunto; exemplos não podem transformar uma pergunta factual em pergunta de qualificação.
+ if(examples[0] && analysis.intent!=='Geral')reply=v8ComposeFromExample(examples[0],analysis,p,name);
  const g=v10Greeting(name), nextQ=v10NextQuestion(analysis);
  if(!reply){
   const main=matched.find(k=>k.type==='faq'||k.type==='objecao');
@@ -713,15 +713,11 @@ function generateLocal(text,action,name,context){
   else if(analysis.objection==='Indecisão')reply=`${g} Sem problema 😊 O que você gostaria de avaliar melhor: o valor, a estrutura ou qual opção faz mais sentido para você?`;
   else if(action==='fechamento'||analysis.stage==='Fechamento')reply=`${g} Perfeito! Vamos avançar. ${nextQ||'Posso te orientar sobre o próximo passo.'}`;
   else if(main&&analysis.objection!=='Nenhuma')reply=main.answer;
-  else if(p){
-   reply=`${g} A ${p.name} fica em ${p.price}${p.capacity?', '+p.capacity.toLowerCase():''}.`;
-   if(p.arguments)reply+=` ${p.arguments}`;
-   if(nextQ)reply+=` ${nextQ}`;
-  }
-  else reply=`${g} Quero entender o que você precisa para te indicar a melhor opção. ${nextQ||'Me conta um pouco sobre o que você está procurando.'}`;
+  else if(p){reply=`${g} A ${p.name} fica em ${p.price}${p.capacity?', '+p.capacity.toLowerCase():''}.`;if(p.arguments)reply+=` ${p.arguments}`;if(nextQ)reply+=` ${nextQ}`;}
+  else reply=`${g} Claro! Me conta o que você precisa e eu te indico a opção mais adequada.`;
  }
  if(analysis.already.includes('endereço'))reply=reply.replace(/📍[^.]*Volta Redonda\/RJ\.?/ig,'').replace(/Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.?/ig,'');
- reply=reply.replace(/\s+/g,' ').trim(); window.v8Last={analysis,examples,plan:p,reply,clientText}; return reply;
+ reply=reply.replace(/\s+/g,' ').trim();window.v8Last={analysis,examples,plan:p,reply,clientText};return reply;
 }
 
 document.getElementById("generate").onclick=()=>{
