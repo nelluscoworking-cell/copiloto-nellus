@@ -296,11 +296,9 @@ INSTRUÇÕES DE RESPOSTA:
 
  const cleanKey = apiKey.trim();
  
- // Tentativa 1: gemini-2.5-flash (Modelo atual)
- // Tentativa 2: gemini-1.5-flash-latest (Alias de compatibilidade)
+ // Utilizando gemini-2.5-flash como modelo principal atual
  const modelEndpoints = [
-   `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cleanKey}`,
-   `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${cleanKey}`
+   `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cleanKey}`
  ];
 
  let lastError = null;
