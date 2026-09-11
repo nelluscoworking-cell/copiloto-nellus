@@ -94,7 +94,7 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
   </svg>
   <span>Nellus Coworking</span>
 </div>
-<div class="connection-pill"><span class="connection-dot"></span><span id="apiStatus">API Gemini Direta</span></div>
+<div class="connection-pill"><span class="connection-dot"></span><span id="apiStatus">API Gemini Conectada</span></div>
 </header>
 
 <main>
@@ -291,32 +291,45 @@ ${text}
 
 INSTRUÇÕES DE RESPOSTA:
 1. Responda diretamente ao que o cliente perguntou na última mensagem.
-2. Se ele perguntar sobre diária ou hora, explique claramente os preços e opções correspondentes.
+2. Se ele perguntar sobre hora avulsa ou diária, informe os valores exatos de maneira amigável.
 3. Não use marcações em Markdown exageradas. Escreva uma mensagem pronta para enviar no WhatsApp.`;
 
- // Endpoint v1beta usando o modelo gemini-1.5-flash
- const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey.trim()}`;
+ const cleanKey = apiKey.trim();
+ 
+ // Tentativa 1: gemini-2.5-flash (Modelo atual)
+ // Tentativa 2: gemini-1.5-flash-latest (Alias de compatibilidade)
+ const modelEndpoints = [
+   `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cleanKey}`,
+   `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${cleanKey}`
+ ];
 
- const response = await fetch(url, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-   contents: [{ parts: [{ text: promptUser }] }]
-  })
- });
+ let lastError = null;
 
- const data = await response.json();
+ for (const url of modelEndpoints) {
+   try {
+     const response = await fetch(url, {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify({
+         contents: [{ parts: [{ text: promptUser }] }]
+       })
+     });
 
- if (!response.ok) {
-  const errDetail = data.error?.message || "Erro desconhecido na API";
-  throw new Error(`Erro na API Gemini (${response.status}): ${errDetail}`);
+     const data = await response.json();
+
+     if (response.ok && data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+       return data.candidates[0].content.parts[0].text.trim();
+     }
+
+     if (data.error) {
+       lastError = data.error.message || `Erro HTTP ${response.status}`;
+     }
+   } catch (e) {
+     lastError = e.message;
+   }
  }
 
- if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-  return data.candidates[0].content.parts[0].text.trim();
- } else {
-  throw new Error("A API respondeu, mas não retornou texto válido.");
- }
+ throw new Error(`Falha na API Gemini: ${lastError}`);
 }
 
 async function run(){
@@ -343,7 +356,6 @@ async function run(){
   badge.textContent = "Gerado via Google Gemini ✨";
   badge.style.background = "#133329";
  } catch (err) {
-  // Exibe o erro exato para diagnóstico sem recorrer a fallbacks ruins
   suggestionBox.textContent = "⚠️ NÃO FOI POSSÍVEL GERAR VIA GEMINI:\n\n" + err.message;
   suggestionBox.style.color = "#ff8b80";
   badge.textContent = "Erro na Chamada API";
