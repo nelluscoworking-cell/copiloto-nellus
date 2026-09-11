@@ -141,6 +141,7 @@ const DEFAULT_STRUCTURE=[
 {name:"Café e Água",icon:"☕",desc:"Cortesia e praticidade durante toda a permanência."},
 {name:"Recepcionista",icon:"🙋",desc:"Atendimento profissional para recepcionar seus clientes."},
 {name:"Copa Compartilhada",icon:"🍽️",desc:"Geladeira, micro-ondas e sanduicheira disponíveis."},
+{name:"Espaço para Coffee Break",icon:"🥐",desc:"Espaço dedicado e parceria com fornecedores de buffet."},
 {name:"Localização Nobre",icon:"📍",desc:"Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ."}
 ];
 
@@ -267,14 +268,14 @@ function generateNellusResponse(text, action){
  const comercialPrice = getPlanPrice("comercial", "R$ 520/ano");
 
  if(action === "follow"){
+  if(t.includes("treinamento") || t.includes("curso") || t.includes("workshop") || t.includes("auditorio") || t.includes("auditório") || t.includes("12 pessoas")){
+   return `Olá! Conseguimos ajustar o layout da sala de treinamento dependendo do seu evento. Ah, e uma facilidade: temos espaço dedicado para coffee break e parceria com fornecedores para cuidar de tudo para você, se precisar. Me avisa se a capacidade para 12 pessoas te atende ou se quer alinhar mais detalhes!`;
+  }
   if(t.includes("privativa") || t.includes("atendimento") || t.includes("psicólog") || t.includes("terapeut")){
    return `Oi! Tudo bem? Passando para ver se você conseguiu avaliar a sala privativa (${privativaPrice}) para o seu atendimento. Se ficou alguma dúvida de horários ou pacotes, estou por aqui!`;
   }
   if(t.includes("reunião")){
    return `Olá! Tudo bem? Passando para saber se vocês já definiram a data para a reunião. A nossa sala de reunião (${reuniaoPrice}) está disponível com toda a estrutura pronta. Quer que eu verifique a agenda para você?`;
-  }
-  if(t.includes("treinamento") || t.includes("curso") || t.includes("workshop")){
-   return `Oi! Tudo bem por aí? Gostaria de saber se vocês já têm a previsão de data para o treinamento. Consigo checar a disponibilidade da sala de treinamento (${treinamentoPrice}) para vocês!`;
   }
   if(t.includes("fiscal") || t.includes("cnpj")){
    return `Olá! Tudo bem? Passando para ver se você conseguiu verificar com a contabilidade sobre o endereço fiscal (${fiscalPrice}). Se precisar de mais informações sobre nossa inscrição municipal, estou à disposição!`;
@@ -303,8 +304,8 @@ function generateNellusResponse(text, action){
   return "Boa noite! Sim, atendemos fora do horário comercial e aos finais de semana com agendamento prévio. Nesses horários, temos um adicional de 20% sobre o valor da hora da sala, com toda a nossa estrutura inclusa (recepção, internet, café e copa compartilhada). Você precisaria para qual dia e para quantas pessoas?";
  }
 
- if(t.includes("treinamento") || t.includes("curso") || t.includes("workshop") || t.includes("12 pessoas") || t.includes("palestra")){
-  return `A nossa sala de treinamento comporta até 12 pessoas e o valor é ${treinamentoPrice} (e para locações acima de 5 horas fora do horário comercial sai a R$ 65/h). Já inclui recepção, internet de alta velocidade, café, água e uso da copa. Você já tem uma data prevista?`;
+ if(t.includes("treinamento") || t.includes("curso") || t.includes("workshop") || t.includes("12 pessoas") || t.includes("palestra") || t.includes("auditorio") || t.includes("auditório")){
+  return `A nossa sala de treinamento comporta até 12 pessoas e o valor é ${treinamentoPrice} (e para locações acima de 5 horas fora do horário comercial sai a R$ 65/h). Já inclui recepção, internet de alta velocidade, café, água e uso da copa. Além disso, temos espaço próprio para coffee break e parceria com fornecedores para cuidar do buffet se você precisar. Você já tem uma data prevista?`;
  }
 
  if(t.includes("reunião") || t.includes("6 pessoas")){
