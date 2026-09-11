@@ -1,0 +1,15 @@
+{
+  "name": "Nellus Copiloto",
+  "short_name": "Nellus",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#050806",
+  "theme_color": "#050806",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
