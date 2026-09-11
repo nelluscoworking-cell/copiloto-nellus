@@ -279,7 +279,7 @@ ${text}
 """`;
 
  const cleanKey = apiKey.trim();
- const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
+ const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
 
  const response = await fetch(url, {
   method: "POST",
