@@ -1,2941 +1,1088 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nellus Coworking - Gestão</title>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/recharts/umd/Recharts.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nellus | Copiloto Comercial Pro V24</title>
+<meta name="theme-color" content="#050806">
+<style>
+:root{
+ --bg:#050806;--panel:#0b110f;--panel2:#101815;--line:#1d2b26;
+ --green:#087f6a;--green2:#10a083;--white:#f4f7f5;--muted:#91a09a;
+ --orange:#e27d4e;--danger:#d96b61;--shadow:0 18px 60px rgba(0,0,0,.35)
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--white);
+font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:820px;min-height:100vh;margin:auto;background:radial-gradient(circle at 80% 0%,rgba(8,127,106,.12),transparent 32%),var(--bg)}
+.top{height:82px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;
+position:sticky;top:0;z-index:10;background:rgba(5,8,6,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.logo-box{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.03em;font-size:18px;color:#65cfb4}
+.logo-icon{width:32px;height:32px;display:block}
+main{padding:20px 17px 140px}.view{display:none !important}.view.active{display:block !important}#trainingV7:not(.active){display:none !important}
+.eyebrow{text-transform:uppercase;letter-spacing:.13em;color:#4ec4a9;font-weight:900;font-size:10px}
+h1{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:8px 0}
+h2{font-size:18px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;line-height:1.55;margin:0}
+.hero{padding:22px;border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,#0d1714,#08100e);box-shadow:var(--shadow)}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:24px 0 11px}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.quick button{padding:14px;text-align:left;border:1px solid var(--line);border-radius:17px;background:var(--panel);
+color:var(--white);transition:all .2s;position:relative}
+.quick button:hover{border-color:#2d5b4f;transform:translateY(-1px)}
+.quick button.selected{border-color:#10a083;background:#0c251e;box-shadow:0 0 0 2px rgba(16,160,131,.3)}
+.quick button.selected b{color:#65cfb4}.quick b{display:block;font-size:13px;margin-bottom:4px}.quick span{font-size:11px;color:var(--muted)}
+.composer{margin-top:13px;background:var(--panel);border:1px solid var(--line);border-radius:21px;padding:14px}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+label{font-size:13px;font-weight:850}.count{font-size:10px;color:var(--muted)}
+.input-field{width:100%;margin-bottom:10px;border:1px solid var(--line);border-radius:13px;background:#070c0a;padding:10px 14px;color:var(--white);outline:none;font-size:13px}
+select.input-field{appearance:auto;cursor:pointer}
+textarea{width:100%;min-height:160px;resize:vertical;border:1px solid var(--line);border-radius:15px;background:#070c0a;
+padding:14px;color:var(--white);outline:none;font-size:13px;line-height:1.55}
+textarea:focus,input:focus,select:focus{border-color:#2f8e79;box-shadow:0 0 0 3px rgba(16,160,131,.10)}
+.primary{width:100%;margin-top:10px;border:0;border-radius:15px;padding:14px;background:var(--green);color:white;font-weight:900;transition:.2s}
+.primary:hover{background:var(--green2)}.primary:disabled{opacity:.55;cursor:not-allowed}
+.result{display:none;margin-top:15px}.result-card{padding:15px;border:1px solid #21483d;border-radius:20px;background:#0b1511}
+.result-head{font-size:12px;font-weight:900;color:#63cfb5;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.suggestion{white-space:pre-wrap;background:#070c0a;border:1px solid var(--line);border-radius:15px;padding:15px;line-height:1.6;font-size:14px}
+.actions{display:flex;gap:8px;margin-top:9px}.secondary{flex:1;padding:11px;border-radius:13px;background:transparent;border:1px solid #2a4d43;color:#dceae5;font-weight:800}
+.cards{display:grid;gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
+.product{display:flex;gap:12px;align-items:center;justify-content:space-between}.badge{width:43px;height:43px;border-radius:14px;background:#0d2a22;color:#62cdb4;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+.product .info{flex:1}.product strong{font-size:13px;display:block}.product small{font-size:11px;color:var(--muted);line-height:1.4;display:block}.price{color:#fff;font-size:12px;font-weight:900;white-space:nowrap;margin-left:8px}
+.card-actions{display:flex;gap:7px;margin-top:12px;border-top:1px solid var(--line);padding-top:11px}
+.btn{border:1px solid #2a4d43;background:#0b1511;color:#dceae5;border-radius:10px;padding:8px 11px;font-size:11px;font-weight:850}
+.btn:hover{border-color:#10a083}.btn-danger{color:#ffaaa0;border-color:#542d29}.btn-green{background:#0d5e4f;border-color:#0d5e4f;color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.feature{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px;position:relative}
+.feature .fi{font-size:20px;margin-bottom:4px}.feature b{font-size:12px}.feature span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:2px}
+.feature .card-actions{margin-top:10px}.form-box{background:#0e1714;border:1px solid #1a3c33;border-radius:18px;padding:15px;margin:14px 0;display:none}
+.form-box.active{display:block}.form-box h3{margin:0 0 10px;font-size:14px;color:#65cfb4}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.full{grid-column:1/-1}
+.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed #29433b;border-radius:16px;font-size:12px}
+.info-box{margin-top:14px;padding:13px;border-radius:15px;background:#0b1511;border:1px solid var(--line);font-size:11px;color:var(--muted);line-height:1.5}
+.connection-pill{display:flex;align-items:center;gap:7px;border:1px solid #1f594b;background:#0b110f;color:#70d3bc;border-radius:999px;padding:8px 10px;font-size:10px;font-weight:850}
+.connection-dot{width:7px;height:7px;border-radius:50%;background:#10a083;box-shadow:0 0 0 3px rgba(16,160,131,.13)}
+.mode-tag{font-size:10px;padding:3px 8px;border-radius:6px;background:#133329;color:#65cfb4;border:1px solid #215e4f}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:820px;height:78px;padding:8px 8px max(8px,env(safe-area-inset-bottom));
+display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}
+.nav{border:0;background:transparent;color:#718078;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:800}
+.nav i{font-style:normal;font-size:18px}.nav.active{background:#0c251e;color:#65cfb4}
+
+.kb-tabs{display:flex;gap:7px;overflow:auto;padding-bottom:3px;margin:15px 0 10px}
+.kb-tab{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:#b8c8c2;border-radius:999px;padding:8px 11px;font-size:11px;font-weight:850}
+.kb-tab.active{background:#0c251e;border-color:#10a083;color:#65cfb4}
+.kb-list{display:grid;gap:10px}.kb-card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:13px}
+.kb-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:7px}
+.kb-tag{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#65cfb4;background:#0d2a22;border-radius:6px;padding:4px 7px}
+.kb-q{font-weight:900;font-size:13px;line-height:1.35}.kb-a{font-size:12px;color:#c6d2ce;line-height:1.55;margin-top:7px;white-space:pre-wrap}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(15px);background:#10231d;border:1px solid #2d6b59;color:#dff8ef;padding:10px 14px;border-radius:12px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:560px){.quick,.grid,.form-grid{grid-template-columns:1fr}.top{height:74px}.logo-box span{font-size:15px}.connection-pill{padding:7px}.hero{padding:18px}}
+
+/* ===== V7: Gestor Visionário ===== */
+.ai-dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.ai-kpi{background:#101714;border:1px solid #23362d;border-radius:14px;padding:12px}
+.ai-kpi .k{font-size:11px;color:#91a49b;text-transform:uppercase;letter-spacing:.05em}
+.ai-kpi .v{font-size:20px;font-weight:800;margin-top:5px}
+.ai-kpi.hot .v{color:#d6ff68}
+.diagnostic{background:linear-gradient(135deg,#101814,#0c110f);border:1px solid #294437;border-radius:16px;padding:15px;margin:12px 0}
+.diagnostic h3{margin:0 0 10px;font-size:15px}
+.pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{padding:6px 9px;border-radius:999px;background:#17231e;border:1px solid #294137;font-size:11px}
+.pill strong{color:#d6ff68}
+.strategy-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.strategy-card{background:#0f1512;border:1px solid #23362d;border-radius:13px;padding:12px}
+.strategy-card b{display:block;font-size:11px;color:#d6ff68;margin-bottom:6px;text-transform:uppercase}
+.training-card{background:#101714;border:1px solid #23362d;border-radius:14px;padding:13px;margin:10px 0}
+.training-card small{color:#82958c}
+.training-card .example{margin-top:8px;padding:9px;border-radius:10px;background:#0b100e;font-size:12px;line-height:1.45}
+.v7-tabs{display:flex;gap:7px;overflow:auto;margin-bottom:12px}
+.v7-tab{white-space:nowrap;border:1px solid #294137;background:#101714;color:#b9c8c1;border-radius:10px;padding:8px 11px;cursor:pointer}
+.v7-tab.active{background:#d6ff68;color:#0b100e;border-color:#d6ff68;font-weight:800}
+.training-form{display:none}
+.training-form.active{display:block}
+.feedback-row{display:flex;gap:8px;margin-top:10px}
+.feedback-row button{flex:1}
+.empty-state{padding:20px;text-align:center;color:#82958c;border:1px dashed #294137;border-radius:14px}
+@media(max-width:700px){.ai-dashboard{grid-template-columns:repeat(2,1fr)}.strategy-grid{grid-template-columns:1fr}}
+
+</style>
+<style id="v9css">.radar-panel{background:linear-gradient(145deg,#101a17,#0b1110);border:1px solid #1d3a31;border-radius:18px;padding:18px;margin:0 0 18px}.radar-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.radar-kicker{font-size:10px;letter-spacing:1.4px;color:#36d2a7;font-weight:800}.radar-head h2{margin:5px 0 4px;font-size:19px}.radar-head p{margin:0;color:#8da199;font-size:12px}.radar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px}.radar-kpi{border:1px solid #22342f;border-radius:13px;padding:11px;display:flex;flex-direction:column;gap:2px;background:#0d1412}.radar-kpi span{font-size:16px}.radar-kpi b{font-size:22px}.radar-kpi small{font-size:10px;color:#7f918a}.radar-kpi.hot{border-color:#1e604c}.radar-kpi.risk{border-color:#5b3030}.opportunity-list{margin-top:12px}.opp-item{padding:11px;border:1px solid #1e302b;border-radius:12px;background:#0d1412;margin-top:8px}.opp-item b{font-size:12px}.opp-item small{display:block;color:#81928b;margin-top:4px;line-height:1.4}.risk-banner{border-radius:12px;padding:13px;border:1px solid #29443b;background:#0d1714}.risk-banner.hot{border-color:#1d6c53}.risk-banner.attention{border-color:#695f27}.risk-banner.risk{border-color:#743434}.risk-title{font-size:13px;font-weight:800}.risk-meta{font-size:11px;color:#9bada5;margin-top:4px}.risk-reason{font-size:11px;color:#c5d1cc;margin-top:8px;line-height:1.45}.next-action{margin-top:9px;padding:9px;border-radius:9px;background:#111c18;font-size:11px}.pipeline-actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.pipeline-card{border:1px solid #22342f;border-radius:14px;padding:13px;margin:9px 0;background:#0d1412}.pipeline-card .topline{display:flex;justify-content:space-between;gap:8px}.pipeline-card small{color:#8b9c95}.pipeline-card p{font-size:11px;color:#b8c5c0;line-height:1.4}.tag{display:inline-block;padding:4px 7px;border-radius:99px;background:#15241f;font-size:9px;color:#8ed8c1}@media(max-width:620px){.radar-grid{grid-template-columns:repeat(2,1fr)}.radar-head{flex-direction:column}}</style>
+<style id="v10css">
+.today-panel{background:linear-gradient(145deg,#0d1814,#0a100e);border:1px solid #244238;border-radius:18px;padding:18px;margin:0 0 18px}
+.today-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.today-kicker{font-size:10px;letter-spacing:1.3px;color:#6de0ba;font-weight:800}.today-head h2{margin:5px 0 4px;font-size:19px}.today-head p{margin:0;color:#8da199;font-size:12px}.today-count{font-size:11px;padding:7px 10px;border-radius:999px;background:#11251e;color:#8ee1c4;border:1px solid #285342;white-space:nowrap}.today-list{display:grid;gap:8px;margin-top:14px}.today-item{border:1px solid #21352f;border-radius:13px;padding:12px;background:#0c1411}.today-item.hot{border-left:3px solid #20c997}.today-item.attention{border-left:3px solid #e0cf36}.today-item.risk{border-left:3px solid #ed3c4c}.today-top{display:flex;justify-content:space-between;gap:10px}.today-name{font-size:12px;font-weight:800}.today-score{font-size:10px;color:#9eb0a8}.today-reason{font-size:10px;color:#9bada5;margin-top:4px;line-height:1.4}.today-action{font-size:10px;color:#cbd6d1;margin-top:7px;line-height:1.4}.today-actions{display:flex;gap:7px;margin-top:9px}.today-actions button{font-size:10px;padding:7px 9px}.empty-today{border:1px dashed #294039;border-radius:12px;padding:14px;color:#81938b;font-size:11px;text-align:center}.priority-filter{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.priority-filter button.active{border-color:#36d2a7;color:#b8f1de;background:#10261f}.pipeline-card.hot{border-left:3px solid #20c997}.pipeline-card.attention{border-left:3px solid #e0cf36}.pipeline-card.risk{border-left:3px solid #ed3c4c}.reopen-btn{margin-top:8px}
+@media(max-width:620px){.today-head{flex-direction:column}.today-count{align-self:flex-start}}
+ .actions{margin:10px 0 12px}.actions .secondary{width:100%}@media(min-width:621px){.actions .secondary{width:auto}}
+</style></head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-const { useState, useMemo, useEffect } = React;
-const XLSX = window.XLSX;
-const { jsPDF } = window.jspdf;
-const autoTable = window.jspdfAutoTable || ((doc, opts) => doc.autoTable(opts));
-const { CalendarDays, Users, Wallet, Plus, X, Search, TrendingUp, TrendingDown, Phone, Mail, MapPin, Clock, ArrowUpRight, ArrowDownRight, Trash2, FileSpreadsheet, FileText, Settings, UserPlus, Bell, CheckCircle, AlertCircle, UsersRound, Pencil, MoreHorizontal, Filter, ChevronRight, ListTodo, MessageCircle, Send, DollarSign, CalendarClock, BellRing, Save, Target, Clock3, RefreshCw } = lucide;
-const { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } = Recharts;
-
-//
----------------------------------------------------------------------------
-
-// Seed data
-
-// ---------------------------------------------------------------------------
-
-const DEFAULT_TYPE_LABEL = {
-  presencial: "Presencial",
-  salaFixa: "Sala fixa",
-  virtual: "Escritório virtual",
-};
-
-const TYPE_DOT = {
-
-  presencial:
-"#E08A52",
-
-  salaFixa:
-"#0E6E56",
-
-  virtual: "#3E7CB1",
-
-};
-
-const seedClients = [
-
-  {
-
-    id:
-"c1",
-
-    name: "Marina
-Albuquerque",
-
-    document:
-"184.223.660-05",
-
-    address: "Rua
-das Acácias, 220 — Aterrado, Volta Redonda/RJ",
-
-    type:
-"presencial",
-
-    phone: "(24)
-99811-2234",
-
-    email:
-"marina.alb@gmail.com",
-
-    since:
-"2026-02-10",
-
-  },
-
-  {
-
-    id:
-"c2",
-
-    name:
-"Estúdio Cravo Design",
-
-    document:
-"41.882.203/0001-90",
-
-    address: "Av.
-Beira Rio, 88, sala 4 — Vila Santa Cecília, VR/RJ",
-
-    type:
-"salaFixa",
-
-    phone: "(24)
-99722-0091",
-
-    email:
-"contato@cravodesign.com",
-
-    since:
-"2025-11-02",
-
-  },
-
-  {
-
-    id:
-"c3",
-
-    name: "Rafael
-Bittencourt Advocacia",
-
-    document:
-"29.917.004/0001-11",
-
-    address: "Rua
-Coronel Julião de Andrade, 55 — Centro, VR/RJ",
-
-    type:
-"virtual",
-
-    phone: "(24)
-99655-8820",
-
-    email:
-"rafael@bittencourtadv.com",
-
-    since:
-"2026-04-18",
-
-  },
-
-  {
-
-    id:
-"c4",
-
-    name: "João
-Pedro Salgado",
-
-    document:
-"072.445.117-32",
-
-    address: "Rua
-Icaraí, 310 — Retiro, VR/RJ",
-
-    type: "presencial",
-
-    phone: "(24)
-98811-4477",
-
-    email:
-"joaopedro.s@outlook.com",
-
-    since:
-"2026-06-01",
-
-  },
-
-  {
-
-    id:
-"c5",
-
-    name: "Nuvem
-Contábil Ltda",
-
-    document:
-"12.884.220/0001-55",
-
-    address: "Rua
-Amazonas, 470 — Niterói, VR/RJ",
-
-    type:
-"salaFixa",
-
-    phone: "(24)
-99988-1120",
-
-    email:
-"financeiro@nuvemcontabil.com.br",
-
-    since:
-"2025-08-22",
-
-  },
-
-];
-
-const seedBookings = [
-
-  { id:
-"b1", clientId: "c1", date: "2026-09-01", start:
-"09:00", end: "12:00", room: "Estação 3", notes:
-"Reunião com fornecedor" },
-
-  { id:
-"b2", clientId: "c4", date: "2026-09-01", start:
-"13:30", end: "17:00", room: "Estação 6", notes:
-"" },
-
-  { id:
-"b3", clientId: "c3", date: "2026-09-01", start:
-"10:00", end: "10:30", room: "Sala de reunião",
-notes: "Ligação com cliente" },
-
-  { id:
-"b4", clientId: "c2", date: "2026-09-02", start:
-"08:30", end: "18:00", room: "Sala 4 (fixa)",
-notes: "" },
-
-  { id:
-"b5", clientId: "c1", date: "2026-09-03", start:
-"14:00", end: "16:00", room: "Estação 2", notes:
-"" },
-
-];
-
-const seedTx = [
-
-  { id:
-"t1", type: "entrada", desc: "Mensalidade — Estúdio
-Cravo Design", amount: 890, date: "2026-04-05", category:
-"Mensalidade" },
-
-  { id:
-"t2", type: "entrada", desc: "Diária avulsa —
-visitante", amount: 60, date: "2026-04-12", category:
-"Diária" },
-
-  { id:
-"t3", type: "saida", desc: "Conta de energia",
-amount: 540, date: "2026-04-18", category: "Contas fixas"
-},
-
-  { id:
-"t4", type: "entrada", desc: "Mensalidade — Nuvem
-Contábil", amount: 950, date: "2026-05-05", category:
-"Mensalidade" },
-
-  { id:
-"t5", type: "saida", desc: "Compra de café e
-insumos", amount: 320, date: "2026-05-10", category:
-"Insumos" },
-
-  { id:
-"t6", type: "saida", desc: "Internet e
-telefonia", amount: 410, date: "2026-05-20", category:
-"Contas fixas" },
-
-  { id:
-"t7", type: "entrada", desc: "Mensalidade — Estúdio
-Cravo Design", amount: 890, date: "2026-06-05", category:
-"Mensalidade" },
-
-  { id:
-"t8", type: "entrada", desc: "Escritório virtual —
-Rafael Bittencourt", amount: 250, date: "2026-06-08", category:
-"Virtual" },
-
-  { id:
-"t9", type: "saida", desc: "Manutenção do
-ar-condicionado", amount: 610, date: "2026-06-15", category:
-"Manutenção" },
-
-  { id:
-"t10", type: "entrada", desc: "Mensalidade — Nuvem
-Contábil", amount: 950, date: "2026-07-05", category:
-"Mensalidade" },
-
-  { id:
-"t11", type: "entrada", desc: "Diárias avulsas
-(5)", amount: 300, date: "2026-07-14", category:
-"Diária" },
-
-  { id:
-"t12", type: "saida", desc: "Conta de energia",
-amount: 580, date: "2026-07-18", category: "Contas fixas"
-},
-
-  { id:
-"t13", type: "saida", desc: "Limpeza
-terceirizada", amount: 450, date: "2026-07-25", category:
-"Serviços" },
-
-  { id:
-"t14", type: "entrada", desc: "Mensalidade — Estúdio
-Cravo Design", amount: 890, date: "2026-08-05", category:
-"Mensalidade" },
-
-  { id:
-"t15", type: "entrada", desc: "Escritório virtual —
-Rafael Bittencourt", amount: 250, date: "2026-08-06", category:
-"Virtual" },
-
-  { id:
-"t16", type: "entrada", desc: "Nova sala fixa — João
-Pedro", amount: 780, date: "2026-08-10", category: "Sala
-fixa" },
-
-  { id:
-"t17", type: "saida", desc: "Internet e
-telefonia", amount: 410, date: "2026-08-20", category:
-"Contas fixas" },
-
-  { id:
-"t18", type: "entrada", desc: "Mensalidade — Nuvem
-Contábil", amount: 950, date: "2026-09-01", category:
-"Mensalidade" },
-
-  { id:
-"t19", type: "entrada", desc: "Diárias avulsas
-(8)", amount: 480, date: "2026-09-01", category:
-"Diária" },
-
-];
-
-// ---------------------------------------------------------------------------
-
-// Helpers
-
-//
----------------------------------------------------------------------------
-
-const money = (v) =>
-
- 
-v.toLocaleString("pt-BR", { style: "currency",
-currency: "BRL" });
-
-const monthLabel = (key) => {
-
-  const [y, m] =
-key.split("-");
-
-  const names =
-["jan", "fev", "mar", "abr",
-"mai", "jun", "jul", "ago",
-"set", "out", "nov", "dez"];
-
-  return
-`${names[parseInt(m, 10) - 1]}/${y.slice(2)}`;
-
-};
-
-const dateLabel = (iso) => {
-
-  const [y, m, d] =
-iso.split("-");
-
-  return
-`${d}/${m}/${y}`;
-
-};
-
-function uid(prefix) {
-
-  return prefix +
-Math.random().toString(36).slice(2, 9);
-
-}
-
-//
----------------------------------------------------------------------------
-
-// Small UI atoms
-
-// ---------------------------------------------------------------------------
-
-function Field({ label, children }) {
-
-  return (
-
-    <label
-className="field">
-
-     
-<span>{label}</span>
-
-      {children}
-
-    </label>
-
-  );
-
-}
-
-function TypeBadge({ type, typeLabels = DEFAULT_TYPE_LABEL }) {
-
-  return (
-
-    <span
-className="type-badge" style={{ "--dot": TYPE_DOT[type]
-}}>
-
-      <i />
-
-     
-{typeLabels[type] || DEFAULT_TYPE_LABEL[type]}
-
-    </span>
-
-  );
-
-}
-
-function Modal({ title, onClose, children }) {
-
-  return (
-
-    <div
-className="modal-veil" onMouseDown={(e) => e.target ===
-e.currentTarget && onClose()}>
-
-      <div
-className="modal">
-
-        <div
-className="modal-head">
-
-         
-<h3>{title}</h3>
-
-          <button
-className="icon-btn" onClick={onClose}
-aria-label="Fechar">
-
-            <X
-size={18} />
-
-         
-</button>
-
-        </div>
-
-        <div
-className="modal-body">{children}</div>
-
-      </div>
-
-    </div>
-
-  );
-
-}
-
-//
----------------------------------------------------------------------------
-
-// Agenda
-
-//
----------------------------------------------------------------------------
-
-function Agenda({ bookings, clients, onAdd, onRemove, typeLabels = DEFAULT_TYPE_LABEL }) {
-
-  const [activeDate,
-setActiveDate] = useState("2026-09-01");
-
-  const [showForm,
-setShowForm] = useState(false);
-
-  const [draft,
-setDraft] = useState({
-
-    clientId:
-clients[0]?.id || "",
-
-    
-    guestName: "",
-date:
-"2026-09-01",
-
-    start:
-"09:00",
-
-    end:
-"10:00",
-
-    room:
-"",
-
-    notes:
-"",
-
-  });
-
-  const dates =
-useMemo(() => {
-
-    const set = new
-Set(bookings.map((b) => b.date));
-
-   
-set.add(activeDate);
-
-    return
-Array.from(set).sort();
-
-  }, [bookings,
-activeDate]);
-
-  const dayBookings =
-bookings
-
-    .filter((b) =>
-b.date === activeDate)
-
-    .sort((a, b) =>
-a.start.localeCompare(b.start));
-
-  const weekdayFmt =
-(iso) => {
-
-    const d = new
-Date(iso + "T12:00:00");
-
-    return
-d.toLocaleDateString("pt-BR", { weekday: "short", day:
-"2-digit", month: "short" });
-
-  };
-
-  const submit = (e)
-=> {
-
-   
-e.preventDefault();
-
-    if
-(!draft.room) return;
-
-    onAdd({ ...draft,
-id: uid("b") });
-
-   
-setShowForm(false);
-
-    setActiveDate(draft.date);
-
-    setDraft({
-clientId: clients[0]?.id || "", guestName: "", date: draft.date, start:
-"09:00", end: "10:00", room: "", notes:
-"" });
-
-  };
-
-  return (
-
-    <div
-className="view">
-
-      <div
-className="view-head">
-
-        <div>
-
-         
-<h2>Agenda</h2>
-
-         
-<p>Reservas de estações, salas e horários do coworking.</p>
-
-        </div>
-
-        <button
-className="btn-primary" onClick={() => setShowForm(true)}>
-
-          <Plus
-size={16} /> Novo agendamento
-
-       
-</button>
-
-      </div>
-
-      <div className="date-rail">
-
-        {dates.map((d)
-=> (
-
-          <button
-
-            key={d}
-
-           
-className={"date-chip" + (d === activeDate ? "
-active" : "")}
-
-           
-onClick={() => setActiveDate(d)}
-
-          >
-
-           
-{weekdayFmt(d)}
-
-          </button>
-
-        ))}
-
-      </div>
-
-      <div
-className="agenda-list">
-
-       
-{dayBookings.length === 0 && (
-
-          <div
-className="empty-state">
-
-           
-<CalendarDays size={22} />
-
-           
-<p>Nenhum agendamento para este dia.</p>
-
-          </div>
-
-        )}
-
-       
-{dayBookings.map((b) => {
-
-          const client
-= clients.find((c) => c.id === b.clientId);
-
-          return (
-
-            <div
-className="agenda-row" key={b.id}>
-
-              <div
-className="agenda-time">
-
-               
-<Clock size={14} />
-
-               
-{b.start} – {b.end}
-
-             
+<div class="app">
+<header class="top">
+<div class="logo-box">
+<svg class="logo-icon" viewBox="0 0 100 100" fill="none" stroke="#10a083" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="50" cy="50" r="42"/><line x1="50" y1="80" x2="50" y2="20"/>
+<line x1="50" y1="65" x2="33" y2="52"/><line x1="50" y1="65" x2="67" y2="52"/>
+<line x1="50" y1="50" x2="33" y2="37"/><line x1="50" y1="50" x2="67" y2="37"/>
+<line x1="50" y1="35" x2="35" y2="24"/><line x1="50" y1="35" x2="65" y2="24"/>
+</svg><span>Nellus Coworking</span>
+</div>
+<div class="connection-pill"><span class="connection-dot"></span><span id="apiStatus">Motor Nellus Ativo</span></div>
+</header>
+
+<main>
+<section id="home" class="view active">
+<div class="hero">
+<div class="eyebrow">Nellus • Copiloto Comercial Pro V25</div>
+<h1>Atendimento</h1>
+<p class="sub">Analise a conversa, descubra o risco de perder a venda e receba a próxima ação comercial.</p>
 </div>
 
-              <div
-className="agenda-main">
+<div class="section-title"><h2>Objetivo da resposta</h2></div><div class="quick"><button type="button" data-action="gerar"><b>Resposta consultiva</b><span>Dar sequência natural à conversa</span></button><button type="button" data-action="follow"><b>Follow-up</b><span>Retomar sem parecer cobrança</span></button><button type="button" data-action="objecao"><b>Tratar objeção</b><span>Preço, vou pensar, data etc.</span></button><button type="button" data-action="fechamento"><b>Convite / Fechamento</b><span>Convidar para visita ou reserva</span></button></div><div class="composer">
+<div class="head"><label>Nome do cliente (opcional)</label></div>
+<input type="text" id="clientName" class="input-field" placeholder="Ex: Juliana">
+<input type="tel" id="clientPhone" class="input-field" inputmode="tel" autocomplete="tel" placeholder="Telefone / WhatsApp (opcional, usado para lembrar o cliente)">
+<div id="clientMemory" class="info-box" style="display:none;margin-top:-2px;margin-bottom:10px"></div>
 
-               
-<strong>{client ? client.name : (b.guestName || "Cliente não informado")}</strong>
+<div class="head"><label>O que você JÁ FEZ / Áudios / Fotos enviadas</label></div>
+<input type="text" id="customContext" class="input-field" placeholder="Ex: Já mandei fotos da sala e o endereço."><div class="head"><label>Há quanto tempo o cliente está sem responder? (opcional)</label></div><select id="v9Silence" class="input-field"><option value="0">Agora / acabou de responder</option><option value="1">Menos de 1 dia</option><option value="2">1–2 dias</option><option value="3">3–5 dias</option><option value="6">6–7 dias</option><option value="10">Mais de 7 dias</option></select>
 
-               
-<span>{b.room}{b.notes ? ` · ${b.notes}` :
-""}</span>
-
-             
+<div class="head"><label>Conversa com o cliente</label><span class="count" id="count">0/6000</span></div>
+<textarea id="conversation" maxlength="6000" placeholder="Cole aqui a conversa do WhatsApp... (ou deixe vazio para gerar a mensagem de primeiro contato)"></textarea>
+<button class="primary" id="generate"> Gerar Próxima Mensagem Inteligente</button>
 </div>
 
-              {client && <TypeBadge type={client.type} typeLabels={typeLabels} />}
+<div class="result" id="result">
+<div class="result-card">
+<div class="result-head"><span> RESPOSTA SUGERIDA</span><span id="usedEngineBadge" class="mode-tag">Motor Nellus • Inteligência comercial</span></div>
+<div class="suggestion" id="suggestion"></div>
+<div class="actions"><button class="secondary" id="copy">Copiar mensagem</button></div>
+</div>
+<div id="v9RadarResult" class="diagnostic" style="display:none"></div><div id="v9Followup" class="diagnostic" style="display:none"></div>
+</div>
+<div class="radar-panel"><div class="radar-head"><div><div class="radar-kicker">RADAR COMERCIAL</div><h2>Não deixe uma oportunidade escapar</h2><p>Identifique sinais de compra, risco, silêncio e falta de próximo passo.</p></div><button type="button" class="btn btn-green" onclick="v9OpenPipeline()">Pipeline</button></div><div class="radar-grid"><div class="radar-kpi hot"><span></span><b id="v9Hot">0</b><small>Quentes</small></div><div class="radar-kpi attention"><span></span><b id="v9Attention">0</b><small>Atenção</small></div><div class="radar-kpi risk"><span></span><b id="v9Risk">0</b><small>Risco</small></div><div class="radar-kpi follow"><span></span><b id="v9Follow">0</b><small>Sem próximo passo</small></div></div><div id="v9Opportunities" class="opportunity-list"></div></div><div class="today-panel"><div class="today-head"><div><div class="today-kicker">PRIORIDADES DE HOJE</div><h2>Quem precisa da sua atenção agora</h2><p>O Nellus organiza as oportunidades pelo risco e pela urgência comercial.</p></div><div id="v10TodayCount" class="today-count">0 ações</div></div><div id="v10TodayList" class="today-list"></div></div>
 
-             
-<button className="icon-btn ghost" onClick={() =>
-onRemove(b.id)} aria-label="Remover">
+</section>
 
-               
-<Trash2 size={16} />
+<section id="pipeline" class="view"><div class="section-title"><div><div class="eyebrow">Inteligência comercial</div><h1>Pipeline de oportunidades</h1><p class="sub">Veja quem precisa de atenção, reabra a conversa e execute a próxima melhor ação. Tudo fica neste navegador.</p></div><button type="button" class="btn" onclick="show('home')">Voltar ao início</button></div><div class="priority-filter"><button class="btn active" id="filterAll" onclick="v10SetFilter('all')">Todos</button><button class="btn" id="filterHot" onclick="v10SetFilter('hot')">Quentes</button><button class="btn" id="filterAttention" onclick="v10SetFilter('attention')">Atenção</button><button class="btn" id="filterRisk" onclick="v10SetFilter('risk')">Risco</button></div><div class="pipeline-actions"><button class="btn btn-green" onclick="v9AddCurrentToPipeline()"> Salvar conversa atual</button><button class="btn" onclick="v9ExportPipeline()"> Exportar backup</button><button class="btn" onclick="v9ClearPipeline()">Limpar pipeline</button></div><div id="v9PipelineList"></div></section><section id="plans" class="view">
+<div class="eyebrow">Base comercial</div><h1>Planos e preços</h1>
+<p class="sub">Adicione, edite e remova informações. Tudo fica salvo neste navegador.</p>
+<div class="section-title"><h2>Seus planos</h2><button class="btn btn-green" id="addPlan"> Adicionar plano</button></div>
+<div id="planForm" class="form-box">
+<h3 id="planFormTitle">Novo plano</h3>
+<div class="form-grid">
+<input id="planName" class="input-field" placeholder="Nome do plano">
+<input id="planPrice" class="input-field" placeholder="Preço — ex.: R$ 45/h">
+<input id="planCapacity" class="input-field" placeholder="Capacidade — ex.: Até 4 pessoas">
+<input id="planSchedule" class="input-field" placeholder="Horário — ex.: 08h às 18h">
+<textarea id="planDesc" class="input-field full" style="min-height:90px" placeholder="Descrição comercial"></textarea>
+<textarea id="planArguments" class="input-field full" style="min-height:90px" placeholder="Argumentos de venda, benefícios, regras..."></textarea>
+</div>
+<div class="card-actions">
+<button class="btn btn-green" id="savePlan"> Salvar plano</button>
+<button class="btn" id="cancelPlan">Cancelar</button>
+</div>
+</div>
+<div id="plansList" class="cards"></div>
+</section>
 
-              </button>
+<section id="structure" class="view">
+<div class="eyebrow">Estrutura</div><h1>Diferenciais Nellus</h1>
+<p class="sub">Cadastre tudo que a IA comercial deve saber sobre o espaço.</p>
+<div class="section-title"><h2>Seus diferenciais</h2><button class="btn btn-green" id="addStructure"> Adicionar item</button></div>
+<div id="structureForm" class="form-box">
+<h3 id="structureFormTitle">Novo diferencial</h3>
+<div class="form-grid">
+<input id="structureIcon" class="input-field" placeholder="Ícone — ex.: ">
+<input id="structureName" class="input-field" placeholder="Nome — ex.: Internet rápida">
+<textarea id="structureDesc" class="input-field full" style="min-height:100px" placeholder="Descrição, benefícios, regras ou informações adicionais"></textarea>
+</div>
+<div class="card-actions">
+<button class="btn btn-green" id="saveStructure"> Salvar item</button>
+<button class="btn" id="cancelStructure">Cancelar</button>
+</div>
+</div>
+<div id="structureList" class="grid"></div>
+</section>
 
-           
+
+<section id="knowledge" class="view">
+<div class="eyebrow">Inteligência comercial</div>
+<h1>Base de conhecimento</h1>
+<p class="sub">Cadastre respostas reais da Nellus. O Motor usa estas informações antes de criar uma resposta genérica.</p>
+
+<div class="kb-tabs">
+<button class="kb-tab active" data-kb-filter="todos">Tudo</button>
+<button class="kb-tab" data-kb-filter="faq">Perguntas e respostas</button>
+<button class="kb-tab" data-kb-filter="objecao">Objeções</button>
+<button class="kb-tab" data-kb-filter="regra">Regras</button>
+<button class="kb-tab" data-kb-filter="tecnica">Técnicas</button>
 </div>
 
-          );
-
-        })}
-
-      </div>
-
-      {showForm
-&& (
-
-        <Modal
-title="Novo agendamento" onClose={() => setShowForm(false)}>
-
-          <form
-className="form" onSubmit={submit}>
-
-            <Field
-label="Cliente">
-
-             
-<select
-                value={draft.clientId}
-                onChange={(e) => setDraft({ ...draft, clientId: e.target.value, guestName: e.target.value ? "" : draft.guestName })}
-              >
-                <option value="">Cliente não cadastrado / avulso</option>
-                {clients.map((c) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
-                ))}
-              </select>
-
-           
-</Field>
-
-            {!draft.clientId && (
-              <Field label="Nome do cliente / visitante (opcional)">
-                <input placeholder="Ex.: Visitante ou empresa" value={draft.guestName} onChange={(e) => setDraft({ ...draft, guestName: e.target.value })} />
-              </Field>
-            )}
-
-            <div
-className="form-row">
-
-             
-<Field label="Data">
-
-               
-<input type="date" value={draft.date} onChange={(e) =>
-setDraft({ ...draft, date: e.target.value })} />
-
-             
-</Field>
-
-             
-<Field label="Início">
-
-               
-<input type="time" value={draft.start} onChange={(e) =>
-setDraft({ ...draft, start: e.target.value })} />
-
-             
-</Field>
-
-             
-<Field label="Fim">
-
-               
-<input type="time" value={draft.end} onChange={(e) =>
-setDraft({ ...draft, end: e.target.value })} />
-
-             
-</Field>
-
-            </div>
-
-            <Field
-label="Espaço / estação">
-
-             
-<input
-
-               
-placeholder="Ex.: Estação 4, Sala de reunião..."
-
-               
-value={draft.room}
-
-               
-onChange={(e) => setDraft({ ...draft, room: e.target.value })}
-
-              />
-
-           
-</Field>
-
-            <Field
-label="Observações (opcional)">
-
-             
-<input value={draft.notes} onChange={(e) => setDraft({ ...draft,
-notes: e.target.value })} />
-
-           
-</Field>
-
-            <button
-className="btn-primary full" type="submit">
-
-              Salvar
-agendamento
-
-           
-</button>
-
-         
-</form>
-
-        </Modal>
-
-      )}
-
-    </div>
-
-  );
-
-}
-
-//
----------------------------------------------------------------------------
-
-// Clientes
-
-// ---------------------------------------------------------------------------
-
-function Clientes({ clients, onAdd, onRemove, typeLabels = DEFAULT_TYPE_LABEL }) {
-
-  const [filter,
-setFilter] = useState("todos");
-
-  const [query,
-setQuery] = useState("");
-
-  const [showForm,
-setShowForm] = useState(false);
-
-  const [draft,
-setDraft] = useState({
-
-    name:
-"",
-
-    document:
-"",
-
-    address:
-"",
-
-    type:
-"presencial",
-
-    phone:
-"",
-
-    email:
-"",
-
-  });
-
-  const counts =
-useMemo(() => {
-
-    const c = {
-presencial: 0, salaFixa: 0, virtual: 0 };
-
-    clients.forEach((cl) => c[cl.type]++);
-
-    return c;
-
-  }, [clients]);
-
-  const filtered =
-clients.filter((c) => {
-
-    const matchesType
-= filter === "todos" || c.type === filter;
-
-    const q =
-query.trim().toLowerCase();
-
-    const matchesQuery
-= !q || (c.name || "").toLowerCase().includes(q) || (c.document || "").includes(q);
-
-    return matchesType
-&& matchesQuery;
-
-  });
-
-  const submit = (e)
-=> {
-
-   
-e.preventDefault();
-
-    // Todos os campos são opcionais; o cadastro pode ser concluído incompleto.
-
-    onAdd({ ...draft,
-id: uid("c"), since: "2026-09-01" });
-
-   
-setShowForm(false);
-
-    setDraft({ name:
-"", document: "", address: "", type:
-"presencial", phone: "", email: "" });
-
-  };
-
-  return (
-
-    <div
-className="view">
-
-      <div
-className="view-head">
-
-        <div>
-
-          <h2>Clientes</h2>
-
-         
-<p>Cadastro e segmentação por tipo de contrato.</p>
-
-        </div>
-
-        <button
-className="btn-primary" onClick={() => setShowForm(true)}>
-
-          <Plus
-size={16} /> Novo cliente
-
-       
-</button>
-
-      </div>
-
-      <div
-className="segment-cards">
-
-       
-{["presencial", "salaFixa",
-"virtual"].map((t) => (
-
-          <button
-
-            key={t}
-
-           
-className={"segment-card" + (filter === t ? "
-active" : "")}
-
-            style={{
-"--dot": TYPE_DOT[t] }}
-
-           
-onClick={() => setFilter(filter === t ? "todos" : t)}
-
-          >
-
-            <span
-className="segment-count">{counts[t]}</span>
-
-            <span
-className="segment-label">{typeLabels[t] || DEFAULT_TYPE_LABEL[t]}</span>
-
-         
-</button>
-
-        ))}
-
-      </div>
-
-      <div className="toolbar">
-
-        <div
-className="search-box">
-
-          <Search
-size={16} />
-
-          <input
-
-           
-placeholder="Buscar por nome ou CPF/CNPJ..."
-
-           
-value={query}
-
-           
-onChange={(e) => setQuery(e.target.value)}
-
-          />
-
-        </div>
-
-        {filter !==
-"todos" && (
-
-          <button
-className="chip-clear" onClick={() =>
-setFilter("todos")}>
-
-            Limpar
-filtro · {typeLabels[filter] || DEFAULT_TYPE_LABEL[filter]} <X size={13} />
-
-         
-</button>
-
-        )}
-
-      </div>
-
-      <div className="client-grid">
-
-       
-{filtered.length === 0 && (
-
-          <div
-className="empty-state">
-
-            <Users
-size={22} />
-
-           
-<p>Nenhum cliente encontrado.</p>
-
-          </div>
-
-        )}
-
-       
-{filtered.map((c) => (
-
-          <div
-className="client-card" key={c.id}>
-
-            <div
-className="client-card-top">
-
-             
-<div>
-
-               
-<strong>{c.name}</strong>
-
-               
-<span className="muted">{c.document}</span>
-
-             
+<div class="section-title"><h2>Conhecimentos cadastrados</h2><button class="btn btn-green" id="addKnowledge"> Adicionar</button></div>
+
+<div id="knowledgeForm" class="form-box">
+<h3 id="knowledgeFormTitle">Novo conhecimento</h3>
+<div class="form-grid">
+<select id="knowledgeType" class="input-field">
+<option value="faq">Pergunta e resposta</option>
+<option value="objecao">Objeção</option>
+<option value="regra">Regra de atendimento</option>
+<option value="tecnica">Técnica de venda</option>
+</select>
+<input id="knowledgeTitle" class="input-field" placeholder="Título / situação">
+<input id="knowledgeTrigger" class="input-field full" placeholder="Palavras ou frases que fazem este conhecimento ser usado">
+<textarea id="knowledgeAnswer" class="input-field full" style="min-height:120px" placeholder="Resposta, regra ou orientação comercial"></textarea>
+<input id="knowledgePriority" class="input-field" type="number" min="1" max="10" value="5" placeholder="Prioridade">
+</div>
+<div class="card-actions">
+<button class="btn btn-green" id="saveKnowledge"> Salvar</button>
+<button class="btn" id="cancelKnowledge">Cancelar</button>
+</div>
 </div>
 
-              <TypeBadge
-type={c.type} />
+<div id="knowledgeList" class="kb-list"></div>
 
-           
+<div class="info-box">
+<strong style="color:#65cfb4">Como deixar as respostas específicas</strong><br>
+Em “Palavras ou frases”, cadastre termos que o cliente costuma usar. Ex.: <em>“está caro”, “vou pensar”, “tem desconto?”</em>.<br>
+Em “Resposta”, coloque a forma como você realmente quer que a Nellus responda. O sistema pode combinar essa resposta com preço, capacidade, horário e informações dos seus planos.
 </div>
+</section>
 
-            <div
-className="client-line">
 
-             
-<MapPin size={14} />
+<!-- ===== V7 TREINAMENTO DO GESTOR ===== -->
+<section id="trainingV7" class="view">
+ <div class="section-title">
+  <div><h2> Treinamento do Gestor</h2><p>Ensine o copiloto a pensar e vender como você. Todo o treinamento fica concentrado nesta página.</p></div>
+ </div>
 
-             
-<span>{c.address}</span>
+ <div class="v7-tabs">
+  <button class="v7-tab active" onclick="v7ShowTab('examplesV7',this)">Exemplos reais</button>
+  <button class="v7-tab" onclick="v7ShowTab('diagnosticV7',this)">Como ele pensa</button>
+ </div>
 
-           
+ <div id="examplesV7" class="training-form active">
+  <div class="card">
+   <h3>Novo exemplo de treinamento</h3>
+   <p class="muted">Cadastre uma conversa curta e a resposta que você consideraria excelente.</p>
+   <div class="form-grid">
+    <label>Situação / título<input id="v7Title" placeholder="Ex.: Cliente achou a sala cara"></label>
+    <label>Categoria
+     <select id="v7Category">
+      <option>Objeção</option><option>Preço</option><option>Qualificação</option>
+      <option>Follow-up</option><option>Fechamento</option><option>Informação</option><option>Geral</option>
+     </select>
+    </label>
+    <label class="full">Mensagem do cliente<textarea id="v7Client" rows="3" placeholder="Ex.: Gostei, mas achei um pouco caro..."></textarea></label>
+    <label class="full">Resposta ideal<textarea id="v7Ideal" rows="4" placeholder="Escreva exatamente como você responderia."></textarea></label>
+    <label>Gatilhos / palavras-chave<input id="v7Triggers" placeholder="caro, preço alto, valor"></label>
+    <label>Prioridade
+     <select id="v7Priority"><option value="3">Alta</option><option value="2" selected>Média</option><option value="1">Baixa</option></select>
+    </label>
+   </div>
+   <button class="primary" onclick="v7SaveExample()"> Salvar treinamento</button>
+  </div>
+  <div id="v7ExamplesList"></div>
+ </div>
+
+ <div id="diagnosticV7" class="training-form">
+  <div class="diagnostic">
+   <h3>Visão do gestor</h3>
+   <p class="muted">O copiloto V7 deixa de pensar apenas em “qual resposta dar” e passa a decidir <b>o que fazer para avançar a venda</b>.</p>
+   <div class="strategy-grid">
+    <div class="strategy-card"><b>1. Diagnóstico</b>Entende intenção, etapa, objeção e sinais de compra.</div>
+    <div class="strategy-card"><b>2. Lacunas</b>Descobre quais informações ainda faltam para conduzir o cliente.</div>
+    <div class="strategy-card"><b>3. Estratégia</b>Escolhe entre informar, perguntar, contornar objeção, nutrir ou fechar.</div>
+    <div class="strategy-card"><b>4. Execução</b>Gera uma mensagem humana e uma ação comercial clara.</div>
+   </div>
+  </div>
+  <div class="card">
+   <h3>Princípios comerciais</h3>
+   <div class="pills">
+    <span class="pill"><strong>Não repetir</strong> o que já foi enviado</span>
+    <span class="pill"><strong>Não inventar</strong> preço ou disponibilidade</span>
+    <span class="pill"><strong>Diagnosticar</strong> antes de oferecer</span>
+    <span class="pill"><strong>Vender valor</strong>, não apenas preço</span>
+    <span class="pill"><strong>Conduzir</strong> sempre para o próximo passo</span>
+    <span class="pill"><strong>Ser humano</strong>, sem texto robótico</span>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="settings" class="view">
+<div class="eyebrow">Configurações</div><h1>Motor comercial</h1>
+<p class="sub">O Motor Nellus pode usar IA da Groq para redigir respostas mais naturais e consultivas. Se a IA falhar, o motor local assume automaticamente.</p>
+<div class="composer" style="margin-top:20px">
+<label style="display:block;margin-bottom:8px">Tom de atendimento</label>
+<select id="tone" class="input-field">
+<option value="natural">Natural e profissional</option>
+<option value="acolhedor">Acolhedor e simpático</option>
+<option value="objetivo">Direto e objetivo</option>
+<option value="consultivo">Consultivo e estratégico</option>
+</select>
+
+<label style="display:block;margin:5px 0 8px">Regra comercial principal</label>
+<textarea id="commercialRule" style="min-height:120px" placeholder="Ex.: Nunca inventar disponibilidade. Quando faltar data ou horário, perguntar ao cliente."></textarea>
+
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin:5px 0 8px"><label>IA Groq — chave API direta</label><button type="button" class="btn" id="toggleGroqKey">Mostrar opção</button></div>
+<div id="groqDirectBox" style="display:none">
+<input id="groqApiKey" class="input-field" type="password" autocomplete="off" placeholder="Uso apenas para testes locais — não recomendado em produção">
+<div class="info-box" style="margin-top:0">Para a Vercel, deixe esta opção vazia e use somente o <b>Endpoint seguro /api/groq</b>. A chave não fica no navegador.</div>
 </div>
-
-            {c.phone
-&& (
-
-              <div
-className="client-line">
-
-                <Phone size={14} />
-
-               
-<span>{c.phone}</span>
-
-             
+<label style="display:block;margin:5px 0 8px">Endpoint seguro (recomendado)</label>
+<input id="groqEndpoint" class="input-field" type="text" autocomplete="off" placeholder="/api/groq (recomendado na Vercel)">
+<label style="display:block;margin:5px 0 8px">Modelo Groq</label>
+<select id="groqModel" class="input-field"><option value="openai/gpt-oss-20b">GPT-OSS 20B — recomendado</option><option value="openai/gpt-oss-120b">GPT-OSS 120B — mais potente</option></select>
+<div class="info-box"><strong style="color:#65cfb4"> IA + Guard-rail</strong><br>O Nellus envia para a IA apenas o contexto necessário para compor a resposta. Preços e regras vêm dos seus dados locais. Se a Groq falhar, demorar ou tentar inventar informação, o sistema usa automaticamente o Motor Nellus local.<br><br><strong style="color:#e8b77a">Segurança:</strong> colocar a chave diretamente no HTML a expõe no navegador. Para uso real, prefira o Endpoint seguro da Vercel e deixe a chave apenas nas variáveis de ambiente.</div>
 </div>
-
-            )}
-
-            {c.email
-&& (
-
-              <div
-className="client-line">
-
-               
-<Mail size={14} />
-
-               
-<span>{c.email}</span>
-
-             
-</div>
-
-            )}
-
-            <div
-className="client-card-foot">
-
-              <span
-className="muted">Cliente desde {dateLabel(c.since)}</span>
-
-             
-<button className="icon-btn ghost" onClick={() =>
-onRemove(c.id)} aria-label="Remover cliente">
-
-               
-<Trash2 size={15} />
-
-             
-</button>
-
-           
-</div>
-
-          </div>
-
-        ))}
-
-      </div>
-
-      {showForm
-&& (
-
-        <Modal
-title="Novo cliente" onClose={() => setShowForm(false)}>
-
-          <form
-className="form" onSubmit={submit}>
-
-            <Field
-label="Nome / Razão social">
-
-             
-<input value={draft.name} onChange={(e) => setDraft({ ...draft,
-name: e.target.value })} />
-
-           
-</Field>
-
-            <Field
-label="CPF / CNPJ">
-
-              <input
-
-               
-value={draft.document}
-
-               
-onChange={(e) => setDraft({ ...draft, document: e.target.value })}
-
-               
-placeholder="000.000.000-00 ou 00.000.000/0000-00"
-
-               
-
-              />
-
-            </Field>
-
-            <Field
-label="Endereço">
-
-             
-<input value={draft.address} onChange={(e) => setDraft({ ...draft,
-address: e.target.value })} />
-
-           
-</Field>
-
-            <Field
-label="Tipo de cliente">
-
-              <div
-className="radio-row">
-
-               
-{["presencial", "salaFixa",
-"virtual"].map((t) => (
-
-                 
-<label key={t} className={"radio-pill" + (draft.type === t
-? " active" : "")}>
-
-                   
-<input
-
-                      type="radio"
-
-                     
-name="type"
-
-                     
-checked={draft.type === t}
-
-                     
-onChange={() => setDraft({ ...draft, type: t })}
-
-                   
-/>
-
-                   
-{typeLabels[t] || DEFAULT_TYPE_LABEL[t]}
-
-                 
-</label>
-
-                ))}
-
-             
-</div>
-
-           
-</Field>
-
-            <div
-className="form-row">
-
-             
-<Field label="Telefone">
-
-               
-<input value={draft.phone} onChange={(e) => setDraft({ ...draft,
-phone: e.target.value })} />
-
-              </Field>
-
-             
-<Field label="E-mail">
-
-               
-<input type="email" value={draft.email} onChange={(e) =>
-setDraft({ ...draft, email: e.target.value })} />
-
-             
-</Field>
-
-           
-</div>
-
-            <button
-className="btn-primary full" type="submit">
-
-             
-Cadastrar cliente
-
-           
-</button>
-
-         
-</form>
-
-        </Modal>
-
-      )}
-
-    </div>
-
-  );
-
-}
-
-//
----------------------------------------------------------------------------
-
-// Financeiro
-
-// ---------------------------------------------------------------------------
-
-function Financeiro({ tx, onAdd, onRemove }) {
-
-  const [showForm,
-setShowForm] = useState(false);
-
-  const [draft,
-setDraft] = useState({
-
-    type:
-"entrada",
-
-    desc:
-"",
-
-    amount:
-"",
-
-    date:
-"2026-09-01",
-
-    category:
-"",
-
-  });
-
-  const totals =
-useMemo(() => {
-
-    const entradas =
-tx.filter((t) => t.type === "entrada").reduce((s, t) => s +
-t.amount, 0);
-
-    const saidas =
-tx.filter((t) => t.type === "saida").reduce((s, t) => s +
-t.amount, 0);
-
-    return { entradas,
-saidas, saldo: entradas - saidas };
-
-  }, [tx]);
-
-  const monthly =
-useMemo(() => {
-
-    const map = {};
-
-    tx.forEach((t)
-=> {
-
-      const key =
-t.date.slice(0, 7);
-
-      if (!map[key])
-map[key] = { key, entradas: 0, saidas: 0 };
-
-      if (t.type ===
-"entrada") map[key].entradas += t.amount;
-
-      else
-map[key].saidas += t.amount;
-
-    });
-
-    return
-Object.values(map)
-
-      .sort((a, b)
-=> a.key.localeCompare(b.key))
-
-      .map((m) =>
-({ ...m, saldo: m.entradas - m.saidas, label: monthLabel(m.key) }));
-
-  }, [tx]);
-
-  const trend =
-useMemo(() => {
-
-    if (monthly.length
-< 2) return "neutral";
-
-    const first =
-monthly[0].saldo;
-
-    const last =
-monthly[monthly.length - 1].saldo;
-
-    if (last >
-first) return "up";
-
-    if (last <
-first) return "down";
-
-    return
-"neutral";
-
-  }, [monthly]);
-
-  const trendColor =
-trend === "up" ? "#1F9D6C" : trend === "down" ?
-"#C1483B" : "#8A8578";
-
-  const recent =
-[...tx].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8);
-
-  const submit = (e)
-=> {
-
-   
-e.preventDefault();
-
-    const amount =
-parseFloat(draft.amount);
-
-    if (!draft.desc ||
-!amount || amount <= 0) return;
-
-    onAdd({ ...draft,
-amount, id: uid("t") });
-
-    setShowForm(false);
-
-    setDraft({ type:
-"entrada", desc: "", amount: "", date:
-draft.date, category: "" });
-
-  };
-  const exportExcel = () => {
-    const resumo = [{ Indicador: "Entradas", Valor: totals.entradas }, { Indicador: "Saídas", Valor: totals.saidas }, { Indicador: "Saldo", Valor: totals.saldo }];
-    const lancamentos = [...tx].sort((a,b) => b.date.localeCompare(a.date)).map((t) => ({ Data: dateLabel(t.date), Tipo: t.type === "entrada" ? "Entrada" : "Saída", Descrição: t.desc, Categoria: t.category || "Sem categoria", Valor: t.amount }));
-    const wb = XLSX.utils.book_new(); const wsResumo = XLSX.utils.json_to_sheet(resumo); const wsLancamentos = XLSX.utils.json_to_sheet(lancamentos);
-    wsResumo["!cols"] = [{ wch: 18 }, { wch: 18 }]; wsLancamentos["!cols"] = [{ wch: 14 }, { wch: 12 }, { wch: 40 }, { wch: 22 }, { wch: 16 }];
-    XLSX.utils.book_append_sheet(wb, wsResumo, "Resumo"); XLSX.utils.book_append_sheet(wb, wsLancamentos, "Lançamentos");
-    XLSX.writeFile(wb, `relatorio-financeiro-${new Date().toISOString().slice(0, 10)}.xlsx`);
-  };
-
-  const exportPDF = () => {
-    const doc = new jsPDF(); doc.setFontSize(18); doc.text("Relatório Financeiro", 14, 18); doc.setFontSize(10); doc.text(`Gerado em ${new Date().toLocaleDateString("pt-BR")}`, 14, 25);
-    autoTable(doc, { startY: 32, head: [["Entradas", "Saídas", "Saldo"]], body: [[money(totals.entradas), money(totals.saidas), money(totals.saldo)]], theme: "grid" });
-    autoTable(doc, { startY: doc.lastAutoTable.finalY + 10, head: [["Data", "Tipo", "Descrição", "Categoria", "Valor"]], body: [...tx].sort((a,b) => b.date.localeCompare(a.date)).map((t) => [dateLabel(t.date), t.type === "entrada" ? "Entrada" : "Saída", t.desc, t.category || "Sem categoria", money(t.amount)]), theme: "striped", styles: { fontSize: 8 }, headStyles: { fontSize: 8 } });
-    doc.save(`relatorio-financeiro-${new Date().toISOString().slice(0, 10)}.pdf`);
-  };
-
-
-  return (
-
-    <div
-className="view">
-
-      <div
-className="view-head">
-
-        <div>
-
-         
-<h2>Financeiro</h2>
-
-         
-<p>Entradas, saídas e a curva de saldo do coworking.</p>
-
-        </div>
-
-        <div className="header-actions">
-          <button className="btn-secondary" onClick={exportExcel}><FileSpreadsheet size={16} /> Excel</button>
-          <button className="btn-secondary" onClick={exportPDF}><FileText size={16} /> PDF</button>
-          <button className="btn-primary" onClick={() => setShowForm(true)}><Plus size={16} /> Novo lançamento</button>
-        </div>
-
-      </div>
-
-      <div
-className="stat-row">
-
-        <div
-className="stat-card">
-
-          <span
-className="stat-label"><ArrowUpRight size={14} />
-Entradas</span>
-
-          <strong
-className="stat-value up">{money(totals.entradas)}</strong>
-
-        </div>
-
-        <div
-className="stat-card">
-
-          <span
-className="stat-label"><ArrowDownRight size={14} />
-Saídas</span>
-
-          <strong
-className="stat-value down">{money(totals.saidas)}</strong>
-
-        </div>
-
-        <div
-className="stat-card">
-
-          <span
-className="stat-label">Saldo acumulado</span>
-
-          <strong
-className={"stat-value " + (totals.saldo >= 0 ? "up" :
-"down")}>{money(totals.saldo)}</strong>
-
-        </div>
-
-        <div
-className="stat-card trend-card" style={{ "--trend":
-trendColor }}>
-
-          <span
-className="stat-label">
-
-            {trend ===
-"up" && <TrendingUp size={14} />}
-
-            {trend ===
-"down" && <TrendingDown size={14} />}
-
-            Tendência
-
-         
-</span>
-
-          <strong
-className="stat-value" style={{ color: trendColor }}>
-
-            {trend ===
-"up" && "Em crescimento"}
-
-            {trend ===
-"down" && "Em queda"}
-
-            {trend ===
-"neutral" && "Estável"}
-
-         
-</strong>
-
-        </div>
-
-      </div>
-
-      <div
-className="chart-panel">
-
-        <div
-className="chart-panel-head">
-
-         
-<h3>Saldo mensal</h3>
-
-          <span
-className="muted">Entradas menos saídas, mês a mês</span>
-
-        </div>
-
-       
-<ResponsiveContainer width="100%" height={220}>
-
-         
-<AreaChart data={monthly} margin={{ top: 8, right: 12, left: -12,
-bottom: 0 }}>
-
-           
-<defs>
-
-             
-<linearGradient id="saldoFill" x1="0"
-y1="0" x2="0" y2="1">
-
-               
-<stop offset="0%" stopColor={trendColor} stopOpacity={0.35}
-/>
-
-               
-<stop offset="100%" stopColor={trendColor} stopOpacity={0.02}
-/>
-
-             
-</linearGradient>
-
-           
-</defs>
-
-           
-<CartesianGrid stroke="#E4DFD3" strokeDasharray="3
-5" vertical={false} />
-
-            <XAxis
-dataKey="label" tick={{ fontSize: 12, fill: "#8A8578" }}
-axisLine={false} tickLine={false} />
-
-            <YAxis
-
-              tick={{
-fontSize: 12, fill: "#8A8578" }}
-
-             
-axisLine={false}
-
-             
-tickLine={false}
-
-             
-width={60}
-
-             
-tickFormatter={(v) => `R$${v}`}
-
-            />
-
-           
-<Tooltip
-
-             
-formatter={(v) => money(v)}
-
-             
-labelStyle={{ color: "#1B2420", fontWeight: 600 }}
-
-             
-contentStyle={{ borderRadius: 10, border: "1px solid #E4DFD3",
-boxShadow: "0 6px 20px rgba(27,36,32,0.08)" }}
-
-            />
-
-            <Area
-type="monotone" dataKey="saldo" stroke={trendColor}
-strokeWidth={2.5} fill="url(#saldoFill)" />
-
-         
-</AreaChart>
-
-       
-</ResponsiveContainer>
-
-      </div>
-
-      <div
-className="tx-panel">
-
-        <div
-className="chart-panel-head">
-
-         
-<h3>Lançamentos recentes</h3>
-
-        </div>
-
-        <div
-className="tx-list">
-
-         
-{recent.map((t) => (
-
-            <div
-className="tx-row" key={t.id}>
-
-              <span
-className={"tx-dot " + t.type} />
-
-              <div
-className="tx-main">
-
-               
-<strong>{t.desc}</strong>
-
-               
-<span className="muted">{t.category || "Sem
-categoria"} · {dateLabel(t.date)}</span>
-
-             
-</div>
-
-              <span
-className={"tx-amount " + (t.type === "entrada" ? "up"
-: "down")}>
-
-               
-{t.type === "entrada" ? "+" : "−"}
-{money(t.amount)}
-
-             
-</span>
-
-             
-<button className="icon-btn ghost" onClick={() =>
-onRemove(t.id)} aria-label="Remover">
-
-               
-<Trash2 size={15} />
-
-             
-</button>
-
-           
-</div>
-
-          ))}
-
-        </div>
-
-      </div>
-
-      {showForm
-&& (
-
-        <Modal
-title="Novo lançamento" onClose={() => setShowForm(false)}>
-
-          <form
-className="form" onSubmit={submit}>
-
-            <div
-className="radio-row">
-
-             
-<label className={"radio-pill" + (draft.type ===
-"entrada" ? " active" : "")}>
-
-               
-<input type="radio" checked={draft.type ===
-"entrada"} onChange={() => setDraft({ ...draft, type:
-"entrada" })} />
-
-                Entrada
-
-             
-</label>
-
-             
-<label className={"radio-pill" + (draft.type ===
-"saida" ? " active" : "")}>
-
-               
-<input type="radio" checked={draft.type ===
-"saida"} onChange={() => setDraft({ ...draft, type:
-"saida" })} />
-
-                Saída
-
-             
-</label>
-
-           
-</div>
-
-            <Field
-label="Descrição">
-
-             
-<input value={draft.desc} onChange={(e) => setDraft({ ...draft,
-desc: e.target.value })} />
-
-           
-</Field>
-
-            <div
-className="form-row">
-
-             
-<Field label="Valor (R$)">
-
-               
-<input
-
-                 
-type="number"
-
-                 
-min="0"
-
-                 
-step="0.01"
-
-                 
-value={draft.amount}
-
-                 
-onChange={(e) => setDraft({ ...draft, amount: e.target.value })}
-
-                 
-required
-
-                />
-
-             
-</Field>
-
-             
-<Field label="Data">
-
-               
-<input type="date" value={draft.date} onChange={(e) =>
-setDraft({ ...draft, date: e.target.value })} />
-
-             
-</Field>
-
-           
-</div>
-
-            <Field
-label="Categoria (opcional)">
-
-             
-<input
-
-               
-placeholder="Mensalidade, contas fixas, insumos..."
-
-               
-value={draft.category}
-
-               
-onChange={(e) => setDraft({ ...draft, category: e.target.value })}
-
-              />
-
-           
-</Field>
-
-            <button
-className="btn-primary full" type="submit">
-
-              Salvar
-lançamento
-
-           
-</button>
-
-          </form>
-
-        </Modal>
-
-      )}
-
-    </div>
-
-  );
-
-}
-
-//
----------------------------------------------------------------------------
-
-
-// ---------------------------------------------------------------------------
-// Gestor — follow-ups, lembretes e tarefas comerciais
-// ---------------------------------------------------------------------------
-
-const FOLLOWUP_TYPES = [
-  { value: "responder", label: "Responder cliente", icon: MessageCircle },
-  { value: "followup", label: "Fazer follow-up", icon: RefreshCw },
-  { value: "ligar", label: "Ligar", icon: Phone },
-  { value: "proposta", label: "Enviar proposta", icon: Send },
-  { value: "documento", label: "Enviar documento", icon: FileText },
-  { value: "pagamento", label: "Cobrar pagamento", icon: DollarSign },
-  { value: "confirmar", label: "Confirmar reserva", icon: CalendarClock },
-  { value: "outro", label: "Outro", icon: ListTodo },
-];
-
-const PRIORITIES = {
-  alta: { label: "Alta", className: "priority-high" },
-  media: { label: "Média", className: "priority-medium" },
-  baixa: { label: "Baixa", className: "priority-low" },
-};
-
-const STATUS_META = {
-  pending: { label: "Pendente", className: "status-pending" },
-  waiting: { label: "Aguardando", className: "status-waiting" },
-  completed: { label: "Concluído", className: "status-completed" },
-};
-
-function todayISO() {
-  const d = new Date();
-  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
-  return local.toISOString().slice(0, 10);
-}
-
-function currentTime() {
-  return new Date().toTimeString().slice(0, 5);
-}
-
-function FollowupTypeIcon({ type, size = 15 }) {
-  const item = FOLLOWUP_TYPES.find((x) => x.value === type) || FOLLOWUP_TYPES[FOLLOWUP_TYPES.length - 1];
-  const Icon = item.icon;
-  return <Icon size={size} />;
-}
-
-function Gestor({ clients, followups, onChange, onAddClient }) {
-  const [filter, setFilter] = useState("todos");
-  const [query, setQuery] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [editing, setEditing] = useState(null);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [draft, setDraft] = useState({
-    clientId: "",
-    guestName: "",
-    subject: "",
-    notes: "",
-    date: todayISO(),
-    time: "10:00",
-    priority: "media",
-    type: "followup",
-    status: "pending",
-    repeat: "none",
-  });
-
-  const today = todayISO();
-  const nowTime = currentTime();
-
-  const getClientName = (f) => {
-    const c = clients.find((x) => x.id === f.clientId);
-    return c ? c.name : (f.guestName || "Cliente avulso");
-  };
-
-  const computed = useMemo(() => {
-    const pending = followups.filter((f) => f.status !== "completed");
-    const overdue = pending.filter((f) => f.date < today || (f.date === today && (f.time || "23:59") < nowTime));
-    const todayItems = pending.filter((f) => f.date === today && !overdue.some((x) => x.id === f.id));
-    const waiting = followups.filter((f) => f.status === "waiting");
-    const completedToday = followups.filter((f) => f.status === "completed" && (f.completedAt || "").slice(0, 10) === today);
-    return { pending, overdue, todayItems, waiting, completedToday };
-  }, [followups, today, nowTime]);
-
-  useEffect(() => {
-    const check = () => {
-      if (!notificationsEnabled || !("Notification" in window) || Notification.permission !== "granted") return;
-      const due = followups.filter((f) => f.status === "pending" && f.date === todayISO() && (f.time || "23:59") <= currentTime());
-      const last = sessionStorage.getItem("nellus-last-notification-minute");
-      const minute = new Date().toISOString().slice(0, 16);
-      if (due.length && last !== minute) {
-        sessionStorage.setItem("nellus-last-notification-minute", minute);
-        new Notification("Nellus Gestor", { body: `Você tem ${due.length} tarefa${due.length > 1 ? "s" : ""} pendente${due.length > 1 ? "s" : ""}.` });
-      }
-    };
-    check();
-    const timer = setInterval(check, 30000);
-    return () => clearInterval(timer);
-  }, [followups, notificationsEnabled]);
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return [...followups]
-      .filter((f) => {
-        const overdue = f.status !== "completed" && (f.date < today || (f.date === today && (f.time || "23:59") < nowTime));
-        const isToday = f.date === today && !overdue && f.status !== "completed";
-        const matchesFilter =
-          filter === "todos" ||
-          (filter === "atrasados" && overdue) ||
-          (filter === "hoje" && isToday) ||
-          (filter === "aguardando" && f.status === "waiting") ||
-          (filter === "concluidos" && f.status === "completed");
-        const text = `${getClientName(f)} ${f.subject || ""} ${f.notes || ""}`.toLowerCase();
-        return matchesFilter && (!q || text.includes(q));
-      })
-      .sort((a, b) => {
-        if (a.status === "completed" && b.status !== "completed") return 1;
-        if (a.status !== "completed" && b.status === "completed") return -1;
-        return `${a.date} ${a.time || ""}`.localeCompare(`${b.date} ${b.time || ""}`);
-      });
-  }, [followups, filter, query, today, nowTime, clients]);
-
-  const resetDraft = () => setDraft({ clientId: "", guestName: "", subject: "", notes: "", date: todayISO(), time: "10:00", priority: "media", type: "followup", status: "pending", repeat: "none" });
-  const openNew = () => { resetDraft(); setEditing(null); setShowForm(true); };
-  const openEdit = (f) => {
-    setEditing(f.id);
-    setDraft({ clientId: f.clientId || "", guestName: f.guestName || "", subject: f.subject || "", notes: f.notes || "", date: f.date || today, time: f.time || "10:00", priority: f.priority || "media", type: f.type || "followup", status: f.status || "pending", repeat: f.repeat || "none" });
-    setShowForm(true);
-  };
-  const save = (e) => {
-    e.preventDefault();
-    if (!draft.subject.trim() || !draft.date) return;
-    const base = { ...draft, subject: draft.subject.trim(), notes: draft.notes.trim(), id: editing || uid("f"), createdAt: editing ? (followups.find((f) => f.id === editing)?.createdAt || new Date().toISOString()) : new Date().toISOString() };
-    if (draft.clientId) base.guestName = "";
-    if (editing) onChange(followups.map((f) => f.id === editing ? { ...f, ...base } : f));
-    else onChange([base, ...followups]);
-    setShowForm(false); setEditing(null); resetDraft();
-  };
-  const complete = (id) => {
-    const item = followups.find((f) => f.id === id);
-    if (!item) return;
-    const updated = followups.map((f) => f.id === id ? { ...f, status: "completed", completedAt: new Date().toISOString() } : f);
-    if (item.repeat && item.repeat !== "none") {
-      const base = new Date(item.date + "T12:00:00");
-      if (item.repeat === "daily") base.setDate(base.getDate() + 1);
-      if (item.repeat === "weekly") base.setDate(base.getDate() + 7);
-      if (item.repeat === "monthly") base.setMonth(base.getMonth() + 1);
-      const nextDate = base.toISOString().slice(0, 10);
-      updated.unshift({ ...item, id: uid("f"), date: nextDate, status: "pending", completedAt: "", createdAt: new Date().toISOString() });
-    }
-    onChange(updated);
-  };
-  const reopen = (id) => onChange(followups.map((f) => f.id === id ? { ...f, status: "pending", completedAt: "" } : f));
-  const remove = (id) => { if (window.confirm("Excluir este follow-up?")) onChange(followups.filter((f) => f.id !== id)); };
-  const enableNotifications = async () => {
-    if (!("Notification" in window)) { alert("Seu navegador não oferece notificações neste dispositivo."); return; }
-    const permission = await Notification.requestPermission();
-    setNotificationsEnabled(permission === "granted");
-    if (permission === "granted") new Notification("Nellus Gestor", { body: "As notificações de tarefas estão ativadas enquanto o sistema estiver aberto." });
-  };
-
-  return (
-    <div className="view gestor-view">
-      <div className="view-head gestor-head">
-        <div><div className="eyebrow"><Bell size={15} /> CENTRAL DE AÇÕES</div><h2>Gestor</h2><p>Acompanhe seus follow-ups, lembretes e tarefas do dia.</p></div>
-        <div className="header-actions"><button className={"btn-secondary notification-btn" + (notificationsEnabled ? " enabled" : "")} onClick={enableNotifications}><BellRing size={16} /> {notificationsEnabled ? "Notificações ativas" : "Ativar notificações"}</button><button className="btn-primary" onClick={openNew}><Plus size={16} /> Novo follow-up</button></div>
-      </div>
-      <div className="gestor-stats">
-        <button className="gestor-stat overdue" onClick={() => setFilter("atrasados")}><span className="gestor-stat-icon"><AlertCircle size={21} /></span><span><b>Ações atrasadas</b><strong>{computed.overdue.length}</strong><small>Precisam da sua atenção</small></span><ChevronRight size={17} /></button>
-        <button className="gestor-stat today" onClick={() => setFilter("hoje")}><span className="gestor-stat-icon"><Clock3 size={21} /></span><span><b>Para fazer hoje</b><strong>{computed.todayItems.length}</strong><small>Follow-ups e tarefas</small></span><ChevronRight size={17} /></button>
-        <button className="gestor-stat waiting" onClick={() => setFilter("aguardando")}><span className="gestor-stat-icon"><UsersRound size={21} /></span><span><b>Aguardando clientes</b><strong>{computed.waiting.length}</strong><small>Sem retorno ainda</small></span><ChevronRight size={17} /></button>
-        <button className="gestor-stat done" onClick={() => setFilter("concluidos")}><span className="gestor-stat-icon"><CheckCircle size={21} /></span><span><b>Concluídos hoje</b><strong>{computed.completedToday.length}</strong><small>Tarefas finalizadas</small></span><ChevronRight size={17} /></button>
-      </div>
-      <div className="gestor-layout">
-        <section className="gestor-panel">
-          <div className="gestor-panel-head"><div><h3>Minhas Tarefas e Follow-ups</h3><span className="muted">Tudo que precisa da sua atenção comercial.</span></div><div className="gestor-tools"><div className="search-box"><Search size={15} /><input placeholder="Buscar cliente, assunto ou observação..." value={query} onChange={(e) => setQuery(e.target.value)} /></div><button className="btn-secondary" onClick={() => setFilter(filter === "todos" ? "hoje" : "todos")}><Filter size={15} /> Filtros</button></div></div>
-          <div className="gestor-tabs">{[["todos","Todos"],["atrasados","Atrasados"],["hoje","Hoje"],["aguardando","Aguardando"],["concluidos","Concluídos"]].map(([v,l]) => <button key={v} className={filter === v ? "active" : ""} onClick={() => setFilter(v)}>{l}</button>)}</div>
-          {filtered.length === 0 ? <div className="gestor-empty"><Target size={30} /><h4>{followups.length ? "Nenhuma tarefa encontrada" : "Seu Gestor está pronto"}</h4><p>{followups.length ? "Tente outro filtro ou termo de busca." : "Crie seu primeiro follow-up para começar a organizar os retornos do dia."}</p><button className="btn-primary" onClick={openNew}><Plus size={16} /> Criar primeiro follow-up</button></div> : <div className="followup-scroll"><div className="followup-list">
-            {filtered.map((f) => {
-              const overdue = f.status !== "completed" && (f.date < today || (f.date === today && (f.time || "23:59") < nowTime));
-              const typeItem = FOLLOWUP_TYPES.find((x) => x.value === f.type) || FOLLOWUP_TYPES[FOLLOWUP_TYPES.length - 1];
-              const priority = PRIORITIES[f.priority] || PRIORITIES.media; const status = STATUS_META[f.status] || STATUS_META.pending;
-              return <div className={"followup-row" + (overdue ? " is-overdue" : "") + (f.status === "completed" ? " is-completed" : "")} key={f.id}>
-                <div className="followup-avatar">{getClientName(f).trim().charAt(0).toUpperCase()}</div><div className="followup-client"><strong>{getClientName(f)}</strong><span>{f.clientId ? "Cliente cadastrado" : "Contato avulso"}</span></div><div className="followup-main"><strong>{f.subject}</strong><span>{f.notes || "Sem observações"}</span></div><div className="followup-date"><strong>{dateLabel(f.date)}</strong><span><Clock size={12} /> {f.time || "Sem horário"}</span></div><span className={"priority-badge " + priority.className}>{priority.label}</span><span className="type-badge gestor-type"><FollowupTypeIcon type={f.type} size={13} />{typeItem.label}</span><span className={"status-badge " + status.className}>{overdue ? "Atrasado" : status.label}</span><div className="followup-actions"><button className="icon-btn ghost" onClick={() => openEdit(f)} title="Editar"><Pencil size={15} /></button>{f.status === "completed" ? <button className="icon-btn ghost success-icon" onClick={() => reopen(f.id)} title="Reabrir"><RefreshCw size={15} /></button> : <button className="icon-btn ghost success-icon" onClick={() => complete(f.id)} title="Concluir"><CheckCircle size={16} /></button>}<button className="icon-btn ghost" onClick={() => remove(f.id)} title="Excluir"><MoreHorizontal size={16} /></button></div>
-              </div>;
-            })}
-          </div></div>}
-        </section>
-        <aside className="gestor-side">
-          <div className="side-card"><div className="side-card-head"><div><span className="eyebrow"><CalendarClock size={13} /> HOJE</span><h3>Resumo do dia</h3></div><span className="today-pill">{dateLabel(today)}</span></div><div className="mini-tasks"><div><span className="mini-dot red" /> Ações atrasadas <b>{computed.overdue.length}</b></div><div><span className="mini-dot orange" /> Para fazer hoje <b>{computed.todayItems.length}</b></div><div><span className="mini-dot yellow" /> Aguardando clientes <b>{computed.waiting.length}</b></div><div><span className="mini-dot green" /> Concluídos hoje <b>{computed.completedToday.length}</b></div></div></div>
-          <div className="side-card tip-card"><div className="tip-icon"><Bell size={18} /></div><div><b>Dica do Gestor</b><p>Quando um cliente disser que vai pensar e retornar depois, crie um follow-up para não deixar a oportunidade esfriar.</p></div></div>
-          <div className="side-card quick-card"><h3>Ações rápidas</h3><button onClick={() => { resetDraft(); setDraft((d) => ({ ...d, type: "responder", subject: "Responder cliente" })); setShowForm(true); }}><MessageCircle size={16} /> Responder cliente <ChevronRight size={15} /></button><button onClick={() => { resetDraft(); setDraft((d) => ({ ...d, type: "ligar", subject: "Ligar para cliente" })); setShowForm(true); }}><Phone size={16} /> Fazer ligação <ChevronRight size={15} /></button><button onClick={() => { resetDraft(); setDraft((d) => ({ ...d, type: "proposta", subject: "Enviar proposta" })); setShowForm(true); }}><Send size={16} /> Enviar proposta <ChevronRight size={15} /></button></div>
-        </aside>
-      </div>
-      {showForm && <Modal title={editing ? "Editar follow-up" : "Novo follow-up"} onClose={() => { setShowForm(false); setEditing(null); }}><form className="form gestor-form" onSubmit={save}>
-        <Field label="Cliente / contato"><div className="client-select-row"><select value={draft.clientId} onChange={(e) => setDraft({ ...draft, clientId: e.target.value, guestName: e.target.value ? "" : draft.guestName })}><option value="">Cliente não cadastrado / avulso</option>{clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select><button type="button" className="icon-btn add-client-btn" title="Criar cliente" onClick={() => { const name = window.prompt("Nome do novo cliente / contato:"); if (name && name.trim() && onAddClient) { const c = { id: uid("c"), name: name.trim(), document: "", address: "", type: "presencial", phone: "", email: "", since: todayISO() }; onAddClient(c); setDraft({ ...draft, clientId: c.id, guestName: "" }); } }}><UserPlus size={17} /></button></div></Field>
-        {!draft.clientId && <Field label="Nome do cliente / contato (opcional)"><input placeholder="Ex.: Bruno ou Empresa XYZ" value={draft.guestName} onChange={(e) => setDraft({ ...draft, guestName: e.target.value })} /></Field>}
-        <Field label="Assunto / tarefa"><input autoFocus placeholder="Ex.: Fazer follow-up sobre transferência do CNPJ" value={draft.subject} onChange={(e) => setDraft({ ...draft, subject: e.target.value })} required /></Field>
-        <Field label="Observação (opcional)"><textarea className="textarea" placeholder="Detalhes importantes sobre a tarefa..." value={draft.notes} onChange={(e) => setDraft({ ...draft, notes: e.target.value })} /></Field>
-        <div className="form-row"><Field label="Data"><input type="date" value={draft.date} onChange={(e) => setDraft({ ...draft, date: e.target.value })} required /></Field><Field label="Horário"><input type="time" value={draft.time} onChange={(e) => setDraft({ ...draft, time: e.target.value })} /></Field></div>
-        <Field label="Prioridade"><div className="priority-selector">{Object.entries(PRIORITIES).map(([v,p]) => <button type="button" key={v} className={"priority-choice " + p.className + (draft.priority === v ? " selected" : "")} onClick={() => setDraft({ ...draft, priority: v })}>{p.label}</button>)}</div></Field>
-        <Field label="Tipo"><select value={draft.type} onChange={(e) => setDraft({ ...draft, type: e.target.value })}>{FOLLOWUP_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}</select></Field>
-        <Field label="Status"><select value={draft.status} onChange={(e) => setDraft({ ...draft, status: e.target.value })}><option value="pending">Pendente</option><option value="waiting">Aguardando cliente</option><option value="completed">Concluído</option></select></Field>
-        <Field label="Repetir"><select value={draft.repeat} onChange={(e) => setDraft({ ...draft, repeat: e.target.value })}><option value="none">Não repetir</option><option value="daily">Todos os dias</option><option value="weekly">Toda semana</option><option value="monthly">Todo mês</option></select></Field>
-        <div className="form-actions"><button type="button" className="btn-secondary" onClick={() => setShowForm(false)}>Cancelar</button><button className="btn-primary" type="submit"><Save size={16} /> {editing ? "Salvar alterações" : "Salvar follow-up"}</button></div>
-      </form></Modal>}
-    </div>
-  );
-}
-
-
-// Shell
-
-//
----------------------------------------------------------------------------
-
-const NAV = [
-  { id: "agenda", label: "Agenda", icon: CalendarDays },
-  { id: "clientes", label: "Clientes", icon: Users },
-  { id: "financeiro", label: "Financeiro", icon: Wallet },
-  { id: "gestor", label: "Gestor", icon: Bell },
-];
-
-function TreeMark({ size = 26 }) {
-
-  return (
-
-    <svg
-width={size} height={size} viewBox="0 0 48 48"
-fill="none">
-
-      <circle
-cx="24" cy="24" r="21" stroke="#E08A52"
-strokeWidth="2.4" />
-
-      <path
-
-        d="M24
-12v24M24 18l-7 5M24 18l7 5M24 24l-7 5M24 24l7 5M24 30l-5 4M24 30l5 4"
-
-       
-stroke="#E08A52"
-
-       
-strokeWidth="2.4"
-
-       
-strokeLinecap="round"
-
-      />
-
-    </svg>
-
-  );
-
-}
-
-function NellusApp() {
-
-  const [tab, setTab]
-= useState("agenda");
-
-  const [clients,
-setClients] = useState(seedClients);
-
-  const [bookings,
-setBookings] = useState(seedBookings);
-
-  const [tx, setTx] =
-useState(seedTx);
-
-  const [followups, setFollowups] = useState(() => {
-    try { return JSON.parse(localStorage.getItem("nellus-followups") || "[]"); } catch (e) { return []; }
-  });
-
-  useEffect(() => {
-    try { localStorage.setItem("nellus-followups", JSON.stringify(followups)); } catch (e) {}
-  }, [followups]);
-
-    const [typeLabels, setTypeLabels] = useState(DEFAULT_TYPE_LABEL);
-  const [showTypeSettings, setShowTypeSettings] = useState(false);
-
-const today =
-"2026-09-01";
-
-  const todaysBookings
-= bookings.filter((b) => b.date === today).length;
-
-  return (
-
-    <div
-className="nellus-app">
-
-      <style>{`
-
-        @import
-url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap');
-
-        .nellus-app {
-
-          --ink:
-#1B2420;
-
-          --muted:
-#8A8578;
-
-          --paper:
-#F7F5F0;
-
-          --surface:
-#FFFFFF;
-
-          --border:
-#E4DFD3;
-
-          --teal:
-#0E6E56;
-
-          --teal-deep:
-#0A4F3E;
-
-          --orange:
-#E08A52;
-
-         
---orange-deep: #C96B34;
-
-          --up:
-#1F9D6C;
-
-          --down:
-#C1483B;
-
-          font-family:
-'Manrope', system-ui, sans-serif;
-
-          color:
-var(--ink);
-
-          background:
-var(--paper);
-
-          display:
-grid;
-
-         
-grid-template-columns: 236px 1fr;
-
-          min-height:
-640px;
-
-         
-border-radius: 16px;
-
-          overflow:
-hidden;
-
-          border: 1px
-solid var(--border);
-
-        }
-
-        .nellus-app *
-{ box-sizing: border-box; }
-
-        /* Sidebar */
-
-        .sidebar {
-
-          background:
-linear-gradient(180deg, var(--teal-deep), #08392C 85%);
-
-          color:
-#EFEAE0;
-
-          padding:
-26px 18px;
-
-          display:
-flex;
-
-         
-flex-direction: column;
-
-        }
-
-        .brand {
-display: flex; align-items: center; gap: 10px; padding: 4px 6px 28px; }
-
-        .brand-text {
-display: flex; flex-direction: column; line-height: 1.1; }
-
-        .brand-text b
-{ font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600;
-letter-spacing: 0.2px; }
-
-        .brand-text
-span { font-size: 11.5px; color: #B9CFC5; letter-spacing: 0.3px; }
-
-        .nav {
-display: flex; flex-direction: column; gap: 4px; }
-
-        .nav-item {
-
-          display:
-flex; align-items: center; gap: 11px;
-
-          padding:
-10px 12px; border-radius: 10px;
-
-          background:
-transparent; border: none; cursor: pointer;
-
-          color:
-#D8E6DE; font-family: inherit; font-size: 14.5px; font-weight: 500;
-
-          text-align:
-left; transition: background 0.15s ease, color 0.15s ease;
-
-        }
-
-       
-.nav-item:hover { background: rgba(255,255,255,0.06); }
-
-       
-.nav-item.active { background: var(--orange); color: #1B2420;
-font-weight: 600; }
-
-        .sidebar-foot
-{
-
-          margin-top:
-auto; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12);
-
-          font-size:
-12px; color: #9FC2B2; line-height: 1.5;
-
-        }
-
-        .sidebar-foot
-b { color: #EFEAE0; font-size: 13px; }
-
-        /* Main */
-
-        .main {
-padding: 28px 32px 32px; overflow-y: auto; }
-
-        .view-head {
-display: flex; align-items: flex-start; justify-content: space-between; gap:
-16px; margin-bottom: 22px; }
-
-        .view-head h2
-{ font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; margin: 0
-0 4px; }
-
-        .view-head p {
-margin: 0; color: var(--muted); font-size: 13.5px; }
-
-        .btn-primary {
-
-          display:
-inline-flex; align-items: center; gap: 7px;
-
-          background:
-var(--orange); color: #23140A; border: none;
-
-          padding:
-10px 16px; border-radius: 10px; font-family: inherit;
-
-          font-size:
-13.5px; font-weight: 700; cursor: pointer; white-space: nowrap;
-
-          transition: background 0.15s ease,
-transform 0.1s ease;
-
-        }
-
-       
-.btn-primary:hover { background: var(--orange-deep); }
-
-       
-.btn-primary:active { transform: scale(0.98); }
-
-       
-.btn-primary.full { width: 100%; justify-content: center; margin-top:
-4px; }
-
-        .icon-btn {
-
-          border:
-none; background: var(--surface); border: 1px solid var(--border);
-
-          width: 32px;
-height: 32px; border-radius: 8px; display: flex;
-
-          align-items:
-center; justify-content: center; cursor: pointer; color: var(--ink);
-
-        }
-
-       
-.icon-btn.ghost { background: transparent; border-color: transparent;
-color: var(--muted); }
-
-       
-.icon-btn.ghost:hover { background: #F1ECE1; color: var(--down); }
-
-        /* Agenda */
-
-        .date-rail {
-display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
-
-        .date-chip {
-
-          border: 1px
-solid var(--border); background: var(--surface); color: var(--ink);
-
-          padding: 8px
-14px; border-radius: 999px; font-family: inherit; font-size: 13px;
-
-          cursor:
-pointer; text-transform: capitalize; font-weight: 500;
-
-        }
-
-       
-.date-chip.active { background: var(--teal); border-color: var(--teal);
-color: #fff; }
-
-        .agenda-list {
-display: flex; flex-direction: column; gap: 10px; }
-
-        .agenda-row {
-
-          display:
-flex; align-items: center; gap: 16px;
-
-          background:
-var(--surface); border: 1px solid var(--border);
-
-         
-border-radius: 12px; padding: 13px 16px;
-
-        }
-
-        .agenda-time {
-display: flex; align-items: center; gap: 6px; font-size: 13px; color:
-var(--muted); width: 118px; flex-shrink: 0; }
-
-        .agenda-main {
-display: flex; flex-direction: column; flex: 1; gap: 2px; }
-
-        .agenda-main
-strong { font-size: 14.5px; }
-
-        .agenda-main
-span { font-size: 12.5px; color: var(--muted); }
-
-        .type-badge {
-
-          display:
-inline-flex; align-items: center; gap: 6px;
-
-          font-size:
-12px; font-weight: 600; color: var(--ink);
-
-          background:
-#F1ECE1; padding: 5px 10px; border-radius: 999px; white-space: nowrap;
-
-        }
-
-        .type-badge i
-{ width: 7px; height: 7px; border-radius: 50%; background: var(--dot); display:
-inline-block; }
-
-        .empty-state {
-
-          display:
-flex; flex-direction: column; align-items: center; gap: 8px;
-
-          padding:
-48px 0; color: var(--muted); text-align: center; grid-column: 1 / -1;
-
-        }
-
-        /* Clientes */
-
-        .segment-cards
-{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-margin-bottom: 18px; }
-
-        .segment-card
-{
-
-          background:
-var(--surface); border: 1px solid var(--border); border-radius: 12px;
-
-          padding:
-14px 16px; cursor: pointer; text-align: left; font-family: inherit;
-
-          display:
-flex; flex-direction: column; gap: 2px; position: relative;
-
-        }
-
-       
-.segment-card::before {
-
-          content: '';
-position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px;
-
-          background:
-var(--dot); border-radius: 0 3px 3px 0;
-
-        }
-
-       
-.segment-card.active { border-color: var(--dot); background: #FBF9F4; }
-
-        .segment-count
-{ font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; }
-
-        .segment-label
-{ font-size: 12.5px; color: var(--muted); font-weight: 500; }
-
-        .toolbar {
-display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap:
-wrap; }
-
-        .search-box {
-
-          display:
-flex; align-items: center; gap: 8px; background: var(--surface);
-
-          border: 1px
-solid var(--border); border-radius: 10px; padding: 9px 12px;
-
-          flex: 1;
-min-width: 220px; color: var(--muted);
-
-        }
-
-        .search-box
-input { border: none; outline: none; font-family: inherit; font-size: 13.5px;
-flex: 1; background: transparent; color: var(--ink); }
-
-        .chip-clear {
-
-          display:
-flex; align-items: center; gap: 6px; background: #F1ECE1; border: none;
-
-          padding: 8px
-12px; border-radius: 999px; font-size: 12.5px; cursor: pointer; color:
-var(--ink); font-family: inherit;
-
-        }
-
-        .client-grid {
-display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-gap: 12px; }
-
-        .client-card {
-
-          background:
-var(--surface); border: 1px solid var(--border); border-radius: 13px;
-
-          padding:
-16px; display: flex; flex-direction: column; gap: 9px;
-
-        }
-
-       
-.client-card-top { display: flex; align-items: flex-start; justify-content:
-space-between; gap: 10px; }
-
-       
-.client-card-top strong { display: block; font-size: 14.5px; }
-
-       
-.client-card-top .muted { font-size: 12px; }
-
-        .muted {
-color: var(--muted); }
-
-        .client-line {
-display: flex; align-items: flex-start; gap: 7px; font-size: 12.5px; color:
-var(--muted); }
-
-        .client-line
-svg { margin-top: 2px; flex-shrink: 0; }
-
-       
-.client-card-foot {
-
-          display:
-flex; align-items: center; justify-content: space-between;
-
-          margin-top:
-4px; padding-top: 9px; border-top: 1px solid var(--border); font-size: 11.5px;
-
-        }
-
-        /* Financeiro
-*/
-
-        .stat-row {
-display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom:
-18px; }
-
-        .stat-card {
-background: var(--surface); border: 1px solid var(--border); border-radius:
-13px; padding: 15px 16px; }
-
-        .stat-label {
-display: flex; align-items: center; gap: 6px; font-size: 12px; color:
-var(--muted); margin-bottom: 8px; font-weight: 600; }
-
-        .stat-value {
-font-family: 'Fraunces', serif; font-size: 21px; font-weight: 600; }
-
-        .stat-value.up
-{ color: var(--up); }
-
-       
-.stat-value.down { color: var(--down); }
-
-        .trend-card {
-border-color: var(--trend); background: color-mix(in srgb, var(--trend) 6%, white);
-}
-
-        .chart-panel,
-.tx-panel {
-
-          background:
-var(--surface); border: 1px solid var(--border); border-radius: 14px;
-
-          padding:
-18px 20px; margin-bottom: 16px;
-
-        }
-
-       
-.chart-panel-head { display: flex; align-items: baseline;
-justify-content: space-between; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;
-}
-
-       
-.chart-panel-head h3 { font-family: 'Fraunces', serif; font-size: 16px;
-font-weight: 600; margin: 0; }
-
-        .tx-list {
-display: flex; flex-direction: column; }
-
-        .tx-row {
-
-          display:
-flex; align-items: center; gap: 12px; padding: 11px 2px;
-
-         
-border-bottom: 1px solid var(--border);
-
-        }
-
-       
-.tx-row:last-child { border-bottom: none; }
-
-        .tx-dot {
-width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
-       
-.tx-dot.entrada { background: var(--up); }
-
-        .tx-dot.saida
-{ background: var(--down); }
-
-        .tx-main {
-display: flex; flex-direction: column; flex: 1; gap: 1px; }
-
-        .tx-main
-strong { font-size: 13.5px; font-weight: 600; }
-
-        .tx-main span
-{ font-size: 12px; }
-
-        .tx-amount {
-font-weight: 700; font-size: 13.5px; white-space: nowrap; }
-
-        .tx-amount.up
-{ color: var(--up); }
-
-        .tx-amount.down { color: var(--down); }
-
-        /* Modal &
-forms */
-
-        .modal-veil {
-
-          position:
-fixed; inset: 0; background: rgba(20, 24, 21, 0.45);
-
-          display:
-flex; align-items: center; justify-content: center; z-index: 50; padding: 16px;
-
-        }
-
-        .modal {
-
-          background:
-var(--surface); border-radius: 16px; width: 100%; max-width: 420px;
-
-          max-height:
-88vh; overflow-y: auto; box-shadow: 0 24px 60px rgba(20,24,21,0.25);
-
-        }
-
-        .modal-head {
-display: flex; align-items: center; justify-content: space-between; padding:
-18px 20px 8px; }
-
-        .modal-head h3
-{ font-family: 'Fraunces', serif; font-size: 18px; margin: 0; font-weight: 600;
-}
-
-        .modal-body {
-padding: 4px 20px 22px; }
-
-        .form {
-display: flex; flex-direction: column; gap: 13px; }
-
-        .form-row {
-display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-        .field {
-display: flex; flex-direction: column; gap: 5px; font-size: 12.5px;
-font-weight: 600; color: var(--ink); }
-
-        .field input,
-.field select {
-
-          font-family:
-inherit; font-size: 13.5px; font-weight: 400; padding: 9px 11px;
-
-          border: 1px
-solid var(--border); border-radius: 9px; background: var(--paper); color:
-var(--ink); outline: none;
-
-        }
-
-        .field
-input:focus, .field select:focus { border-color: var(--teal); background:
-var(--surface); }
-
-        .radio-row {
-display: flex; gap: 8px; flex-wrap: wrap; }
-
-        .radio-pill {
-
-          display:
-flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 999px;
-
-          border: 1px
-solid var(--border); font-size: 12.5px; font-weight: 600; cursor: pointer;
-color: var(--muted);
-
-        }
-
-        .radio-pill
-input { display: none; }
-
-       
-.radio-pill.active { border-color: var(--teal); color: var(--teal-deep);
-background: #EAF3EF; }
-
-        
-        /* Gestor */
-        .eyebrow { display:flex; align-items:center; gap:6px; color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:5px; }
-        .gestor-head { align-items:flex-end; }
-        .gestor-head h2 { margin-bottom:2px; }
-        .header-actions { display:flex; gap:8px; align-items:center; }
-        .notification-btn.enabled { border-color:#B7D9C9; background:#EEF8F2; color:#166447; }
-        .gestor-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:14px; }
-        .gestor-stat { border:1px solid var(--border); background:var(--surface); border-radius:14px; padding:14px; display:flex; align-items:center; gap:12px; text-align:left; cursor:pointer; box-shadow:0 3px 12px rgba(27,36,32,.03); }
-        .gestor-stat:hover { transform:translateY(-1px); box-shadow:0 8px 20px rgba(27,36,32,.06); }
-        .gestor-stat-icon { width:40px; height:40px; border-radius:11px; display:grid; place-items:center; flex:0 0 auto; }
-        .gestor-stat span:nth-child(2) { display:flex; flex-direction:column; min-width:0; flex:1; }
-        .gestor-stat b { font-size:12px; color:var(--ink); }
-        .gestor-stat strong { font-size:24px; line-height:1.1; margin:3px 0; color:var(--ink); }
-        .gestor-stat small { color:var(--muted); font-size:10px; white-space:nowrap; }
-        .gestor-stat.overdue { background:#FFF8F7; border-color:#F0D0CC; } .gestor-stat.overdue .gestor-stat-icon { background:#FFE5E2; color:#C1483B; }
-        .gestor-stat.today { background:#FFF9F1; border-color:#F1DDC5; } .gestor-stat.today .gestor-stat-icon { background:#FCE8D2; color:#D77A26; }
-        .gestor-stat.waiting { background:#FFFBEF; border-color:#EFE1B5; } .gestor-stat.waiting .gestor-stat-icon { background:#FFF0B9; color:#B78300; }
-        .gestor-stat.done { background:#F3FBF6; border-color:#CFE8D7; } .gestor-stat.done .gestor-stat-icon { background:#DDF2E4; color:#23854F; }
-        .gestor-layout { display:grid; grid-template-columns:minmax(0,1fr) 285px; gap:14px; align-items:start; }
-        .gestor-panel, .side-card { background:var(--surface); border:1px solid var(--border); border-radius:15px; box-shadow:0 3px 12px rgba(27,36,32,.03); }
-        .gestor-panel { overflow:hidden; }
-        .gestor-panel-head { padding:16px 16px 10px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
-        .gestor-panel-head h3 { margin:0 0 3px; font-size:16px; } .gestor-panel-head .muted { font-size:11px; }
-        .gestor-tools { display:flex; gap:8px; align-items:center; }
-        .search-box { display:flex; align-items:center; gap:7px; border:1px solid var(--border); background:var(--paper); border-radius:9px; padding:0 10px; width:280px; height:36px; color:var(--muted); }
-        .search-box input { border:0; outline:0; background:transparent; width:100%; font:inherit; font-size:12px; color:var(--ink); }
-        .gestor-tabs { display:flex; gap:5px; padding:0 16px 10px; border-bottom:1px solid var(--border); }
-        .gestor-tabs button { border:0; background:transparent; padding:8px 12px; border-radius:8px; color:var(--muted); font:600 11px inherit; cursor:pointer; }
-        .gestor-tabs button.active { background:#18231F; color:#fff; }
-        .followup-scroll { overflow-x:auto; }
-        .followup-list { width:100%; }
-        .followup-row { display:grid; grid-template-columns:34px 130px minmax(150px,1fr) 86px 52px 108px 82px 92px; gap:10px; align-items:center; padding:11px 14px; border-bottom:1px solid #EEEAE1; min-width:920px; }
-        .followup-row:hover { background:#FCFBF8; } .followup-row.is-completed { opacity:.72; }
-        .followup-row.is-overdue { background:#FFFAF9; }
-        .followup-avatar { width:32px; height:32px; border-radius:50%; display:grid; place-items:center; background:#E9F1ED; color:#21604D; font-size:12px; font-weight:800; }
-        .followup-client, .followup-main, .followup-date { display:flex; flex-direction:column; min-width:0; gap:3px; } .followup-client strong, .followup-main strong, .followup-date strong { font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .followup-client span, .followup-main span, .followup-date span { font-size:9.5px; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-        .followup-date span { display:flex; align-items:center; gap:3px; }
-        .priority-badge, .status-badge { display:inline-flex; justify-content:center; align-items:center; border-radius:999px; padding:5px 7px; font-size:9px; font-weight:800; white-space:nowrap; }
-        .priority-high { color:#B83A32; background:#FFE5E2; } .priority-medium { color:#9A6500; background:#FFF0C7; } .priority-low { color:#24679A; background:#E3F1FB; }
-        .status-pending { color:#B83A32; background:#FFE5E2; } .status-waiting { color:#A36D00; background:#FFF0C7; } .status-completed { color:#1F7A49; background:#DDF2E4; }
-        .gestor-type { font-size:9px; justify-content:center; gap:4px; padding:5px 6px; white-space:nowrap; }
-        .followup-actions { display:flex; justify-content:flex-end; gap:1px; } .success-icon { color:#278153; }
-        .gestor-side { display:flex; flex-direction:column; gap:12px; }
-        .side-card { padding:15px; } .side-card-head { display:flex; justify-content:space-between; gap:8px; align-items:flex-start; } .side-card h3 { margin:0; font-size:15px; }
-        .today-pill { font-size:9px; font-weight:700; color:var(--muted); background:var(--paper); border:1px solid var(--border); border-radius:999px; padding:5px 7px; }
-        .mini-tasks { margin-top:12px; display:flex; flex-direction:column; gap:10px; } .mini-tasks div { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--ink); } .mini-tasks b { margin-left:auto; }
-        .mini-dot { width:8px; height:8px; border-radius:50%; } .mini-dot.red{background:#C1483B}.mini-dot.orange{background:#D77A26}.mini-dot.yellow{background:#D5A100}.mini-dot.green{background:#23854F}
-        .tip-card { display:flex; gap:10px; background:#FFFCF5; border-color:#EEE1C3; } .tip-icon { width:32px; height:32px; flex:0 0 auto; border-radius:9px; display:grid; place-items:center; background:#FFF0C7; color:#A36D00; } .tip-card b { font-size:11px; } .tip-card p { margin:4px 0 0; color:var(--muted); font-size:10px; line-height:1.45; }
-        .quick-card { padding-bottom:8px; } .quick-card h3 { margin-bottom:7px; } .quick-card button { width:100%; border:0; background:transparent; border-top:1px solid #EEEAE1; padding:10px 0; display:flex; align-items:center; gap:8px; text-align:left; font:600 11px inherit; color:var(--ink); cursor:pointer; } .quick-card button svg:last-child { margin-left:auto; color:var(--muted); }
-        .gestor-empty { min-height:300px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:35px; color:var(--muted); } .gestor-empty svg { color:#A4B6AE; } .gestor-empty h4 { margin:10px 0 4px; color:var(--ink); font-size:15px; } .gestor-empty p { max-width:380px; margin:0 0 15px; font-size:11px; line-height:1.5; }
-        .client-select-row { display:grid; grid-template-columns:1fr 38px; gap:7px; } .add-client-btn { border:1px solid var(--border); }
-        .textarea { min-height:72px; resize:vertical; font-family:inherit; font-size:13.5px; padding:9px 11px; border:1px solid var(--border); border-radius:9px; background:var(--paper); color:var(--ink); outline:none; } .textarea:focus { border-color:var(--teal); background:var(--surface); }
-        .priority-selector { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; } .priority-choice { border:1px solid var(--border); background:var(--paper); border-radius:8px; padding:9px; font:700 11px inherit; cursor:pointer; } .priority-choice.selected.priority-high{border-color:#ECA49E}.priority-choice.selected.priority-medium{border-color:#E2C36A}.priority-choice.selected.priority-low{border-color:#91BBDD}
-        .form-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:3px; } .form-actions .btn-primary, .form-actions .btn-secondary { display:flex; align-items:center; gap:6px; }
-        .nav-badge { margin-left:auto; min-width:18px; height:18px; padding:0 5px; display:grid; place-items:center; border-radius:999px; background:#C1483B; color:white; font:700 9px/18px inherit; font-style:normal; }
-        @media (max-width: 1050px) { .gestor-stats { grid-template-columns:repeat(2,1fr); } .gestor-layout { grid-template-columns:1fr; } .gestor-side { display:grid; grid-template-columns:1fr 1fr 1fr; } }
-        @media (max-width: 760px) { .gestor-stats { grid-template-columns:1fr 1fr; } .gestor-panel-head { flex-direction:column; align-items:stretch; } .gestor-tools { flex-direction:column; align-items:stretch; } .search-box { width:auto; } .gestor-side { display:flex; } .header-actions { flex-wrap:wrap; justify-content:flex-end; } }
-
-@media
-(max-width: 760px) {
-
-          .nellus-app
-{ grid-template-columns: 1fr; }
-
-          .sidebar {
-flex-direction: row; align-items: center; padding: 14px 16px; }
-
-          .brand { padding: 0; margin-right: auto;
-}
-
-          .nav {
-flex-direction: row; }
-
-          .nav-item
-span { display: none; }
-
-         
-.sidebar-foot { display: none; }
-
-          .main {
-padding: 20px; }
-
-          .stat-row,
-.segment-cards { grid-template-columns: repeat(2, 1fr); }
-
-          .form-row {
-grid-template-columns: 1fr; }
-
-        }
-
-      `}</style>
-
-      <aside
-className="sidebar">
-
-        <div
-className="brand">
-
-          <TreeMark
-/>
-
-          <div
-className="brand-text">
-
-           
-<b>Nellus</b>
-
-           
-<span>COWORKING</span>
-
-          </div>
-
-        </div>
-
-        <nav
-className="nav">
-
-          {NAV.map((n)
-=> (
-
-            <button
-
-             
-key={n.id}
-
-             
-className={"nav-item" + (tab === n.id ? " active" :
-"")}
-
-             
-onClick={() => setTab(n.id)}
-
-            >
-
-             
-<n.icon size={17} />
-
-             
-<span>{n.label}</span>
-              {n.id === "gestor" && (() => { const d = todayISO(); const c = followups.filter(f => f.status !== "completed" && (f.date < d || f.date === d)); return c ? <em className="nav-badge">{c}</em> : null; })()}
-
-           
-</button>
-
-          ))}
-
-        </nav>
-
-        <button className="nav-item" onClick={() => setShowTypeSettings(true)}><Settings size={18} /> Personalizar serviços</button>
-
-      <div
-className="sidebar-foot">
-
-         
-<b>{todaysBookings} agendamento{todaysBookings === 1 ?
-"" : "s"}</b>
-
-         
-<div>hoje, 01 de setembro</div>
-
-        </div>
-
-      </aside>
-
-      <main
-className="main">
-
-        {tab ===
-"agenda" && (
-
-          <Agenda
-
-           
-bookings={bookings}
-
-           
-clients={clients}
-
-            typeLabels={typeLabels}
-
-            onAdd={(b)
-=> setBookings((prev) => [...prev, b])}
-
-           
-onRemove={(id) => setBookings((prev) => prev.filter((b) => b.id
-!== id))}
-
-          />
-
-        )}
-
-        {tab ===
-"clientes" && (
-
-          <Clientes
-
-           
-clients={clients}
-
-            typeLabels={typeLabels}
-
-            onAdd={(c)
-=> setClients((prev) => [c, ...prev])}
-
-           
-onRemove={(id) => setClients((prev) => prev.filter((c) => c.id
-!== id))}
-
-          />
-
-        )}
-
-        {tab ===
-"financeiro" && (
-
-         
-<Financeiro
-
-            tx={tx}
-
-            onAdd={(t)
-=> setTx((prev) => [...prev, t])}
-
-           
-onRemove={(id) => setTx((prev) => prev.filter((t) => t.id !==
-id))}
-
-          />
-
-        )}
-
-              {tab ===
-"gestor" && (
-          <Gestor
-            clients={clients}
-            followups={followups}
-            onChange={setFollowups}
-            onAddClient={(c) => setClients((prev) => [c, ...prev])}
-          />
-        )}
-
+</section>
 </main>
 
-      {showTypeSettings && (
-        <Modal title="Personalizar nomes dos serviços" onClose={() => setShowTypeSettings(false)}>
-          <div className="form">
-            {Object.entries(DEFAULT_TYPE_LABEL).map(([key, fallback]) => (
-              <Field key={key} label={fallback}>
-                <input value={typeLabels[key]} onChange={(e) => setTypeLabels({ ...typeLabels, [key]: e.target.value })} />
-              </Field>
-            ))}
-            <button className="btn-primary full" onClick={() => setShowTypeSettings(false)}>Salvar alterações</button>
-          </div>
-        </Modal>
-      )}
-    </div>
-  );
+<nav class="bottom">
+<button class="nav active" data-view="home"><i>⌂</i>Início</button>
+<button class="nav" data-view="plans"><i>▦</i>Planos</button>
+<button class="nav" data-view="structure"><i>◇</i>Estrutura</button>
+<button class="nav" data-view="knowledge"><i>▣</i>Base IA</button>
+<button class="nav" data-view="trainingV7"><i>◈</i>Treinar</button>
+<button class="nav" data-view="settings"><i>⚙</i>Ajustes</button>
+</nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DEFAULT_PLANS=[
+{name:"Sala privativa",price:"R$ 45/h",capacity:"Até 4 pessoas",schedule:"",desc:"Atendimento e trabalho focado.",arguments:"Privacidade, ambiente profissional, ideal para atendimentos, reuniões e trabalho focado."},
+{name:"Sala de reunião",price:"R$ 59,90/h",capacity:"Até 6 pessoas",schedule:"",desc:"Reuniões executivas e encontros.",arguments:"Ideal para reuniões, encontros com clientes e pequenas equipes."},
+{name:"Sala de treinamento",price:"R$ 69,90/h",capacity:"Até 12 pessoas",schedule:"",desc:"Cursos, palestras e workshops.",arguments:"Boa opção para cursos, workshops, treinamentos e palestras."},
+{name:"Estação de trabalho",price:"R$ 10/h",capacity:"Uso compartilhado",schedule:"08h às 18h",desc:"Uso compartilhado profissional.",arguments:"Opção econômica para quem precisa de um ambiente profissional."},
+{name:"Sala fixa",price:"R$ 1.900/mês",capacity:"Até 6 pessoas",schedule:"",desc:"Plano anual.",arguments:"Para equipes que precisam de um espaço fixo."},
+{name:"Endereço comercial",price:"R$ 520/ano",capacity:"Plano anual",schedule:"",desc:"Apresentação profissional da empresa.",arguments:"Ajuda a separar a imagem profissional da empresa do endereço residencial."},
+{name:"Endereço fiscal",price:"R$ 1.248/ano",capacity:"Plano anual",schedule:"",desc:"Ligado ao CNPJ da empresa.",arguments:"Solução para endereço fiscal empresarial, conforme as condições do serviço."}
+];
+
+
+const DEFAULT_KNOWLEDGE=[
+{type:"faq",title:"Cliente pergunta o valor da sala privativa",trigger:"quanto custa;qual o valor;preço da sala;valor da sala privativa",answer:"Informe o valor cadastrado da Sala privativa. Depois pergunte a data, horário e quantidade de pessoas para orientar a melhor opção.",priority:10},
+{type:"faq",title:"Cliente pergunta quantas pessoas cabem",trigger:"quantas pessoas;quantas pessoas cabem;capacidade;comporta quantas pessoas",answer:"Use a capacidade cadastrada no plano que estiver sendo tratado. Não invente uma capacidade diferente.",priority:9},
+{type:"objecao",title:"Cliente acha caro",trigger:"caro;achei caro;muito caro;está caro;ta caro",answer:"Não ofereça desconto automaticamente. Reforce o benefício e ajude o cliente a escolher uma opção compatível com a necessidade dele. Pergunte quantas horas e pessoas para evitar indicar um plano maior do que o necessário.",priority:10},
+{type:"objecao",title:"Cliente diz que vai pensar",trigger:"vou pensar;vou analisar;vou verificar;depois te falo;vou ver",answer:"Responda sem pressionar. Mostre disponibilidade para ajudar e, se fizer sentido, pergunte se ficou alguma dúvida sobre valor, estrutura ou uso do espaço.",priority:10},
+{type:"objecao",title:"Cliente pede desconto",trigger:"tem desconto;faz desconto;consegue desconto;desconto",answer:"Não invente desconto. Consulte os valores cadastrados. Se não houver uma condição de desconto registrada, explique o valor normalmente e ofereça a opção que melhor se encaixe na necessidade do cliente.",priority:10},
+{type:"regra",title:"Nunca inventar disponibilidade",trigger:"disponibilidade;disponivel;tem horario;tem vaga",answer:"Se não houver informação real de disponibilidade no sistema, não diga que está disponível. Pergunte a data e o horário e diga que é necessário verificar a disponibilidade.",priority:10},
+{type:"regra",title:"Não repetir informação já enviada",trigger:"já mandei;ja mandei;fotos enviadas;endereço enviado;valores enviados",answer:"Considere o campo 'O que você já fez' para evitar repetir fotos, endereço, valores ou explicações que já foram enviados.",priority:9},
+{type:"tecnica",title:"Conduzir para o próximo passo",trigger:"interesse;gostei;quero;tenho interesse;como faço para reservar",answer:"Depois de responder à dúvida, conduza para uma ação simples: pedir data, horário, quantidade de pessoas ou oferecer orientação para visita/reserva.",priority:8}
+];
+
+const DEFAULT_STRUCTURE=[
+{name:"Internet Rápida",icon:"",desc:"Alta estabilidade para chamadas e trabalho."},
+{name:"Café e Água",icon:"",desc:"Cortesia e praticidade."},
+{name:"Recepcionista",icon:"",desc:"Atendimento profissional."},
+{name:"Localização Nobre",icon:"",desc:"Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ."}
+];
+
+let plans=load("nellus_plans",DEFAULT_PLANS);
+let structure=load("nellus_structure",DEFAULT_STRUCTURE);
+let knowledge=load("nellus_knowledge",DEFAULT_KNOWLEDGE);
+let selectedAction=null, editingPlan=-1, editingStructure=-1, editingKnowledge=-1, knowledgeFilter="todos";
+
+function load(key,fallback){
+ try{const x=JSON.parse(localStorage.getItem(key));return Array.isArray(x)?x:fallback.map(v=>({...v}));}
+ catch(e){return fallback.map(v=>({...v}));}
+}
+function saveData(){
+ localStorage.setItem("nellus_plans",JSON.stringify(plans));
+ localStorage.setItem("nellus_structure",JSON.stringify(structure));
+}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function toast(msg){
+ const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
+ clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove("show"),2200);
+}
+function show(id){
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id)?.classList.add("active");
+ document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("active",x.dataset.view===id));
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>show(b.dataset.view));
+
+
+function renderKnowledge(){
+ const box=document.getElementById("knowledgeList"); if(!box)return;
+ box.innerHTML="";
+ const list=knowledge.filter(k=>knowledgeFilter==="todos"||k.type===knowledgeFilter)
+  .slice().sort((a,b)=>(b.priority||5)-(a.priority||5));
+ if(!list.length){box.innerHTML='<div class="empty">Nenhum conhecimento nesta categoria.</div>';return}
+ list.forEach((k,i)=>{
+  const realIndex=knowledge.indexOf(k);
+  const d=document.createElement("div");d.className="kb-card";
+  const labels={faq:"Pergunta e resposta",objecao:"Objeção",regra:"Regra",tecnica:"Técnica"};
+  d.innerHTML=`<div class="kb-meta"><span class="kb-tag">${esc(labels[k.type]||k.type)}</span><span class="count">Prioridade ${esc(k.priority||5)}</span></div>
+  <div class="kb-q">${esc(k.title)}</div>
+  <div class="kb-a"><strong>Gatilhos:</strong> ${esc(k.trigger)}</div>
+  <div class="kb-a">${esc(k.answer)}</div>
+  <div class="card-actions"><button class="btn btn-green" onclick="editKnowledge(${realIndex})"> Editar</button>
+  <button class="btn btn-danger" onclick="deleteKnowledge(${realIndex})">Excluir</button></div>`;
+  box.appendChild(d);
+ });
+}
+renderKnowledge();
+
+document.querySelectorAll(".kb-tab").forEach(b=>b.onclick=()=>{
+ knowledgeFilter=b.dataset.kbFilter;
+ document.querySelectorAll(".kb-tab").forEach(x=>x.classList.toggle("active",x===b));
+ renderKnowledge();
+});
+
+function openKnowledgeForm(index=-1){
+ editingKnowledge=index;
+ document.getElementById("knowledgeForm").classList.add("active");
+ document.getElementById("knowledgeFormTitle").textContent=index<0?"Novo conhecimento":"Editar conhecimento";
+ const k=index<0?{type:"faq",title:"",trigger:"",answer:"",priority:5}:knowledge[index];
+ document.getElementById("knowledgeType").value=k.type||"faq";
+ document.getElementById("knowledgeTitle").value=k.title||"";
+ document.getElementById("knowledgeTrigger").value=k.trigger||"";
+ document.getElementById("knowledgeAnswer").value=k.answer||"";
+ document.getElementById("knowledgePriority").value=k.priority||5;
+ document.getElementById("knowledgeTitle").focus();
+}
+window.editKnowledge=openKnowledgeForm;
+document.getElementById("addKnowledge").onclick=()=>openKnowledgeForm();
+document.getElementById("cancelKnowledge").onclick=()=>document.getElementById("knowledgeForm").classList.remove("active");
+document.getElementById("saveKnowledge").onclick=()=>{
+ const k={
+ type:document.getElementById("knowledgeType").value,
+ title:document.getElementById("knowledgeTitle").value.trim(),
+ trigger:document.getElementById("knowledgeTrigger").value.trim(),
+ answer:document.getElementById("knowledgeAnswer").value.trim(),
+ priority:Math.max(1,Math.min(10,Number(document.getElementById("knowledgePriority").value)||5))
+ };
+ if(!k.title||!k.trigger||!k.answer){alert("Preencha título, gatilhos e resposta.");return}
+ if(editingKnowledge<0)knowledge.push(k);else knowledge[editingKnowledge]=k;
+ localStorage.setItem("nellus_knowledge",JSON.stringify(knowledge));
+ renderKnowledge();document.getElementById("knowledgeForm").classList.remove("active");toast("Conhecimento salvo!");
+};
+window.deleteKnowledge=i=>{
+ if(confirm("Excluir este conhecimento?")){knowledge.splice(i,1);localStorage.setItem("nellus_knowledge",JSON.stringify(knowledge));renderKnowledge();toast("Conhecimento excluído.");}
+};
+
+function renderPlans(){
+ const box=document.getElementById("plansList");box.innerHTML="";
+ if(!plans.length){box.innerHTML='<div class="empty">Nenhum plano cadastrado. Clique em “Adicionar plano”.</div>';return}
+ plans.forEach((p,i)=>{
+ const d=document.createElement("div");d.className="card";
+ d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info">
+ <strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small>
+ ${p.capacity?`<small> ${esc(p.capacity)}</small>`:""}
+ ${p.schedule?`<small>⏰ ${esc(p.schedule)}</small>`:""}
+ ${p.arguments?`<small style="margin-top:5px;color:#b4c5bf"> ${esc(p.arguments)}</small>`:""}
+ </div><div class="price">${esc(p.price)}</div></div>
+ <div class="card-actions"><button class="btn btn-green" onclick="editPlan(${i})"> Editar</button>
+ <button class="btn btn-danger" onclick="deletePlan(${i})">Excluir</button></div>`;
+ box.appendChild(d);
+ });
+}
+function renderStructure(){
+ const box=document.getElementById("structureList");box.innerHTML="";
+ if(!structure.length){box.innerHTML='<div class="empty" style="grid-column:1/-1">Nenhum diferencial cadastrado.</div>';return}
+ structure.forEach((s,i)=>{
+ const d=document.createElement("div");d.className="feature";
+ d.innerHTML=`<div><div class="fi">${esc(s.icon||"◇")}</div><b>${esc(s.name)}</b><span>${esc(s.desc)}</span></div>
+ <div class="card-actions"><button class="btn btn-green" onclick="editStructure(${i})"> Editar</button>
+ <button class="btn btn-danger" onclick="deleteStructure(${i})">Excluir</button></div>`;
+ box.appendChild(d);
+ });
+}
+renderPlans();renderStructure();
+
+document.querySelectorAll(".quick button").forEach(b=>b.onclick=()=>{
+ const act=b.dataset.action;selectedAction=selectedAction===act?null:act;
+ document.querySelectorAll(".quick button").forEach(x=>x.classList.toggle("selected",x.dataset.action===selectedAction));
+});
+
+const conv=document.getElementById("conversation"),count=document.getElementById("count");
+conv.oninput=()=>count.textContent=conv.value.length+"/6000";
+
+function openPlanForm(index=-1){
+ editingPlan=index;
+ document.getElementById("planForm").classList.add("active");
+ document.getElementById("planFormTitle").textContent=index<0?"Novo plano":"Editar plano";
+ const p=index<0?{name:"",price:"",capacity:"",schedule:"",desc:"",arguments:""}:plans[index];
+ ["Name","Price","Capacity","Schedule","Desc","Arguments"].forEach(k=>document.getElementById("plan"+k).value=p[k.toLowerCase()]||"");
+ document.getElementById("planName").focus();
+}
+window.editPlan=openPlanForm;
+document.getElementById("addPlan").onclick=()=>openPlanForm();
+document.getElementById("cancelPlan").onclick=()=>document.getElementById("planForm").classList.remove("active");
+document.getElementById("savePlan").onclick=()=>{
+ const p={
+ name:document.getElementById("planName").value.trim(),
+ price:document.getElementById("planPrice").value.trim(),
+ capacity:document.getElementById("planCapacity").value.trim(),
+ schedule:document.getElementById("planSchedule").value.trim(),
+ desc:document.getElementById("planDesc").value.trim(),
+ arguments:document.getElementById("planArguments").value.trim()
+ };
+ if(!p.name||!p.price){alert("Informe pelo menos o nome e o preço do plano.");return}
+ if(editingPlan<0)plans.push(p);else plans[editingPlan]=p;
+ saveData();renderPlans();document.getElementById("planForm").classList.remove("active");toast("Plano salvo!");
+};
+window.deletePlan=i=>{
+ if(confirm("Excluir este plano?")){plans.splice(i,1);saveData();renderPlans();toast("Plano excluído.");}
+};
+
+function openStructureForm(index=-1){
+ editingStructure=index;
+ document.getElementById("structureForm").classList.add("active");
+ document.getElementById("structureFormTitle").textContent=index<0?"Novo diferencial":"Editar diferencial";
+ const s=index<0?{name:"",icon:"◇",desc:""}:structure[index];
+ document.getElementById("structureName").value=s.name||"";
+ document.getElementById("structureIcon").value=s.icon||"◇";
+ document.getElementById("structureDesc").value=s.desc||"";
+ document.getElementById("structureName").focus();
+}
+window.editStructure=openStructureForm;
+document.getElementById("addStructure").onclick=()=>openStructureForm();
+document.getElementById("cancelStructure").onclick=()=>document.getElementById("structureForm").classList.remove("active");
+document.getElementById("saveStructure").onclick=()=>{
+ const s={
+ name:document.getElementById("structureName").value.trim(),
+ icon:document.getElementById("structureIcon").value.trim()||"◇",
+ desc:document.getElementById("structureDesc").value.trim()
+ };
+ if(!s.name){alert("Informe o nome do diferencial.");return}
+ if(editingStructure<0)structure.push(s);else structure[editingStructure]=s;
+ saveData();renderStructure();document.getElementById("structureForm").classList.remove("active");toast("Diferencial salvo!");
+};
+window.deleteStructure=i=>{
+ if(confirm("Excluir este diferencial?")){structure.splice(i,1);saveData();renderStructure();toast("Item excluído.");}
+};
+
+document.getElementById("tone").value=localStorage.getItem("nellus_tone")||"natural";
+document.getElementById("commercialRule").value=localStorage.getItem("nellus_rule")||"Não inventar disponibilidade, descontos ou condições. Quando faltar uma informação importante, fazer uma pergunta objetiva.";
+document.getElementById("tone").onchange=e=>{localStorage.setItem("nellus_tone",e.target.value);toast("Tom atualizado.");};
+document.getElementById("commercialRule").oninput=e=>localStorage.setItem("nellus_rule",e.target.value);
+document.getElementById("groqApiKey").value=localStorage.getItem("nellus_groq_key")||"";document.getElementById("groqEndpoint").value=localStorage.getItem("nellus_groq_endpoint")||"/api/groq";document.getElementById("groqModel").value=localStorage.getItem("nellus_groq_model")||"openai/gpt-oss-20b";
+document.getElementById("groqApiKey").oninput=e=>localStorage.setItem("nellus_groq_key",e.target.value.trim());document.getElementById("groqEndpoint").oninput=e=>localStorage.setItem("nellus_groq_endpoint",e.target.value.trim());document.getElementById("groqModel").onchange=e=>localStorage.setItem("nellus_groq_model",e.target.value);
+document.getElementById("toggleGroqKey").onclick=()=>{const box=document.getElementById("groqDirectBox"),open=box.style.display!=='none';box.style.display=open?'none':'block';document.getElementById("toggleGroqKey").textContent=open?'Mostrar opção':'Ocultar opção';};
+
+function normalize(t){return (t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function lastMeaningfulMessage(text){
+ const lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+ return lines.length?lines[lines.length-1]:text;
+}
+function v11Facts(){
+ const p=n=>plans.find(x=>normalize(x.name)===normalize(n));
+ const privatePlan=p('Sala privativa');
+ return {address:'Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ',hours:'07h30 às 19h, de segunda a sexta-feira',plans:plans.map(x=>({name:x.name,price:x.price,capacity:x.capacity,schedule:x.schedule,desc:x.desc,arguments:x.arguments})),privatePackages:privatePlan?[`Plano cadastrado: ${privatePlan.name} — ${privatePlan.price}`]:[],fixedExtra:'Não cadastrado. Nunca inventar valor de colaborador adicional.'};
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<NellusApp />);
+const CONTACTS_KEY='nellus_contacts_v1';
+function loadContacts(){try{const x=JSON.parse(localStorage.getItem(CONTACTS_KEY)||'{}');return x&&typeof x==='object'?x:{};}catch(e){return {};}}
+let contacts=loadContacts();
+function saveContacts(){localStorage.setItem(CONTACTS_KEY,JSON.stringify(contacts));}
+function normalizePhone(v){return String(v||'').replace(/\D/g,'').slice(-13);}
+function getContact(phone){const k=normalizePhone(phone);return k?contacts[k]||null:null;}
+function kSafePhone(v){return String(v||'').replace(/(?<=\d{2})\d(?=\d{4})/g,'*');}
+function contactMemoryText(phone){const c=getContact(phone);if(!c)return '';const hist=Array.isArray(c.history)?c.history:[];return JSON.stringify({nome:c.name||'',telefone:kSafePhone(c.phone||phone),interacoes:hist.slice(-8).map(h=>({data:h.date,cliente:h.client,resposta:h.reply,acao:h.action||''})),ultimoServico:c.lastService||'',ultimaIntencao:c.lastIntent||'',ultimaAcao:c.lastAction||''},null,2);}
+function updateClientMemoryUI(){const el=document.getElementById('clientMemory');if(!el)return;const phone=document.getElementById('clientPhone')?.value||'';const c=getContact(phone);if(!c){el.style.display='none';el.textContent='';return;}const hist=Array.isArray(c.history)?c.history:[];el.style.display='block';el.innerHTML='<b style="color:#65cfb4"> Memória deste cliente</b><br>'+esc(c.name||'Cliente')+' · '+hist.length+' interação(ões) registrada(s).'+(c.lastService?' Último assunto: '+esc(c.lastService)+'.':'')+(hist.length?' Último contato: '+esc(hist[hist.length-1].date||'')+'.':'');}
+function rememberInteraction(phone,name,client,reply,analysis,action){const k=normalizePhone(phone);if(!k)return;const existing=contacts[k]||{phone:String(phone).trim(),name:name||'',history:[]};if(name)existing.name=name;existing.phone=String(phone).trim();existing.lastService=analysis?.intent||'';existing.lastIntent=analysis?.intent||'';existing.lastAction=action||analysis?.next||'';existing.history=Array.isArray(existing.history)?existing.history:[];existing.history.push({date:new Date().toLocaleString('pt-BR'),client:String(client||'').slice(0,600),reply:String(reply||'').slice(0,1000),action:action||''});existing.history=existing.history.slice(-20);contacts[k]=existing;saveContacts();updateClientMemoryUI();}
+document.getElementById('clientPhone')?.addEventListener('input',updateClientMemoryUI);
+document.getElementById('clientName')?.addEventListener('input',updateClientMemoryUI);
+function detectSignals(text){const t=normalize(text),out=[];const add=(type,label,priority)=>{if(!out.some(x=>x.type===type))out.push({type,label,priority});};if(/vou pensar|vou verificar|vou analisar|depois vejo|deixa eu ver|preciso pensar|vou conversar|vou falar com/.test(t))add('objecao','Indecisão',90);if(/desconto|condicao especial|tem desconto|faz desconto|consegue desconto/.test(t))add('desconto','Preço / desconto',95);if(/caro|cara|muito caro|preco|preço|valor|quanto custa|quanto fica|orcamento|orçamento/.test(t))add('preco','Preço',85);if(/disponivel|disponível|disponibilidade|tem vaga|tem horario|tem horário/.test(t))add('disponibilidade','Disponibilidade',88);if(/reservar|reserva|agendar|contratar|fechar|como faço|como faco/.test(t))add('fechamento','Fechamento',100);if(/visita|conhecer o espaco|conhecer o espaço/.test(t))add('visita','Visita',75);if(/onde fica|localiza|como chegar|qual o endereco|qual o endereço/.test(t))add('localizacao','Localização',80);if(/horario|horário|funciona|abre|fecha/.test(t))add('horario','Horário',70);const services=[['endereço fiscal','endereço fiscal'],['endereco fiscal','endereço fiscal'],['cnpj','endereço fiscal'],['endereço comercial','endereço comercial'],['endereco comercial','endereço comercial'],['sala privativa','sala privativa'],['sala de reunião','sala de reunião'],['reuniao','sala de reunião'],['sala de treinamento','sala de treinamento'],['treinamento','sala de treinamento'],['curso','sala de treinamento'],['workshop','sala de treinamento'],['palestra','sala de treinamento'],['estação de trabalho','estação de trabalho'],['estacao de trabalho','estação de trabalho'],['coworking','estação de trabalho'],['sala fixa','sala fixa'],['mensal','sala fixa']];const seen=new Set();services.forEach(([w,l])=>{if(t.includes(normalize(w))&&!seen.has(l)){seen.add(l);add('servico',l,60);}});return out.sort((a,b)=>b.priority-a.priority);}
 
-  </script>
+function detectIntent(text){
+ const t=normalize(text);
+ // A ordem importa: primeiro identificamos perguntas factuais muito claras.
+ if(/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o|qual\s+endere[cç]o/.test(t))return'localizacao';
+ if(/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t))return'horario';
+ if(/disponivel|disponibilidade|tem\s+vaga|tem\s+horario|tem\s+algum\s+horario/.test(t))return'disponibilidade';
+ if(/vou pensar|vou verificar|vou analisar|depois vejo|deixa eu ver|preciso pensar|vou conversar|vou falar com/.test(t))return'objecao';
+ if(/desconto|condicao especial|condi[cç][aã]o especial/.test(t))return'desconto';
+ if(/sala\s+fixa|sala\s+mensal|mensalidade|por\s+mes|mensal/.test(t))return'sala fixa';
+ if(/sala\s+de\s+treinamento|treinamento|curso|workshop|palestra/.test(t))return'sala de treinamento';
+ if(/sala\s+de\s+reuniao|reuniao/.test(t))return'sala de reunião';
+ if(/endereco\s+comercial/.test(t))return'endereço comercial';
+ if(/endereco\s+fiscal|cnpj/.test(t))return'endereço fiscal';
+ if(/sala\s+privativa|sala\s+particular|sala\s+por\s+hora|alugam\s+por\s+hora|aluga\s+por\s+hora|hora\s+avulsa|alugar\s+por\s+hora/.test(t))return'sala privativa';
+ if(/estacao\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t))return'estação de trabalho';
+ if(/caro|cara|preco|valor|quanto\s+custa|quanto\s+fica|quanto\s+e|orcamento/.test(t))return'preco';
+ if(/visita|conhecer\s+(?:o\s+)?espaco/.test(t))return'visita';
+ if(/reservar|reserva|agendar|contratar|fechar/.test(t))return'fechamento';
+ return'geral';
+}
+function findPlan(intent,text){
+ const t=normalize(text);
+ const direct={
+ 'sala privativa':'sala privativa','sala de reunião':'sala de reunião','sala de treinamento':'sala de treinamento',
+ 'estação de trabalho':'estação de trabalho','sala fixa':'sala fixa','endereço comercial':'endereço comercial','endereço fiscal':'endereço fiscal'
+ };
+ if(direct[intent]){
+ const exact=plans.find(x=>normalize(x.name)===normalize(direct[intent]));
+ if(exact)return exact;
+ }
+ const map=[
+ ['sala privativa',['privativa','particular','por hora','hora avulsa']],
+ ['sala de reunião',['reuniao']],['sala de treinamento',['treinamento','curso','workshop','palestra']],
+ ['estação de trabalho',['estacao','coworking','compartilhada']],['sala fixa',['sala fixa','mensal']],
+ ['endereço comercial',['endereco comercial']],['endereço fiscal',['endereco fiscal','cnpj']]
+ ];
+ const m=map.find(([_,words])=>words.some(w=>t.includes(normalize(w))));
+ return m?plans.find(x=>normalize(x.name).includes(normalize(m[0]))):null;
+}
+function hasAny(text,arr){const t=normalize(text);return arr.some(x=>t.includes(normalize(x)))}
+function scoreKnowledge(k,text){
+ const t=normalize(text), triggers=(k.trigger||'').split(';').map(x=>normalize(x.trim())).filter(Boolean);
+ let score=(k.priority||5)*0.15; triggers.forEach(term=>{if(term&&t.includes(term))score+=2+Math.min(term.length/20,1)}); return score;
+}
+function bestKnowledge(text){return knowledge.map(k=>({k,score:scoreKnowledge(k,text)})).filter(x=>x.score>1.8).sort((a,b)=>b.score-a.score).slice(0,3).map(x=>x.k)}
+function serviceFacts(p){if(!p)return '';return [p.name&&`Serviço: ${p.name}.`,p.price&&`Valor: ${p.price}.`,p.capacity&&`Capacidade: ${p.capacity}.`,p.schedule&&`Horário: ${p.schedule}.`,p.desc&&`Descrição: ${p.desc}.`,p.arguments&&`Benefícios: ${p.arguments}.`].filter(Boolean).join(' ')}
+function v8ExtractClientText(text){const lines=(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);const client=lines.filter(x=>/^(cliente|lead|ele|ela)\s*:/i.test(x)).map(x=>x.replace(/^[^:]+:\s*/,'')).join(' ');return client||lastMeaningfulMessage(text||'')}
+
+/* ===== V18 Training Brain + Next Best Action ===== */
+function v17CleanReply(text){
+ return String(text||'')
+  .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{1F1E6}-\u{1F1FF}]/gu,'')
+  .replace(/\s{2,}/g,' ')
+  .replace(/\s+([,.!?;:])/g,'$1')
+  .trim();
+}
+function v17Words(text){
+ return normalize(text||'').split(/[^a-z0-9à-ÿ]+/).filter(w=>w.length>=4 && !['para','você','voce','como','qual','isso','essa','esse','mais','uma','temos','tenho','preciso','quero','gostaria','sobre'].includes(w));
+}
+function v8MatchExamples(text,analysis){
+ const source=normalize((text||'')+' '+(analysis?.intent||'')+' '+(analysis?.objection||'')+' '+(analysis?.stage||''));
+ const words=[...new Set(v17Words(text))];
+ const examples=Array.isArray(window.v7Examples)?window.v7Examples:[];
+ return examples.map(x=>{
+  const triggerText=normalize((x.triggers||'')+' '+(x.client||'')+' '+(x.title||'')+' '+(x.category||''));
+  const triggerWords=[...new Set(v17Words(triggerText))];
+  let score=Number(x.priority||1)*0.8;
+  triggerWords.forEach(w=>{if(source.includes(w))score+=1.5;});
+  words.forEach(w=>{if(triggerText.includes(w))score+=2;});
+  if(analysis?.intent && triggerText.includes(normalize(analysis.intent)))score+=4;
+  if(analysis?.objection && analysis.objection!=='Nenhuma' && triggerText.includes(normalize(analysis.objection)))score+=4;
+  if(analysis?.stage && triggerText.includes(normalize(analysis.stage)))score+=2;
+  return {...x,score};
+ }).filter(x=>x.score>=4).sort((a,b)=>b.score-a.score).slice(0,3);
+}
+function v8ComposeFromExample(example,analysis,p,name){
+ if(!example?.ideal)return null;
+ let reply=example.ideal;
+ const g=v10Greeting(name);
+ reply=reply.replace(/^\s*(ol[aá]|oi|bom dia|boa tarde|boa noite)[!,.]?\s*/i,'').trim();
+ if(g && reply) reply=g+' '+reply;
+ if(p && /^(sala privativa|sala de reunião|sala de treinamento|estação de trabalho|sala fixa)$/i.test(p.name||'')){
+  const facts=serviceFacts(p);
+  if(facts && !normalize(reply).includes(normalize(p.name))) reply+=' '+facts;
+ }
+ return v17CleanReply(reply);
+}
+function v17LearnedStrategy(examples,analysis){
+ if(!examples?.length)return '';
+ const top=examples[0];
+ const category=normalize(top.category||'');
+ if(category.includes('objec')) return 'Trabalhar a objeção sem pressionar, reforçar valor e conduzir para um próximo passo concreto.';
+ if(category.includes('fech')) return 'Conduzir para uma ação concreta, evitando voltar para uma explicação genérica.';
+ if(category.includes('informa')) return 'Responder primeiro ao que foi perguntado e só depois avançar com uma pergunta útil.';
+ return 'Usar o exemplo treinado como referência de linguagem, estrutura e condução comercial.';
+}
+function v10Greeting(name){ return name ? `Olá, ${name}!` : `Olá!`; }
+function v18NextBestQuestion(t, flags){
+ const hasDate=/(dia|data|amanh[aã]|segunda|ter[cç]a|quarta|quinta|sexta|s[aá]bado|domingo)/.test(t);
+ const hasTime=/(hora|hor[aá]rio|manh[aã]|tarde|noite|\b\d{1,2}\s*(?:h|:|horas?))/.test(t);
+ const hasPeople=/(pessoa|pessoas|participante|participantes|equipe|clientes?)/.test(t);
+ const hasPurpose=/(atend|consult|reuni[aã]o|trabalh|curso|trein|workshop|palestr|escrit[oó]rio|empresa|cliente)/.test(t);
+ if(flags.availability){
+  if(!hasDate) return 'Qual data você precisa?';
+  if(!hasTime) return 'E qual horário seria ideal?';
+  if(!hasPeople) return 'Será para quantas pessoas?';
+  return 'Perfeito. Posso te orientar sobre o próximo passo para reservar.';
+ }
+ if(flags.location) return 'Você está pensando em conhecer o espaço ou já procura uma sala para utilizar?';
+ if(flags.privateRoom) return hasPurpose ? (hasDate ? 'E para qual data você pretende utilizar?' : 'Para qual data você pretende utilizar?') : 'É para atendimento, reunião ou para você trabalhar durante algumas horas?';
+ if(flags.meeting) return hasPeople ? (hasDate ? 'Para qual data você precisa da sala?' : 'Para qual data você precisa da sala?') : 'Seria para uma reunião com quantas pessoas?';
+ if(flags.training) return hasPeople ? (hasDate ? 'Para qual data você precisa do espaço?' : 'Para qual data você precisa do espaço?') : 'É para um curso, treinamento, workshop ou outro tipo de evento?';
+ if(flags.work) return hasDate ? 'Qual horário você pretende utilizar?' : 'Você pretende usar a estação eventualmente ou com frequência?';
+ if(flags.fixed) return hasPeople ? 'Você pretende utilizar a sala para qual tipo de atividade?' : 'A sala será para você ou para uma equipe?';
+ if(flags.commercial || flags.fiscal) return '';
+ if(flags.price) return 'Você pretende usar o espaço eventualmente ou com frequência?';
+ if(flags.capacity) return hasPurpose ? 'E para qual data você pretende utilizar?' : 'Você pretende usar o espaço para qual tipo de atividade?';
+ if(flags.hours) return hasDate ? 'E qual serviço você pretende utilizar?' : 'Você está pensando em utilizar o espaço em qual dia?';
+ return 'Me conta um pouco mais sobre o que você precisa para eu te indicar a melhor opção.';
+}
+/* ===== V20 Commercial Conversation Engine =====
+   Fluxo: interpretar -> definir objetivo -> verificar contexto -> responder -> próxima ação.
+*/
+function v20Clean(text){
+  return String(text||'')
+    .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{1F1E6}-\u{1F1FF}]/gu,'')
+    .replace(/\s{2,}/g,' ')
+    .replace(/\s+([,.!?])/g,'$1')
+    .replace(/\s*:\s*/g,', ')
+    .replace(/,\s*,/g,',')
+    .trim();
+}
+function v20Greeting(name){ return name ? `Olá, ${name}!` : 'Olá!'; }
+function v20Has(t, arr){ return arr.some(x=>normalize(t).includes(normalize(x))); }
+function v20Analyze(text, context, action){const raw=(text||'').trim(),client=v8ExtractClientText(raw)||raw,t=normalize(client),c=normalize(context||'');const signals=detectSignals(client),detectedIntent=detectIntent(client),forced=action==='objecao'||action==='fechamento';const intent=action==='objecao'?'objecao':action==='fechamento'?'fechamento':detectedIntent;const hasDate=/\b(hoje|amanha|segunda|terca|quarta|quinta|sexta|sabado|domingo|dia|data)\b/.test(t),hasTime=/\b(hora|horario|manha|tarde|noite|\d{1,2}\s*(?:h|:|horas?))\b/.test(t),hasPeople=/\b(pessoa|pessoas|participante|participantes|equipe|clientes?)\b/.test(t),hasPurpose=v20Has(t,['atendimento','atender','reuniao','trabalhar','trabalho','curso','treinamento','workshop','palestra','escritorio','empresa','coworking','consultorio','pacientes','clientes']);let stage='Novo contato',objective='Descobrir a necessidade',next='Fazer uma pergunta simples que permita direcionar a solução.';if(action==='follow'){stage='Follow-up';objective='Retomar a oportunidade';next='Reabrir a conversa com contexto e uma pergunta fácil de responder.';}else if(action==='objecao'){stage='Objeção';objective='Descobrir a objeção real antes de tentar contorná-la';next='Perguntar se o principal bloqueio é preço, percepção de valor, formato ou outra decisão.';}else if(action==='fechamento'){stage='Decisão';objective='Conduzir para confirmação';next='Confirmar o dado que ainda falta para reserva, visita ou contratação.';}else if(intent==='fechamento'){stage='Decisão';objective='Conduzir para o próximo passo';next='Confirmar o dado necessário para reserva, visita ou contratação.';}else if(intent==='objecao'){stage='Objeção';objective='Entender o que está impedindo a decisão';next='Descobrir a verdadeira objeção sem pressionar.';}else if(intent==='desconto'){stage='Objeção';objective='Trabalhar valor antes de falar em desconto';next='Entender se a dificuldade é preço, formato ou percepção de valor.';}else if(intent==='preco'){stage='Interesse';objective='Responder o preço com contexto de valor';next='Depois do preço, qualificar uso, frequência ou objetivo.';}else if(intent==='disponibilidade'){stage='Qualificação';objective='Avançar para uma possibilidade concreta';next='Obter data, horário e quantidade de pessoas sem inventar disponibilidade.';}else if(intent!=='geral'){stage='Interesse';objective='Responder o que foi perguntado e avançar a conversa';next='Fazer uma única pergunta útil, quando houver informação relevante faltando.';}if(hasDate&&hasTime&&hasPeople)next='Conduzir para confirmação ou fechamento, sem repetir perguntas já respondidas.';return {intent,detectedIntent,signals,forcedAction:forced?action:null,stage,objective,next,clientText:client,hasDate,hasTime,hasPeople,hasPurpose,context:c};}
+function v20TrainingMatch(client, a){
+  const examples=v8MatchExamples(client,a)||[];
+  return examples.slice(0,3);
+}
+function v20Opening(name){
+  const g=v20Greeting(name);
+  return `${g} Seja bem-vindo(a) ao Nellus. Me conta o que você está procurando e eu te indico a opção mais adequada para a sua necessidade.`;
+}
+function v20Direct(client,name,a){const t=normalize(client),g=v20Greeting(name),facts=v11Facts();const priv=findPlan('sala privativa',client),meet=findPlan('sala de reunião',client),train=findPlan('sala de treinamento',client),work=findPlan('estação de trabalho',client),fixed=findPlan('sala fixa',client),com=findPlan('endereço comercial',client),fiscal=findPlan('endereço fiscal',client);const asks={location:/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o/.test(t),hours:/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t),fiscal:/endere[cç]o\s+fiscal|cnpj/.test(t),commercial:/endere[cç]o\s+comercial/.test(t),private:/sala\s+privativa|sala\s+particular|sala\s+por\s+hora|alugam\s+por\s+hora|aluga\s+por\s+hora|hora\s+avulsa/.test(t),meeting:/sala\s+de\s+reuni[aã]o|reuni[aã]o/.test(t),training:/sala\s+de\s+treinamento|treinamento|curso|workshop|palestra/.test(t),work:/esta[cç][aã]o\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t),fixed:/sala\s+fixa|sala\s+mensal|mensalidade|por\s+m[eê]s|mensal/.test(t),price:/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+(?:o\s+)?(?:valor|pre[cç]o)|pre[cç]o|valor|orcamento|orçamento/.test(t),capacity:/quantas\s+pessoas|quantos\s+cabem|capacidade|comporta/.test(t),packages:/pacote|pacotes|4\s*h|16\s*h|24\s*h/.test(t),availability:/dispon[ií]vel|disponibilidade|tem\s+vaga|tem\s+hor[aá]rio/.test(t),broad:/o\s+que\s+voc[eê]s\s+oferecem|quais\s+(?:servi[cç]os|salas|espa[cç]os)/.test(t)};if(a.forcedAction)return null;if(asks.location&&!asks.fiscal&&!asks.commercial)return `${g} Estamos na ${facts.address}. Você está pensando em conhecer o espaço ou já está procurando uma solução para utilizar?`;if(asks.hours&&!asks.price)return `${g} Nosso horário de funcionamento é ${facts.hours}. Você está pensando em utilizar qual dos nossos espaços?`;if(asks.fiscal&&!asks.price)return `${g} Sim, trabalhamos com endereço fiscal. Você precisa dele para abrir a empresa, mudar o endereço atual ou para outra finalidade?`;if(asks.commercial&&!asks.price)return `${g} Sim, trabalhamos com endereço comercial. Você precisa dele para abrir a empresa, divulgar a empresa ou para outra finalidade?`;if(asks.availability&&!asks.price)return `${g} Posso te orientar sobre a disponibilidade. Para qual data você precisa do espaço?`;const priceReply=(p,label,question)=>{if(!p)return null;let r=`${g} ${label}${p.price?` O valor é ${p.price}.`:''}`;if(p.arguments)r+=` ${p.arguments}`;if(question)r+=` ${question}`;return r;};if(asks.price||asks.packages){if(asks.private){if(asks.packages)return priceReply(priv,'Para a sala privativa,','Você pretende utilizar o espaço eventualmente ou com frequência?');return priceReply(priv,'Para a sala privativa,',a.hasPurpose?'Para qual data você pretende utilizar?':'Você pretende utilizar para atendimento, reunião ou para trabalhar?');}if(asks.meeting)return priceReply(meet,'Para a sala de reunião,',a.hasPeople?'Para qual data você precisa da sala?':'Seria para quantas pessoas?');if(asks.training)return priceReply(train,'Para a sala de treinamento,',a.hasPeople?'Para qual data você precisa do espaço?':'Você está planejando um curso, treinamento, workshop ou outro tipo de evento?');if(asks.work)return priceReply(work,'Para a estação de trabalho,',a.hasPurpose?'Qual frequência de uso você imagina?':'Você pretende utilizar eventualmente ou com frequência?');if(asks.fixed)return priceReply(fixed,'Para a sala fixa,',a.hasPeople?'Qual tipo de atividade sua equipe fará no espaço?':'A sala será para você ou para uma equipe?');if(asks.fiscal)return priceReply(fiscal,'Para o endereço fiscal,','Você precisa dele para qual finalidade?');if(asks.commercial)return priceReply(com,'Para o endereço comercial,','Você precisa dele para qual finalidade?');}if(asks.private)return `${g} Sim, temos sala privativa. É para atendimento, reunião ou para você trabalhar durante algumas horas?`;if(asks.meeting)return `${g} Sim, temos sala de reunião. Seria para quantas pessoas?`;if(asks.training)return `${g} Temos sala de treinamento. Você está planejando um curso, treinamento, workshop ou outro tipo de evento?`;if(asks.work)return `${g} Temos estação de trabalho. Você procura um espaço para uso pontual ou com mais frequência?`;if(asks.fixed)return `${g} Temos sala fixa. A sala seria para você ou para uma equipe?`;if(asks.broad)return `${g} Temos diferentes soluções para profissionais e empresas. Você está procurando um espaço para trabalhar, atender clientes, realizar reuniões, treinamentos ou uma opção de endereço?`;return null;}
+function knowledgeGuidance(text){return bestKnowledge(text).slice(0,3).map(k=>({type:k.type,title:k.title,answer:k.answer,priority:k.priority}));}
+function knowledgeCustomerDraft(text,name,a){const k=bestKnowledge(text).find(x=>x.type==='faq'||x.type==='objecao');if(!k)return null;const answer=String(k.answer||'').trim();if(!answer)return null;const instruction=/\b(informe|consulte|use|utilize|pergunte|perguntar|não invente|nao invente|considere|evite|deve|quando|se não houver|se nao houver|precisa saber|precisamos)\b/i.test(answer);if(instruction)return null;return `${v20Greeting(name)} ${answer}`;}
+function v20StrategicFallback(client,name,a,action){const g=v20Greeting(name),matched=bestKnowledge(client),top=matched[0];if(action==='follow')return `${g} Passando para saber se você conseguiu avaliar as informações que te enviei. O que ficou faltando para você decidir?`;if(action==='fechamento'){if(!a.hasDate)return `${g} Perfeito, vamos avançar. Para qual data você gostaria de reservar?`;if(!a.hasTime)return `${g} Perfeito, vamos avançar. Qual horário você prefere?`;if(!a.hasPeople)return `${g} Perfeito, vamos avançar. Será para quantas pessoas?`;return `${g} Perfeito, vamos avançar. Quer que eu considere esses dados para seguirmos com a reserva?`;}if(action==='objecao'){if(top?.type==='objecao'&&normalize(top.answer).includes('desconto'))return `${g} Entendo. Antes de pensar em desconto, quero entender o que está pesando mais para você: o valor, a opção escolhida ou a percepção de que o espaço não entrega o que precisa?`;if(top?.type==='objecao')return `${g} Entendo. O que está pesando mais na sua decisão: o valor, a estrutura, o formato ou algum outro ponto?`;return `${g} Entendo. O que está impedindo você de avançar neste momento: valor, formato, prazo ou outra questão?`;}if(a.intent==='desconto')return `${g} Entendo. Para não te oferecer algo inadequado, quero primeiro entender o que pesa mais: o valor ou o formato de uso?`;if(a.intent==='objecao'){return `${g} Sem problema. O que você gostaria de avaliar melhor antes de decidir?`;}if(a.intent==='preco')return `${g} Posso te passar o valor e, junto, te orientar pela opção que faça mais sentido para o seu uso. Você pretende utilizar o espaço eventualmente ou com frequência?`;if(a.intent==='disponibilidade')return `${g} Para eu te orientar corretamente, preciso da data e do horário. Qual data você pretende utilizar?`;if(top&&a.intent!=='geral'&&top.type==='faq'&&!/\b(informe|consulte|use|utilize|pergunte|perguntar|não invente|nao invente|considere|evite|deve|quando|se não houver|se nao houver|precisa saber|precisamos)\b/i.test(String(top.answer||'')))return `${g} ${top.answer}`;if(a.hasPurpose&&!a.hasDate)return `${g} Entendi o que você precisa. Para eu te orientar melhor, para qual data você pretende utilizar o espaço?`;if(!a.hasPurpose)return `${g} Me conta um pouco mais sobre o que você precisa. É para trabalhar, atender clientes, fazer uma reunião ou outra finalidade?`;return `${g} Entendi. Qual seria o próximo ponto que você gostaria de definir, a data, o horário ou a opção de espaço?`;}
+localStorage.removeItem('nellus_groq_key');
+function groqConfig(){return {key:'',endpoint:(localStorage.getItem('nellus_groq_endpoint')||'/api/groq').trim(),model:localStorage.getItem('nellus_groq_model')||'openai/gpt-oss-20b'};}
+function groqSystemPrompt(){const tone=localStorage.getItem('nellus_tone')||'natural',rule=localStorage.getItem('nellus_rule')||'Não inventar disponibilidade, descontos ou condições. Quando faltar uma informação importante, fazer uma pergunta objetiva.';return `Você é o redator do Nellus, não o estrategista. O Motor Nellus já fez a interpretação da conversa, definiu o objetivo e criou uma resposta-base. Sua função é APENAS transformar essa decisão em uma mensagem humana, natural e comercialmente inteligente.
+
+ESPINHA DORSAL: CLIENTE → INTERPRETAÇÃO → OBJETIVO → RESPOSTA → PRÓXIMA AÇÃO.
+
+REGRA PRINCIPAL: preserve a decisão do Motor Nellus. Não mude o objetivo, não invente uma nova estratégia e não acrescente informações comerciais que não estejam na resposta-base ou nos dados autorizados.
+
+ORDEM DE PRIORIDADE:
+1. Responder exatamente o que o cliente perguntou.
+2. Usar a resposta-base do Motor Nellus como referência principal.
+3. Só avançar a conversa quando isso fizer sentido.
+4. Fazer NO MÁXIMO UMA pergunta útil.
+5. Não repetir informação que o cliente já recebeu.
+6. Se a conversa estiver encerrada naturalmente, não force venda.
+
+REGRA DE PREÇO — MUITO IMPORTANTE:
+- NÃO mencione preço, valor, mensalidade ou R$ se o cliente NÃO perguntou sobre preço/valor e a resposta-base NÃO trouxer preço como parte necessária da resposta.
+- Se o cliente apenas perguntar se vocês oferecem determinado serviço (ex.: “vocês trabalham com endereço fiscal?”), responda primeiro SIM/NÃO e conduza naturalmente, SEM jogar preço de cara.
+- Só informe preço quando houver pedido explícito de preço/valor ou quando o Motor Nellus determinar claramente que preço é necessário para responder.
+
+VENDA CONSULTIVA: use SPIN e benefícios somente quando ajudarem a próxima ação. Não transforme uma pergunta simples em discurso de vendas.
+
+GUARD-RAIL: só use preços, capacidades, horários, endereço e condições presentes nos DADOS AUTORIZADOS. Nunca invente disponibilidade, desconto, taxa ou preço. Se faltar dado factual, diga que precisa verificar ou faça uma pergunta objetiva. Entregue SOMENTE a mensagem ao cliente, sem análise, aspas, rótulos ou explicações.
+
+TOM: ${tone}
+REGRA DO GESTOR: ${rule}`;}
+function groqUser(client,name,context,action,analysis,localDraft,memory){return `Nome: ${name||'não informado'}
+
+Mensagem do cliente:
+${client||'(primeiro contato)'}
+
+Contexto do gestor:
+${context||'(nenhum)'}
+
+Ação escolhida pelo gestor: ${action||'responder normalmente'}
+
+INTERPRETAÇÃO JÁ FEITA PELO MOTOR NELLUS:
+${JSON.stringify(analysis||{},null,2)}
+
+BASE DE CONHECIMENTO RELEVANTE (prioridade do gestor):
+${JSON.stringify(knowledgeGuidance(client),null,2)}
+
+MEMÓRIA DO CLIENTE, SE HOUVER:
+${memory||'(nenhuma)'}
+
+RESPOSTA-BASE JÁ DECIDIDA PELO MOTOR NELLUS:
+${localDraft||'(nenhuma)'}
+
+Tarefa: apenas refine a resposta-base. Preserve a estratégia do Motor Nellus e respeite a ação escolhida. Se houver Base de Conhecimento relevante, siga-a antes de qualquer resposta genérica. Para preço, responda o valor quando solicitado, mas apresente o benefício mais relevante do serviço junto do valor; depois faça no máximo uma pergunta. Se o cliente não pediu preço, NÃO acrescente preço. Se a ação for Tratar objeção, trate a objeção mesmo que o texto não a revele claramente. Se a ação for Convite/Fechamento, conduza para confirmação de data, horário ou quantidade de pessoas, sem repetir o que já foi informado. Use a memória para evitar repetir ofertas, perguntas ou informações já tratadas. Retorne somente a mensagem final ao cliente.`;}
+function groqValidate(text,allowPrice=false){const allowed=new Set();v11Facts().plans.forEach(p=>{const m=String(p.price||'').match(/R\$\s*[\d\.,]+/g)||[];m.forEach(v=>allowed.add(v.replace(/\s+/g,'')));});const mm=String(text||'').match(/R\$\s*[\d\.,]+/g)||[];if(!allowPrice&&mm.length)throw new Error('Preço não solicitado detectado');mm.forEach(v=>{if(!allowed.has(v.replace(/\s+/g,'')))throw new Error('Preço não cadastrado detectado');});const t=normalize(text);if(/(esta|está|temos|tem)\s+(disponivel|disponível|vaga|horario|horário)/.test(t)&&!/(preciso|precisamos|vou verificar|vamos verificar|necessario verificar|necessário verificar)/.test(t))throw new Error('Afirmação de disponibilidade sem dado real');return String(text||'').trim().replace(/^```(?:text)?/i,'').replace(/```$/,'').trim();}
+async function callGroq(client,name,context,action,analysis,localDraft,memory){const c=groqConfig();if(!c.endpoint)throw new Error('Endpoint seguro não configurado');const headers={'Content-Type':'application/json'},allowPrice=analysis?.intent==='preco'||analysis?.detectedIntent==='preco'||/\b(quanto\s+custa|quanto\s+fica|qual\s+(?:é|e)\s+o\s+(?:valor|preço)|preço|valor)\b/i.test(client||'');const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);try{const r=await fetch(c.endpoint,{method:'POST',headers,signal:ctrl.signal,body:JSON.stringify({model:c.model,messages:[{role:'system',content:groqSystemPrompt()},{role:'user',content:groqUser(client,name,context,action,analysis,localDraft,memory)}],temperature:.25,max_completion_tokens:260})});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d?.error?.message||`Groq HTTP ${r.status}`);const out=d?.choices?.[0]?.message?.content||'';if(!out.trim())throw new Error('Groq retornou resposta vazia');return groqValidate(out,allowPrice);}finally{clearTimeout(timer);}}
+async function v22GenerateWithGroq(text,action,name,context,phone){const local=v20Generate(text,action,name,context);try{const client=v8ExtractClientText((text||'').trim())||(text||'').trim(),analysis=window.v8Last?.analysis||{},memory=contactMemoryText(phone),reply=await callGroq(client,name,context,action,analysis,local,memory);window.v8Last={...(window.v8Last||{}),reply,aiEngine:'Groq',localFallback:local,clientMemory:memory};rememberInteraction(phone,name,client,reply,analysis,action);return {reply,engine:'Groq'};}catch(err){console.warn('Groq falhou; usando Motor Nellus local:',err);const client=v8ExtractClientText((text||'').trim())||(text||'').trim(),analysis=window.v8Last?.analysis||{};rememberInteraction(phone,name,client,local,analysis,action);window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Local fallback',groqError:String(err?.message||err)};return {reply:local,engine:'Motor Nellus local'};}}
+
+function v20Generate(text,action,name,context){const clean=(text||'').trim(),ctx=(context||'').trim();if(!clean&&!ctx){const reply=v20Clean(v20Opening(name));const a={stage:'Novo contato',intent:'Geral',objective:'Descobrir a necessidade',next:'Aguardar a necessidade e direcionar para a solução adequada.',signals:[]};window.v8Last={analysis:a,examples:[],plan:null,reply,clientText:''};return reply;}const client=v8ExtractClientText(clean)||clean,a=v20Analyze(clean,ctx,action);let reply=null;const examples=v20TrainingMatch(client,a),kb=knowledgeGuidance(client);if(!a.forcedAction){reply=knowledgeCustomerDraft(client,name,a);if(!reply)reply=v20Direct(client,name,a);}let usedExample=null;if(!reply&&examples[0]&&examples[0].score>=7&&a.intent!=='preco'&&a.intent!=='disponibilidade'){usedExample=examples[0];reply=v8ComposeFromExample(examples[0],a,findPlan(a.intent,client),name);}if(!reply)reply=v20StrategicFallback(client,name,a,action);reply=v20Clean(reply);if(/endere[cç]o/i.test(ctx)&&/Rua 21, nº 42/i.test(reply))reply=reply.replace(/Estamos na Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.\s*/i,'');window.v8Last={analysis:{...a,objective:a.objective,nextAction:a.next},examples,knowledge:kb,usedExample,plan:findPlan(a.intent,client),reply,clientText:client,learnedStrategy:v17LearnedStrategy(examples,a)};return reply;}
+window.addEventListener("error",e=>{
+ console.error("Nellus error:",e.error||e.message);
+ const box=document.getElementById("result"), sug=document.getElementById("suggestion");
+ if(box&&sug){sug.textContent="Não consegui gerar a resposta agora. Tente novamente. Se o problema continuar, atualize a página.";box.style.display="block";}
+});
+
+document.getElementById("generate").onclick=async()=>{
+ const text=conv.value.trim(),name=document.getElementById("clientName").value.trim(),phone=document.getElementById("clientPhone")?.value.trim()||'',context=document.getElementById("customContext").value.trim();
+ const btn=document.getElementById("generate");btn.disabled=true;btn.textContent=" Pensando como gestor...";
+ try{const out=await v22GenerateWithGroq(text,selectedAction,name,context,phone);document.getElementById("suggestion").textContent=out.reply||"Não consegui interpretar essa mensagem ainda. Tente escrever a pergunta de outra forma.";document.getElementById("usedEngineBadge").textContent=out.engine+" • Inteligência comercial";v8RenderDiagnostic(window.v8Last);document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});}
+ catch(err){console.error(err);document.getElementById("suggestion").textContent="Não consegui gerar a resposta agora. Tente novamente.";document.getElementById("result").style.display="block";}
+ finally{btn.disabled=false;btn.textContent=" Gerar Próxima Mensagem Inteligente";}
+};
+
+function v8RenderDiagnostic(data){
+ // O diagnóstico continua sendo calculado internamente para orientar o Motor e o Radar,
+ // mas não é exibido na tela inicial. A área de treinamento fica somente em  Treinar.
+ return;
+}
+window.v8Feedback=function(type){
+ const data=window.v8Last;if(!data)return;
+ if(type==='boa'){localStorage.setItem('nellus_last_good',JSON.stringify(data));toast('Resposta marcada como boa.');return;}
+ // O ensino manual fica concentrado na página  Treinar.
+ toast('Para ensinar o copiloto, use a página Treinar.');
+};
+window.v8SaveFeedbackTraining=function(){const data=window.v8Last;if(!data)return;const field=document.getElementById('v8TeachIdeal'); if(!field){toast('Use a página Treinar para cadastrar exemplos.');return;} const ideal=field.value.trim();if(!ideal){alert('Escreva a resposta ideal.');return;}const item={id:Date.now(),title:document.getElementById('v8TeachTitle').value.trim()||('Treinamento: '+data.analysis.intent),category:data.analysis.objection!=='Nenhuma'?'Objeção':'Informação',client:data.clientText,ideal,triggers:[data.analysis.intent,data.analysis.objection,data.analysis.stage].filter(x=>x&&x!=='Nenhuma').join('; '),priority:3};window.v7Examples.unshift(item);localStorage.setItem('nellus_examples_v7',JSON.stringify(window.v7Examples));document.getElementById('v8Learning').innerHTML='<div class="training-card"> Treinamento salvo. Nas próximas conversas semelhantes, o gestor poderá usar esta referência.</div>';toast('Novo treinamento salvo!');};
+
+document.getElementById("copy").onclick=async()=>{
+ try{
+ await navigator.clipboard.writeText(document.getElementById("suggestion").textContent);
+ document.getElementById("copy").textContent=" Copiado!";toast("Mensagem copiada.");
+ setTimeout(()=>document.getElementById("copy").textContent="Copiar mensagem",2000);
+ }catch(e){alert("Erro ao copiar.");}
+};
+
+/* ===== V7 Intelligence Layer ===== */
+(function(){
+ const KEY='nellus_examples_v7';
+ window.v7Examples = JSON.parse(localStorage.getItem(KEY)||'[]');
+
+ window.v7ShowTab=function(id,btn){
+  document.querySelectorAll('#trainingV7 .training-form').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('#trainingV7 .v7-tab').forEach(x=>x.classList.remove('active'));
+  const el=document.getElementById(id); if(el) el.classList.add('active');
+  if(btn) btn.classList.add('active');
+ };
+
+ window.v7SaveExample=function(){
+  const client=document.getElementById('v7Client').value.trim();
+  const ideal=document.getElementById('v7Ideal').value.trim();
+  if(!client||!ideal){ alert('Preencha a mensagem do cliente e a resposta ideal.'); return; }
+  const item={
+   id:Date.now(),
+   title:document.getElementById('v7Title').value.trim()||'Exemplo sem título',
+   category:document.getElementById('v7Category').value,
+   client, ideal,
+   triggers:document.getElementById('v7Triggers').value.trim(),
+   priority:Number(document.getElementById('v7Priority').value||2)
+  };
+  v7Examples.unshift(item);
+  localStorage.setItem(KEY,JSON.stringify(v7Examples));
+  ['v7Title','v7Client','v7Ideal','v7Triggers'].forEach(id=>document.getElementById(id).value='');
+  v7RenderExamples();
+ };
+
+ window.v7DeleteExample=function(id){
+  v7Examples=v7Examples.filter(x=>x.id!==id);
+  localStorage.setItem(KEY,JSON.stringify(v7Examples));
+  v7RenderExamples();
+ };
+
+ function v7RenderExamples(){
+  const box=document.getElementById('v7ExamplesList'); if(!box) return;
+  if(!v7Examples.length){
+   box.innerHTML='<div class="empty-state">Ainda não há exemplos. Cadastre 5–10 respostas que você considera excelentes para começar a ensinar o estilo da Nellus.</div>';
+   return;
+  }
+  box.innerHTML='<h3 style="margin-top:18px">Treinamentos cadastrados ('+v7Examples.length+')</h3>'+
+   v7Examples.map(x=>`<div class="training-card">
+    <div><b>${escV7(x.title)}</b> <span class="pill">${escV7(x.category)}</span></div>
+    <small>Gatilhos: ${escV7(x.triggers||'não definidos')} · Prioridade ${x.priority}</small>
+    <div class="example"><b>Cliente:</b> ${escV7(x.client)}<br><br><b>Resposta ideal:</b> ${escV7(x.ideal)}</div>
+    <div class="feedback-row"><button onclick="v7DeleteExample(${x.id})">Excluir</button></div>
+   </div>`).join('');
+ }
+ function escV7(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+  document.addEventListener('DOMContentLoaded',v7RenderExamples);
+})();
+
+</script>
+<script id="v9js">(function(){const KEY='nellus_pipeline_v9';window.v9Pipeline=JSON.parse(localStorage.getItem(KEY)||'[]');const save=()=>localStorage.setItem(KEY,JSON.stringify(window.v9Pipeline));const n=s=>normalize(String(s||''));const any=(t,a)=>a.some(x=>t.includes(n(x)));window.v9Assess=function(text,context,silence){const t=n((text||'')+' '+(context||'')),days=Number(silence||0);let intent=detectIntent(text||''),signals=[],risks=[],stage='Novo contato',score=45;if(any(t,['reservar','reserva','agendar','contratar','fechar','como faço','vou contratar'])){signals.push('sinal forte de compra');stage='Fechamento';score+=30}if(any(t,['amanhã','hoje','urgente','preciso para'])){signals.push('urgência');score+=12}if(any(t,['visitar','visita','conhecer o espaço','posso conhecer'])){signals.push('interesse em visita');score+=15}if(any(t,['tem vaga','disponível','disponibilidade','tem horário'])){signals.push('pergunta de disponibilidade');score+=12}if(any(t,['vou pensar','vou analisar','depois vejo','vou verificar'])){risks.push('decisão em aberto');stage='Objeção / decisão';score-=10}if(any(t,['caro','cara','muito caro','não cabe','orçamento'])){risks.push('objeção de preço');stage='Objeção';score-=12}if(any(t,['outro coworking','outros coworkings','vou pesquisar','vou comparar','concorrente']))risks.push('comparação com alternativas'),score-=10;if(any(t,['sócio','meu sócio','vou falar com','vou conversar com meu']))risks.push('depende de outra decisão'),score-=7;if(any(t,['depois te retorno','te aviso','qualquer coisa te chamo']))risks.push('adiamento sem compromisso'),score-=12;if(days>=2)risks.push('silêncio após a conversa'),score-=Math.min(22,days*2);if(days>=6)risks.push('silêncio prolongado'),score-=10;if(any(t,['aceita cartão','pix','como pagar','pagamento','nota fiscal']))signals.push('pergunta operacional'),score+=8;let level=score>=72?'hot':score<43?'risk':'attention';let reason=level==='hot'?'Há sinais claros de intenção. O maior risco agora é perder o ritmo e não conduzir para uma ação concreta.':risks.length?'A conversa apresenta sinais de perda de momentum: '+risks.slice(0,2).join(' + ')+'.':'Existe oportunidade, porém faltam informações para conduzir o fechamento.';let next=level==='hot'?'Conduzir para o próximo passo agora: reserva, visita ou confirmação de data/horário.':risks.includes('objeção de preço')?'Não ofereça desconto de imediato. Descubra se o problema é orçamento ou falta de percepção de valor.':risks.includes('silêncio prolongado')?'Fazer um follow-up curto e útil, retomando a necessidade em vez de perguntar apenas “e aí?”.':risks.includes('depende de outra decisão')?'Descobrir quem participa da decisão e oferecer um resumo fácil de encaminhar.':stage==='Objeção / decisão'?'Reduzir a incerteza e combinar uma data real para retomar.':'Fazer uma pergunta de qualificação que leve a conversa para uma decisão.';return{score:Math.max(0,Math.min(100,Math.round(score))),level,stage,intent,signals,risks,reason,next,days}};window.v9RenderRadar=function(a){const el=document.getElementById('v9RadarResult');if(!el)return;const labels={hot:' QUENTE',attention:' ATENÇÃO',risk:' RISCO'};el.style.display='block';el.innerHTML='<div class="risk-banner '+a.level+'"><div class="risk-title">'+labels[a.level]+' • Oportunidade '+a.score+'/100</div><div class="risk-meta">Etapa: '+esc(a.stage)+' · Intenção: '+esc(a.intent)+'</div><div class="risk-reason">'+esc(a.reason)+'</div>'+(a.signals.length?'<div class="risk-reason">Sinais positivos: '+esc(a.signals.join(' · '))+'</div>':'')+(a.risks.length?'<div class="risk-reason"> Alertas: '+esc(a.risks.join(' · '))+'</div>':'')+'<div class="next-action"><b> Próxima melhor ação:</b><br>'+esc(a.next)+'</div></div>'};window.v9RenderFollowup=function(a){const el=document.getElementById('v9Followup');if(!el)return;if(a.days<2&&a.level!=='risk'){el.style.display='none';return}el.style.display='block';el.innerHTML='<h3> Follow-up recomendado</h3><div class="strategy-card"><b>'+(a.days>=3?'Hoje':'Próximo contato')+'</b><br><small>'+esc(a.next)+'</small></div>'};window.v9AddCurrentToPipeline=function(){const d=window.v8Last;if(!d){toast('Analise uma conversa primeiro.');return}const name=document.getElementById('clientName').value.trim()||'Cliente sem nome',silence=Number(document.getElementById('v9Silence')?.value||0),a=d.v9||v9Assess(d.clientText||d.reply,'',silence);const phone=document.getElementById('clientPhone')?.value.trim()||'';const phoneKey=normalizePhone(phone),duplicate=phoneKey&&window.v9Pipeline.findIndex(x=>normalizePhone(x.phone)===phoneKey);const item={id:duplicate>=0?window.v9Pipeline[duplicate].id:Date.now(),name,phone,service:a.intent,stage:a.stage,level:a.level,score:a.score,reason:a.reason,next:a.next,days:silence,client:d.clientText||'',reply:d.reply,created:new Date().toLocaleString('pt-BR')};if(duplicate>=0)window.v9Pipeline.splice(duplicate,1);window.v9Pipeline.unshift(item);save();v9UpdateDashboard();v9RenderPipeline();toast(duplicate>=0?'Oportunidade atualizada no pipeline.':'Oportunidade salva no pipeline.')};window.v9RenderPipeline=function(){const box=document.getElementById('v9PipelineList');if(!box)return;if(!window.v9Pipeline.length){box.innerHTML='<div class="empty-state">Nenhuma oportunidade salva ainda. Analise uma conversa e clique em “Salvar conversa atual”.</div>';return}const labels={hot:'Quente',attention:'Atenção',risk:'Risco'};box.innerHTML=window.v9Pipeline.map(x=>'<div class="pipeline-card"><div class="topline"><div><b>'+esc(x.name)+'</b><br><small>'+esc(x.service||'Geral')+' · '+esc(x.stage)+'</small></div><span class="tag">'+labels[x.level]+' · '+x.score+'</span></div><p> '+esc(x.next)+'</p><small>Salvo em '+esc(x.created||'')+(x.days?' · silêncio: '+x.days+'d':'')+'</small><div class="opp-actions"><button class="secondary" onclick="v9RemovePipeline('+x.id+')">Excluir</button></div></div>').join('')};window.v9RemovePipeline=function(id){window.v9Pipeline=window.v9Pipeline.filter(x=>x.id!==id);save();v9UpdateDashboard();v9RenderPipeline()};window.v9ClearPipeline=function(){if(confirm('Limpar todas as oportunidades salvas?')){window.v9Pipeline=[];save();v9UpdateDashboard();v9RenderPipeline()}};window.v9ExportPipeline=function(){const blob=new Blob([JSON.stringify(window.v9Pipeline,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='nellus_pipeline_backup.json';a.click();URL.revokeObjectURL(a.href)};window.v9OpenPipeline=function(){show('pipeline');v9RenderPipeline()};window.v9UpdateDashboard=function(){const p=window.v9Pipeline;document.getElementById('v9Hot').textContent=p.filter(x=>x.level==='hot').length;document.getElementById('v9Attention').textContent=p.filter(x=>x.level==='attention').length;document.getElementById('v9Risk').textContent=p.filter(x=>x.level==='risk').length;document.getElementById('v9Follow').textContent=p.filter(x=>!x.next).length;const box=document.getElementById('v9Opportunities');if(box)box.innerHTML=p.slice(0,4).map(x=>'<div class="opp-item"><b>'+esc(x.name)+' · '+x.score+'/100</b><small>'+({hot:' Quente',attention:' Atenção',risk:' Risco'}[x.level])+' — '+esc(x.next)+'</small></div>').join('')||'<div class="empty-state">Seu radar ainda está vazio. Salve oportunidades importantes para começar a acompanhar.</div>'};const btn=document.getElementById('generate');if(btn)btn.addEventListener('click',()=>setTimeout(()=>{const d=window.v8Last;if(!d)return;const a=v9Assess(d.clientText||document.getElementById('conversation').value,'',Number(document.getElementById('v9Silence')?.value||0));d.v9=a;window.v8Last=d;v9RenderRadar(a);v9RenderFollowup(a);v9UpdateDashboard()},430));document.addEventListener('DOMContentLoaded',()=>{v9UpdateDashboard();v9RenderPipeline()})})();</script><script id="v10js">(function(){
+const esc10=s=>typeof esc==='function'?esc(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+window.v10Filter='all';
+function priority(x){ if(x.level==='risk') return 3; if(x.level==='hot') return 2; return 1; }
+function needsToday(x){ return x.level==='risk'||x.level==='hot'||Number(x.days||0)>=1||!x.next; }
+function label10(x){return ({hot:' Quente',attention:' Atenção',risk:' Risco'}[x.level]||' Atenção')}
+window.v10Reopen=function(id){const x=window.v9Pipeline.find(o=>o.id===id);if(!x)return;const name=document.getElementById('clientName'),phone=document.getElementById('clientPhone'),conv=document.getElementById('conversation');if(name)name.value=x.name==='Cliente sem nome'?'':x.name;if(phone)phone.value=x.phone||'';if(conv)conv.value=x.client||'';updateClientMemoryUI();const sil=document.getElementById('v9Silence');if(sil)sil.value=String(x.days||0);show('home');window.scrollTo({top:0,behavior:'smooth'});toast('Conversa reaberta. Analise novamente para atualizar a prioridade.');};
+window.v10SetFilter=function(f){window.v10Filter=f;['All','Hot','Attention','Risk'].forEach(k=>{const b=document.getElementById('filter'+k);if(b)b.classList.toggle('active',f===k.toLowerCase());});v9RenderPipeline();};
+window.v10RenderToday=function(){const box=document.getElementById('v10TodayList'),count=document.getElementById('v10TodayCount');if(!box)return;let arr=window.v9Pipeline.filter(needsToday).sort((a,b)=>priority(b)-priority(a)||(b.score||0)-(a.score||0)||(b.days||0)-(a.days||0)).slice(0,6);if(count)count.textContent=arr.length+(arr.length===1?' ação':' ações');if(!arr.length){box.innerHTML='<div class="empty-today"> Nenhuma oportunidade urgente salva. Continue registrando as conversas importantes no pipeline.</div>';return;}box.innerHTML=arr.map(x=>'<div class="today-item '+esc10(x.level)+'"><div class="today-top"><div class="today-name">'+esc10(x.name)+' · '+label10(x)+'</div><div class="today-score">'+x.score+'/100</div></div><div class="today-reason">'+esc10(x.reason||'Oportunidade que merece acompanhamento.')+'</div><div class="today-action"><b> Fazer agora:</b> '+esc10(x.next||'Definir o próximo passo com o cliente.')+'</div><div class="today-actions"><button class="btn btn-green" onclick="v10Reopen('+x.id+')">Reabrir conversa</button><button class="btn" onclick="v9RemovePipeline('+x.id+')">Arquivar</button></div></div>').join('');};
+const oldUpdate=window.v9UpdateDashboard;window.v9UpdateDashboard=function(){oldUpdate&&oldUpdate();v10RenderToday();};
+const oldRender=window.v9RenderPipeline;window.v9RenderPipeline=function(){const box=document.getElementById('v9PipelineList');if(!box)return;if(!window.v9Pipeline.length){box.innerHTML='<div class="empty-state">Nenhuma oportunidade salva ainda. Analise uma conversa e clique em “Salvar conversa atual”.</div>';return;}let p=window.v9Pipeline.slice();if(window.v10Filter!=='all')p=p.filter(x=>x.level===window.v10Filter);p.sort((a,b)=>priority(b)-priority(a)||(b.score||0)-(a.score||0));const labels={hot:'Quente',attention:'Atenção',risk:'Risco'};box.innerHTML=p.map(x=>'<div class="pipeline-card '+esc10(x.level)+'"><div class="topline"><div><b>'+esc10(x.name)+'</b><br><small>'+esc10(x.service||'Geral')+' · '+esc10(x.stage)+'</small></div><span class="tag">'+(labels[x.level]||' Atenção')+' · '+x.score+'</span></div><p> '+esc10(x.next||'Definir próximo passo')+'</p><p> '+esc10(x.reason||'Sem diagnóstico registrado')+'</p><small>Salvo em '+esc10(x.created||'')+(x.days?' · silêncio: '+x.days+'d':'')+'</small><div class="opp-actions"><button class="secondary reopen-btn" onclick="v10Reopen('+x.id+')"> Reabrir conversa</button><button class="secondary" onclick="v9RemovePipeline('+x.id+')">Arquivar</button></div></div>').join('')||'<div class="empty-state">Nenhuma oportunidade nesta categoria.</div>';};
+const oldAdd=window.v9AddCurrentToPipeline;window.v9AddCurrentToPipeline=function(){oldAdd&&oldAdd();setTimeout(()=>{v10RenderToday();},50);};
+document.addEventListener('DOMContentLoaded',()=>{v10RenderToday();});
+})();</script>
+<script id="v25core">
+/* ===== V25 CORE =====
+   Um único fluxo decisório para a geração:
+   CLIENTE → SINAIS → OBJETIVO → BASE DE CONHECIMENTO → ESTRATÉGIA → RESPOSTA-BASE → GROQ → GUARD-RAIL
+   O Groq é redator; o Motor Nellus continua sendo o estrategista.
+*/
+(function(){
+ const clean=s=>String(s||'').trim();
+ const norm=s=>normalize(clean(s));
+ const qPrice=t=>/\b(quanto\s+custa|quanto\s+fica|qual\s+(?:é|e)\s+o\s+(?:valor|preço)|preço|valor|orcamento|orçamento)\b/i.test(clean(t));
+ const qMarkCount=s=>(String(s||'').match(/\?/g)||[]).length;
+ const hasWord=(t,arr)=>arr.some(x=>norm(t).includes(norm(x)));
+ const customerReady=k=>{const a=clean(k?.answer);return !!a&&!/\b(informe|consulte|use|utilize|pergunte|perguntar|não invente|nao invente|considere|evite|deve|quando|se não houver|se nao houver|precisa saber|precisamos)\b/i.test(a);};
+ const dateRe=/\b(hoje|amanh[ãa]|segunda(?:-feira)?|terça(?:-feira)?|terca(?:-feira)?|quarta(?:-feira)?|quinta(?:-feira)?|sexta(?:-feira)?|sábado|sabado|domingo|dia\s*\d{1,2}|\d{1,2}\/\d{1,2})\b/i;
+ const timeRe=/\b(\d{1,2}(?::\d{2})?\s*(?:h|horas?)?|manh[ãa]|tarde|noite|hor[aá]rio)\b/i;
+ const peopleRe=/\b(\d+\s*(?:pessoas?|participantes?)|pessoas?|participantes?|equipe|time|s[oó]cio|clientes?)\b/i;
+ function v25BestKnowledge(client,context,a){
+   const source=norm(clean(client)+' '+clean(context)+' '+(a?.intent||'')+' '+(a?.stage||''));
+   return (Array.isArray(knowledge)?knowledge:[]).map(k=>{
+     const triggers=(k.trigger||'').split(';').map(x=>norm(x.trim())).filter(Boolean);
+     let score=Number(k.priority||5)*0.12;
+     let matched=0;
+     triggers.forEach(term=>{if(term&&source.includes(term)){score+=3+Math.min(term.length/25,1);matched++;}});
+     if(a?.intent && source.includes(norm(a.intent)))score+=1;
+     if(a?.stage && source.includes(norm(a.stage)))score+=0.5;
+     return {k,score,matched};
+   }).filter(x=>x.matched>0).sort((a,b)=>b.score-a.score).slice(0,3).map(x=>x.k);
+ }
+ function v25FactsFromText(client,context,memory){
+   const all=clean(client)+' '+clean(context)+' '+clean(memory);
+   return {hasDate:dateRe.test(all),hasTime:timeRe.test(all),hasPeople:peopleRe.test(all),hasPrice:qPrice(client),hasPurpose:/\b(atend(?:er|imento)|reuni[aã]o|trabalh(?:ar|o)|curso|treinamento|workshop|palestra|empresa|escrit[oó]rio|coworking|consult[oó]rio|pacientes?|clientes?)\b/i.test(all)};
+ }
+ function v25Analyze(text,context,action,memory){
+   const base=v20Analyze(text,context,action)||{};
+   const client=base.clientText||v8ExtractClientText(text)||clean(text), signals=detectSignals(client)||[], facts=v25FactsFromText(client,context,memory);
+   const combined=signals.map(x=>x.label);
+   if(base.detectedIntent&&base.detectedIntent!=='geral'&&!combined.some(x=>norm(x).includes(norm(base.detectedIntent))))combined.push(base.detectedIntent);
+   let intent=base.intent||'geral';
+   if(action==='objecao') intent='objecao';
+   else if(action==='fechamento') intent='fechamento';
+   else {
+     const priority={fechamento:100,desconto:95,objecao:90,disponibilidade:88,preco:85,visita:75,localizacao:70,horario:65,servico:60};
+     const strongest=signals.filter(x=>priority[x.type]).sort((a,b)=>(priority[b.type]||0)-(priority[a.type]||0))[0];
+     if(strongest && ['fechamento','desconto','objecao','disponibilidade','preco'].includes(strongest.type)) intent=strongest.type;
+   }
+   let stage=base.stage, objective=base.objective, next=base.next;
+   if(action==='objecao'){
+     stage='Objeção'; objective='Descobrir a objeção real antes de contorná-la';
+     next='Identificar se o bloqueio é preço, percepção de valor, formato, prazo ou outra decisão.';
+   } else if(action==='fechamento'){
+     stage='Decisão'; objective='Conduzir para confirmação';
+     next=!facts.hasDate?'Confirmar a data.':!facts.hasTime?'Confirmar o horário.':!facts.hasPeople?'Confirmar a quantidade de pessoas.':'Confirmar o próximo passo da reserva/contratação.';
+   }
+   return {...base,intent,combinedSignals:combined.slice(0,8),signals,hasDate:facts.hasDate,hasTime:facts.hasTime,hasPeople:facts.hasPeople,hasPurpose:facts.hasPurpose,hasPrice:facts.hasPrice,stage,objective,next,forcedAction:action==='objecao'||action==='fechamento'?action:null,memoryUsed:!!memory};
+ }
+ function v25NextQuestion(a,client,plan){
+   const t=norm(client), date=a.hasDate,time=a.hasTime,people=a.hasPeople;
+   if(a.forcedAction==='fechamento'){
+     if(!date)return 'Para qual data você gostaria de reservar?';
+     if(!time)return 'Qual horário você prefere?';
+     if(!people)return 'Será para quantas pessoas?';
+     return 'Perfeito. Podemos seguir com esses dados para a reserva?';
+   }
+   if(a.intent==='disponibilidade'){
+     if(!date)return 'Para qual data você precisa do espaço?';
+     if(!time)return 'Qual horário seria ideal?';
+     if(!people && /sala|reuni[aã]o|treinamento/i.test(t))return 'Será para quantas pessoas?';
+   }
+   if(a.intent==='preco'){
+     if(plan?.name==='Endereço fiscal'||plan?.name==='Endereço comercial')return 'Você precisa do endereço para qual finalidade?';
+     if(plan?.name==='Sala de reunião'&&!people)return 'Seria para quantas pessoas?';
+     if(plan?.name==='Sala de treinamento'&&!people)return 'Será para quantas pessoas?';
+     if(!a.hasPurpose)return 'Você pretende utilizar o espaço para qual finalidade?';
+     if(!date)return 'Para qual data você pretende utilizar?';
+   }
+   return '';
+ }
+ function v25PriceDraft(client,name,a){
+   const p=findPlan(a.intent,client)||findPlan(a.detectedIntent,client); if(!p||!p.price)return null;
+   const g=v20Greeting(name), label=`Para ${p.name.toLowerCase()}, o valor é ${p.price}.`;
+   const benefit=p.arguments||p.desc||'';
+   const q=v25NextQuestion(a,client,p);
+   let r=`${g} ${label}`;
+   if(benefit)r+=` ${benefit}`;
+   if(q)r+=` ${q}`;
+   return v20Clean(r);
+ }
+ function v25ForcedObjection(client,name,a,kb){
+   const g=v20Greeting(name), top=kb.find(k=>k.type==='objecao'&&customerReady(k));
+   const explicit=hasWord(client,['caro','cara','muito caro','preço','preco','valor','desconto','vou pensar','vou analisar','vou verificar','vou conversar','sócio','socio']);
+   if(top&&explicit)return v20Clean(`${g} ${top.answer}`);
+   return `${g} Entendo. Antes de tentar resolver, quero entender o que está pesando mais para você: o valor, a percepção de benefício, o formato ou alguma outra questão?`;
+ }
+ function v25IsGreetingOnly(text){
+   const t=norm(text).replace(/[!?.,;:]+/g,' ').replace(/\s+/g,' ').trim();
+   return /^(oi|ola|bom dia|boa tarde|boa noite|oi bom dia|oi boa tarde|oi boa noite|ola bom dia|ola boa tarde|ola boa noite|oi tudo bem|ola tudo bem)$/.test(t);
+ }
+ function v25Welcome(name){
+   const h=(new Date()).getHours();
+   const period=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';
+   const who=clean(name);
+   return who
+     ? `Olá, ${who}! ${period} 😊 Tudo bem? Seja bem-vindo(a) ao Nellus Coworking! Como posso te ajudar?`
+     : `Olá! ${period} 😊 Tudo bem? Seja bem-vindo(a) ao Nellus Coworking! Como posso te ajudar?`;
+ }
+ function v25CoreGenerate(text,action,name,context,phone){
+   const cleanText=clean(text),ctx=clean(context),memory=phone?contactMemoryText(phone):'';
+   if(v25IsGreetingOnly(cleanText) && !ctx && !action){
+     const reply=v25Welcome(name);
+     const a={stage:'Novo contato',intent:'saudacao',objective:'Acolher e aguardar a necessidade',next:'Aguardar o cliente explicar o que precisa.',signals:[{type:'saudacao',label:'Saudação'}],combinedSignals:['saudacao'],forcedAction:null,clientText:cleanText,hasDate:false,hasTime:false,hasPeople:false,hasPurpose:false,hasPrice:false};
+     window.v8Last={analysis:a,examples:[],knowledge:[],plan:null,reply,clientText:cleanText,clientMemory:memory};
+     return reply;
+   }
+   if(!cleanText&&!ctx){const reply=v20Clean(v20Opening(name));const a={stage:'Novo contato',intent:'geral',objective:'Descobrir a necessidade',next:'Aguardar a necessidade e direcionar para a solução adequada.',signals:[],combinedSignals:[],forcedAction:action||null};window.v8Last={analysis:a,examples:[],knowledge:[],plan:null,reply,clientText:''};return reply;}
+   const client=v8ExtractClientText(cleanText)||cleanText,a=v25Analyze(cleanText,ctx,action,memory),kb=v25BestKnowledge(client,ctx,a),examples=v20TrainingMatch(client,a)||[];let reply=null,usedExample=null;
+   /* 1) AÇÃO FORÇADA sempre vence o caminho automático. */
+   if(action==='objecao') reply=v25ForcedObjection(client,name,a,kb);
+   else if(action==='fechamento') reply=v20Clean(`${v20Greeting(name)} ${v25NextQuestion(a,client,findPlan(a.intent,client))}`);
+   /* 2) Base do gestor vence respostas genéricas. */
+   if(!reply){const k=kb.find(customerReady);if(k)reply=v20Clean(`${v20Greeting(name)} ${k.answer}`);}
+   /* 3) Perguntas factuais e preço são resolvidos pelo Motor. */
+   if(!reply){
+     const direct=v20Direct(client,name,a);
+     if(direct)reply=direct;
+   }
+   /* 4) Preço: valor + benefício + uma próxima pergunta, quando possível. */
+   if(!reply && a.intent==='preco')reply=v25PriceDraft(client,name,a);
+   /* 5) Exemplo treinado forte, sem atropelar ação/KB. */
+   if(!reply&&examples[0]&&examples[0].score>=7&&a.intent!=='disponibilidade'){usedExample=examples[0];reply=v8ComposeFromExample(examples[0],a,findPlan(a.intent,client),name);}
+   if(!reply)reply=v20StrategicFallback(client,name,a,action);
+   reply=v20Clean(reply);
+   if(/endere[cç]o/i.test(ctx)&&/Rua 21, nº 42/i.test(reply))reply=reply.replace(/Estamos na Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.\s*/i,'');
+   const plan=findPlan(a.intent,client)||findPlan(a.detectedIntent,client);
+   window.v8Last={analysis:{...a,objective:a.objective,nextAction:a.next},examples,knowledge:kb.slice(0,3),usedExample,plan,reply,clientText:client,learnedStrategy:v17LearnedStrategy(examples,a),clientMemory:memory};
+   return reply;
+ }
+ function v25OutputGuard(out,local,client,action,analysis){
+   if(v25IsGreetingOnly(client) && !action) return local;
+   const text=v20Clean(out),t=norm(text),c=norm(client),l=norm(local);
+   const askedPrice=analysis?.hasPrice||qPrice(client);
+   if(!askedPrice&&/r\$\s*[\d\.,]+/i.test(text))return local;
+   if(action==='fechamento'){
+     if(!/(reserv|confirm|seguir|avançar|avancar)/i.test(text))return local;
+     if(qMarkCount(text)>1)return local;
+   }
+   if(action==='objecao' && qMarkCount(text)>1)return local;
+   if(qMarkCount(text)>1)return local;
+   if(/sim,?\s+trabalhamos\s+com\s+endere[cç]o\s+fiscal/i.test(local) && !/(endere[cç]o\s+fiscal|trabalhamos)/i.test(text))return local;
+   if(/dispon[ií]vel|temos\s+vaga|temos\s+hor[aá]rio/i.test(text)&&!/preciso|precisamos|vou verificar|vamos verificar|necess[aá]rio verificar/i.test(text))return local;
+   return text||local;
+ }
+ /* Substitui a entrada do Motor sem apagar a interface nem o fallback legado. */
+ window.v20Generate=function(text,action,name,context){return v25CoreGenerate(text,action,name,context,'');};
+ window.v22GenerateWithGroq=async function(text,action,name,context,phone){
+   const local=v25CoreGenerate(text,action,name,context,phone);
+   try{
+     const client=v8ExtractClientText(clean(text))||clean(text),analysis=window.v8Last?.analysis||{},memory=contactMemoryText(phone);
+     const reply=await callGroq(client,name,context,action,analysis,local,memory);
+     const safe=v25OutputGuard(reply,local,client,action,analysis);
+     window.v8Last={...(window.v8Last||{}),reply:safe,aiEngine:safe===reply?'Groq':'Motor Nellus guard-rail',localFallback:local,clientMemory:memory};
+     rememberInteraction(phone,name,client,safe,analysis,action);
+     return {reply:safe,engine:safe===reply?'Groq':'Motor Nellus guard-rail'};
+   }catch(err){
+     console.warn('Groq falhou; usando Motor Nellus local:',err);
+     const client=v8ExtractClientText(clean(text))||clean(text),analysis=window.v8Last?.analysis||{};
+     rememberInteraction(phone,name,client,local,analysis,action);
+     window.v8Last={...(window.v8Last||{}),reply:local,aiEngine:'Local fallback',groqError:String(err?.message||err)};
+     return {reply:local,engine:'Motor Nellus local'};
+   }
+ };
+ /* Radar usa exatamente o diagnóstico que alimentou a resposta. */
+ const oldAssess=window.v9Assess;
+ window.v9Assess=function(text,context,silence){
+   const d=window.v8Last?.analysis;
+   const base=oldAssess?oldAssess(text,context,silence):{};
+   if(!d)return base;
+   const sig=(d.signals||[]).map(x=>x.label||x.type).filter(Boolean), combined=[...(d.combinedSignals||[]),...sig];
+   const risks=[...(base.risks||[])];
+   if(d.forcedAction==='objecao'&&!risks.includes('objeção tratada manualmente'))risks.unshift('objeção tratada manualmente');
+   let score=Number(base.score||45);
+   if(d.intent==='fechamento'&&!combined.some(x=>/fechamento/i.test(x)))score+=20;
+   if(d.hasDate&&d.hasTime&&d.hasPeople)score+=8;
+   const level=score>=72?'hot':score<43?'risk':'attention';
+   return {...base,intent:d.intent,stage:d.stage,signals:[...new Set(combined)].slice(0,8),risks,score:Math.max(0,Math.min(100,Math.round(score))),level,next:d.next||base.next};
+ };
+})();
+</script>
 </body>
 </html>
