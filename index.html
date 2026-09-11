@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nellus | Copiloto Comercial Pro V5</title>
+<title>Nellus | Copiloto Comercial Pro V18</title>
 <meta name="theme-color" content="#050806">
 <style>
 :root{
@@ -21,7 +21,7 @@ button{cursor:pointer}
 position:sticky;top:0;z-index:10;background:rgba(5,8,6,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
 .logo-box{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.03em;font-size:18px;color:#65cfb4}
 .logo-icon{width:32px;height:32px;display:block}
-main{padding:20px 17px 140px}.view{display:none}.view.active{display:block}
+main{padding:20px 17px 140px}.view{display:none !important}.view.active{display:block !important}#trainingV7:not(.active){display:none !important}
 .eyebrow{text-transform:uppercase;letter-spacing:.13em;color:#4ec4a9;font-weight:900;font-size:10px}
 h1{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:8px 0}
 h2{font-size:18px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;line-height:1.55;margin:0}
@@ -130,9 +130,9 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 <main>
 <section id="home" class="view active">
 <div class="hero">
-<div class="eyebrow">Nellus • Copiloto Comercial Pro V10</div>
+<div class="eyebrow">Nellus • Copiloto Comercial Pro V15</div>
 <h1>Atendimento</h1>
-<p class="sub">Analise a conversa, descubra o risco de perder a venda e receba a próxima ação comercial — sem precisar de API paga.</p>
+<p class="sub">Analise a conversa, descubra o risco de perder a venda e receba a próxima ação comercial.</p>
 </div>
 
 <div class="radar-panel"><div class="radar-head"><div><div class="radar-kicker">🚨 RADAR COMERCIAL</div><h2>Não deixe uma oportunidade escapar</h2><p>Identifique sinais de compra, risco, silêncio e falta de próximo passo.</p></div><button type="button" class="btn btn-green" onclick="v9OpenPipeline()">📊 Pipeline</button></div><div class="radar-grid"><div class="radar-kpi hot"><span>🔥</span><b id="v9Hot">0</b><small>Quentes</small></div><div class="radar-kpi attention"><span>🟡</span><b id="v9Attention">0</b><small>Atenção</small></div><div class="radar-kpi risk"><span>🔴</span><b id="v9Risk">0</b><small>Risco</small></div><div class="radar-kpi follow"><span>↗</span><b id="v9Follow">0</b><small>Sem próximo passo</small></div></div><div id="v9Opportunities" class="opportunity-list"></div></div><div class="today-panel"><div class="today-head"><div><div class="today-kicker">🎯 PRIORIDADES DE HOJE</div><h2>Quem precisa da sua atenção agora</h2><p>O Nellus organiza as oportunidades pelo risco e pela urgência comercial.</p></div><div id="v10TodayCount" class="today-count">0 ações</div></div><div id="v10TodayList" class="today-list"></div></div><div class="section-title"><h2>Objetivo da resposta</h2></div>
@@ -159,10 +159,9 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 <div class="result-card">
 <div class="result-head"><span>● RESPOSTA SUGERIDA</span><span id="usedEngineBadge" class="mode-tag">Motor Nellus • Gratuito</span></div>
 <div class="suggestion" id="suggestion"></div>
-<div id="v8Diagnostic" class="diagnostic" style="display:none"></div><div id="v9RadarResult" class="diagnostic" style="display:none"></div><div id="v9Followup" class="diagnostic" style="display:none"></div>
-<div id="v8Learning" style="display:none"></div>
+<div id="v9RadarResult" class="diagnostic" style="display:none"></div><div id="v9Followup" class="diagnostic" style="display:none"></div>
 <div class="actions"><button class="secondary" id="copy">⧉ Copiar Mensagem</button></div>
-<div class="feedback-row"><button class="secondary" onclick="v8Feedback('boa')">👍 Boa resposta</button><button class="secondary" onclick="v8Feedback('ajustar')">✎ Ajustar e ensinar</button></div>
+
 </div>
 </div>
 </section>
@@ -255,9 +254,9 @@ Em “Resposta”, coloque a forma como você realmente quer que a Nellus respon
 
 
 <!-- ===== V7 TREINAMENTO DO GESTOR ===== -->
-<section id="trainingV7" class="panel">
+<section id="trainingV7" class="view">
   <div class="section-title">
-    <div><h2>🧠 Treinamento do Gestor</h2><p>Ensine o copiloto a pensar e vender como você.</p></div>
+    <div><h2>🧠 Treinamento do Gestor</h2><p>Ensine o copiloto a pensar e vender como você. Todo o treinamento fica concentrado nesta página.</p></div>
   </div>
 
   <div class="v7-tabs">
@@ -627,6 +626,54 @@ function bestKnowledge(text){return knowledge.map(k=>({k,score:scoreKnowledge(k,
 function serviceFacts(p){if(!p)return '';return [p.name&&`Serviço: ${p.name}.`,p.price&&`Valor: ${p.price}.`,p.capacity&&`Capacidade: ${p.capacity}.`,p.schedule&&`Horário: ${p.schedule}.`,p.desc&&`Descrição: ${p.desc}.`,p.arguments&&`Benefícios: ${p.arguments}.`].filter(Boolean).join(' ')}
 function v8ExtractClientText(text){const lines=(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);const client=lines.filter(x=>/^(cliente|lead|ele|ela)\s*:/i.test(x)).map(x=>x.replace(/^[^:]+:\s*/,'')).join(' ');return client||lastMeaningfulMessage(text||'')}
 
+/* ===== V18 Training Brain + Next Best Action ===== */
+function v17CleanReply(text){
+  return String(text||'')
+    .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{1F1E6}-\u{1F1FF}]/gu,'')
+    .replace(/\s{2,}/g,' ')
+    .replace(/\s+([,.!?;:])/g,'$1')
+    .trim();
+}
+function v17Words(text){
+  return normalize(text||'').split(/[^a-z0-9à-ÿ]+/).filter(w=>w.length>=4 && !['para','você','voce','como','qual','isso','essa','esse','mais','uma','temos','tenho','preciso','quero','gostaria','sobre'].includes(w));
+}
+function v8MatchExamples(text,analysis){
+  const source=normalize((text||'')+' '+(analysis?.intent||'')+' '+(analysis?.objection||'')+' '+(analysis?.stage||''));
+  const words=[...new Set(v17Words(text))];
+  const examples=Array.isArray(window.v7Examples)?window.v7Examples:[];
+  return examples.map(x=>{
+    const triggerText=normalize((x.triggers||'')+' '+(x.client||'')+' '+(x.title||'')+' '+(x.category||''));
+    const triggerWords=[...new Set(v17Words(triggerText))];
+    let score=Number(x.priority||1)*0.8;
+    triggerWords.forEach(w=>{if(source.includes(w))score+=1.5;});
+    words.forEach(w=>{if(triggerText.includes(w))score+=2;});
+    if(analysis?.intent && triggerText.includes(normalize(analysis.intent)))score+=4;
+    if(analysis?.objection && analysis.objection!=='Nenhuma' && triggerText.includes(normalize(analysis.objection)))score+=4;
+    if(analysis?.stage && triggerText.includes(normalize(analysis.stage)))score+=2;
+    return {...x,score};
+  }).filter(x=>x.score>=4).sort((a,b)=>b.score-a.score).slice(0,3);
+}
+function v8ComposeFromExample(example,analysis,p,name){
+  if(!example?.ideal)return null;
+  let reply=example.ideal;
+  const g=v10Greeting(name);
+  reply=reply.replace(/^\s*(ol[aá]|oi|bom dia|boa tarde|boa noite)[!,.]?\s*/i,'').trim();
+  if(g && reply) reply=g+' '+reply;
+  if(p && /^(sala privativa|sala de reunião|sala de treinamento|estação de trabalho|sala fixa)$/i.test(p.name||'')){
+    const facts=serviceFacts(p);
+    if(facts && !normalize(reply).includes(normalize(p.name))) reply+=' '+facts;
+  }
+  return v17CleanReply(reply);
+}
+function v17LearnedStrategy(examples,analysis){
+  if(!examples?.length)return '';
+  const top=examples[0];
+  const category=normalize(top.category||'');
+  if(category.includes('objec')) return 'Trabalhar a objeção sem pressionar, reforçar valor e conduzir para um próximo passo concreto.';
+  if(category.includes('fech')) return 'Conduzir para uma ação concreta, evitando voltar para uma explicação genérica.';
+  if(category.includes('informa')) return 'Responder primeiro ao que foi perguntado e só depois avançar com uma pergunta útil.';
+  return 'Usar o exemplo treinado como referência de linguagem, estrutura e condução comercial.';
+}
 function v11Analyze(text,context){
  const all=((text||'')+' '+(context||'')); const msg=v8ExtractClientText(text); const t=normalize(all), m=normalize(msg); const intent=detectIntent(msg||all);
  let stage='Novo contato',objection='Nenhuma',action='Descobrir a necessidade',score=25;
@@ -647,47 +694,84 @@ function v11Analyze(text,context){
  return {stage,intent:intent==='preco'?'Preço':intent==='objecao'?'Geral':intent,objection,action,score,missing:[...new Set(missing)].slice(0,3),already};
 }
 function v11FindStructure(keyword){return structure.find(x=>normalize(x.name).includes(normalize(keyword))||normalize(x.desc).includes(normalize(keyword)))}
-function v11DirectAnswer(text,name){
- const msg=(text||'').trim(), t=normalize(msg), g=v10Greeting(name), facts=v11Facts();
- if(!msg)return null;
- const pPriv=findPlan('sala privativa',msg), pMeet=findPlan('sala de reunião',msg), pTrain=findPlan('sala de treinamento',msg), pWork=findPlan('estação de trabalho',msg), pFixed=findPlan('sala fixa',msg), pCom=findPlan('endereço comercial',msg), pFiscal=findPlan('endereço fiscal',msg);
- if(/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza[cç][aã]o|como\s+chegar|endere[cç]o/.test(t)){
-  const loc=v11FindStructure('localiza');
-  return `${g} 📍 Estamos na ${loc?.desc||facts.address}. Se quiser, também posso te orientar sobre como chegar ou te apresentar as opções disponíveis.`;
+function v10Greeting(name){ return name ? `Olá, ${name}!` : `Olá!`; }
+function v18NextBestQuestion(t, flags){
+ const hasDate=/(dia|data|amanh[aã]|segunda|ter[cç]a|quarta|quinta|sexta|s[aá]bado|domingo)/.test(t);
+ const hasTime=/(hora|hor[aá]rio|manh[aã]|tarde|noite|\b\d{1,2}\s*(?:h|:|horas?))/.test(t);
+ const hasPeople=/(pessoa|pessoas|participante|participantes|equipe|clientes?)/.test(t);
+ const hasPurpose=/(atend|consult|reuni[aã]o|trabalh|curso|trein|workshop|palestr|escrit[oó]rio|empresa|cliente)/.test(t);
+ if(flags.availability){
+   if(!hasDate) return 'Qual data você precisa?';
+   if(!hasTime) return 'E qual horário seria ideal?';
+   if(!hasPeople) return 'Será para quantas pessoas?';
+   return 'Perfeito. Posso te orientar sobre o próximo passo para reservar.';
  }
- if(/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t)){
-  return `${g} ⏰ Nosso horário de funcionamento é ${facts.hours}.`;
+ if(flags.location) return 'Você está pensando em conhecer o espaço ou já procura uma sala para utilizar?';
+ if(flags.privateRoom) return hasPurpose ? (hasDate ? 'E para qual data você pretende utilizar?' : 'Para qual data você pretende utilizar?') : 'É para atendimento, reunião ou para você trabalhar durante algumas horas?';
+ if(flags.meeting) return hasPeople ? (hasDate ? 'Para qual data você precisa da sala?' : 'Para qual data você precisa da sala?') : 'Seria para uma reunião com quantas pessoas?';
+ if(flags.training) return hasPeople ? (hasDate ? 'Para qual data você precisa do espaço?' : 'Para qual data você precisa do espaço?') : 'É para um curso, treinamento, workshop ou outro tipo de evento?';
+ if(flags.work) return hasDate ? 'Qual horário você pretende utilizar?' : 'Você pretende usar a estação eventualmente ou com frequência?';
+ if(flags.fixed) return hasPeople ? 'Você pretende utilizar a sala para qual tipo de atividade?' : 'A sala será para você ou para uma equipe?';
+ if(flags.commercial || flags.fiscal) return 'Você precisa do endereço para qual finalidade? Assim consigo te orientar sobre a opção mais adequada.';
+ if(flags.price) return 'Você pretende usar o espaço eventualmente ou com frequência?';
+ if(flags.capacity) return hasPurpose ? 'E para qual data você pretende utilizar?' : 'Você pretende usar o espaço para qual tipo de atividade?';
+ if(flags.hours) return hasDate ? 'E qual serviço você pretende utilizar?' : 'Você está pensando em utilizar o espaço em qual dia?';
+ return 'Me conta um pouco mais sobre o que você precisa para eu te indicar a melhor opção.';
+}
+function v12DirectAnswer(text,name,context){
+ const msg=(text||'').trim(), all=((text||'')+' '+(context||'')).trim(), t=normalize(msg||all), g=v10Greeting(name), facts=v11Facts();
+ if(!t)return null;
+ const get=(intent)=>findPlan(intent,msg||all);
+ const priv=get('sala privativa'), meet=get('sala de reunião'), train=get('sala de treinamento'), work=get('estação de trabalho'), fixed=get('sala fixa'), com=get('endereço comercial'), fiscal=get('endereço fiscal');
+ const asksLocation=/onde\s+(?:voces|voce|vc|vcs)\s+(?:ficam|estao|fica)|onde\s+fica|localiza(?:do|dos|da|das|cao|ção)?|como\s+chegar|qual\s+(?:e|é)\s+(?:o\s+)?endere[cç]o\b/.test(t);
+ const asksHours=/hor[aá]rio|horas|que\s+horas|funciona|abre|fecha/.test(t);
+ const asksPackages=/pacote|pacotes|4\s*h|16\s*h|24\s*h/.test(t);
+ const asksPrice=/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+o\s+(?:valor|pre[cç]o)|qual\s+o\s+(?:valor|pre[cç]o)|pre[cç]o|valor|quanto\s+e/.test(t);
+ const asksCapacity=/quantas\s+pessoas|quantos\s+cabem|capacidade|comporta|cabe\s+\d+/.test(t);
+ const asksPrivate=/sala\s+privativa|sala\s+particular|sala\s+por\s+hora|hora\s+avulsa|alugam\s+por\s+hora|aluga\s+por\s+hora|aluguel\s+por\s+hora/.test(t);
+ const asksMeeting=/sala\s+de\s+reuni[aã]o|reuni[aã]o/.test(t);
+ const asksTraining=/sala\s+de\s+treinamento|treinamento|curso|workshop|palestra/.test(t);
+ const asksWork=/esta[cç][aã]o\s+de\s+trabalho|coworking|mesa\s+compartilhada/.test(t);
+ const asksFixed=/sala\s+fixa|sala\s+mensal|mensalidade|por\s+m[eê]s|mensal/.test(t);
+ const asksCom=/endere[cç]o\s+comercial/.test(t);
+ const asksFiscal=/endere[cç]o\s+fiscal|cnpj/.test(t);
+ const asksDiscount=/tem\s+desconto|faz\s+desconto|consegue\s+desconto|desconto/.test(t);
+ const asksAvailability=/tem\s+vaga|tem\s+hor[aá]rio|dispon[ií]vel|disponibilidade|tem\s+disponibilidade/.test(t);
+ const broadOffer=/quais\s+(?:salas|espa[cç]os)|o\s+que\s+voc[eê]s\s+oferecem|tem\s+alguma\s+sala|quais\s+servi[cç]os/.test(t);
+ let parts=[];
+ if(asksLocation && !asksCom && !asksFiscal) parts.push(`Estamos na ${facts.address}.`);
+ if(asksHours) parts.push(`Nosso horário de funcionamento é ${facts.hours}.`);
+ if(asksPackages && (asksPrivate||/sala|hora/.test(t))) parts.push(`Para a sala privativa, temos ${facts.privatePackages.join('; ')}.`);
+ if(asksPrice||asksCapacity){
+   if(asksMeeting){if(asksPrice)parts.push(`A sala de reunião custa ${meet?.price||'R$ 59,90/h'}.`);if(asksCapacity)parts.push(`Ela comporta ${meet?.capacity?.toLowerCase()||'até 6 pessoas'}.`);}
+   else if(asksTraining){if(asksPrice)parts.push(`A sala de treinamento custa ${train?.price||'R$ 69,90/h'}.`);if(asksCapacity)parts.push(`Ela comporta ${train?.capacity?.toLowerCase()||'até 12 pessoas'}.`);}
+   else if(asksWork){if(asksPrice)parts.push(`A estação de trabalho custa ${work?.price||'R$ 10/h'}.`);if(asksCapacity)parts.push(`A estação é de uso compartilhado.`);}
+   else if(asksFixed){if(asksPrice)parts.push(`A sala fixa custa ${fixed?.price||'R$ 1.900/mês'} para ${fixed?.capacity?.toLowerCase()||'até 6 pessoas'}.`);if(asksCapacity)parts.push(`A capacidade é ${fixed?.capacity?.toLowerCase()||'até 6 pessoas'}.`);}
+   else if(asksCom){if(asksPrice)parts.push(`O endereço comercial custa ${com?.price||'R$ 520/ano'}.`);}
+   else if(asksFiscal){if(asksPrice)parts.push(`O endereço fiscal custa ${fiscal?.price||'R$ 1.248/ano'}.`);}
+   else if(asksPrivate||/\bsala\b|espa[cç]o/.test(t)){if(asksPrice)parts.push(`A sala privativa custa ${priv?.price||'R$ 45/h'}.`);if(asksCapacity)parts.push(`Ela comporta ${priv?.capacity?.toLowerCase()||'até 4 pessoas'}.`);}
+   else if(asksPrice)parts.push(`Temos opções a partir de R$ 10/h na estação de trabalho. Para salas, a privativa custa R$ 45/h, a de reunião R$ 59,90/h e a de treinamento R$ 69,90/h.`);
+   else if(asksCapacity)parts.push(`A capacidade depende do espaço: sala privativa até 4 pessoas, reunião até 6 e treinamento até 12.`);
  }
- if(/voc[eê]s\s+(?:alugam|aluga)|alugam\s+por\s+hora|aluga\s+por\s+hora|hora\s+avulsa|sala\s+por\s+hora/.test(t) && !/reuniao|treinamento/.test(t)){
-  return `${g} Sim! 😊 Temos sala privativa para locação por hora: ${pPriv?.price||'R$ 45/h'}, para ${pPriv?.capacity?.toLowerCase()||'até 4 pessoas'}. Também temos pacotes: ${facts.privatePackages.slice(1).join('; ')}.`;
- }
- if(/pacote|pacotes|4\s*h|16\s*h|24\s*h/.test(t) && /sala|hora|privativa/.test(t)){
-  return `${g} Para a sala privativa, temos: ${facts.privatePackages.join('; ')}.`;
- }
- if(/quanto\s+custa|quanto\s+fica|qual\s+(?:e|é)\s+o\s+valor|qual\s+o\s+preco|pre[cç]o|valor/.test(t)){
-  if(/reuniao/.test(t))return `${g} A sala de reunião custa ${pMeet?.price||'R$ 59,90/h'} e comporta ${pMeet?.capacity?.toLowerCase()||'até 6 pessoas'}.`;
-  if(/treinamento|curso|workshop|palestra/.test(t))return `${g} A sala de treinamento custa ${pTrain?.price||'R$ 69,90/h'} e comporta ${pTrain?.capacity?.toLowerCase()||'até 12 pessoas'}.`;
-  if(/estacao|coworking|mesa/.test(t))return `${g} A estação de trabalho custa ${pWork?.price||'R$ 10/h'} e funciona das ${pWork?.schedule||'08h às 18h'}.`;
-  if(/sala\s+fixa|mensal/.test(t))return `${g} A sala fixa custa ${pFixed?.price||'R$ 1.900/mês'} para até ${pFixed?.capacity?.replace(/[^0-9]/g,'')||'6'} pessoas. ${facts.fixedExtra}`;
-  if(/endereco\s+comercial/.test(t))return `${g} O endereço comercial custa ${pCom?.price||'R$ 520/ano'}.`;
-  if(/endereco\s+fiscal|cnpj/.test(t))return `${g} O endereço fiscal custa ${pFiscal?.price||'R$ 1.248/ano'}.`;
-  if(/sala|privativa/.test(t))return `${g} A sala privativa custa ${pPriv?.price||'R$ 45/h'} e comporta ${pPriv?.capacity?.toLowerCase()||'até 4 pessoas'}. ${facts.privatePackages.slice(1).join('; ')}.`;
-  return `${g} Temos opções a partir de ${pWork?.price||'R$ 10/h'}, como estação de trabalho, além de salas privativas, de reunião e treinamento. Se me disser qual espaço você procura, eu te passo o valor exato.`;
- }
- if(/quantas\s+pessoas|quantos\s+cabem|capacidade|comporta/.test(t)){
-  if(/reuniao/.test(t))return `${g} A sala de reunião comporta ${pMeet?.capacity?.toLowerCase()||'até 6 pessoas'}.`;
-  if(/treinamento|curso|workshop|palestra/.test(t))return `${g} A sala de treinamento comporta ${pTrain?.capacity?.toLowerCase()||'até 12 pessoas'}.`;
-  if(/privativa|particular|por\s+hora/.test(t))return `${g} A sala privativa comporta ${pPriv?.capacity?.toLowerCase()||'até 4 pessoas'}.`;
-  if(/fixa|mensal/.test(t))return `${g} A sala fixa comporta ${pFixed?.capacity?.toLowerCase()||'até 6 pessoas'}.`;
- }
- if(/tem\s+desconto|faz\s+desconto|consegue\s+desconto|desconto/.test(t)){
-  return `${g} Hoje eu não tenho uma condição de desconto cadastrada para te prometer. 😊 O que posso fazer é verificar qual opção ou pacote fica mais vantajoso para o uso que você precisa.`;
- }
- if(/disponivel|disponibilidade|tem\s+vaga|tem\s+horario/.test(t)){
-  return `${g} Posso te orientar, mas não vou afirmar disponibilidade sem verificar a data e o horário. Para qual data e horário você precisa?`;
+ if(asksPrivate && !asksPrice && !asksCapacity && !asksPackages) parts.push(`Sim. Temos sala privativa por ${priv?.price||'R$ 45/h'}, para ${priv?.capacity?.toLowerCase()||'até 4 pessoas'}.`);
+ if(asksMeeting && !asksPrice && !asksCapacity) parts.push(`Sim. A sala de reunião custa ${meet?.price||'R$ 59,90/h'} e comporta ${meet?.capacity?.toLowerCase()||'até 6 pessoas'}.`);
+ if(asksTraining && !asksPrice && !asksCapacity) parts.push(`Temos sala de treinamento por ${train?.price||'R$ 69,90/h'}, para ${train?.capacity?.toLowerCase()||'até 12 pessoas'}.`);
+ if(asksWork && !asksPrice && !asksCapacity) parts.push(`Temos estação de trabalho por ${work?.price||'R$ 10/h'}, com uso das ${work?.schedule||'08h às 18h'}.`);
+ if(asksFixed && !asksPrice && !asksCapacity) parts.push(`Temos sala fixa por ${fixed?.price||'R$ 1.900/mês'}, para ${fixed?.capacity?.toLowerCase()||'até 6 pessoas'}.`);
+ if(asksCom && !asksPrice) parts.push(`Sim. Temos endereço comercial por ${com?.price||'R$ 520/ano'}.`);
+ if(asksFiscal && !asksPrice) parts.push(`Sim. Temos endereço fiscal por ${fiscal?.price||'R$ 1.248/ano'}.`);
+ if(asksDiscount) parts.push(`Posso te indicar a opção mais vantajosa conforme o uso. Não vou prometer um desconto que não esteja cadastrado.`);
+ if(asksAvailability) parts.push(`Consigo te orientar sobre a disponibilidade, mas não vou inventar um horário. Preciso da data e do horário para verificar.`);
+ if(broadOffer && !parts.length) return `${g} Temos sala privativa (R$ 45/h, até 4 pessoas), sala de reunião (R$ 59,90/h, até 6), sala de treinamento (R$ 69,90/h, até 12), estação de trabalho (R$ 10/h) e opções de endereço comercial e fiscal. Qual desses você procura?`;
+ if(parts.length){
+   const question=v18NextBestQuestion(t,{location:asksLocation,hours:asksHours,packages:asksPackages,price:asksPrice,capacity:asksCapacity,privateRoom:asksPrivate,meeting:asksMeeting,training:asksTraining,work:asksWork,fixed:asksFixed,commercial:asksCom,fiscal:asksFiscal,availability:asksAvailability});
+   let answer=`${g} ${parts.join(' ')}`;
+   if(question) answer+=' '+question;
+   return answer;
  }
  return null;
 }
+
 function v10NextQuestion(a){
  const m=a.missing||[]; if(!m.length)return '';
  if(a.intent==='Sala privativa'||a.intent==='Sala de reunião'||a.intent==='Sala de treinamento'||a.intent==='Geral')return m.includes('data')?'Para qual data você precisa do espaço?':m.includes('horário')?'E qual horário você precisa?':'Seria para quantas pessoas?';
@@ -697,47 +781,53 @@ function v10NextQuestion(a){
 function v10Opening(name){const g=v10Greeting(name);return `${g} Seja bem-vindo(a) ao Nellus! Como posso te ajudar hoje? Você está procurando uma sala, espaço para reunião, treinamento ou endereço comercial?`;}
 function generateLocal(text,action,name,context){
  const cleanText=(text||'').trim(), cleanContext=(context||'').trim();
- if(!cleanText&&!cleanContext){const reply=v10Opening(name);window.v8Last={analysis:{stage:'Novo contato',intent:'Geral',objection:'Nenhuma',action:'Descobrir a necessidade',score:25,missing:[],already:[]},examples:[],plan:null,reply,clientText:''};return reply;}
- // V11: primeiro responde o que o cliente perguntou. Qualificação só acontece quando a pergunta já foi atendida.
- const direct=v11DirectAnswer(v8ExtractClientText(cleanText)||cleanText,name);
- if(direct){const a=v11Analyze(cleanText,cleanContext);a.missing=[];window.v8Last={analysis:a,examples:[],plan:findPlan(a.intent,cleanText),reply:direct,clientText:v8ExtractClientText(cleanText)||cleanText};return direct;}
+ if(!cleanText&&!cleanContext){const reply=v17CleanReply(v10Opening(name));window.v8Last={analysis:{stage:'Novo contato',intent:'Geral',objection:'Nenhuma',action:'Descobrir a necessidade',score:25,missing:[],already:[]},examples:[],plan:null,reply,clientText:''};return reply;}
+ // V12: primeiro responde o que o cliente perguntou. Qualificação só acontece quando a pergunta já foi atendida.
+ const direct=v12DirectAnswer(v8ExtractClientText(cleanText)||cleanText,name,cleanContext);
+ if(direct){const a=v11Analyze(cleanText,cleanContext);a.missing=[];const cleanReply=v17CleanReply(direct);window.v8Last={analysis:a,examples:[],plan:findPlan(a.intent,cleanText),reply:cleanReply,clientText:v8ExtractClientText(cleanText)||cleanText};return cleanReply;}
  const analysis=v11Analyze(cleanText,cleanContext), clientText=v8ExtractClientText(cleanText), p=findPlan(analysis.intent,cleanText), examples=v8MatchExamples(clientText||cleanText,analysis), matched=bestKnowledge(cleanText+' '+cleanContext);
  let reply=null;
  // Só usar exemplo treinado se ele realmente responde ao mesmo assunto; exemplos não podem transformar uma pergunta factual em pergunta de qualificação.
- if(examples[0] && analysis.intent!=='Geral')reply=v8ComposeFromExample(examples[0],analysis,p,name);
+ if(examples[0] && (analysis.intent!=='Geral' || examples[0].score>=7))reply=v8ComposeFromExample(examples[0],analysis,p,name);
  const g=v10Greeting(name), nextQ=v10NextQuestion(analysis);
  if(!reply){
   const main=matched.find(k=>k.type==='faq'||k.type==='objecao');
   if(action==='follow')reply=`${g} Passando para saber se você conseguiu avaliar as informações que te enviei. Se quiser, posso te ajudar a decidir a melhor opção.`;
   else if(analysis.objection==='Preço')reply=`${g} Entendo! Quero te indicar uma opção que faça sentido para o que você precisa, e não só pelo preço. ${nextQ||'Me conta um pouco mais sobre como pretende usar o espaço.'}`;
-  else if(analysis.objection==='Indecisão')reply=`${g} Sem problema 😊 O que você gostaria de avaliar melhor: o valor, a estrutura ou qual opção faz mais sentido para você?`;
+  else if(analysis.objection==='Indecisão')reply=`${g} Sem problema. O que você gostaria de avaliar melhor: o valor, a estrutura ou qual opção faz mais sentido para você?`;
   else if(action==='fechamento'||analysis.stage==='Fechamento')reply=`${g} Perfeito! Vamos avançar. ${nextQ||'Posso te orientar sobre o próximo passo.'}`;
   else if(main&&analysis.objection!=='Nenhuma')reply=main.answer;
   else if(p){reply=`${g} A ${p.name} fica em ${p.price}${p.capacity?', '+p.capacity.toLowerCase():''}.`;if(p.arguments)reply+=` ${p.arguments}`;if(nextQ)reply+=` ${nextQ}`;}
   else reply=`${g} Claro! Me conta o que você precisa e eu te indico a opção mais adequada.`;
  }
  if(analysis.already.includes('endereço'))reply=reply.replace(/📍[^.]*Volta Redonda\/RJ\.?/ig,'').replace(/Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.?/ig,'');
- reply=reply.replace(/\s+/g,' ').trim();window.v8Last={analysis,examples,plan:p,reply,clientText};return reply;
+ reply=v17CleanReply(reply);window.v8Last={analysis,examples,plan:p,reply,clientText,learnedStrategy:v17LearnedStrategy(examples,analysis)};return reply;
 }
+
+window.addEventListener("error",e=>{
+  console.error("Nellus error:",e.error||e.message);
+  const box=document.getElementById("result"), sug=document.getElementById("suggestion");
+  if(box&&sug){sug.textContent="Não consegui gerar a resposta agora. Tente novamente. Se o problema continuar, atualize a página.";box.style.display="block";}
+});
 
 document.getElementById("generate").onclick=()=>{
  const text=conv.value.trim(),name=document.getElementById("clientName").value.trim(),context=document.getElementById("customContext").value.trim();
  if(!text&&!context){ /* Primeiro contato: o Motor Nellus gera a abertura automaticamente. */ }
  const btn=document.getElementById("generate");btn.disabled=true;btn.textContent="✦ Pensando como gestor...";
- setTimeout(()=>{try{const answer=generateLocal(text,selectedAction,name,context);document.getElementById("suggestion").textContent=answer;document.getElementById("usedEngineBadge").textContent=window.v8Last.examples.length?"Motor Nellus • Treinado com seus exemplos":"Motor Nellus • 100% gratuito";v8RenderDiagnostic(window.v8Last);document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});}finally{btn.disabled=false;btn.textContent="✦ Gerar Próxima Mensagem Inteligente";}},350);
+ setTimeout(()=>{try{const answer=generateLocal(text,selectedAction,name,context);document.getElementById("suggestion").textContent=answer||"Não consegui interpretar essa mensagem ainda. Tente escrever a pergunta de outra forma.";document.getElementById("usedEngineBadge").textContent=window.v8Last?.examples?.length?"Motor Nellus • Treinado com seus exemplos":"Motor Nellus • Base Nellus";v8RenderDiagnostic(window.v8Last);document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});}catch(err){console.error(err);document.getElementById("suggestion").textContent="Não consegui gerar a resposta agora. Tente novamente.";document.getElementById("result").style.display="block";}finally{btn.disabled=false;btn.textContent="✦ Gerar Próxima Mensagem Inteligente";}},350);
 };
 function v8RenderDiagnostic(data){
- const d=document.getElementById('v8Diagnostic'); if(!d||!data)return;
- const a=data.analysis, ex=data.examples[0];
- d.style.display='block'; d.innerHTML=`<h3>🧠 Diagnóstico do gestor</h3><div class="pills"><span class="pill">Etapa: <strong>${esc(a.stage)}</strong></span><span class="pill">Intenção: <strong>${esc(a.intent)}</strong></span><span class="pill">Objeção: <strong>${esc(a.objection)}</strong></span><span class="pill">Oportunidade: <strong>${a.score}/100</strong></span></div><div class="strategy-grid" style="margin-top:10px"><div class="strategy-card"><b>Próximo movimento</b>${esc(a.action)}</div><div class="strategy-card"><b>Ainda falta descobrir</b>${a.missing.length?esc(a.missing.join(', ')):'Nada essencial detectado'}</div></div>${ex?`<div style="margin-top:10px;font-size:11px;color:#91a49b">🎓 Resposta influenciada pelo treinamento: <strong>${esc(ex.title)}</strong></div>`:''}`;
+ // O diagnóstico continua sendo calculado internamente para orientar o Motor e o Radar,
+ // mas não é exibido na tela inicial. A área de treinamento fica somente em 🎓 Treinar.
+ return;
 }
 window.v8Feedback=function(type){
  const data=window.v8Last;if(!data)return;
  if(type==='boa'){localStorage.setItem('nellus_last_good',JSON.stringify(data));toast('Resposta marcada como boa.');return;}
- const box=document.getElementById('v8Learning');box.style.display='block';box.innerHTML=`<div class="training-card"><b>Ensinar com esta conversa</b><small>Transforme esta situação em um exemplo para o próximo atendimento.</small><div class="example"><b>Cliente:</b> ${esc(data.clientText)}<br><br><b>Resposta gerada:</b> ${esc(data.reply)}</div><div class="form-grid" style="margin-top:10px"><input id="v8TeachTitle" class="input-field" placeholder="Título do exemplo"><textarea id="v8TeachIdeal" class="input-field full" rows="3" placeholder="Edite aqui para deixar a resposta exatamente do seu jeito"></textarea></div><button class="primary" onclick="v8SaveFeedbackTraining()">＋ Salvar como treinamento</button></div>`;
- document.getElementById('v8TeachIdeal').value=data.reply;
+ // O ensino manual fica concentrado na página 🎓 Treinar.
+ toast('Para ensinar o copiloto, use a página Treinar.');
 };
-window.v8SaveFeedbackTraining=function(){const data=window.v8Last;if(!data)return;const ideal=document.getElementById('v8TeachIdeal').value.trim();if(!ideal){alert('Escreva a resposta ideal.');return;}const item={id:Date.now(),title:document.getElementById('v8TeachTitle').value.trim()||('Treinamento: '+data.analysis.intent),category:data.analysis.objection!=='Nenhuma'?'Objeção':'Informação',client:data.clientText,ideal,triggers:[data.analysis.intent,data.analysis.objection,data.analysis.stage].filter(x=>x&&x!=='Nenhuma').join('; '),priority:3};window.v7Examples.unshift(item);localStorage.setItem('nellus_examples_v7',JSON.stringify(window.v7Examples));document.getElementById('v8Learning').innerHTML='<div class="training-card">✅ Treinamento salvo. Nas próximas conversas semelhantes, o gestor poderá usar esta referência.</div>';toast('Novo treinamento salvo!');};
+window.v8SaveFeedbackTraining=function(){const data=window.v8Last;if(!data)return;const field=document.getElementById('v8TeachIdeal'); if(!field){toast('Use a página Treinar para cadastrar exemplos.');return;} const ideal=field.value.trim();if(!ideal){alert('Escreva a resposta ideal.');return;}const item={id:Date.now(),title:document.getElementById('v8TeachTitle').value.trim()||('Treinamento: '+data.analysis.intent),category:data.analysis.objection!=='Nenhuma'?'Objeção':'Informação',client:data.clientText,ideal,triggers:[data.analysis.intent,data.analysis.objection,data.analysis.stage].filter(x=>x&&x!=='Nenhuma').join('; '),priority:3};window.v7Examples.unshift(item);localStorage.setItem('nellus_examples_v7',JSON.stringify(window.v7Examples));document.getElementById('v8Learning').innerHTML='<div class="training-card">✅ Treinamento salvo. Nas próximas conversas semelhantes, o gestor poderá usar esta referência.</div>';toast('Novo treinamento salvo!');};
 
 document.getElementById("copy").onclick=async()=>{
  try{
