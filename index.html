@@ -422,18 +422,17 @@ conv.oninput=()=>{ count.textContent=conv.value.length+"/6000"; };
 
 async function callGemini(text, action, clientName, customContext){
  const promptSystem = `Você é o Copiloto Comercial do Nellus Coworking em Volta Redonda/RJ.
-Sua missão é gerar a PRÓXIMA MENSAGEM a ser enviada no WhatsApp para o cliente. Respondendo DIRETAMENTE à pergunta feita por ele.
+Sua missão é gerar a PRÓXIMA MENSAGEM a ser enviada no WhatsApp para o cliente, respondendo EXATAMENTE à dúvida atual dele.
 
 DADOS DO NOSSO COWORKING:
 - Planos: ${JSON.stringify(plans)}
 - Diferenciais e Endereço: ${JSON.stringify(structure)}
 
-TOM DE VOZ E LINGUAGEM HUMANA:
-1. Responda exatamente o que o cliente perguntou na conversa.
-2. Tom acolhedor, leve e profissional do WhatsApp.
-3. NUNCA REPITA INFORMAÇÕES QUE JÁ FORAM DITAS NA CONVERSA OU NO CONTEXTO.
-4. Para fechar ou agendar, pergunte sempre de forma natural: "Qual dia e horário fica melhor para você vir aqui no Nellus?"
-5. Escreva APENAS a mensagem final para o cliente.`;
+REGRAS:
+1. Responda diretamente ao que o cliente acabou de perguntar.
+2. Tom profissional e amigável.
+3. Não repita informações já enviadas no histórico.
+4. Escreva apenas o texto final pronto para enviar no WhatsApp.`;
 
  const promptUser = `${promptSystem}
 
@@ -446,21 +445,18 @@ ${text}
 """`;
 
  const cleanKey = apiKey.trim();
- const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cleanKey}`;
+ const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
 
  const requestOptions = {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-   contents: [{
-    parts: [{ text: promptUser }]
-   }]
+   contents: [{ parts: [{ text: promptUser }] }]
   })
  };
 
  let response = await fetch(url, requestOptions);
 
- // Se atingir o limite de requisições por minuto (código HTTP 429), aguarda 2,5s e tenta novamente
  if (response.status === 429) {
   await new Promise(r => setTimeout(r, 2500));
   response = await fetch(url, requestOptions);
@@ -482,19 +478,23 @@ function fallbackSmartResponse(text, action, clientName, customContext){
  const c = (text + " " + customContext).toLowerCase();
  const nameStr = clientName ? ` ${clientName}` : "";
 
+ // Pergunta sobre Diária / Período
+ if(c.includes("diaria") || c.includes("diária") || c.includes("dia todo") || c.includes("integral")){
+  return `Olá${nameStr}! Trabalhamos principalmente com aluguel por hora avulsa ou diárias para uso comercial. Nossas estações saem por R$ 10/h e salas privativas a partir de R$ 45/h. Qual seria a data de sua preferência?`;
+ }
+
+ // Pergunta sobre Endereço / Localização
  if(c.includes("onde") || c.includes("fica") || c.includes("localiz") || c.includes("endereço") || c.includes("rua") || c.includes("bairro")){
-  return `Olá${nameStr}! Ficamos localizados em uma excelente região: na Rua 21, nº 42, na Vila Santa Cecília em Volta Redonda/RJ. Quer agendar um horário para vir tomar um café e conhecer o espaço presencialmente?`;
+  return `Olá${nameStr}! Ficamos na Rua 21, nº 42, na Vila Santa Cecília em Volta Redonda/RJ. Gostaria de agendar uma visita para conhecer o espaço?`;
  }
 
+ // Pergunta sobre Hora Avulsa / Preço
  if(c.includes("avulsa") || c.includes("hora") || c.includes("alugam") || c.includes("preço") || c.includes("quanto") || c.includes("valor")){
-  return `Olá${nameStr}! Alugamos por hora avulsa sim! Nossas salas privativas saem a partir de R$ 45/h e as estações de trabalho por R$ 10/h. Para qual dia e horário você precisaria?`;
+  return `Olá${nameStr}! Alugamos por hora sim. As estações de trabalho ficam R$ 10/h e as salas privativas R$ 45/h. De quantas horas você precisaria?`;
  }
 
- if(c.includes("reunião") || c.includes("treinamento") || c.includes("curso")){
-  return `Olá${nameStr}! Temos salas de reunião (R$ 59,90/h) e treinamentos (R$ 69,90/h) equipadas com toda a estrutura. Para quantas pessoas seria o seu evento?`;
- }
-
- return `Olá${nameStr}! Estamos localizados na Vila Santa Cecília, em Volta Redonda. Como posso te ajudar a escolher o melhor espaço para o que você precisa?`;
+ // Padrão
+ return `Olá${nameStr}! Como posso te ajudar com os espaços e diárias aqui no Nellus Coworking?`;
 }
 
 async function run(){
