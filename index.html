@@ -8,6 +8,14 @@
 <meta name="theme-color" content="#050806">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- Importando o SDK oficial do Google GenAI -->
+<script type="importmap">
+  {
+    "imports": {
+      "@google/genai": "https://esm.run/@google/genai"
+    }
+  }
+</script>
 <style>
 :root{
  --bg:#050806; --panel:#0b110f; --panel2:#101815; --line:#1d2b26;
@@ -197,7 +205,9 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
 </nav>
 </div>
 
-<script>
+<script type="module">
+import { GoogleGenAI } from "@google/genai";
+
 const DEFAULT_PLANS=[
 {name:"Sala privativa",price:"R$ 45/h",desc:"Até 4 pessoas · atendimento e trabalho focado."},
 {name:"Sala de reunião",price:"R$ 59,90/h",desc:"Até 6 pessoas · reuniões executivas e encontros."},
@@ -239,7 +249,7 @@ function esc(v){return String(v||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&l
 
 function renderPlans(){
  const box=document.getElementById("plansList"); if(!box) return; box.innerHTML="";
- plans.forEach((p, idx)=>{
+ plans.forEach((p)=>{
   const d=document.createElement("div"); d.className="card";
   d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info"><strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small></div><div class="price">${esc(p.price)}</div></div>`;
   box.appendChild(d);
@@ -247,7 +257,7 @@ function renderPlans(){
 }
 function renderStructure(){
  const box=document.getElementById("structureList"); if(!box) return; box.innerHTML="";
- structure.forEach((s, idx)=>{
+ structure.forEach((s)=>{
   const d=document.createElement("div"); d.className="feature";
   d.innerHTML=`<div><div class="fi">${esc(s.icon)}</div><b>${esc(s.name)}</b><span>${esc(s.desc)}</span></div>`;
   box.appendChild(d);
@@ -272,6 +282,8 @@ async function callGeminiDirect(text, action, clientName, customContext){
   throw new Error("Sua Chave API não está configurada! Vá na aba 'Ajustes' e insira a chave do Google AI Studio.");
  }
 
+ const ai = new GoogleGenAI({ apiKey: apiKey.trim() });
+
  const promptUser = `Você é o assistente comercial oficial do Nellus Coworking (Volta Redonda/RJ).
 Responda diretamente à dúvida atual do cliente no WhatsApp.
 
@@ -294,40 +306,16 @@ INSTRUÇÕES DE RESPOSTA:
 2. Se ele perguntar sobre hora avulsa ou diária, informe os valores exatos de maneira amigável.
 3. Não use marcações em Markdown exageradas. Escreva uma mensagem pronta para enviar no WhatsApp.`;
 
- const cleanKey = apiKey.trim();
- 
- // Atualizado para o modelo gemini-3.6-flash
- const modelEndpoints = [
-   `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${cleanKey}`
- ];
+ // Usando a biblioteca oficial com o modelo flash recomendado
+ const response = await ai.models.generateContent({
+   model: 'gemini-2.5-flash',
+   contents: promptUser,
+ });
 
- let lastError = null;
-
- for (const url of modelEndpoints) {
-   try {
-     const response = await fetch(url, {
-       method: "POST",
-       headers: { "Content-Type": "application/json" },
-       body: JSON.stringify({
-         contents: [{ parts: [{ text: promptUser }] }]
-       })
-     });
-
-     const data = await response.json();
-
-     if (response.ok && data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-       return data.candidates[0].content.parts[0].text.trim();
-     }
-
-     if (data.error) {
-       lastError = data.error.message || `Erro HTTP ${response.status}`;
-     }
-   } catch (e) {
-     lastError = e.message;
-   }
+ if (response && response.text) {
+   return response.text.trim();
  }
-
- throw new Error(`Falha na API Gemini: ${lastError}`);
+ throw new Error("Não foi possível obter resposta do Gemini.");
 }
 
 async function run(){
