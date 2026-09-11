@@ -16,11 +16,15 @@
 }
 *{box-sizing:border-box} html,body{margin:0;min-height:100%;background:var(--bg);color:var(--white);
 font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-button,input,textarea{font:inherit} button{cursor:pointer}
+button,input,textarea,select{font:inherit} button{cursor:pointer}
 .app{max-width:820px;min-height:100vh;margin:auto;background:radial-gradient(circle at 80% 0%,rgba(8,127,106,.12),transparent 32%),var(--bg)}
 .top{height:82px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;
 position:sticky;top:0;z-index:10;background:rgba(5,8,6,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.logo{height:58px;width:175px;object-fit:contain;object-position:center}
+
+/* LOGO + ÍCONE NELLUS */
+.logo-box{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-0.03em;font-size:18px;color:#65cfb4}
+.logo-icon{width:32px;height:32px;display:block}
+
 main{padding:20px 17px 140px}.view{display:none}.view.active{display:block}
 .eyebrow{text-transform:uppercase;letter-spacing:.13em;color:#4ec4a9;font-weight:900;font-size:10px}
 h1{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:8px 0}
@@ -41,20 +45,19 @@ color:var(--white);transition:all .2s;cursor:pointer;position:relative}
 .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
 label{font-size:13px;font-weight:850}.count{font-size:10px;color:var(--muted)}
 .input-field{width:100%;margin-bottom:10px;border:1px solid var(--line);border-radius:13px;background:#070c0a;padding:10px 14px;color:var(--white);outline:none;font-size:13px}
+select.input-field{appearance:none;cursor:pointer}
 textarea{width:100%;min-height:160px;resize:vertical;border:1px solid var(--line);border-radius:15px;background:#070c0a;
 padding:14px;color:var(--white);outline:none;font-size:13px;line-height:1.55}
-textarea:focus,input:focus{border-color:#2f8e79;box-shadow:0 0 0 3px rgba(16,160,131,.10)}
+textarea:focus,input:focus,select:focus{border-color:#2f8e79;box-shadow:0 0 0 3px rgba(16,160,131,.10)}
 .primary{width:100%;margin-top:10px;border:0;border-radius:15px;padding:14px;background:var(--green);
 color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green2)}
 .result{display:none;margin-top:15px}.result-card{padding:15px;border:1px solid #21483d;border-radius:20px;background:#0b1511}
-.result-head{font-size:12px;font-weight:900;color:#63cfb5;margin-bottom:10px}
+.result-head{font-size:12px;font-weight:900;color:#63cfb5;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
 .suggestion{white-space:pre-wrap;background:#070c0a;border:1px solid var(--line);border-radius:15px;padding:15px;line-height:1.6;font-size:14px}
 .actions{display:flex;gap:8px;margin-top:9px}.secondary{flex:1;padding:11px;border-radius:13px;background:transparent;border:1px solid #2a4d43;color:#dceae5;font-weight:800}
 .cards{display:grid;gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
 .product{display:flex;gap:12px;align-items:center}.badge{width:43px;height:43px;border-radius:14px;background:#0d2a22;color:#62cdb4;display:grid;place-items:center;font-weight:900}
 .product .info{flex:1}.product strong{font-size:13px;display:block}.product small{font-size:11px;color:var(--muted);line-height:1.4}.price{color:#fff;font-size:12px;font-weight:900;white-space:nowrap}
-.row-actions{display:flex;gap:7px;margin-top:10px}.mini{border:1px solid var(--line);background:#0a100e;color:#bfe5da;border-radius:10px;padding:7px 11px;font-size:11px;font-weight:800;cursor:pointer}
-.mini:hover{border-color:#2d5b4f}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.feature{min-height:110px;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px}
 .feature .fi{font-size:20px;margin-bottom:8px}.feature b{font-size:12px}.feature span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:4px}
 .inline-edit{margin-top:10px;display:grid;gap:8px}
@@ -65,20 +68,31 @@ color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green
 .edit-actions{display:flex;gap:7px}
 .save{border:0;border-radius:12px;padding:9px 13px;background:#0d5e4f;color:#fff;font-weight:850;cursor:pointer}.save:hover{background:#10a083}
 .ghost{border:1px solid var(--line);background:transparent;color:#c7d7d1;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}
-
-/* CORREÇÃO DO MENU INFERIOR: Agora com 4 abas visíveis */
 .bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:820px;height:78px;padding:8px 12px max(8px,env(safe-area-inset-bottom));
 display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}
 .nav{border:0;background:transparent;color:#718078;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:800}.nav i{font-style:normal;font-size:18px}.nav.active{background:#0c251e;color:#65cfb4}
 .connection-pill{display:flex;align-items:center;gap:7px;border:1px solid #1f594b;background:#0b110f;color:#70d3bc;border-radius:999px;padding:8px 10px;font-size:10px;font-weight:850}
 .connection-dot{width:7px;height:7px;border-radius:50%;background:#10a083;box-shadow:0 0 0 3px rgba(16,160,131,.13)}
+.mode-tag{font-size:10px;padding:3px 8px;border-radius:6px;background:#133329;color:#65cfb4;border:1px solid #215e4f}
 @media(max-width:430px){.inline-edit .editgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top">
-<div style="font-weight:900;letter-spacing:-0.03em;font-size:18px;color:#65cfb4">Nellus Coworking</div>
+<div class="logo-box">
+  <svg class="logo-icon" viewBox="0 0 100 100" fill="none" stroke="#10a083" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="50" r="42"/>
+    <line x1="50" y1="20" x2="50" y2="80"/>
+    <line x1="50" y1="35" x2="33" y2="48"/>
+    <line x1="50" y1="35" x2="67" y2="48"/>
+    <line x1="50" y1="50" x2="33" y2="63"/>
+    <line x1="50" y1="50" x2="67" y2="63"/>
+    <line x1="50" y1="65" x2="35" y2="76"/>
+    <line x1="50" y1="65" x2="65" y2="76"/>
+  </svg>
+  <span>Nellus Coworking</span>
+</div>
 <div class="connection-pill"><span class="connection-dot"></span><span id="apiStatus">Ia Integrada</span></div>
 </header>
 
@@ -86,7 +100,7 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
 <section id="home" class="view active">
 <div class="hero">
 <div class="eyebrow">Nellus • Copiloto Comercial Pro</div>
-<h1>Atendimento Humano & <span class="accent">Zero Repetição.</span></h1>
+<h1>Atendimento</h1>
 <p class="sub">A IA analisa o histórico completo e não repete informações que você já enviou.</p>
 </div>
 
@@ -109,7 +123,16 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
 <textarea id="conversation" maxlength="6000" placeholder="Cole aqui o texto da conversa..."></textarea>
 <button class="primary" id="generate">✦ Gerar Próxima Mensagem Inteligente</button>
 </div>
-<div class="result" id="result"><div class="result-card"><div class="result-head" id="resultHead">● RESPOSTA SUGERIDA SEM REPETIÇÕES</div><div class="suggestion" id="suggestion"></div><div class="actions"><button class="secondary" id="copy">⧉ Copiar Mensagem</button></div></div></div>
+<div class="result" id="result">
+ <div class="result-card">
+  <div class="result-head">
+    <span>● RESPOSTA SUGERIDA</span>
+    <span id="usedEngineBadge" class="mode-tag">OpenAI</span>
+  </div>
+  <div class="suggestion" id="suggestion"></div>
+  <div class="actions"><button class="secondary" id="copy">⧉ Copiar Mensagem</button></div>
+ </div>
+</div>
 </section>
 
 <section id="plans" class="view">
@@ -124,13 +147,20 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
 <div id="structureList" class="grid"></div>
 </section>
 
-<!-- ABA AJUSTES / CHAVE API -->
 <section id="settings" class="view">
-<div class="eyebrow">Configurações</div><h1>Chave da IA (OpenAI)</h1><p class="sub">Insira sua chave da OpenAI (sk-...) para respostas 100% dinâmicas. Se deixada em branco, usaremos o motor de alta precisão local.</p>
+<div class="eyebrow">Configurações</div><h1>Motor do Copiloto</h1><p class="sub">Escolha como prefere que o sistema gere as respostas.</p>
+
 <div class="composer" style="margin-top:20px">
-<label style="display:block;margin-bottom:8px">OpenAI API Key (sk-...)</label>
+<label style="display:block;margin-bottom:8px">Modo de Operação Ativo</label>
+<select id="engineModeSelect" class="input-field" style="margin-bottom:15px">
+ <option value="openai">🤖 IA Modo OpenAI (API Ativa)</option>
+ <option value="local">⚡ Motor Inteligente Local (Gratuito / Offline)</option>
+</select>
+
+<label style="display:block;margin-bottom:8px">Chave API OpenAI (sk-...)</label>
 <input type="password" id="apiKeyInput" class="input-field" placeholder="sk-proj-..." style="margin-bottom:12px">
-<button class="save" id="saveApiKeyBtn">✓ Salvar Chave API</button>
+
+<button class="save" id="saveApiKeyBtn">✓ Salvar Configurações</button>
 </div>
 </section>
 </main>
@@ -165,22 +195,28 @@ const DEFAULT_STRUCTURE=[
 let plans=JSON.parse(localStorage.getItem("nellus_plans")||"null")||DEFAULT_PLANS;
 let structure=JSON.parse(localStorage.getItem("nellus_structure")||"null")||DEFAULT_STRUCTURE;
 let apiKey=localStorage.getItem("nellus_apikey")||"";
-let editingPlan=-1, editingStructure=-1;
+let engineMode=localStorage.getItem("nellus_enginemode")||"openai";
 
 document.getElementById("apiKeyInput").value = apiKey;
+document.getElementById("engineModeSelect").value = engineMode;
+
 document.getElementById("saveApiKeyBtn").onclick=()=>{
  apiKey = document.getElementById("apiKeyInput").value.trim();
+ engineMode = document.getElementById("engineModeSelect").value;
  localStorage.setItem("nellus_apikey", apiKey);
- alert("Chave API salva com sucesso!");
+ localStorage.setItem("nellus_enginemode", engineMode);
+ alert("Configurações salvas com sucesso!");
  updateApiStatus();
 };
 
 function updateApiStatus(){
  const st = document.getElementById("apiStatus");
- if(apiKey){
+ if(engineMode === "openai" && apiKey){
   st.textContent = "IA Modo OpenAI";
+ }else if(engineMode === "openai" && !apiKey){
+  st.textContent = "Sem Chave OpenAI";
  }else{
-  st.textContent = "Motor Inteligente Local";
+  st.textContent = "Motor Local Ativo";
  }
 }
 updateApiStatus();
@@ -195,71 +231,23 @@ function show(id){
 document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>show(b.dataset.view));
 
 function esc(v){return String(v||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function escAttr(v){return esc(v)}
 
 function renderPlans(){
  const box=document.getElementById("plansList"); if(!box) return; box.innerHTML="";
  plans.forEach((p,i)=>{
-  const d=document.createElement("div"); d.className="card"+(editingPlan===i?" editing":"");
-  if(editingPlan===i){
-   d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info"><strong>Editando plano</strong></div></div>
-    <div class="inline-edit">
-       <div class="editgrid"><input id="ep-name-${i}" value="${escAttr(p.name)}" placeholder="Nome"><input id="ep-price-${i}" value="${escAttr(p.price)}" placeholder="Preço"></div>
-       <div class="editgrid full"><input id="ep-desc-${i}" value="${escAttr(p.desc)}" placeholder="Descrição"></div>
-       <div class="edit-actions"><button class="save" onclick="saveInlinePlan(${i})">✓ Salvar</button><button class="ghost" onclick="cancelInlinePlan()">Cancelar</button></div>
-    </div>`;
-  }else{
-   d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info"><strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small></div><div class="price">${esc(p.price)}</div></div>
-   <div class="card-actions"><button class="mini" onclick="editPlan(${i})">✎ Editar</button><button class="mini" onclick="removePlan(${i})">Excluir</button></div>`;
-  }
+  const d=document.createElement("div"); d.className="card";
+  d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info"><strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small></div><div class="price">${esc(p.price)}</div></div>`;
   box.appendChild(d);
  });
 }
-function editPlan(i){editingPlan=i;editingStructure=-1;renderPlans();}
-function cancelInlinePlan(){editingPlan=-1;renderPlans()}
-function saveInlinePlan(i){
- const name=document.getElementById("ep-name-"+i).value.trim();
- const price=document.getElementById("ep-price-"+i).value.trim();
- const desc=document.getElementById("ep-desc-"+i).value.trim();
- if(!name||!price){alert("Preencha nome e preço.");return}
- plans[i]={name,price,desc};
- localStorage.setItem("nellus_plans",JSON.stringify(plans));
- editingPlan=-1;renderPlans();
-}
-function removePlan(i){if(confirm("Excluir plano?")){plans.splice(i,1);localStorage.setItem("nellus_plans",JSON.stringify(plans));renderPlans()}}
-document.getElementById("addPlanBtn").onclick=()=>{ plans.unshift({name:"",price:"",desc:""}); editingPlan=0; renderPlans(); };
-
 function renderStructure(){
  const box=document.getElementById("structureList"); if(!box) return; box.innerHTML="";
  structure.forEach((s,i)=>{
-  const d=document.createElement("div"); d.className="feature"+(editingStructure===i?" editing":"");
-  if(editingStructure===i){
-   d.innerHTML=`<div class="fi">${esc(s.icon)}</div><b>Editando</b>
-   <div class="inline-edit">
-    <div class="editgrid"><input id="es-name-${i}" value="${escAttr(s.name)}"><input id="es-icon-${i}" value="${escAttr(s.icon)}"></div>
-    <div class="editgrid full"><input id="es-desc-${i}" value="${escAttr(s.desc)}"></div>
-    <div class="edit-actions"><button class="save" onclick="saveInlineStructure(${i})">✓ Salvar</button><button class="ghost" onclick="cancelInlineStructure()">Cancelar</button></div>
-   </div>`;
-  }else{
-   d.innerHTML=`<div class="fi">${esc(s.icon)}</div><b>${esc(s.name)}</b><span>${esc(s.desc)}</span>
-   <div class="feature-actions"><button class="mini" onclick="editStructure(${i})">✎ Editar</button><button class="mini" onclick="removeStructure(${i})">Excluir</button></div>`;
-  }
+  const d=document.createElement("div"); d.className="feature";
+  d.innerHTML=`<div class="fi">${esc(s.icon)}</div><b>${esc(s.name)}</b><span>${esc(s.desc)}</span>`;
   box.appendChild(d);
  });
 }
-function editStructure(i){editingStructure=i;editingPlan=-1;renderStructure();}
-function cancelInlineStructure(){editingStructure=-1;renderStructure()}
-function saveInlineStructure(i){
- const name=document.getElementById("es-name-"+i).value.trim();
- const icon=document.getElementById("es-icon-"+i).value.trim()||"✨";
- const desc=document.getElementById("es-desc-"+i).value.trim();
- if(!name){alert("Preencha o título.");return}
- structure[i]={name,icon,desc};
- localStorage.setItem("nellus_structure",JSON.stringify(structure));
- editingStructure=-1;renderStructure();
-}
-function removeStructure(i){if(confirm("Excluir item?")){structure.splice(i,1);localStorage.setItem("nellus_structure",JSON.stringify(structure));renderStructure()}}
-document.getElementById("addStructureBtn").onclick=()=>{ structure.unshift({name:"",icon:"✨",desc:""}); editingStructure=0; renderStructure(); };
 renderPlans();renderStructure();
 
 let selectedAction = null;
@@ -274,7 +262,6 @@ document.querySelectorAll(".quick button").forEach(b=>{
 const conv=document.getElementById("conversation"), count=document.getElementById("count"), generate=document.getElementById("generate");
 conv.oninput=()=>{ count.textContent=conv.value.length+"/6000"; };
 
-// Chamada de IA OpenAI
 async function callOpenAI(text, action, clientName, customContext){
  const promptSystem = `Você é o Copiloto Comercial do Nellus Coworking em Volta Redonda/RJ. 
 Sua missão é gerar a PRÓXIMA MENSAGEM a ser enviada no WhatsApp para o cliente.
@@ -283,20 +270,18 @@ DADOS DO NOSSO COWORKING:
 - Planos: ${JSON.stringify(plans)}
 - Diferenciais: ${JSON.stringify(structure)}
 
-REGRA DE OURO (EXTREMAMENTE IMPORTANTE):
-1. NUNCA REPITA INFORMAÇÕES QUE JÁ FORAM DITAS NA CONVERSA OU QUE CONSTAM NO CONTEXTO.
-2. Se o vendedor avisou no campo "Contexto / O que você já fez" que JÁ ENVIOU FOTOS, VÍDEOS ou JÁ FALOU DO COFFEE BREAK/PREÇO, NÃO FALE DISSO NOVAMENTE!
-3. Avance a conversa com uma abordagem NOVA e natural (ex: convidar para vir tomar um café e conhecer a sala presencialmente, perguntar sobre a data do evento, duração, etc).
-4. USE A LINGUAGEM: "vir até o Nellus" ou "dar uma passadinha aqui no Nellus". NUNCA use expressões gírias como "dar um pulo".
-5. O tom deve ser extremamente cordial, acolhedor, profissional e focado em fechar negócio.
-6. Escreva APENAS a mensagem final que será enviada ao cliente no WhatsApp (sem aspas, sem explicações para o vendedor).`;
+REGRA DE OURO:
+1. NUNCA REPITA INFORMAÇÕES QUE JÁ FORAM DITAS NA CONVERSA OU NO CONTEXTO.
+2. Se o vendedor avisou que JÁ ENVIOU FOTOS, VÍDEOS ou JÁ FALOU DO COFFEE BREAK, NÃO FALE DISSO NOVAMENTE!
+3. Avance a conversa com uma abordagem NOVA (ex: convidar para vir tomar um café e conhecer a sala presencialmente).
+4. USE A LINGUAGEM: "vir até o Nellus" ou "dar uma passadinha aqui no Nellus". NUNCA use "dar um pulo".
+5. Escreva APENAS a mensagem final para o cliente.`;
 
  const promptUser = `
 Nome do Cliente: ${clientName || "Não informado"}
-Objetivo Desejado: ${action || "Consultivo / Continuar negociação"}
-Ações já realizadas pelo vendedor (Contexto): ${customContext || "Nenhuma ação extra relatada"}
-
-Histórico da conversa no WhatsApp:
+Objetivo Desejado: ${action || "Consultivo"}
+Contexto das ações já tomadas: ${customContext || "Nenhuma"}
+Histórico da conversa:
 """
 ${text}
 """
@@ -319,13 +304,12 @@ ${text}
  });
 
  if(!response.ok){
-  throw new Error("Erro na chamada da OpenAI: " + response.statusText);
+  throw new Error("Erro OpenAI: " + response.statusText);
  }
  const data = await response.json();
  return data.choices[0].message.content.trim();
 }
 
-// Fallback sem API com linguagem aprimorada ("dar uma passadinha" / "vir até o Nellus")
 function fallbackSmartResponse(text, action, clientName, customContext){
  const c = (customContext + " " + text).toLowerCase();
  const nameStr = clientName ? ` ${clientName}` : "";
@@ -335,9 +319,6 @@ function fallbackSmartResponse(text, action, clientName, customContext){
 
  if(photosSent && coffeeBreakSent){
   return `Olá${nameStr}! Passando para saber se você conseguiu dar uma olhadinha nas fotos e vídeos que te mandei da sala e do nosso espaço. Se quiser, você está super convidada para vir tomar um café com a gente e conhecer a estrutura de perto! Qual dia ficaria melhor para você dar uma passadinha aqui no Nellus?`;
- }
- if(photosSent){
-  return `Olá${nameStr}! Tudo bem? Deu para ter uma boa ideia do espaço pelas fotos e vídeos? Se quiser vir conhecer a sala de perto ou tirar alguma dúvida sobre datas, será um prazer te receber. Qual dia ficaria melhor para você vir até o Nellus?`;
  }
  return `Olá${nameStr}! Passando para ver se conseguiu avaliar a proposta para o seu espaço. Se ficou qualquer dúvida ou se quiser dar uma passadinha aqui no Nellus para conhecer presencialmente, estou à disposição!`;
 }
@@ -353,23 +334,30 @@ async function run(){
  }
 
  generate.disabled=true;
- generate.textContent="✦ Analisando e gerando resposta sem repetições...";
+ generate.textContent="✦ Gerando resposta...";
+
+ const badge = document.getElementById("usedEngineBadge");
 
  try{
   let msg = "";
-  if(apiKey){
+  if(engineMode === "openai" && apiKey){
    msg = await callOpenAI(text, selectedAction, clientName, customContext);
+   badge.textContent = "Gerado via OpenAI API 🤖";
+   badge.style.background = "#133329";
   }else{
-   await new Promise(r=>setTimeout(r, 300));
+   await new Promise(r=>setTimeout(r, 200));
    msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
+   badge.textContent = "Gerado via Motor Local ⚡";
+   badge.style.background = "#332213";
   }
   document.getElementById("suggestion").textContent = msg;
   document.getElementById("result").style.display = "block";
   document.getElementById("result").scrollIntoView({ behavior: "smooth" });
  }catch(err){
-  alert("Não foi possível conectar com a API da OpenAI. Usando o motor local.\n" + err.message);
+  alert("Falha na API OpenAI. Alternando para o Motor Local.\n" + err.message);
   const msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
   document.getElementById("suggestion").textContent = msg;
+  badge.textContent = "Gerado via Motor Local (Fallback) ⚡";
   document.getElementById("result").style.display = "block";
  }finally{
   generate.disabled = false;
