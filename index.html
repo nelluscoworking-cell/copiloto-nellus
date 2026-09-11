@@ -55,7 +55,6 @@ color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green
 .suggestion{white-space:pre-wrap;background:#070c0a;border:1px solid var(--line);border-radius:15px;padding:15px;line-height:1.6;font-size:14px}
 .actions{display:flex;gap:8px;margin-top:9px}.secondary{flex:1;padding:11px;border-radius:13px;background:transparent;border:1px solid #2a4d43;color:#dceae5;font-weight:800}
 
-/* Estilos de Edição Direta */
 .cards{display:grid;gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
 .product{display:flex;gap:12px;align-items:center;justify-content:space-between}.badge{width:43px;height:43px;border-radius:14px;background:#0d2a22;color:#62cdb4;display:grid;place-items:center;font-weight:900;flex-shrink:0}
 .product .info{flex:1}.product strong{font-size:13px;display:block}.product small{font-size:11px;color:var(--muted);line-height:1.4}.price{color:#fff;font-size:12px;font-weight:900;white-space:nowrap;margin-left:8px}
@@ -68,7 +67,6 @@ color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green
 .feature .fi{font-size:20px;margin-bottom:4px}.feature b{font-size:12px}.feature span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:2px}
 .save{border:0;border-radius:12px;padding:9px 15px;background:#0d5e4f;color:#fff;font-weight:850;cursor:pointer}.save:hover{background:#10a083}
 
-/* Formulários embutidos */
 .form-box{background:#0e1714;border:1px solid #1a3c33;border-radius:18px;padding:15px;margin-bottom:15px;display:none}
 .form-box.active{display:block}
 .form-box h3{margin:0 0 10px 0;font-size:14px;color:#65cfb4}
@@ -424,17 +422,17 @@ conv.oninput=()=>{ count.textContent=conv.value.length+"/6000"; };
 
 async function callGemini(text, action, clientName, customContext){
  const promptSystem = `Você é o Copiloto Comercial do Nellus Coworking em Volta Redonda/RJ.
-Sua missão é gerar a PRÓXIMA MENSAGEM a ser enviada no WhatsApp para o cliente.
+Sua missão é gerar a PRÓXIMA MENSAGEM a ser enviada no WhatsApp para o cliente. Respondendo DIRETAMENTE à pergunta feita por ele.
 
 DADOS DO NOSSO COWORKING:
 - Planos: ${JSON.stringify(plans)}
 - Diferenciais: ${JSON.stringify(structure)}
 
 TOM DE VOZ E LINGUAGEM HUMANA:
-1. Tom de conversa acolhedor, leve e profissional do WhatsApp (ex: "dar uma olhadinha nas fotos", "vir tomar um café").
-2. NUNCA REPITA INFORMAÇÕES QUE JÁ FORAM DITAS NA CONVERSA OU NO CONTEXTO.
-3. Se o vendedor avisou que JÁ ENVIOU FOTOS, VÍDEOS ou JÁ FALOU DO COFFEE BREAK, NÃO FALE DISSO NOVAMENTE!
-4. Para fechar ou agendar, pergunte sempre de forma natural: "Qual dia e horário fica melhor para você vir aqui no Nellus?" (use o verbo "vir").
+1. Responda exatamente o que o cliente perguntou na conversa.
+2. Tom acolhedor, leve e profissional do WhatsApp.
+3. NUNCA REPITA INFORMAÇÕES QUE JÁ FORAM DITAS NA CONVERSA OU NO CONTEXTO.
+4. Para fechar ou agendar, pergunte sempre de forma natural: "Qual dia e horário fica melhor para você vir aqui no Nellus?"
 5. Escreva APENAS a mensagem final para o cliente.`;
 
  const promptUser = `${promptSystem}
@@ -448,35 +446,38 @@ ${text}
 """`;
 
  const cleanKey = apiKey.trim();
- const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
+ const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
 
  const response = await fetch(url, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-   contents: [{ parts: [{ text: promptUser }] }]
+   contents: [{
+    parts: [{ text: promptUser }]
+   }]
   })
  });
 
  if (response.ok) {
   const data = await response.json();
-  return data.candidates[0].content.parts[0].text.trim();
+  if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+   return data.candidates[0].content.parts[0].text.trim();
+  }
  }
-
- throw new Error("Erro de conexão na API.");
+ 
+ const errText = await response.text();
+ console.error("Erro API Gemini:", response.status, errText);
+ throw new Error(`Falha na API (${response.status})`);
 }
 
 function fallbackSmartResponse(text, action, clientName, customContext){
- const c = (customContext + " " + text).toLowerCase();
+ const c = (text + " " + customContext).toLowerCase();
  const nameStr = clientName ? ` ${clientName}` : "";
 
- const photosSent = c.includes("foto") || c.includes("imagem") || c.includes("vídeo") || c.includes("video");
- const coffeeBreakSent = c.includes("coffee") || c.includes("café") || c.includes("buffet");
-
- if(photosSent && coffeeBreakSent){
-  return `Olá${nameStr}! Passando para saber se você conseguiu dar uma olhadinha nas fotos e vídeos que te mandei da sala e do nosso espaço. Se quiser, você está super convidada para vir tomar um café com a gente e conhecer a estrutura de perto! Qual dia e horário fica melhor para você vir aqui no Nellus?`;
+ if(c.includes("avulsa") || c.includes("hora") || c.includes("alugam")){
+  return `Olá${nameStr}! Sim, alugamos por hora avulsa sim! Nossas salas privativas saem a partir de R$ 45/h e a estação de trabalho por R$ 10/h. Para qual dia e horário você precisaria?`;
  }
- return `Olá${nameStr}! Passando para saber se você conseguiu avaliar a proposta da sala. Se ficou qualquer dúvida ou se quiser vir aqui no Nellus para tomar um café e conhecer a estrutura presencialmente, estou à disposição! Qual dia e horário fica melhor para você?`;
+ return `Olá${nameStr}! Sim, alugamos por hora avulsa sim! Como posso te ajudar com a reserva?`;
 }
 
 async function run(){
@@ -510,6 +511,7 @@ async function run(){
   document.getElementById("result").style.display = "block";
   document.getElementById("result").scrollIntoView({ behavior: "smooth" });
  }catch(err){
+  console.warn("Usando motor local de emergência:", err);
   const msg = fallbackSmartResponse(text, selectedAction, clientName, customContext);
   document.getElementById("suggestion").textContent = msg;
   badge.textContent = "Gerado via Motor Local (Segurança) ⚡";
