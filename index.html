@@ -29,33 +29,50 @@ h2{font-size:18px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;line-hei
 .hero{padding:22px;border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,#0d1714,#08100e);box-shadow:var(--shadow)}
 .hero strong{color:#fff}.hero .accent{color:#55cbb0}
 .section-title{display:flex;justify-content:space-between;align-items:center;margin:24px 0 11px}
-.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.quick button{
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.quick button{
 padding:14px;text-align:left;border:1px solid var(--line);border-radius:17px;background:var(--panel);
-color:var(--white);transition:.2s}.quick button:hover{border-color:#2d5b4f;transform:translateY(-1px)}
-.quick b{display:block;font-size:13px;margin-bottom:4px}.quick span{font-size:11px;color:var(--muted)}
+color:var(--white);transition:all .2s;cursor:pointer;position:relative}
+.quick button:hover{border-color:#2d5b4f;transform:translateY(-1px)}
+.quick button.selected{border-color:#10a083;background:#0c251e;box-shadow:0 0 0 2px rgba(16,160,131,.3)}
+.quick button.selected b{color:#65cfb4}
+.quick b{display:block;font-size:13px;margin-bottom:4px}
+.quick span{font-size:11px;color:var(--muted)}
 .composer{margin-top:13px;background:var(--panel);border:1px solid var(--line);border-radius:21px;padding:14px}
 .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
 label{font-size:13px;font-weight:850}.count{font-size:10px;color:var(--muted)}
-textarea{width:100%;min-height:190px;resize:vertical;border:1px solid var(--line);border-radius:15px;background:#070c0a;
+textarea{width:100%;min-height:170px;resize:vertical;border:1px solid var(--line);border-radius:15px;background:#070c0a;
 padding:14px;color:var(--white);outline:none;font-size:14px;line-height:1.55}
 textarea:focus,input:focus{border-color:#2f8e79;box-shadow:0 0 0 3px rgba(16,160,131,.10)}
 .primary{width:100%;margin-top:10px;border:0;border-radius:15px;padding:14px;background:var(--green);
-color:white;font-weight:900}.primary:hover{background:var(--green2)}
+color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green2)}
 .result{display:none;margin-top:15px}.result-card{padding:15px;border:1px solid #21483d;border-radius:20px;background:#0b1511}
 .result-head{font-size:12px;font-weight:900;color:#63cfb5;margin-bottom:10px}
 .suggestion{white-space:pre-wrap;background:#070c0a;border:1px solid var(--line);border-radius:15px;padding:15px;line-height:1.6;font-size:14px}
 .actions{display:flex;gap:8px;margin-top:9px}.secondary{flex:1;padding:11px;border-radius:13px;background:transparent;border:1px solid #2a4d43;color:#dceae5;font-weight:800}
-.error{display:none;margin-top:10px;padding:11px;border-radius:13px;background:#24100f;border:1px solid #54211e;color:#ffb2a9;font-size:12px}
 .cards{display:grid;gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
 .product{display:flex;gap:12px;align-items:center}.badge{width:43px;height:43px;border-radius:14px;background:#0d2a22;color:#62cdb4;display:grid;place-items:center;font-weight:900}
 .product .info{flex:1}.product strong{font-size:13px;display:block}.product small{font-size:11px;color:var(--muted);line-height:1.4}.price{color:#fff;font-size:12px;font-weight:900;white-space:nowrap}
+.row-actions{display:flex;gap:7px;margin-top:10px}.mini{border:1px solid var(--line);background:#0a100e;color:#bfe5da;border-radius:10px;padding:7px 11px;font-size:11px;font-weight:800;cursor:pointer}
+.mini:hover{border-color:#2d5b4f}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.feature{min-height:110px;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px}
 .feature .fi{font-size:20px;margin-bottom:8px}.feature b{font-size:12px}.feature span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:4px}
+.inline-edit{margin-top:10px;display:grid;gap:8px}
+.inline-edit .editgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.inline-edit .editgrid.full{grid-template-columns:1fr}
+.inline-edit input{font-size:12px;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:#060b09;color:#fff;outline:none}
+.editing{border-color:#2c7565;box-shadow:0 0 0 2px rgba(16,160,131,.08)}
+.edit-actions{display:flex;gap:7px}
+.edit-actions button{flex:1}
+.card-actions,.feature-actions{display:flex;gap:7px;margin-top:10px}
+.save{border:0;border-radius:12px;padding:9px 13px;background:#0d5e4f;color:#fff;font-weight:850;cursor:pointer}.save:hover{background:#10a083}
+.ghost{border:1px solid var(--line);background:transparent;color:#c7d7d1;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}
 .bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:820px;height:78px;padding:8px 12px max(8px,env(safe-area-inset-bottom));
 display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}
 .nav{border:0;background:transparent;color:#718078;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:800}.nav i{font-style:normal;font-size:18px}.nav.active{background:#0c251e;color:#65cfb4}
 .connection-pill{display:flex;align-items:center;gap:7px;border:1px solid #1f594b;background:#0b110f;color:#70d3bc;border-radius:999px;padding:8px 10px;font-size:10px;font-weight:850}
 .connection-dot{width:7px;height:7px;border-radius:50%;background:#10a083;box-shadow:0 0 0 3px rgba(16,160,131,.13)}
+@media(max-width:430px){.inline-edit .editgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -70,15 +87,15 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 <div class="hero">
 <div class="eyebrow">Nellus • Copiloto comercial</div>
 <h1>Venda melhor.<br><span class="accent">Converse naturalmente.</span></h1>
-<p class="sub">Cole a conversa do WhatsApp e receba a resposta comercial ideal.</p>
+<p class="sub">Selecione o objetivo desejado, cole a mensagem do cliente e gere a resposta perfeita.</p>
 </div>
 
-<div class="section-title"><h2>Ações rápidas</h2></div>
+<div class="section-title"><h2>Objetivo da resposta (toque para escolher)</h2></div>
 <div class="quick">
-<button data-action="gerar"><b>✨ Gerar resposta</b><span>Continuar com naturalidade</span></button>
-<button data-action="follow"><b>↗ Follow-up</b><span>Retomar contato sem cobrança</span></button>
-<button data-action="objecao"><b>💬 Tratar objeção</b><span>Preço, "vou pensar", etc.</span></button>
-<button data-action="fechamento"><b>✓ Fechar venda</b><span>Facilitar a reserva/pagamento</span></button>
+<button type="button" data-action="gerar" class="selected"><b>✨ Resposta consultiva</b><span>Atendimento completo e natural</span></button>
+<button type="button" data-action="follow"><b>↗ Follow-up</b><span>Retomar contato sem cobrança</span></button>
+<button type="button" data-action="objecao"><b>💬 Tratar objeção</b><span>Preço, "vou pensar", sócio</span></button>
+<button type="button" data-action="fechamento"><b>✓ Fechar venda</b><span>Direcionar reserva e pagamento</span></button>
 </div>
 
 <div class="composer">
@@ -86,32 +103,19 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 <textarea id="conversation" maxlength="6000" placeholder="Cole aqui a mensagem do cliente no WhatsApp..."></textarea>
 <button class="primary" id="generate">✦ Gerar próxima mensagem</button>
 </div>
-<div class="error" id="error"></div>
-<div class="result" id="result"><div class="result-card"><div class="result-head">● RESPOSTA SUGERIDA (PRONTA PARA O WHATSAPP)</div><div class="suggestion" id="suggestion"></div><div class="actions"><button class="secondary" id="copy">⧉ Copiar Mensagem</button></div></div></div>
+<div class="result" id="result"><div class="result-card"><div class="result-head" id="resultHead">● RESPOSTA SUGERIDA (PRONTA PARA O WHATSAPP)</div><div class="suggestion" id="suggestion"></div><div class="actions"><button class="secondary" id="copy">⧉ Copiar Mensagem</button></div></div></div>
 </section>
 
 <section id="plans" class="view">
-<div class="eyebrow">Base comercial</div><h1>Planos e preços</h1>
-<div class="cards" style="margin-top:14px">
-<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Sala privativa</strong><small>Até 4 pessoas · atendimento focado.</small></div><div class="price">R$ 45/h</div></div></div>
-<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Sala de reunião</strong><small>Até 6 pessoas · reuniões executivas.</small></div><div class="price">R$ 59,90/h</div></div></div>
-<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Sala de treinamento</strong><small>Até 12 pessoas · workshops e cursos.</small></div><div class="price">R$ 69,90/h</div></div></div>
-<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Estação de trabalho</strong><small>Compartilhado (08h às 18h).</small></div><div class="price">R$ 10/h ou R$ 420/mês</div></div></div>
-<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Sala fixa</strong><small>Até 6 pessoas · plano anual.</small></div><div class="price">R$ 1.900/mês</div></div></div>
-<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Endereço comercial</strong><small>Plano anual para apresentação.</small></div><div class="price">R$ 520/ano</div></div></div>
-<div class="card"><div class="product"><div class="badge">R$</div><div class="info"><strong>Endereço fiscal</strong><small>Plano anual para CNPJ.</small></div><div class="price">R$ 1.248/ano</div></div></div>
-</div>
+<div class="eyebrow">Base comercial</div><h1>Planos e preços</h1><p class="sub">Mantenha os valores atualizados. O copiloto usa automaticamente esses preços ao responder!</p>
+<div class="section-title" style="margin-top:16px"><h2>Seus planos</h2><button class="save" id="addPlanBtn">＋ Adicionar plano</button></div>
+<div id="plansList" class="cards"></div>
 </section>
 
 <section id="structure" class="view">
-<div class="eyebrow">Estrutura</div><h1>Diferenciais Nellus</h1>
-<div class="grid" style="margin-top:14px">
-<div class="feature"><div class="fi">📶</div><b>Internet Rápida</b><span>Alta estabilidade para chamadas e trabalho.</span></div>
-<div class="feature"><div class="fi">☕</div><b>Café e Água</b><span>Cortesia durante toda a permanência.</span></div>
-<div class="feature"><div class="fi">🙋</div><b>Recepcionista</b><span>Atendimento profissional para receber seus clientes.</span></div>
-<div class="feature"><div class="fi">🍽️</div><b>Copa Compartilhada</b><span>Geladeira, micro-ondas e sanduicheira.</span></div>
-<div class="feature"><div class="fi">📍</div><b>Localização Nobre</b><span>Vila Santa Cecília, Volta Redonda/RJ.</span></div>
-</div>
+<div class="eyebrow">Estrutura</div><h1>Diferenciais Nellus</h1><p class="sub">Atualize os diferenciais da unidade para valorizar nas conversas.</p>
+<div class="section-title" style="margin-top:16px"><h2>Seus diferenciais</h2><button class="save" id="addStructureBtn">＋ Adicionar diferencial</button></div>
+<div id="structureList" class="grid"></div>
 </section>
 </main>
 
@@ -123,6 +127,27 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 </div>
 
 <script>
+const DEFAULT_PLANS=[
+{name:"Sala privativa",price:"R$ 45/h",desc:"Até 4 pessoas · atendimento e trabalho focado."},
+{name:"Sala de reunião",price:"R$ 59,90/h",desc:"Até 6 pessoas · reuniões executivas e encontros."},
+{name:"Sala de treinamento",price:"R$ 69,90/h",desc:"Até 12 pessoas · cursos, palestras e workshops."},
+{name:"Estação de trabalho",price:"R$ 10/h",desc:"Uso compartilhado profissional (08h às 18h)."},
+{name:"Sala fixa",price:"R$ 1.900/mês",desc:"Até 6 pessoas · plano anual (60 dias sem multa)."},
+{name:"Endereço comercial",price:"R$ 520/ano",desc:"Plano anual para apresentação profissional."},
+{name:"Endereço fiscal",price:"R$ 1.248/ano",desc:"Plano anual ligado ao CNPJ da empresa."}
+];
+const DEFAULT_STRUCTURE=[
+{name:"Internet Rápida",icon:"📶",desc:"Alta estabilidade para chamadas e trabalho."},
+{name:"Café e Água",icon:"☕",desc:"Cortesia e praticidade durante toda a permanência."},
+{name:"Recepcionista",icon:"🙋",desc:"Atendimento profissional para recepcionar seus clientes."},
+{name:"Copa Compartilhada",icon:"🍽️",desc:"Geladeira, micro-ondas e sanduicheira disponíveis."},
+{name:"Localização Nobre",icon:"📍",desc:"Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ."}
+];
+
+let plans=JSON.parse(localStorage.getItem("nellus_plans")||"null")||DEFAULT_PLANS;
+let structure=JSON.parse(localStorage.getItem("nellus_structure")||"null")||DEFAULT_STRUCTURE;
+let editingPlan=-1, editingStructure=-1;
+
 function show(id){
  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
  const target = document.getElementById(id);
@@ -132,82 +157,184 @@ function show(id){
 }
 document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>show(b.dataset.view));
 
+function esc(v){return String(v||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function escAttr(v){return esc(v)}
+
+function renderPlans(){
+ const box=document.getElementById("plansList"); if(!box) return; box.innerHTML="";
+ plans.forEach((p,i)=>{
+  const d=document.createElement("div"); d.className="card"+(editingPlan===i?" editing":"");
+  if(editingPlan===i){
+   d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info">
+      <strong>Editando plano</strong><small>Altere os dados e clique em Salvar.</small>
+   </div></div>
+   <div class="inline-edit">
+      <div class="editgrid"><input id="ep-name-${i}" value="${escAttr(p.name)}" placeholder="Nome do plano"><input id="ep-price-${i}" value="${escAttr(p.price)}" placeholder="Preço (ex: R$ 45/h)"></div>
+      <div class="editgrid full"><input id="ep-desc-${i}" value="${escAttr(p.desc)}" placeholder="Descrição curta"></div>
+      <div class="edit-actions"><button class="save" onclick="saveInlinePlan(${i})">✓ Salvar</button><button class="ghost" onclick="cancelInlinePlan()">Cancelar</button></div>
+   </div>`;
+  }else{
+   d.innerHTML=`<div class="product"><div class="badge">R$</div><div class="info"><strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small></div><div class="price">${esc(p.price)}</div></div>
+   <div class="card-actions"><button class="mini" onclick="editPlan(${i})">✎ Editar</button><button class="mini" onclick="removePlan(${i})">Excluir</button></div>`;
+  }
+  box.appendChild(d);
+ });
+}
+function editPlan(i){editingPlan=i;editingStructure=-1;renderPlans();setTimeout(()=>document.getElementById("ep-name-"+i)?.focus(),30)}
+function cancelInlinePlan(){editingPlan=-1;renderPlans()}
+function saveInlinePlan(i){
+ const name=document.getElementById("ep-name-"+i).value.trim();
+ const price=document.getElementById("ep-price-"+i).value.trim();
+ const desc=document.getElementById("ep-desc-"+i).value.trim();
+ if(!name||!price){alert("Preencha o nome e o preço.");return}
+ plans[i]={name,price,desc};
+ localStorage.setItem("nellus_plans",JSON.stringify(plans));
+ editingPlan=-1;renderPlans();
+}
+function removePlan(i){if(confirm("Excluir este plano?")){plans.splice(i,1);localStorage.setItem("nellus_plans",JSON.stringify(plans));renderPlans()}}
+document.getElementById("addPlanBtn").onclick=()=>{
+ plans.unshift({name:"",price:"",desc:""});
+ editingPlan=0;
+ renderPlans();
+};
+
+function renderStructure(){
+ const box=document.getElementById("structureList"); if(!box) return; box.innerHTML="";
+ structure.forEach((s,i)=>{
+  const d=document.createElement("div"); d.className="feature"+(editingStructure===i?" editing":"");
+  if(editingStructure===i){
+   d.innerHTML=`<div class="fi">${esc(s.icon)}</div><b>Editando diferencial</b>
+   <div class="inline-edit">
+    <div class="editgrid"><input id="es-name-${i}" value="${escAttr(s.name)}" placeholder="Título"><input id="es-icon-${i}" value="${escAttr(s.icon)}" placeholder="Ícone (emoji)"></div>
+    <div class="editgrid full"><input id="es-desc-${i}" value="${escAttr(s.desc)}" placeholder="Descrição"></div>
+    <div class="edit-actions"><button class="save" onclick="saveInlineStructure(${i})">✓ Salvar</button><button class="ghost" onclick="cancelInlineStructure()">Cancelar</button></div>
+   </div>`;
+  }else{
+   d.innerHTML=`<div class="fi">${esc(s.icon)}</div><b>${esc(s.name)}</b><span>${esc(s.desc)}</span>
+   <div class="feature-actions"><button class="mini" onclick="editStructure(${i})">✎ Editar</button><button class="mini" onclick="removeStructure(${i})">Excluir</button></div>`;
+  }
+  box.appendChild(d);
+ });
+}
+function editStructure(i){editingStructure=i;editingPlan=-1;renderStructure();setTimeout(()=>document.getElementById("es-name-"+i)?.focus(),30)}
+function cancelInlineStructure(){editingStructure=-1;renderStructure()}
+function saveInlineStructure(i){
+ const name=document.getElementById("es-name-"+i).value.trim();
+ const icon=document.getElementById("es-icon-"+i).value.trim()||"•";
+ const desc=document.getElementById("es-desc-"+i).value.trim();
+ if(!name){alert("Preencha o título.");return}
+ structure[i]={name,icon,desc};
+ localStorage.setItem("nellus_structure",JSON.stringify(structure));
+ editingStructure=-1;renderStructure();
+}
+function removeStructure(i){if(confirm("Excluir este item?")){structure.splice(i,1);localStorage.setItem("nellus_structure",JSON.stringify(structure));renderStructure()}}
+document.getElementById("addStructureBtn").onclick=()=>{
+ structure.unshift({name:"",icon:"✨",desc:""});
+ editingStructure=0;
+ renderStructure();
+};
+renderPlans();renderStructure();
+
+let selectedAction = "gerar";
+document.querySelectorAll(".quick button").forEach(b=>{
+ b.onclick=()=>{
+  const act=b.dataset.action;
+  if(selectedAction===act && act!=="gerar"){
+   selectedAction="gerar";
+  }else{
+   selectedAction=act;
+  }
+  document.querySelectorAll(".quick button").forEach(x=>x.classList.toggle("selected",x.dataset.action===selectedAction));
+ };
+});
+
 const conv=document.getElementById("conversation"), count=document.getElementById("count"), generate=document.getElementById("generate");
 conv.oninput=()=>{ count.textContent=conv.value.length+"/6000"; };
 
-const objectives={
- follow:"[OBJETIVO: Follow-up curto sem cobrança]",
- objecao:"[OBJETIVO: Tratar objeção valorizando o serviço]",
- fechamento:"[OBJETIVO: Fechar venda / orientar reserva]"
-};
-document.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>{
- let a=b.dataset.action;
- if(a==="gerar"){ conv.focus(); return; }
- conv.value = (conv.value.trim() + "\n\n" + objectives[a]).trim();
- conv.focus();
- count.textContent=conv.value.length+"/6000";
-});
+function getPlanPrice(nameSubstr, fallback){
+ const p=plans.find(x=>x.name.toLowerCase().includes(nameSubstr.toLowerCase()));
+ return p ? p.price : fallback;
+}
 
-// CÉREBRO COMERCIAL INTELIGENTE DO NELLUS (INFALÍVEL E IMEDIATO)
-function generateNellusResponse(text){
+function generateNellusResponse(text, action){
  const t = text.toLowerCase();
- 
- if(t.includes("fora do horário") || t.includes("final de semana") || t.includes("fim de semana") || t.includes("sábado") || t.includes("domingo") || t.includes("noite")){
-  return "Boa noite! Sim, atendemos fora do horário comercial e aos finais de semana com agendamento prévio. Nesses horários, temos um adicional de 20% sobre o valor da hora da sala, com toda a nossa estrutura inclusa (recepção, internet, café e copa). Você precisaria para qual dia e para quantas pessoas?";
- }
- 
- if(t.includes("follow") || t.includes("sumiu") || t.includes("vácuo") || t.includes("não respondeu")){
-  return "Oi! Tudo bem por aí? Passando só para ver se você conseguiu avaliar a sala para o seu atendimento. Se ficou qualquer dúvida sobre valores ou horários, estou por aqui!";
- }
- 
- if(t.includes("caro") || t.includes("preço alto") || t.includes("desconto")){
-  return "Entendo perfeitamente! Uma opção que muitos profissionais usam aqui para economizar são os nossos pacotes de horas: por exemplo, no pacote de 16h a hora da privativa sai por apenas R$ 25 (em vez de R$ 45). Você pretende atender com qual frequência na semana?";
- }
- 
- if(t.includes("pensar") || t.includes("vou ver")){
-  return "Com certeza, fique super à vontade! Você está avaliando mais a questão do investimento ou ficou alguma dúvida sobre a nossa estrutura que eu possa te ajudar a esclarecer?";
- }
- 
- if(t.includes("sócio") || t.includes("parceir")){
-  return "Sem problemas! Se você quiser, posso te mandar uma mensagem bem resumida com a opção recomendada e os valores certinhos, aí você só encaminha para ele. O que acha?";
+ const privativaPrice = getPlanPrice("privativa", "R$ 45/h");
+ const reuniaoPrice = getPlanPrice("reunião", "R$ 59,90/h");
+ const treinamentoPrice = getPlanPrice("treinamento", "R$ 69,90/h");
+ const estacaoPrice = getPlanPrice("estação", "R$ 10/h");
+ const fixaPrice = getPlanPrice("fixa", "R$ 1.900/mês");
+ const fiscalPrice = getPlanPrice("fiscal", "R$ 1.248/ano");
+ const comercialPrice = getPlanPrice("comercial", "R$ 520/ano");
+
+ if(action === "follow"){
+  if(t.includes("privativa") || t.includes("atendimento") || t.includes("psicólog") || t.includes("terapeut")){
+   return `Oi! Tudo bem? Passando para ver se você conseguiu avaliar a sala privativa (${privativaPrice}) para o seu atendimento. Se ficou alguma dúvida de horários ou pacotes, estou por aqui!`;
+  }
+  if(t.includes("reunião")){
+   return `Olá! Tudo bem? Passando para saber se vocês já definiram a data para a reunião. A nossa sala de reunião (${reuniaoPrice}) está disponível com toda a estrutura pronta. Quer que eu verifique a agenda para você?`;
+  }
+  if(t.includes("treinamento") || t.includes("curso") || t.includes("workshop")){
+   return `Oi! Tudo bem por aí? Gostaria de saber se vocês já têm a previsão de data para o treinamento. Consigo checar a disponibilidade da sala de treinamento (${treinamentoPrice}) para vocês!`;
+  }
+  if(t.includes("fiscal") || t.includes("cnpj")){
+   return `Olá! Tudo bem? Passando para ver se você conseguiu verificar com a contabilidade sobre o endereço fiscal (${fiscalPrice}). Se precisar de mais informações sobre nossa inscrição municipal, estou à disposição!`;
+  }
+  return "Oi! Tudo bem por aí? Passando só para ver se você conseguiu avaliar as opções que conversamos para o seu espaço. Se ficou qualquer dúvida de valores ou estrutura, me avise por aqui!";
  }
 
- if(t.includes("fechar") || t.includes("reservar") || t.includes("pagar") || t.includes("pix") || t.includes("cartão") || t.includes("disponibilidade") || t.includes("agenda")){
-  return "Perfeito! Para eu já organizar a sua reserva e confirmar a disponibilidade certinha, qual seria a data e o horário que você gostaria? Assim já te passo os próximos passos!";
+ if(action === "objecao"){
+  if(t.includes("caro") || t.includes("preço") || t.includes("desconto") || t.includes("orçamento")){
+   return `Entendo perfeitamente a sua preocupação com o investimento! Uma excelente alternativa que muitos profissionais usam aqui são os nossos pacotes de horas para a sala privativa, onde o valor por hora cai bastante (a partir de R$ 23 a R$ 25/h em vez de ${privativaPrice}). Com qual frequência você pretende usar?`;
+  }
+  if(t.includes("sócio") || t.includes("parceir") || t.includes("diretoria") || t.includes("equipe")){
+   return "Sem problemas! Se você quiser, posso preparar uma mensagem resumida com a opção mais indicada e os valores certinhos, aí fica super prático para você só encaminhar para eles avaliarem. O que acha?";
+  }
+  if(t.includes("concorrente") || t.includes("outro") || t.includes("pesquisando")){
+   return "Com certeza, comparar é fundamental! Nosso diferencial aqui na Vila Santa Cecília é ter a estrutura 100% pronta: recepcionista para acolher seus clientes, internet de alta velocidade, café, água e copa compartilhada inclusos, sem você se preocupar com custos extras de manutenção. Se quiser vir tomar um café e conhecer sem compromisso, será um prazer te receber!";
+  }
+  return "Com certeza, fique super à vontade para avaliar! Você está analisando mais a questão do investimento ou ficou algum ponto sobre a nossa estrutura que eu possa te ajudar a esclarecer?";
  }
- 
+
+ if(action === "fechamento"){
+  return "Perfeito! Para eu já organizar a sua reserva e garantir o horário na agenda, qual seria a data e o período que você precisa? Assim já te envio as instruções para confirmação!";
+ }
+
+ if(t.includes("fora do horário") || t.includes("final de semana") || t.includes("fim de semana") || t.includes("sábado") || t.includes("domingo") || t.includes("noite")){
+  return "Boa noite! Sim, atendemos fora do horário comercial e aos finais de semana com agendamento prévio. Nesses horários, temos um adicional de 20% sobre o valor da hora da sala, com toda a nossa estrutura inclusa (recepção, internet, café e copa compartilhada). Você precisaria para qual dia e para quantas pessoas?";
+ }
+
  if(t.includes("treinamento") || t.includes("curso") || t.includes("workshop") || t.includes("12 pessoas") || t.includes("palestra")){
-  return "A nossa sala de treinamento comporta até 12 pessoas e o valor é R$ 69,90 por hora (e para locações acima de 5h fora do horário comercial sai a R$ 65/h). Já inclui recepção, internet de alta velocidade, café, água e uso da copa. Você já tem uma data prevista?";
+  return `A nossa sala de treinamento comporta até 12 pessoas e o valor é ${treinamentoPrice} (e para locações acima de 5 horas fora do horário comercial sai a R$ 65/h). Já inclui recepção, internet de alta velocidade, café, água e uso da copa. Você já tem uma data prevista?`;
  }
- 
+
  if(t.includes("reunião") || t.includes("6 pessoas")){
-  return "A nossa sala de reunião acomoda até 6 pessoas com conforto por R$ 59,90/h, com internet rápida, recepcionista para receber seus convidados, café e água inclusos. Seria para uma reunião pontual ou você precisa com frequência?";
+  return `A nossa sala de reunião acomoda até 6 pessoas com conforto por ${reuniaoPrice}, com internet rápida, recepcionista para receber seus convidados, café e água inclusos. Seria para uma reunião pontual ou com frequência?`;
  }
- 
+
  if(t.includes("estação") || t.includes("mesa") || t.includes("coworking") || t.includes("compartilhad")){
-  return "Nossa estação de trabalho compartilhada fica R$ 10 por hora ou R$ 420 no plano mensal (de segunda a sexta, das 08h às 18h), com internet de alta performance e café à vontade. Você prefere usar por horas avulsas ou busca um plano mensal?";
+  return `Nossa estação de trabalho compartilhada fica ${estacaoPrice} ou R$ 420 no plano mensal (de segunda a sexta, das 08h às 18h), com internet de alta performance e café à vontade. Você prefere usar por horas avulsas ou busca um plano mensal?`;
  }
- 
+
  if(t.includes("sala fixa") || t.includes("mensal") || t.includes("exclusiva")){
-  return "Nossa sala fixa comporta até 6 pessoas por R$ 1.900/mês no plano anual (com saída sem multa mediante aviso prévio de 60 dias). O valor já inclui tudo: energia, condomínio, IPTU, limpeza diária, recepção e internet. Qual é o ramo de atividade de vocês?";
+  return `Nossa sala fixa comporta até 6 pessoas por ${fixaPrice} no plano anual (com saída sem multa mediante aviso prévio de 60 dias). O valor já inclui tudo: energia, condomínio, IPTU, limpeza diária, recepção e internet. Qual é o ramo de atividade de vocês?`;
  }
- 
+
  if(t.includes("fiscal") || t.includes("cnpj") || t.includes("abrir empresa")){
-  return "O nosso endereço fiscal fica R$ 1.248/ano (podendo parcelar em até 12x no cartão) e você pode usar nossa inscrição municipal para abrir ou transferir seu CNPJ. (Recebimento de encomendas é opcional por R$ 39,90/mês). Você está abrindo empresa agora ou alterando endereço?";
+  return `O nosso endereço fiscal fica ${fiscalPrice} (podendo parcelar em até 12x no cartão) e você pode usar nossa inscrição municipal para abrir ou transferir seu CNPJ. (Recebimento de encomendas é opcional por R$ 39,90/mês). Você está abrindo empresa agora ou alterando endereço?`;
  }
- 
+
  if(t.includes("comercial") || t.includes("divulga") || t.includes("cartão de visita")){
-  return "O nosso endereço comercial é R$ 520/ano (em até 3x no cartão). É ideal para divulgar uma localização nobre em materiais, redes sociais e cartões de visita na Vila Santa Cecília. Seria para esse objetivo?";
+  return `O nosso endereço comercial é ${comercialPrice} (em até 3x no cartão). É ideal para divulgar uma localização nobre em materiais, redes sociais e cartões de visita na Vila Santa Cecília. Seria para esse objetivo?`;
  }
- 
+
  if(t.includes("privativa") || t.includes("atendimento") || t.includes("psicólog") || t.includes("terapeut") || t.includes("4 pessoas")){
-  return "A nossa sala privativa é perfeita para atendimentos focados e comporta até 4 pessoas por R$ 45/h. Para quem atende toda semana, temos pacotes com valor a partir de R$ 23/h a R$ 25/h. Você pretende atender quantas vezes por semana?";
+  return `A nossa sala privativa é perfeita para atendimentos focados e comporta até 4 pessoas por ${privativaPrice}. Para quem atende toda semana, temos pacotes com valor a partir de R$ 23/h a R$ 25/h (como 16h por R$ 400). Você pretende atender quantas vezes por semana?`;
  }
- 
+
  if(t.includes("preço") || t.includes("valor") || t.includes("quanto custa") || t.includes("tabela")){
-  return "Temos várias opções conforme a sua necessidade: sala privativa a R$ 45/h (ou a partir de R$ 25/h no pacote), sala de reunião por R$ 59,90/h, treinamento por R$ 69,90/h e estação compartilhada a R$ 10/h. Para eu te indicar a melhor opção, você precisa para quantas pessoas e qual a finalidade?";
+  return `Temos várias opções conforme a sua necessidade: sala privativa (${privativaPrice} ou a partir de R$ 25/h no pacote), sala de reunião (${reuniaoPrice}), treinamento (${treinamentoPrice}) e estação compartilhada (${estacaoPrice}). Para eu te indicar a melhor opção, você precisa para quantas pessoas e qual a finalidade?`;
  }
- 
+
  return "Olá! Tudo bem? Aqui no Nellus Coworking (na Vila Santa Cecília) temos salas privativas de atendimento, reunião, treinamento, estações compartilhadas e endereço fiscal/comercial, com café, internet e recepção inclusos. Me conta: para qual tipo de uso ou para quantas pessoas você precisa?";
 }
 
@@ -219,19 +346,16 @@ async function run(){
   return;
  }
  generate.disabled=true;
- generate.textContent="✦ Gerando resposta...";
- document.getElementById("error").style.display="none";
- document.getElementById("result").style.display="none";
+ generate.textContent="✦ Gerando resposta ideal...";
 
- // Resposta instantânea, inteligente e garantida do Nellus Coworking
  setTimeout(()=>{
-  const msg = generateNellusResponse(text);
+  const msg = generateNellusResponse(text, selectedAction);
   document.getElementById("suggestion").textContent = msg;
   document.getElementById("result").style.display = "block";
   document.getElementById("result").scrollIntoView({ behavior: "smooth" });
   generate.disabled = false;
   generate.textContent = "✦ Gerar próxima mensagem";
- }, 350);
+ }, 150);
 }
 
 generate.onclick = run;
@@ -239,9 +363,4 @@ document.getElementById("copy").onclick = async()=>{
  try{
   await navigator.clipboard.writeText(document.getElementById("suggestion").textContent);
   document.getElementById("copy").textContent="✓ Copiado com sucesso!";
-  setTimeout(()=>document.getElementById("copy").textContent="⧉ Copiar Mensagem", 1500);
- }catch{}
-};
-</script>
-</body>
-</html>
+  setTimeout(()=>document.getElementById("copy").textContent="⧉ Copiar Mens
