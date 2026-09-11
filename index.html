@@ -55,7 +55,7 @@ color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green
 .suggestion{white-space:pre-wrap;background:#070c0a;border:1px solid var(--line);border-radius:15px;padding:15px;line-height:1.6;font-size:14px}
 .actions{display:flex;gap:8px;margin-top:9px}.secondary{flex:1;padding:11px;border-radius:13px;background:transparent;border:1px solid #2a4d43;color:#dceae5;font-weight:800}
 
-/* Estilos de Edição Directa */
+/* Estilos de Edição Direta */
 .cards{display:grid;gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
 .product{display:flex;gap:12px;align-items:center;justify-content:space-between}.badge{width:43px;height:43px;border-radius:14px;background:#0d2a22;color:#62cdb4;display:grid;place-items:center;font-weight:900;flex-shrink:0}
 .product .info{flex:1}.product strong{font-size:13px;display:block}.product small{font-size:11px;color:var(--muted);line-height:1.4}.price{color:#fff;font-size:12px;font-weight:900;white-space:nowrap;margin-left:8px}
@@ -68,7 +68,7 @@ color:white;font-weight:900;transition:.2s}.primary:hover{background:var(--green
 .feature .fi{font-size:20px;margin-bottom:4px}.feature b{font-size:12px}.feature span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:2px}
 .save{border:0;border-radius:12px;padding:9px 15px;background:#0d5e4f;color:#fff;font-weight:850;cursor:pointer}.save:hover{background:#10a083}
 
-/* Formulários de cadastro rápido embutidos */
+/* Formulários embutidos */
 .form-box{background:#0e1714;border:1px solid #1a3c33;border-radius:18px;padding:15px;margin-bottom:15px;display:none}
 .form-box.active{display:block}
 .form-box h3{margin:0 0 10px 0;font-size:14px;color:#65cfb4}
@@ -148,7 +148,6 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
  <button class="save" id="togglePlanFormBtn">＋ Criar Novo Plano</button>
 </div>
 
-<!-- Form embutido Plano -->
 <div id="planForm" class="form-box">
  <h3>Adicionar / Editar Plano</h3>
  <input type="hidden" id="editPlanIndex" value="-1">
@@ -173,7 +172,6 @@ display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(7,11,9,
  <button class="save" id="toggleStructureFormBtn">＋ Criar Diferencial</button>
 </div>
 
-<!-- Form embutido Estrutura -->
 <div id="structureForm" class="form-box">
  <h3>Adicionar / Editar Diferencial</h3>
  <input type="hidden" id="editStructureIndex" value="-1">
@@ -450,7 +448,8 @@ ${text}
 """`;
 
  const cleanKey = apiKey.trim();
- const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${cleanKey}`;
+ // MODELO ESTÁVEL: gemini-2.5-flash
+ const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cleanKey}`;
 
  const response = await fetch(url, {
   method: "POST",
