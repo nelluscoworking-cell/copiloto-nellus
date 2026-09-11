@@ -2331,6 +2331,301 @@ window.nellusV32={version:'32',pricingCopy:'O investimento é de R$ 1.248; à vi
   window.v36StageControl={setStage:window.v36SetStage,render};
 })();
 </script>
+
+
+<!-- V36.3 — Motor Unificado: um único caminho de geração, contexto do gestor + memória de estágio -->
+<script id="v363-unified-motor">
+(function(){
+  'use strict';
+  const clean36=v=>String(v??'').trim();
+  const norm36=v=>typeof norm==='function'?norm(v):clean36(v).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+
+  function getMemory36(phone){
+    try{
+      if(window.v35StageMemory && typeof window.v35StageMemory.get==='function') return window.v35StageMemory.get(phone);
+      const k=typeof normalizePhone==='function'?normalizePhone(phone):clean36(phone).replace(/\D/g,'').slice(-13);
+      return (window.contacts&&k)?window.contacts[k]:null;
+    }catch(e){return null;}
+  }
+
+  function memoryText36(phone){
+    try{
+      if(typeof window.contactMemoryText==='function') return window.contactMemoryText(phone);
+      if(typeof contactMemoryText==='function') return contactMemoryText(phone);
+    }catch(e){}
+    return '';
+  }
+
+  function remember36(phone,name,client,reply,analysis,action){
+    try{
+      /* V35 instalou a memória persistente em window.v35StageMemory.
+         Usamos explicitamente essa referência para não cair no rememberInteraction
+         lexical das versões antigas. */
+      if(window.v35StageMemory && typeof window.v35StageMemory.remember==='function'){
+        window.v35StageMemory.remember(phone,name,client,reply,analysis,action);
+        return;
+      }
+      if(typeof window.rememberInteraction==='function') window.rememberInteraction(phone,name,client,reply,analysis,action);
+    }catch(e){console.warn('V36.3 memória:',e);}
+  }
+
+  function extractClient36(text){
+    try{
+      const x=typeof v8ExtractClientText==='function'?v8ExtractClientText(text):'';
+      return clean36(x)||clean36(text);
+    }catch(e){return clean36(text);}
+  }
+
+  function lastSpeaker36(text){
+    try{return typeof v36ConversationMeta==='function'?v36ConversationMeta(text).lastSpeaker:'desconhecido';}catch(e){return 'desconhecido';}
+  }
+
+  function deterministic36(client,name,context,analysis){
+    const g=name?`Olá, ${name}!`:'Olá!';
+    const t=norm36(client), ctx=norm36(context);
+    const intent=analysis?.intent|| (typeof detectIntent==='function'?detectIntent(client):'geral');
+    /* Se a empresa foi a última a falar, não trate a própria fala como uma pergunta do cliente. */
+    if(lastSpeaker36(document.getElementById('conversation')?.value||'')==='empresa'){
+      if(intent==='horario') return `${g} Entendi. Como eu já te passei as informações anteriores, fico à disposição para avançarmos com o que você precisar.`;
+      if(intent==='preco') return `${g} Perfeito. As informações e valores já foram enviados. Se quiser, posso te ajudar a avançar com a opção mais adequada.`;
+      if(intent==='disponibilidade') return `${g} Perfeito. Já te passei as informações disponíveis. Se me confirmar a data e o horário, posso te orientar sobre o próximo passo.`;
+      return `${g} Perfeito. Já te passei essas informações. Se quiser, posso te ajudar a avançar para o próximo passo.`;
+    }
+    if(intent==='fechamento'||/\b(reservar|reserva|agendar|contratar|fechar)\b/.test(t)) return `${g} Perfeito! Para avançarmos, me confirme a data e o horário que você precisa.`;
+    if(intent==='preco'||/\b(quanto custa|quanto fica|preco|preço|valor)\b/.test(t)) return `${g} Claro! Posso te orientar sobre o valor correto. Qual espaço você pretende utilizar?`;
+    if(intent==='disponibilidade') return `${g} Posso verificar essa possibilidade. Para qual data e horário você precisa?`;
+    if(intent==='visita') return `${g} Claro! Podemos te orientar sobre a visita. Qual dia seria melhor para você?`;
+    if(intent==='localizacao') return `${g} Claro! Posso te passar a localização. Você pretende conhecer o espaço para qual serviço?`;
+    if(intent==='horario') return `${g} Claro! Posso te orientar sobre o horário de funcionamento. Qual serviço você pretende utilizar?`;
+    if(intent!=='geral') return `${g} Entendi! Me conte só o próximo detalhe que você precisa para eu te orientar.`;
+    if(ctx) return `${g} Entendi. Vou considerar as informações que você já passou e te orientar a partir delas.`;
+    return `${g} Entendi. Pode me contar o que você precisa para eu te orientar?`;
+  }
+
+  async function unified36(text,action,name,context,phone){
+    const raw=clean36(text), ctx=clean36(context), client=extractClient36(raw), memory=memoryText36(phone);
+    const speaker=lastSpeaker36(raw);
+    let analysis={};
+    try{
+      analysis=typeof v25Analyze==='function'
+        ? v25Analyze(raw,ctx,action||'',memory)
+        : {intent:typeof detectIntent==='function'?detectIntent(client):'geral',stage:'Diagnóstico',objective:'Responder com segurança',next:'Continuar a conversa',clientText:client};
+    }catch(e){
+      analysis={intent:typeof detectIntent==='function'?detectIntent(client):'geral',stage:'Diagnóstico',objective:'Responder com segurança',next:'Continuar a conversa',clientText:client,analysisError:String(e?.message||e)};
+    }
+    analysis.clientText=client;
+    analysis.lastSpeaker=speaker;
+    analysis.gestorContext=ctx;
+    analysis.memoryUsed=!!memory;
+
+    /* 1. Regra treinada: autoridade máxima. Inclui conversa + contexto do gestor. */
+    let trained=null;
+    try{
+      const trainingText=[client,ctx].filter(Boolean).join('\n\nCONTEXTO DO GESTOR:\n');
+      trained=typeof window.nellusV34?.match==='function'?window.nellusV34.match(trainingText):null;
+    }catch(e){console.warn('V36.3 treinamento:',e);}
+    if(trained){
+      let reply='';
+      try{reply=window.nellusV34.buildRuleResponse(trained,client,name,ctx)||'';}catch(e){console.warn('V36.3 regra:',e);}
+      if(clean36(reply)){
+        analysis.trainingRule=trained.rule.title; analysis.trainingRuleId=trained.rule.id; analysis.trainingScore=Math.round(trained.score); analysis.trainingConfidence=trained.confidence;
+        if(typeof window.v8Last==='object') window.v8Last={...(window.v8Last||{}),reply,analysis,aiEngine:'Regra treinada — autoridade comercial',clientText:client,clientMemory:memory};
+        remember36(phone,name,client,reply,analysis,action);
+        return {reply,engine:'Regra treinada — autoridade comercial',trainingRule:trained.rule.title,trainingScore:Math.round(trained.score)};
+      }
+    }
+
+    /* 2. Motor local único. Se alguma versão antiga devolver vazio, usamos fallback determinístico. */
+    let local='';
+    let localError='';
+    try{
+      if(typeof v25CoreGenerate==='function') local=clean36(v25CoreGenerate(raw,action,name,ctx,phone));
+    }catch(e){localError=String(e?.message||e);}
+    if(!local) local=deterministic36(client,name,ctx,analysis);
+    if(!local) local=`${name?`Olá, ${name}! `:'Olá! '}Entendi. Vou verificar a informação correta para te orientar.`;
+
+    /* 3. IA externa somente redige; nunca decide a estratégia. */
+    let groqError='';
+    try{
+      if(typeof callGroqV27==='function'){
+        const contract=typeof v27Contract==='function'
+          ? v27Contract(client,analysis,action||'',local,memory)
+          : (typeof v26NormalizeContract==='function'?v26NormalizeContract(analysis,client,action||'',local):null);
+        const out=await callGroqV27(client,name,ctx,action||'',analysis,local,memory,contract);
+        const val=typeof v27AnswerIntegrity==='function'?v27AnswerIntegrity(out.reply,client,contract):{ok:true};
+        if(val.ok && clean36(out.reply)){
+          const reply=typeof v20Clean==='function'?v20Clean(out.reply):clean36(out.reply);
+          if(typeof window.v8Last==='object')window.v8Last={...(window.v8Last||{}),reply,analysis,aiEngine:'Groq estruturado',localFallback:local,clientMemory:memory,intentContract:contract,groqValidation:val};
+          remember36(phone,name,client,reply,analysis,action);
+          return {reply,engine:'Groq estruturado'};
+        }
+        groqError=val?.reason||'Resposta da IA reprovada pelo guard-rail';
+      }else if(typeof callGroq==='function' && groqConfig && groqConfig().endpoint){
+        const out=await callGroq(client,name,ctx,action||'',analysis,local,memory);
+        if(clean36(out)){
+          const reply=typeof v20Clean==='function'?v20Clean(out):clean36(out);
+          if(typeof window.v8Last==='object')window.v8Last={...(window.v8Last||{}),reply,analysis,aiEngine:'Groq',localFallback:local,clientMemory:memory};
+          remember36(phone,name,client,reply,analysis,action);
+          return {reply,engine:'Groq'};
+        }
+        groqError='Groq retornou resposta vazia';
+      }
+    }catch(e){groqError=String(e?.message||e);}
+
+    /* 4. Fallback local seguro — nunca resposta vazia. */
+    if(typeof window.v8Last==='object')window.v8Last={...(window.v8Last||{}),reply:local,analysis,aiEngine:'Motor Nellus local',localFallback:local,clientMemory:memory,groqError:groqError||'',localError:localError||''};
+    remember36(phone,name,client,local,analysis,action);
+    return {reply:local,engine:'Motor Nellus local'};
+  }
+
+  window.v36UnifiedGenerate=unified36;
+  window.v34Generate=unified36;
+  window.v22GenerateWithGroq=unified36;
+
+  function install36(){
+    const btn=document.getElementById('generate'); if(!btn)return;
+    btn.onclick=async function(){
+      const text=document.getElementById('conversation')?.value.trim()||'';
+      const name=document.getElementById('clientName')?.value.trim()||'';
+      const phone=document.getElementById('clientPhone')?.value.trim()||'';
+      const context=document.getElementById('customContext')?.value.trim()||'';
+      const result=document.getElementById('result'),sug=document.getElementById('suggestion'),badge=document.getElementById('usedEngineBadge');
+      btn.disabled=true;btn.textContent=' Pensando como gestor...';
+      try{
+        const out=await unified36(text,window.selectedAction||'',name,context,phone);
+        if(sug)sug.textContent=out.reply||`${name?`Olá, ${name}! `:'Olá! '}Entendi. Vou verificar a informação correta para te orientar.`;
+        if(badge)badge.textContent=(out.engine||'Motor Nellus')+' • Inteligência comercial';
+        if(typeof v8RenderDiagnostic==='function')v8RenderDiagnostic(window.v8Last);
+        if(result){result.style.display='block';result.scrollIntoView({behavior:'smooth'});}
+      }catch(e){
+        const safe=deterministic36(text,name,context,window.v8Last?.analysis||{});
+        if(sug)sug.textContent=safe;
+        if(badge)badge.textContent='Motor Nellus local • Fallback seguro';
+        window.v8Last={...(window.v8Last||{}),reply:safe,aiEngine:'Motor Nellus local',v36Error:String(e?.message||e)};
+        remember36(phone,name,extractClient36(text),safe,window.v8Last.analysis||{},window.selectedAction||'');
+        if(result){result.style.display='block';result.scrollIntoView({behavior:'smooth'});}
+        console.error('V36.3 erro:',e);
+      }finally{btn.disabled=false;btn.textContent=' Gerar Próxima Mensagem Inteligente';}
+    };
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install36);else install36();
+})();
+</script>
+
+
+<style id="v364-radar-followup-css">
+.v364-followup-msg{margin-top:10px;padding:11px 12px;background:#07110d;border:1px solid #294137;border-radius:11px;color:#e4eee9;font-size:12px;line-height:1.55;white-space:pre-wrap}
+.v364-followup-label{font-size:10px;color:#65cfb4;font-weight:900;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.v364-radar-live{display:inline-flex;align-items:center;gap:6px;margin-left:8px;padding:4px 8px;border-radius:999px;border:1px solid #294137;color:#65cfb4;background:#0b1511;font-size:9px;font-weight:900}
+</style>
+<script id="v364-radar-followup">
+(function(){
+  /* V36.4 — Radar Comercial automático + follow-up contextual.
+     O Radar atual passa a existir mesmo antes de salvar no Pipeline.
+     O follow-up deixa de mostrar apenas uma estratégia e passa a entregar uma
+     mensagem pronta, usando conversa + contexto do gestor + silêncio + estágio. */
+  const clean=s=>String(s??'').replace(/\s+/g,' ').trim();
+  const norm=s=>{try{return normalize(clean(s));}catch(e){return clean(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}};
+  const esc364=s=>typeof esc==='function'?esc(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+  const ctx=()=>clean(document.getElementById('customContext')?.value||'');
+  const name=()=>clean(document.getElementById('clientName')?.value||'');
+  const phone=()=>clean(document.getElementById('clientPhone')?.value||'');
+  const silence=()=>Number(document.getElementById('v9Silence')?.value||0);
+  function sourceText(){return clean((window.v8Last?.clientText||document.getElementById('conversation')?.value||''));}
+  function lastClient(text){
+    try{
+      const lines=String(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);
+      const business=/^(?:\[[^\]]+\]\s*)?(?:nellus(?: coworking)?|atendente|atendimento|empresa|coworking|eu|n[oó]s|voc[eê]s)\s*:/i;
+      const client=/^(?:\[[^\]]+\]\s*)?(?:cliente|lead|prospect|contato|cliente potencial)\s*:/i;
+      for(let i=lines.length-1;i>=0;i--){
+        const line=lines[i].replace(/^\[[^\]]+\]\s*/,'').trim();
+        const m=line.match(/^([^:]{1,80}):\s*(.*)$/);
+        if(m){
+          const speaker=m[1].trim(),msg=m[2].trim();
+          if(!msg||business.test(line)||/nellus/i.test(speaker))continue;
+          if(client.test(line)||speaker)return msg;
+        }
+      }
+    }catch(e){}
+    return clean(window.v8Last?.clientText||'');
+  }
+  function stageFor(a){return clean(a?.memoryStage||a?.stage||window.v8Last?.analysis?.stage||'Novo contato');}
+  function followupMessage(a){
+    const n=name(),g=n?`Olá, ${n}!`:'Olá!';
+    const t=norm(sourceText()+' '+ctx());
+    const st=stageFor(a), days=silence();
+    const visit=/visita|visitar|conhecer o espa[cç]o|conhecer as salas|fazer visita|agendar uma visita/.test(t);
+    const price=/pre[cç]o|valor|caro|or[cç]amento/.test(t);
+    const reservation=/reserv|agendar|contratar|fechar/.test(t);
+    const decision=/vou pensar|vou analisar|vou verificar|vou falar com|vou conversar com|s[oó]cio/.test(t);
+    if(st==='Pós-venda') return `${g} 😊 Passando para saber se está tudo certo com o seu atendimento. Se precisar de qualquer coisa, estou à disposição.`;
+    if(st==='Perdido') return `${g} 😊 Tudo bem. Se em algum momento fizer sentido retomar, pode me chamar por aqui que te ajudo.`;
+    if(visit) return `${g} 😊 Passando para saber se você conseguiu definir um dia para conhecer as salas. Se quiser, posso verificar um horário que fique melhor para você e já deixamos a visita agendada.`;
+    if(reservation || st==='Fechamento') return `${g} 😊 Passando para saber se podemos avançar. Se você já definiu a data e o horário, me envie por aqui que te ajudo a concluir a reserva.`;
+    if(price || st==='Objeção') return `${g} 😊 Passando para saber se ficou alguma dúvida sobre os valores ou sobre as opções que te apresentei. Se quiser, posso te ajudar a avaliar qual delas faz mais sentido para o que você precisa.`;
+    if(decision || st==='Decisão') return `${g} 😊 Passando para saber se você conseguiu avaliar as informações. Se ficou alguma dúvida ou se precisar de algum detalhe para decidir, posso te ajudar por aqui.`;
+    if(days>=6) return `${g} 😊 Passando para retomar seu atendimento. Você ainda tem interesse em utilizar o espaço? Se sim, me diga o que ficou faltando para avançarmos e eu te ajudo.`;
+    return `${g} 😊 Passando para saber se ficou alguma dúvida sobre as informações que te enviei. Se ainda estiver avaliando, posso te ajudar a definir a opção mais adequada para você.`;
+  }
+  function renderFollowup364(a){
+    const el=document.getElementById('v9Followup');if(!el)return;
+    const days=silence();
+    const should=days>=2 || a?.level==='risk' || a?.risks?.some(x=>/silêncio/i.test(x));
+    if(!should){el.style.display='none';return;}
+    const msg=followupMessage(a);
+    el.style.display='block';
+    el.innerHTML=`<h3>Follow-up recomendado <span class="v364-radar-live">CONTEXTO + MEMÓRIA</span></h3><div class="strategy-card"><b>${days>=3?'HOJE':'PRÓXIMO CONTATO'}</b><br><small>${esc364(a?.next||'Retomar a conversa com contexto.')}</small><div class="v364-followup-msg"><div class="v364-followup-label">Mensagem pronta para enviar</div>${esc364(msg)}</div><button type="button" class="btn btn-green" style="margin-top:9px" onclick="navigator.clipboard?.writeText(${JSON.stringify(msg)}).then(()=>toast('Follow-up copiado.')).catch(()=>toast('Selecione e copie a mensagem.'))">Copiar follow-up</button></div>`;
+  }
+  function assessCurrent(){
+    const text=sourceText(),c=ctx(),days=silence(),p=phone();
+    let a;
+    try{a=window.v9Assess(text,c,days,p);}catch(e){a={score:45,level:'attention',stage:'Novo contato',intent:'geral',signals:[],risks:[],reason:'Não foi possível calcular o Radar automaticamente.',next:'Revisar a conversa e definir o próximo passo.',days};}
+    a=a||{};a.days=days;a.gestorContext=c;a.currentClientText=lastClient(document.getElementById('conversation')?.value||text);a.followupMessage=followupMessage(a);
+    window.v364CurrentRadar=a;
+    if(window.v8Last){window.v8Last.v9=a;window.v8Last.radarCurrent=a;}
+    return a;
+  }
+  function updateDashboard364(a){
+    /* Mantém o Pipeline como memória permanente, mas o Radar passa a refletir também
+       a oportunidade que acabou de ser analisada. */
+    const p=Array.isArray(window.v9Pipeline)?window.v9Pipeline:[];
+    const currentPhone=phone();
+    const currentSaved=currentPhone && p.some(x=>String(x.phone||'').replace(/\D/g,'')===currentPhone.replace(/\D/g,''));
+    const counts={hot:0,attention:0,risk:0};
+    p.forEach(x=>{if(counts[x.level]!==undefined)counts[x.level]++;});
+    if(a && !currentSaved && counts[a.level]!==undefined)counts[a.level]++;
+    const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=String(v);};
+    set('v9Hot',counts.hot);set('v9Attention',counts.attention);set('v9Risk',counts.risk);
+    const follow=p.filter(x=>!x.next).length;
+    set('v9Follow',follow);
+    const box=document.getElementById('v9Opportunities');
+    if(!box)return;
+    let items=[];
+    if(a){items.push({name:name()||'Conversa atual',score:a.score||0,level:a.level||'attention',next:a.next||'Definir o próximo passo.',current:true});}
+    p.forEach(x=>{if(currentPhone&&String(x.phone||'').replace(/\D/g,'')===currentPhone.replace(/\D/g,''))return;items.push(x);});
+    items=items.slice(0,4);
+    box.innerHTML=items.length?items.map(x=>`<div class="opp-item"><b>${esc364(x.name)} · ${x.score}/100 ${x.current?'<span class="v364-radar-live">AGORA</span>':''}</b><small>${({hot:'🔴 Quente',attention:'🟠 Atenção',risk:'🟡 Risco'}[x.level]||'🟠 Atenção')} — ${esc364(x.next)}</small></div>`).join(''):'<div class="empty-state">Analise uma conversa para ativar o Radar Comercial.</div>';
+  }
+  function renderRadar364(a){
+    if(typeof v9RenderRadar==='function')v9RenderRadar(a);
+    const el=document.getElementById('v9RadarResult');if(el){const small=el.querySelector('.risk-meta');if(small && a.memoryStage)small.innerHTML+=' · <span style="color:#65cfb4">Memória ativa</span>';}
+    renderFollowup364(a);updateDashboard364(a);
+  }
+  function refresh(){try{const a=assessCurrent();renderRadar364(a);}catch(e){console.warn('V36.4 Radar:',e);}}
+  const gen=document.getElementById('generate');
+  if(gen){
+    gen.addEventListener('click',()=>setTimeout(refresh,700));
+    gen.addEventListener('click',()=>setTimeout(refresh,1400));
+  }
+  const conv=document.getElementById('conversation');
+  if(conv)conv.addEventListener('input',()=>{if(window.v8Last?.v9)setTimeout(refresh,120);});
+  const custom=document.getElementById('customContext');
+  if(custom)custom.addEventListener('input',()=>{if(window.v8Last?.v9)setTimeout(refresh,120);});
+  window.v364Radar={refresh,assess:assessCurrent,followupMessage,renderFollowup:renderFollowup364};
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{if(window.v8Last?.v9)refresh();else updateDashboard364(null);},100));
+})();
+</script>
+
 </body>
 </html>
 
