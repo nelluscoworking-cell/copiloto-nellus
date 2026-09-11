@@ -151,7 +151,7 @@ display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:rgba(7,11,9,
 <input type="text" id="customContext" class="input-field" placeholder="Ex: Já mandei fotos da sala e o endereço."><div class="head"><label>Há quanto tempo o cliente está sem responder? (opcional)</label></div><select id="v9Silence" class="input-field"><option value="0">Agora / acabou de responder</option><option value="1">Menos de 1 dia</option><option value="2">1–2 dias</option><option value="3">3–5 dias</option><option value="6">6–7 dias</option><option value="10">Mais de 7 dias</option></select>
 
 <div class="head"><label>Conversa com o cliente</label><span class="count" id="count">0/6000</span></div>
-<textarea id="conversation" maxlength="6000" placeholder="Cole aqui o texto da conversa do WhatsApp..."></textarea>
+<textarea id="conversation" maxlength="6000" placeholder="Cole aqui a conversa do WhatsApp... (ou deixe vazio para gerar a mensagem de primeiro contato)"></textarea>
 <button class="primary" id="generate">✦ Gerar Próxima Mensagem Inteligente</button>
 </div>
 
@@ -577,7 +577,7 @@ function detectIntent(text){
  if(/sala fixa|sala mensal|mensalidade/.test(t))return"sala fixa";
  if(/endereco comercial/.test(t))return"endereço comercial";
  if(/endereco fiscal|cnpj/.test(t))return"endereço fiscal";
- if(/onde fica|localizacao|endereco|como chegar/.test(t))return"localização";
+ if(/onde fica|onde voces ficam|onde voces estao|onde fica o nellus|localizacao|endereco|como chegar|qual o endereco|qual endereco/.test(t))return"localização";
  if(/horario|horas|hora avulsa|diaria|dia inteiro/.test(t))return"horário";
  if(/visita|conhecer|conhecer o espaco/.test(t))return"visita";
  if(/disponivel|disponibilidade|tem vaga|tem horario/.test(t))return"disponibilidade";
@@ -642,7 +642,7 @@ function v8Analyze(text,context){
  else if(has(['coworking','estação de trabalho','mesa compartilhada'])){stage='Interesse';intent='Estação de trabalho';action='Entender frequência e horário de uso';score=55;}
  else if(has(['endereço comercial'])){stage='Interesse';intent='Endereço comercial';action='Explicar benefício e confirmar necessidade empresarial';score=55;}
  else if(has(['endereço fiscal','cnpj'])){stage='Interesse';intent='Endereço fiscal';action='Explicar a solução e confirmar necessidade';score=55;}
- else if(has(['onde fica','localização','como chegar','endereço'])){stage='Interesse';intent='Localização';action='Informar localização sem repetir o que já foi enviado';score=48;}
+ else if(has(['onde fica','onde vocês ficam','onde voces ficam','onde vocês estão','onde voces estao','localização','como chegar','endereço','qual o endereço','qual endereço'])){stage='Interesse';intent='Localização';action='Informar a localização diretamente';score=48;}
  const missing=[];
  if(!has(['dia','data','amanhã','segunda','terça','quarta','quinta','sexta','sábado','domingo'],msg))missing.push('data');
  if(!has(['hora','horário','horas','manhã','tarde','noite','às'],msg))missing.push('horário');
@@ -669,20 +669,51 @@ function v8ComposeFromExample(ex,analysis,plan,name){
  if(analysis.missing.length&&!/data|horário|pessoas|quantas|quando/.test(normalize(r)))r+=` Para eu te orientar melhor, me passe ${analysis.missing.join(', ')}.`;
  return r.replace(/\s+/g,' ').trim();
 }
+function v10Greeting(name){
+ const tone=localStorage.getItem('nellus_tone')||'natural';
+ return tone==='objetivo'?`Olá${name?', '+name:''}!`:tone==='acolhedor'?`Oi${name?', '+name:''}! 😊`:`Olá${name?', '+name:''}! 😊`;
+}
+function v10NextQuestion(a){
+ const m=a.missing||[];
+ // O copiloto pergunta apenas uma coisa por vez, escolhendo a informação que mais destrava o atendimento.
+ if(!m.length)return '';
+ if(a.intent==='Sala privativa'||a.intent==='Sala de reunião'||a.intent==='Sala de treinamento'||a.intent==='Geral')return m.includes('data')?'Para qual data você precisa do espaço?':m.includes('horário')?'E qual horário você precisa?':'Seria para quantas pessoas?';
+ if(a.intent==='Estação de trabalho')return m.includes('data')?'Para qual dia você pretende utilizar?':m.includes('horário')?'Qual horário você precisa?':'Você pretende usar o espaço com que frequência?';
+ return m.includes('data')?'Para qual data você precisa?':m.includes('horário')?'Qual horário seria ideal?':'Quantas pessoas vão utilizar?';
+}
+function v10Opening(name){
+ const g=v10Greeting(name);
+ return `${g} Seja bem-vindo(a) ao Nellus! Como posso te ajudar hoje? Você está procurando uma sala, espaço para reunião, treinamento ou endereço comercial?`;
+}
 function generateLocal(text,action,name,context){
- const analysis=v8Analyze(text,context), clientText=v8ExtractClientText(text), p=v8FindPlanByIntent(analysis,text), examples=v8MatchExamples(clientText||text,analysis), matched=bestKnowledge((text||'')+' '+(context||''));
+ const cleanText=(text||'').trim(), cleanContext=(context||'').trim();
+ // Primeiro contato: conversa vazia gera uma abertura comercial natural, sem questionário.
+ if(!cleanText&&!cleanContext){
+  const reply=v10Opening(name);
+  window.v8Last={analysis:{stage:'Novo contato',intent:'Geral',objection:'Nenhuma',action:'Descobrir a necessidade',score:25,missing:[],already:[]},examples:[],plan:null,reply,clientText:''};
+  return reply;
+ }
+ const analysis=v8Analyze(cleanText,cleanContext), clientText=v8ExtractClientText(cleanText), p=v8FindPlanByIntent(analysis,cleanText), examples=v8MatchExamples(clientText||cleanText,analysis), matched=bestKnowledge(cleanText+' '+cleanContext);
  let reply=v8ComposeFromExample(examples[0],analysis,p,name);
+ const g=v10Greeting(name), nextQ=v10NextQuestion(analysis);
+ // Perguntas objetivas de localização devem receber resposta direta, sem pedir data/horário/pessoas.
+ if(analysis.intent==='Localização' && !analysis.objection){
+  const loc=structure.find(x=>normalize(x.name).includes('localiza'));
+  reply=`${g} 📍 ${loc?loc.desc:'Estamos na Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ.'}`;
+ }
  if(!reply){
-  const tone=localStorage.getItem('nellus_tone')||'natural'; const greeting=tone==='objetivo'?'Olá'+(name?', '+name:'')+'!':tone==='acolhedor'?'Oi'+(name?', '+name:'')+'! 😊':'Olá'+(name?', '+name:'')+'! 😊';
   const main=matched.find(k=>k.type==='faq'||k.type==='objecao');
-  if(action==='follow')reply=`${greeting} Passando para saber se você conseguiu avaliar as informações que te enviei. Se ainda estiver avaliando, posso esclarecer o que ficou em dúvida e te ajudar a avançar.`;
-  else if(analysis.objection==='Preço')reply=`${greeting} Entendo! Antes de pensar só no preço, quero te indicar a opção que realmente faça sentido para a sua necessidade. ${analysis.missing.length?'Me passe '+analysis.missing.join(', ')+' para eu te orientar melhor.':'Me conta um pouco mais sobre como você pretende usar o espaço.'}`;
-  else if(analysis.objection==='Indecisão')reply=`${greeting} Sem problema 😊 Se ficou alguma dúvida sobre valor, estrutura ou qual opção escolher, posso te ajudar. O que você gostaria de avaliar melhor?`;
-  else if(action==='fechamento'||analysis.stage==='Fechamento')reply=`${greeting} Perfeito! Vamos avançar. Me passe ${analysis.missing.length?analysis.missing.join(', '):'a data e o horário'} e eu te oriento sobre o próximo passo.`;
+  if(action==='follow')reply=`${g} Passando para saber se você conseguiu avaliar as informações que te enviei. Se quiser, posso te ajudar a decidir a melhor opção.`;
+  else if(analysis.objection==='Preço')reply=`${g} Entendo! Quero te indicar uma opção que faça sentido para o que você precisa, e não só pelo preço. ${nextQ||'Me conta um pouco mais sobre como pretende usar o espaço.'}`;
+  else if(analysis.objection==='Indecisão')reply=`${g} Sem problema 😊 O que você gostaria de avaliar melhor: o valor, a estrutura ou qual opção faz mais sentido para você?`;
+  else if(action==='fechamento'||analysis.stage==='Fechamento')reply=`${g} Perfeito! Vamos avançar. ${nextQ||'Posso te orientar sobre o próximo passo.'}`;
   else if(main&&analysis.objection!=='Nenhuma')reply=main.answer;
-  else if(p){reply=`${greeting} ${p.name} fica em ${p.price}${p.capacity?', '+p.capacity.toLowerCase():''}.`; if(p.arguments)reply+=` ${p.arguments}`; if(analysis.missing.length)reply+=` Para eu te orientar melhor, me passe ${analysis.missing.join(', ')}.`;}
-  else if(analysis.intent==='Localização'){const loc=structure.find(x=>normalize(x.name).includes('localiza'));reply=`${greeting} 📍 ${loc?loc.desc:'Rua 21, nº 42, Vila Santa Cecília, Volta Redonda/RJ.'}`;}
-  else reply=`${greeting} Quero entender exatamente o que você precisa para te indicar a melhor opção. ${analysis.missing.length?'Me passe '+analysis.missing.join(', ')+'.':'Me conte como pretende usar o espaço.'}`;
+  else if(p){
+   reply=`${g} A ${p.name} fica em ${p.price}${p.capacity?', '+p.capacity.toLowerCase():''}.`;
+   if(p.arguments)reply+=` ${p.arguments}`;
+   if(nextQ)reply+=` ${nextQ}`;
+  }
+  else reply=`${g} Quero entender o que você precisa para te indicar a melhor opção. ${nextQ||'Me conta um pouco sobre o que você está procurando.'}`;
  }
  if(analysis.already.includes('endereço'))reply=reply.replace(/📍[^.]*Volta Redonda\/RJ\.?/ig,'').replace(/Rua 21, nº 42, Vila Santa Cecília, Volta Redonda\/RJ\.?/ig,'');
  reply=reply.replace(/\s+/g,' ').trim(); window.v8Last={analysis,examples,plan:p,reply,clientText}; return reply;
@@ -690,7 +721,7 @@ function generateLocal(text,action,name,context){
 
 document.getElementById("generate").onclick=()=>{
  const text=conv.value.trim(),name=document.getElementById("clientName").value.trim(),context=document.getElementById("customContext").value.trim();
- if(!text&&!context){alert("Por favor, cole a conversa do WhatsApp ou informe o contexto.");return}
+ if(!text&&!context){ /* Primeiro contato: o Motor Nellus gera a abertura automaticamente. */ }
  const btn=document.getElementById("generate");btn.disabled=true;btn.textContent="✦ Pensando como gestor...";
  setTimeout(()=>{try{const answer=generateLocal(text,selectedAction,name,context);document.getElementById("suggestion").textContent=answer;document.getElementById("usedEngineBadge").textContent=window.v8Last.examples.length?"Motor Nellus • Treinado com seus exemplos":"Motor Nellus • 100% gratuito";v8RenderDiagnostic(window.v8Last);document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});}finally{btn.disabled=false;btn.textContent="✦ Gerar Próxima Mensagem Inteligente";}},350);
 };
