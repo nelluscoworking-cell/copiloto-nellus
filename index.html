@@ -20,6 +20,7 @@ button,input,textarea{font:inherit} button{cursor:pointer}
 .app{max-width:820px;min-height:100vh;margin:auto;background:radial-gradient(circle at 80% 0%,rgba(8,127,106,.12),transparent 32%),var(--bg)}
 .top{height:82px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;
 position:sticky;top:0;z-index:10;background:rgba(5,8,6,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.logo{height:58px;width:175px;object-fit:contain;object-position:center}
 .iconbtn{width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:#0b110f;color:#dce7e2}
 main{padding:20px 17px 140px}.view{display:none}.view.active{display:block}
 .eyebrow{text-transform:uppercase;letter-spacing:.13em;color:#4ec4a9;font-weight:900;font-size:10px}
@@ -61,7 +62,7 @@ display:grid;grid-template-columns:repeat(3,1fr);background:rgba(7,11,9,.96);bac
 <div class="app">
 <header class="top">
 <div style="font-weight:900;letter-spacing:-0.03em;font-size:18px;color:#65cfb4">Nellus Coworking</div>
-<div class="connection-pill"><span class="connection-dot"></span><span id="connLabel">Copiloto Ativo</span></div>
+<div class="connection-pill"><span class="connection-dot"></span><span id="connLabel">Copiloto Conectado</span></div>
 </header>
 
 <main>
@@ -172,20 +173,6 @@ function err(t){
  alert(t);
 }
 
-async function getAvailableModels(){
- try{
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(GEMINI_KEY)}`);
-  if(r.ok){
-   const d = await r.json();
-   const list = (d.models || [])
-     .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes("generateContent"))
-     .map(m => m.name.replace("models/", ""));
-   if(list.length > 0) return list;
-  }
- }catch(e){}
- return ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-pro"];
-}
-
 async function run(){
  const text=conv.value.trim();
  if(!text){
@@ -194,69 +181,15 @@ async function run(){
   return;
  }
  generate.disabled=true;
- generate.textContent="✦ Conectando com a IA...";
+ generate.textContent="✦ Consultando IA...";
  document.getElementById("error").style.display="none";
  document.getElementById("result").style.display="none";
  
- let lastError = "";
- let msg = null;
+ const modelsToTry = [
+  "gemini-2.0-flash",
+  "gemini-2.0-flash-exp",
+  "gemini-1.5-flash-latest",
+  "gemini-1.5-flash"
+ ];
 
- try{
-  const models = await getAvailableModels();
-  
-  for(const model of models){
-   try{
-    generate.textContent = "✦ Consultando IA...";
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(GEMINI_KEY)}`;
-    const response = await fetch(url, {
-     method: "POST",
-     headers: { "Content-Type": "application/json" },
-     body: JSON.stringify({
-      contents: [{
-       role: "user",
-       parts: [{
-        text: SYSTEM_PROMPT + "\n\n---\nCONVERSA COM O CLIENTE NO WHATSAPP:\n" + text + "\n\nResponda apenas com a próxima mensagem pronta para enviar no WhatsApp."
-       }]
-      }]
-     })
-    });
-    
-    if(response.ok){
-     const data = await response.json();
-     msg = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-     if(msg) break;
-    } else {
-     const d = await response.json();
-     lastError = d?.error?.message || ("Erro " + response.status);
-    }
-   }catch(e){
-    lastError = e.message;
-   }
-  }
-  
-  if(msg){
-   document.getElementById("suggestion").textContent = msg.trim();
-   document.getElementById("result").style.display = "block";
-   document.getElementById("result").scrollIntoView({ behavior: "smooth" });
-  } else {
-   err("Aviso do Google: " + (lastError || "Não foi possível conectar com a IA."));
-  }
- }catch(e){
-  err("Falha: " + e.message);
- }finally{
-  generate.disabled = false;
-  generate.textContent = "✦ Gerar próxima mensagem";
- }
-}
-
-generate.onclick = run;
-document.getElementById("copy").onclick = async()=>{
- try{
-  await navigator.clipboard.writeText(document.getElementById("suggestion").textContent);
-  document.getElementById("copy").textContent="✓ Copiado com sucesso!";
-  setTimeout(()=>document.getElementById("copy").textContent="⧉ Copiar Mensagem", 1500);
- }catch{}
-};
-</script>
-</body>
-</html>
+ let lastError =
