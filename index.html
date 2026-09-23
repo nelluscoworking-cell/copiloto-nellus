@@ -2,325 +2,63 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agente Comercial Inteligente</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<meta name="theme-color" content="#07110d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b2b">
+<title>NL Sales</title>
+
 <style>
 :root{
- --bg:#07100c;--panel:#0d1712;--panel2:#111e18;--line:#21342b;
- --green:#0b8f74;--green2:#16b28f;--text:#f2f7f4;--muted:#91a49b;
- --danger:#d96b61;--warning:#d8bd58;--shadow:0 18px 60px rgba(0,0,0,.32)
-}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-button,input,textarea,select{font:inherit}button{cursor:pointer}
-.app{max-width:900px;margin:auto;min-height:100vh;background:radial-gradient(circle at 85% 0,rgba(22,178,143,.12),transparent 32%),var(--bg)}
-.top{height:76px;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;position:sticky;top:0;z-index:20;background:rgba(7,16,12,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.03em}.brandmark{width:34px;height:34px;border:2px solid var(--green2);border-radius:11px;display:grid;place-items:center;color:var(--green2);font-weight:1000}
-.status{font-size:10px;border:1px solid #245a4b;background:#0b1e18;color:#72d8bd;padding:8px 10px;border-radius:999px;font-weight:850}
-main{padding:20px 17px 105px}.view{display:none}.view.active{display:block}
-.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#57cdb0;font-weight:900}
-h1{font-size:29px;line-height:1.05;letter-spacing:-.045em;margin:7px 0}h2{font-size:18px;margin:0 0 6px}h3{font-size:15px;margin:0 0 7px}.sub{font-size:13px;color:var(--muted);line-height:1.55;margin:0}
-.hero{padding:22px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#102019,#0a120f);box-shadow:var(--shadow)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:15px}.card+.card{margin-top:10px}
-.kpi{padding:15px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.kpi b{display:block;font-size:22px;margin-top:5px}.kpi span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 10px}
-.field{margin-bottom:10px}.field label{display:block;font-size:12px;font-weight:850;margin:0 0 6px}.input,.textarea,.select{width:100%;border:1px solid var(--line);background:#07100c;color:var(--text);border-radius:13px;padding:11px 13px;outline:none}.textarea{min-height:125px;resize:vertical;line-height:1.5}.input:focus,.textarea:focus,.select:focus{border-color:#2d907a;box-shadow:0 0 0 3px rgba(22,178,143,.1)}
-.primary,.btn{border-radius:12px;padding:10px 13px;font-weight:850;border:1px solid #2b5145;background:#0d1a15;color:#dcebe5}.primary{background:var(--green);border-color:var(--green);color:white;width:100%;padding:13px}.primary:hover{background:var(--green2)}.btn-green{background:#0d624f;border-color:#0d765f;color:white}.btn-danger{color:#ffaaa0;border-color:#56302c}.btn:disabled,.primary:disabled{opacity:.5;cursor:not-allowed}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.actions .btn{flex:1}
-.list{display:grid;gap:10px}.item{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px}.item-top{display:flex;justify-content:space-between;gap:10px}.tag{display:inline-block;padding:4px 7px;border-radius:999px;background:#123127;color:#73d9bd;font-size:9px;font-weight:900;text-transform:uppercase}.small{font-size:11px;color:var(--muted);line-height:1.45}.item p{font-size:12px;line-height:1.5;color:#c8d4cf;margin:7px 0 0}.formbox{display:none;margin:12px 0;padding:14px;border:1px solid #235041;border-radius:16px;background:#0d1b16}.formbox.active{display:block}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:900px;height:74px;display:grid;grid-template-columns:repeat(8,1fr);gap:3px;padding:7px 7px max(7px,env(safe-area-inset-bottom));background:rgba(7,12,9,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:30}.nav button{border:0;background:transparent;color:#73847d;border-radius:13px;font-size:10px;font-weight:850;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.nav button b{font-size:18px}.nav button.active{background:#0c251e;color:#69d5b8}
-.reply{white-space:pre-wrap;background:#07100c;border:1px solid var(--line);border-radius:15px;padding:14px;line-height:1.6;font-size:14px}.analysis{margin-top:10px;padding:12px;border-radius:14px;background:#0c1712;border:1px solid var(--line);font-size:11px;line-height:1.55;color:#b8c8c0}.analysis strong{color:#70d7bc}
-.empty{padding:20px;text-align:center;border:1px dashed #294238;border-radius:15px;color:var(--muted);font-size:12px}
-.notice{padding:12px 13px;border-radius:14px;background:#0c1b15;border:1px solid #21483c;color:#bcd0c7;font-size:11px;line-height:1.5;margin-top:12px}
-.check{display:flex;align-items:flex-start;gap:9px;padding:9px 0;font-size:12px}.check input{margin-top:3px}
-.step{display:flex;gap:10px;align-items:flex-start}.stepnum{width:28px;height:28px;border-radius:9px;background:#123127;color:#70d7bc;display:grid;place-items:center;font-weight:900;flex:none}
-@media(max-width:650px){.grid3{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.top{height:70px}.brand span{font-size:14px}}
-
-.onboard{position:fixed;inset:0;background:rgba(3,8,6,.94);z-index:100;display:none;align-items:center;justify-content:center;padding:18px}.onboard.active{display:flex}.wizard{width:min(620px,100%);max-height:92vh;overflow:auto;background:#0d1712;border:1px solid #294238;border-radius:24px;padding:22px;box-shadow:0 30px 100px rgba(0,0,0,.5)}.progress{height:6px;background:#16251e;border-radius:99px;overflow:hidden;margin:14px 0 20px}.progress i{display:block;height:100%;background:var(--green2);width:0}.wizard-step{display:none}.wizard-step.active{display:block}.wizard-actions{display:flex;gap:8px;margin-top:18px}.wizard-actions button{flex:1}.service-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}@media(max-width:650px){.service-row{grid-template-columns:1fr}}
-</style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
-<body>
-<div id="onboard" class="onboard"><div class="wizard"><div class="eyebrow">Configuração inicial</div><h1 id="wizTitle">Vamos configurar seu agente</h1><p class="sub" id="wizSub">Leva poucos minutos. Você poderá alterar tudo depois.</p><div class="progress"><i id="wizBar"></i></div><div class="wizard-step active" data-step="1"><h2>1. Sobre sua empresa</h2><div class="field"><label>Nome da empresa</label><input class="input" id="wizCompany" placeholder="Ex.: Minha Empresa"></div><div class="field"><label>Segmento</label><input class="input" id="wizSegment" placeholder="Ex.: clínica, loja, imobiliária"></div></div><div class="wizard-step" data-step="2"><h2>2. O que sua empresa oferece?</h2><p class="small">Cadastre pelo menos um produto ou serviço. Você poderá detalhar preços e regras depois.</p><div id="wizServices"></div><button class="btn btn-green" onclick="addWizardService()">+ Adicionar produto/serviço</button></div><div class="wizard-step" data-step="3"><h2>3. Como seu agente deve atender?</h2><div class="field"><label>Objetivo principal</label><textarea class="textarea" id="wizObjective" placeholder="Ex.: entender a necessidade, responder dúvidas e conduzir para o próximo passo."></textarea></div><div class="field"><label>Tom</label><select class="select" id="wizStyle"><option value="consultivo">Consultivo e estratégico</option><option value="natural">Natural e profissional</option><option value="objetivo">Direto e objetivo</option><option value="acolhedor">Acolhedor e simpático</option></select></div><div class="check"><input type="checkbox" id="wizNever" checked><span>Nunca inventar preço, prazo, disponibilidade ou condições.</span></div></div><div class="wizard-step" data-step="4"><h2>4. Ensine seu agente</h2><p class="small">Comece com regras que mais se repetem no atendimento. Elas terão prioridade sobre respostas genéricas.</p><div class="field"><label>Exemplo de situação</label><input class="input" id="wizTrigger" placeholder="Ex.: cliente pergunta o preço"></div><div class="field"><label>Como o agente deve agir?</label><textarea class="textarea" id="wizDo" placeholder="Ex.: informar o preço cadastrado e perguntar se deseja avançar."></textarea></div><div class="field"><label>Resposta ideal (opcional)</label><textarea class="textarea" id="wizReply" placeholder="Escreva uma resposta que represente bem sua empresa."></textarea></div></div><div class="wizard-step" data-step="5"><h2>5. Faça seu primeiro teste</h2><p class="small">Depois de concluir, abra “Testar” e envie uma mensagem real de exemplo. O sistema mostrará como tomou a decisão.</p><div class="notice">Seu agente já estará salvo. Você poderá voltar e editar empresa, serviços, comportamento, treinamentos e conhecimentos quando quiser.</div></div><div class="wizard-actions"><button class="btn" id="wizBack" onclick="wizMove(-1)">Voltar</button><button class="btn btn-green" id="wizNext" onclick="wizMove(1)">Continuar</button></div></div></div>
-<div class="app">
-<header class="top">
-  <div class="brand"><div class="brandmark">AI</div><span id="brandName">Meu Agente Comercial</span></div>
-  <div class="status">● Motor inteligente ativo</div>
-</header>
-
-<main>
-<section id="home" class="view active">
-  <div class="hero">
-    <div class="eyebrow">Seu agente comercial</div>
-    <h1 id="heroTitle">Atenda melhor. Venda melhor.</h1>
-    <p class="sub">Configure o agente da sua empresa, ensine como ele deve agir e teste respostas antes de usar no atendimento.</p>
-  </div>
-  <div class="section-title"><h2>Visão geral</h2></div>
-  <div class="grid3">
-    <div class="kpi"><span>Empresa</span><b id="kpiCompany">—</b></div>
-    <div class="kpi"><span>Treinamentos</span><b id="kpiTraining">0</b></div>
-    <div class="kpi"><span>Conhecimentos</span><b id="kpiKnowledge">0</b></div>
-  </div>
-  <div class="section-title"><h2>Comece por aqui</h2></div>
-  <div class="list">
-    <div class="card step"><div class="stepnum">1</div><div><h3>Configure sua empresa</h3><p class="small">Cadastre as informações que o agente pode usar nas respostas.</p><button class="btn btn-green" onclick="show('company')">Configurar empresa</button></div></div>
-    <div class="card step"><div class="stepnum">2</div><div><h3>Treine o agente</h3><p class="small">Crie regras para situações específicas. O treinamento tem prioridade sobre respostas genéricas.</p><button class="btn btn-green" onclick="show('training')">Treinar agente</button></div></div>
-    <div class="card step"><div class="stepnum">3</div><div><h3>Teste uma conversa</h3><p class="small">Veja como o motor interpreta o cliente e qual resposta ele sugere.</p><button class="btn btn-green" onclick="show('copilot')">Abrir teste</button></div></div>
-  </div>
-</section>
-
-<section id="company" class="view">
-  <div class="eyebrow">Configuração</div><h1>Minha empresa</h1><p class="sub">Estas informações formam a base factual do seu agente.</p>
-  <div class="card">
-    <div class="grid">
-      <div class="field"><label>Nome da empresa</label><input class="input" id="companyName" placeholder="Ex.: Minha Empresa"></div>
-      <div class="field"><label>Segmento</label><input class="input" id="companySegment" placeholder="Ex.: Clínica, loja, escritório"></div>
-      <div class="field"><label>Nome do agente</label><input class="input" id="agentName" placeholder="Ex.: Ana"></div>
-      <div class="field"><label>Tom</label><select class="select" id="agentTone"><option value="natural">Natural e profissional</option><option value="acolhedor">Acolhedor e simpático</option><option value="objetivo">Direto e objetivo</option><option value="consultivo">Consultivo e estratégico</option></select></div>
-      <div class="field"><label>Horário de atendimento</label><input class="input" id="companyHours" placeholder="Ex.: segunda a sexta, 8h às 18h"></div>
-      <div class="field"><label>Localização / endereço</label><input class="input" id="companyAddress" placeholder="Ex.: Rua..., cidade/UF"></div>
-    </div>
-    <div class="field"><label>Sobre a empresa</label><textarea class="textarea" id="companyAbout" placeholder="Explique o que a empresa faz, para quem vende e o que é importante o agente saber."></textarea></div>
-    <div class="field"><label>Regra comercial principal</label><textarea class="textarea" id="companyRule" placeholder="Ex.: Nunca inventar preço ou disponibilidade. Se faltar informação importante, faça uma pergunta objetiva."></textarea></div>
-    <button class="primary" onclick="saveCompany()">Salvar configuração</button>
-  </div>
-  <div class="notice">Importante: o agente só deve usar fatos cadastrados aqui ou em seus conhecimentos. Não invente preço, prazo, capacidade, disponibilidade ou condições.</div>
-</section>
-
-<section id="agent" class="view"><div class="eyebrow">Configuração do comportamento</div><h1>Meu agente</h1><p class="sub">Defina como o agente deve pensar, responder e conduzir o atendimento.</p><div class="card"><div class="field"><label>Objetivo principal</label><textarea class="textarea" id="agentObjective" placeholder="Ex.: entender a necessidade, responder dúvidas e conduzir para o próximo passo."></textarea></div><div class="field"><label>Estilo</label><select class="select" id="agentStyle"><option value="consultivo">Consultivo e estratégico</option><option value="natural">Natural e profissional</option><option value="objetivo">Direto e objetivo</option><option value="acolhedor">Acolhedor e simpático</option></select></div><div class="check"><input type="checkbox" id="agentAskMissing"> <span>Quando faltar informação importante, fazer uma pergunta objetiva em vez de inventar.</span></div><div class="check"><input type="checkbox" id="agentHandoff"> <span>Sinalizar quando for necessário encaminhar para uma pessoa.</span></div><div class="check"><input type="checkbox" id="agentNeverInvent"> <span>Nunca inventar preço, prazo, capacidade, disponibilidade ou condições.</span></div><button class="primary" onclick="saveAgent()">Salvar comportamento</button></div><div class="notice"><strong>Fluxo do agente:</strong> entender → interpretar → identificar intenção → consultar treinamento → consultar conhecimento → decidir próxima ação → responder.</div></section>
-
-<section id="training" class="view">
-  <div class="eyebrow">Inteligência</div><h1>Treinar agente</h1>
-  <p class="sub">Ensine o que fazer quando uma determinada situação aparecer. Essas regras são tratadas como instruções de alta prioridade.</p>
-  <div class="section-title"><h2>Nova regra</h2><button class="btn btn-green" onclick="toggle('trainingForm')">+ Adicionar</button></div>
-  <div id="trainingForm" class="formbox">
-    <div class="field"><label>Nome da situação</label><input class="input" id="trTitle" placeholder="Ex.: Cliente pergunta se temos sala para 10 pessoas"></div>
-    <div class="field"><label>Quando usar esta regra</label><input class="input" id="trTrigger" placeholder="Ex.: sala de treinamento, 10 pessoas, capacidade"></div>
-    <div class="field"><label>O agente deve fazer</label><textarea class="textarea" id="trDo" placeholder="Ex.: Confirmar a capacidade cadastrada e perguntar data e horário."></textarea></div>
-    <div class="field"><label>Pergunta permitida</label><input class="input" id="trQuestion" placeholder="Ex.: Para qual data e horário você precisa?"></div>
-    <div class="field"><label>Nunca fazer</label><input class="input" id="trNever" placeholder="Ex.: Não inventar capacidade nem disponibilidade."></div>
-    <div class="field"><label>Resposta ideal (opcional)</label><textarea class="textarea" id="trReply" placeholder="Se quiser, escreva exatamente como você gostaria que o agente respondesse."></textarea></div>
-    <div class="actions"><button class="btn btn-green" onclick="saveTraining()">Salvar treinamento</button><button class="btn" onclick="toggle('trainingForm')">Cancelar</button></div>
-  </div>
-  <div id="trainingList" class="list"></div>
-</section>
-
-<section id="knowledge" class="view">
-  <div class="eyebrow">Base factual</div><h1>Conhecimentos</h1>
-  <p class="sub">Cadastre perguntas, respostas, produtos, serviços, preços e regras que o agente pode consultar.</p>
-  <div class="section-title"><h2>Conhecimentos cadastrados</h2><button class="btn btn-green" onclick="toggle('knowledgeForm')">+ Adicionar</button></div>
-  <div id="knowledgeForm" class="formbox">
-    <div class="grid">
-      <div class="field"><label>Tipo</label><select class="select" id="knType"><option value="faq">Pergunta e resposta</option><option value="produto">Produto / serviço</option><option value="objecao">Objeção</option><option value="regra">Regra</option></select></div>
-      <div class="field"><label>Título</label><input class="input" id="knTitle" placeholder="Ex.: Preço da consulta"></div>
-    </div>
-    <div class="field"><label>Gatilhos / como o cliente pode perguntar</label><input class="input" id="knTrigger" placeholder="Ex.: quanto custa; qual o valor; preço"></div>
-    <div class="field"><label>Informação / resposta</label><textarea class="textarea" id="knAnswer" placeholder="Cadastre a informação que o agente pode usar."></textarea></div>
-    <div class="actions"><button class="btn btn-green" onclick="saveKnowledge()">Salvar conhecimento</button><button class="btn" onclick="toggle('knowledgeForm')">Cancelar</button></div>
-  </div>
-  <div id="knowledgeList" class="list"></div>
-</section>
-
-<section id="services" class="view"><div class="eyebrow">Catálogo</div><h1>Produtos e serviços</h1><p class="sub">Estruture o que sua empresa vende para o agente consultar informações sem improvisar.</p><div class="card"><div class="grid"><div class="field"><label>Nome</label><input class="input" id="svName" placeholder="Ex.: Sala de reunião"></div><div class="field"><label>Preço (opcional)</label><input class="input" id="svPrice" placeholder="Ex.: R$ 80/hora"></div></div><div class="field"><label>Descrição</label><textarea class="textarea" id="svDesc" placeholder="O que é, para quem serve e principais condições."></textarea></div><div class="actions"><button class="btn btn-green" onclick="saveService()">Salvar produto/serviço</button></div></div><div id="servicesList" class="list"></div></section>
-
-<section id="copilot" class="view">
-  <div class="eyebrow">Motor comercial</div><h1>Testar agente</h1>
-  <p class="sub">Cole a mensagem do cliente e veja como o agente interpreta, decide e responde.</p>
-  <div class="card">
-    <div class="field"><label>Nome do cliente (opcional)</label><input class="input" id="clientName" placeholder="Ex.: Juliana"></div>
-    <div class="field"><label>Mensagem / conversa</label><textarea class="textarea" id="clientText" placeholder="Ex.: Olá, vocês têm sala de treinamento para 10 pessoas?"></textarea></div>
-    <button class="primary" id="testBtn" onclick="runAgent()">Analisar e gerar resposta</button>
-  </div>
-  <div id="copilotResult" style="display:none;margin-top:12px">
-    <div class="card"><div class="item-top"><h3>Resposta sugerida</h3><span class="tag" id="confidenceTag">Motor local</span></div><div class="reply" id="reply"></div><div class="actions"><button class="btn btn-green" onclick="copyReply()">Copiar mensagem</button></div></div>
-    <div class="analysis" id="analysis"></div>
-  </div>
-</section>
-</main>
-
-<nav class="nav">
- <button class="active" data-view="home"><b>⌂</b>Início</button>
- <button data-view="company"><b>🏢</b>Empresa</button><button data-view="services"><b>◫</b>Serviços</button><button data-view="agent"><b>🤖</b>Agente</button>
- <button data-view="training"><b>◈</b>Treinar</button>
- <button data-view="knowledge"><b>▣</b>Base</button>
- <button data-view="copilot"><b>✦</b>Testar</button>
-</nav>
-</div>
-
-<script>
-const SUPABASE_URL = 'https://iocavmyyzjmciddmrlns.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_DB5uRKNHeLvQge2NPlAIbg_nGMbxBu2';
-const supabaseClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-
-async function testSupabaseConnection(){
-  if(!supabaseClient || SUPABASE_PUBLISHABLE_KEY === 'COLE_SUA_PUBLISHABLE_KEY_AQUI') return;
-  try{
-    const { error } = await supabaseClient.auth.getSession();
-    if(error) throw error;
-    console.log('Supabase conectado.');
-  }catch(error){
-    console.error('Falha na conexão com Supabase:', error);
-  }
+  --navy:#071b2b;
+  --navy2:#0d2940;
+  --bg:#f5f7fa;
+  --white:#fff;
+  --text:#17212b;
+  --muted:#718096;
+  --line:#e5eaf0;
+  --green:#18a77a;
+  --blue:#2563eb;
+  --orange:#f59e0b;
+  --red:#e05252;
+  --yellow:#d4a72c;
+  --shadow:0 8px 28px rgba(15,31,45,.07);
 }
 
-testSupabaseConnection();
+*{box-sizing:border-box}
 
-const KEY='agent_saas_v2';
-const state=loadState();
-function loadState(){const d={company:{},training:[],knowledge:[],agent:{},services:[],conversations:[],onboarding:{done:false}};try{const r=JSON.parse(localStorage.getItem(KEY));return Object.assign(d,r||{}, {company:Object.assign({},d.company,r?.company||{}),agent:Object.assign({},d.agent,r?.agent||{}),training:Array.isArray(r?.training)?r.training:[],knowledge:Array.isArray(r?.knowledge)?r.knowledge:[],services:Array.isArray(r?.services)?r.services:[],conversations:Array.isArray(r?.conversations)?r.conversations:[],onboarding:Object.assign({},d.onboarding,r?.onboarding||{})})}catch(e){return d}}
-function persist(){localStorage.setItem(KEY,JSON.stringify(state));renderAll()}
-function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function norm(v){return String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
-function toggle(id){document.getElementById(id).classList.toggle('active')}
-function show(id){
- document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
- document.getElementById(id)?.classList.add('active');
- document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));
- scrollTo({top:0,behavior:'smooth'});
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>show(b.dataset.view));
 
-function saveCompany(){
- state.company={
-  name:companyName.value.trim(),segment:companySegment.value.trim(),agent:agentName.value.trim(),
-  tone:agentTone.value,hours:companyHours.value.trim(),address:companyAddress.value.trim(),
-  about:companyAbout.value.trim(),rule:companyRule.value.trim()
- };
- persist(); alert('Configuração salva.');
-}
-function fillCompany(){
- const c=state.company;
- companyName.value=c.name||'';companySegment.value=c.segment||'';agentName.value=c.agent||'';
- agentTone.value=c.tone||'natural';companyHours.value=c.hours||'';companyAddress.value=c.address||'';
- companyAbout.value=c.about||'';companyRule.value=c.rule||'';
- brandName.textContent=c.name||'Meu Agente Comercial';
-}
-function saveTraining(){
- const x={title:trTitle.value.trim(),trigger:trTrigger.value.trim(),doit:trDo.value.trim(),question:trQuestion.value.trim(),never:trNever.value.trim(),reply:trReply.value.trim(),active:true};
- if(!x.title||!x.trigger||(!x.doit&&!x.reply)){alert('Preencha o nome, gatilhos e pelo menos uma orientação.');return}
- state.training.push(x);persist();document.getElementById('trainingForm').classList.remove('active');
- ['trTitle','trTrigger','trDo','trQuestion','trNever','trReply'].forEach(id=>document.getElementById(id).value='');
-}
-function deleteTraining(i){if(confirm('Excluir este treinamento?')){state.training.splice(i,1);persist()}}
-function saveKnowledge(){
- const x={type:knType.value,title:knTitle.value.trim(),trigger:knTrigger.value.trim(),answer:knAnswer.value.trim()};
- if(!x.title||!x.trigger||!x.answer){alert('Preencha título, gatilhos e informação.');return}
- state.knowledge.push(x);persist();document.getElementById('knowledgeForm').classList.remove('active');
- ['knTitle','knTrigger','knAnswer'].forEach(id=>document.getElementById(id).value='');
-}
-function deleteKnowledge(i){if(confirm('Excluir este conhecimento?')){state.knowledge.splice(i,1);persist()}}
+button,input,textarea{font:inherit}
 
-function renderTraining(){
- const box=document.getElementById('trainingList');
- if(!state.training.length){box.innerHTML='<div class="empty">Nenhum treinamento cadastrado ainda.</div>';return}
- box.innerHTML=state.training.map((x,i)=>`<div class="item">
-  <div class="item-top"><div><span class="tag">Treinamento prioritário</span><h3 style="margin-top:7px">${esc(x.title)}</h3></div><button class="btn btn-danger" onclick="deleteTraining(${i})">Excluir</button></div>
-  <div class="small"><b>Gatilhos:</b> ${esc(x.trigger)}</div>
-  ${x.doit?`<p><b>Deve fazer:</b> ${esc(x.doit)}</p>`:''}
-  ${x.question?`<p><b>Pergunta permitida:</b> ${esc(x.question)}</p>`:''}
-  ${x.never?`<p><b>Nunca:</b> ${esc(x.never)}</p>`:''}
-  ${x.reply?`<p><b>Resposta ideal:</b> ${esc(x.reply)}</p>`:''}
- </div>`).join('');
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:238px;
+  background:var(--navy);
+  color:#d9e5ee;
+  padding:22px 14px;
 }
-function renderKnowledge(){
- const box=document.getElementById('knowledgeList');
- if(!state.knowledge.length){box.innerHTML='<div class="empty">Nenhum conhecimento cadastrado ainda.</div>';return}
- box.innerHTML=state.knowledge.map((x,i)=>`<div class="item">
-  <div class="item-top"><div><span class="tag">${esc(x.type)}</span><h3 style="margin-top:7px">${esc(x.title)}</h3></div><button class="btn btn-danger" onclick="deleteKnowledge(${i})">Excluir</button></div>
-  <div class="small"><b>Gatilhos:</b> ${esc(x.trigger)}</div><p>${esc(x.answer)}</p>
- </div>`).join('');
-}
-function renderAll(){
- fillCompany();fillAgent();renderTraining();renderKnowledge();renderServices();
- kpiCompany.textContent=state.company.name||'Não configurada';kpiTraining.textContent=state.training.length;kpiKnowledge.textContent=state.knowledge.length;
-}
-renderAll();
-if(!state.onboarding?.done && !state.company?.name){setTimeout(openWizard,250)}
 
-function renderServices(){const box=document.getElementById('servicesList');if(!box)return;if(!state.services.length){box.innerHTML='<div class="empty">Nenhum produto ou serviço cadastrado.</div>';return}box.innerHTML=state.services.map((x,i)=>`<div class="item"><div class="item-top"><div><span class="tag">Produto/serviço</span><h3 style="margin-top:7px">${esc(x.name)}</h3></div><button class="btn btn-danger" onclick="deleteService(${i})">Excluir</button></div>${x.price?`<p><b>Preço:</b> ${esc(x.price)}</p>`:''}<p>${esc(x.desc||'')}</p></div>`).join('')}
-function saveService(){const x={name:svName.value.trim(),price:svPrice.value.trim(),desc:svDesc.value.trim()};if(!x.name){alert('Informe o nome do produto ou serviço.');return}state.services.push(x);persist();['svName','svPrice','svDesc'].forEach(id=>document.getElementById(id).value='')}
-function deleteService(i){if(confirm('Excluir este produto/serviço?')){state.services.splice(i,1);persist()}}
-function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-agente-comercial.json';a.click();URL.revokeObjectURL(a.href)}
-function importData(e){const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);localStorage.setItem(KEY,JSON.stringify(x));location.reload()}catch(err){alert('Backup inválido.')}};r.readAsText(f)}
-let wizStep=1;function openWizard(){wizCompany.value=state.company?.name||'';wizSegment.value=state.company?.segment||'';wizObjective.value=state.agent?.objective||'';wizStyle.value=state.agent?.style||'consultivo';wizNever.checked=state.agent?.neverInvent!==false;document.getElementById('onboard').classList.add('active');wizStep=1;renderWizard()}function renderWizard(){document.querySelectorAll('.wizard-step').forEach(x=>x.classList.toggle('active',+x.dataset.step===wizStep));document.getElementById('wizBar').style.width=((wizStep-1)/4*100)+'%';document.getElementById('wizBack').style.visibility=wizStep===1?'hidden':'visible';document.getElementById('wizNext').textContent=wizStep===5?'Concluir':'Continuar';if(wizStep===2&&!document.getElementById('wizServices').children.length){addWizardService()}}
-function addWizardService(){const box=document.getElementById('wizServices');const row=document.createElement('div');row.className='service-row';row.innerHTML='<input class="input wiz-sname" placeholder="Produto ou serviço"><input class="input wiz-sprice" placeholder="Preço opcional">';box.appendChild(row)}
-function wizMove(dir){if(dir>0){if(wizStep===1){state.company.name=wizCompany.value.trim();state.company.segment=wizSegment.value.trim();if(!state.company.name){alert('Informe o nome da empresa para continuar.');return}}if(wizStep===2){state.services=[...document.querySelectorAll('.wiz-sname')].map((x,i)=>({name:x.value.trim(),price:document.querySelectorAll('.wiz-sprice')[i]?.value.trim()||'',desc:''})).filter(x=>x.name)}if(wizStep===3){state.agent.objective=wizObjective.value.trim();state.agent.style=wizStyle.value;state.agent.neverInvent=wizNever.checked;state.agent.askWhenMissing=true;state.agent.humanHandoff=true}if(wizStep===4){const trigger=wizTrigger.value.trim(),doit=wizDo.value.trim(),reply=wizReply.value.trim();if(trigger&&(doit||reply))state.training.push({title:trigger,trigger,doit,question:'',never:'Não inventar informações.',reply,active:true})}persist();if(wizStep<5)wizStep++;else{state.onboarding.done=true;persist();document.getElementById('onboard').classList.remove('active');show('home')}}else if(wizStep>1)wizStep--;renderWizard()}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 10px 24px;
+  font-size:19px;
+  font-weight:900;
+}
 
-function extractIntent(text){
- const t=norm(text);
- if(/onde\s+(fica|ficam)|localiza|endere[cç]o|como\s+chegar/.test(t))return'localização';
- if(/hor[aá]rio|funciona|abre|fecha/.test(t))return'horário';
- if(/quanto\s+custa|quanto\s+fica|qual\s+(e|é)\s+o\s+(valor|pre[cç]o)|pre[cç]o|valor/.test(t))return'preço';
- if(/dispon[ií]vel|disponibilidade|tem\s+vaga|tem\s+hor[aá]rio/.test(t))return'disponibilidade';
- if(/desconto|caro|muito\s+caro/.test(t))return'objeção/preço';
- if(/vou\s+pensar|vou\s+ver|depois\s+te\s+falo|vou\s+analisar/.test(t))return'objeção/indecisão';
- if(/reservar|reserva|agendar|contratar|fechar/.test(t))return'fechamento';
- return'serviço/informação';
-}
-function scoreRule(x,text){
- const t=norm(text), terms=x.trigger.split(/[;,]/).map(norm).filter(Boolean);
- let score=0;
- for(const term of terms){if(term&&t.includes(term))score+=2+Math.min(term.length/20,1)}
- return score;
-}
-function bestTraining(text){
- return state.training.map((x,i)=>({x,i,score:scoreRule(x,text)})).filter(a=>a.score>=2).sort((a,b)=>b.score-a.score)[0]||null;
-}
-function bestKnowledge(text){
- return state.knowledge.map((x,i)=>({x,i,score:scoreRule(x,text)})).filter(a=>a.score>=2).sort((a,b)=>b.score-a.score).slice(0,3);
-}
-function serviceFacts(text){
- const hits=bestKnowledge(text);
- return hits.length?hits[0].x:null;
-}
-function replyGreeting(name){return name?`Olá, ${name}!`:'Olá!'}
-function answerDirect(text,name,intent){
- const c=state.company,g=replyGreeting(name),t=norm(text);
- if(intent==='localização'&&c.address)return `${g} Estamos em ${c.address}.`;
- if(intent==='horário'&&c.hours)return `${g} Nosso horário de atendimento é ${c.hours}.`;
- return null;
-}
-function generateReply(text,name){
- const intent=extractIntent(text);
- const training=bestTraining(text);
- const knowledge=bestKnowledge(text);
- const direct=answerDirect(text,name,intent);
- if(direct)return {reply:direct,intent,source:'Fato cadastrado'};
- if(training){
-   const x=training.x,g=replyGreeting(name);
-   if(x.reply)return {reply:(g+' '+x.reply).trim(),intent,source:'Treinamento prioritário',rule:x};
-   let r=g+' ';
-   if(x.doit)r+=x.doit;
-   if(x.question)r+=' '+x.question;
-   return {reply:r.trim(),intent,source:'Treinamento prioritário',rule:x};
- }
- const c=state.company,g=replyGreeting(name);
- if(intent==='preço'){
-   if(knowledge.length)return {reply:`${g} ${knowledge[0].x.answer}`,intent,source:'Base de conhecimento'};
-   return {reply:`${g} Posso te passar o valor correto. Qual produto ou serviço você está procurando?`,intent,source:'Motor local'};
- }
- if(intent==='objeção/indecisão')return {reply:`${g} Sem problema. O que você gostaria de avaliar melhor antes de decidir?`,intent,source:'Estratégia comercial'};
- if(intent==='objeção/preço')return {reply:`${g} Entendo. O que está pesando mais para você: o valor, a opção escolhida ou algum outro ponto?`,intent,source:'Estratégia comercial'};
- if(intent==='disponibilidade')return {reply:`${g} Posso te orientar sobre a disponibilidade. Qual data e horário você precisa?`,intent,source:'Estratégia comercial'};
- if(intent==='fechamento')return {reply:`${g} Perfeito. Vamos avançar. Qual é o próximo dado que precisamos confirmar para seguir?`,intent,source:'Estratégia comercial'};
- if(knowledge.length)return {reply:`${g} ${knowledge[0].x.answer}`,intent,source:'Base de conhecimento'};
- if(c.about)return {reply:`${g} Posso te ajudar. ${c.about} O que você gostaria de saber?`,intent,source:'Informações da empresa'};
- return {reply:`${g} Entendi. Me conte um pouco mais sobre o que você precisa para eu te orientar melhor.`,intent,source:'Motor local'};
-}
-function saveAgent(){state.agent=state.agent||{};state.agent.objective=document.getElementById('agentObjective').value.trim();state.agent.style=document.getElementById('agentStyle').value;state.agent.askWhenMissing=document.getElementById('agentAskMissing').checked;state.agent.humanHandoff=document.getElementById('agentHandoff').checked;state.agent.neverInvent=document.getElementById('agentNeverInvent').checked;persist();alert('Comportamento do agente salvo.')}
-function fillAgent(){const a=state.agent||{};const o=document.getElementById('agentObjective');if(o)o.value=a.objective||'';const st=document.getElementById('agentStyle');if(st)st.value=a.style||'consultivo';const x=document.getElementById('agentAskMissing');if(x)x.checked=a.askWhenMissing!==false;const h=document.getElementById('agentHandoff');if(h)h.checked=a.humanHandoff!==false;const n=document.getElementById('agentNeverInvent');if(n)n.checked=a.neverInvent!==false;}
-function runAgent(){
- const text=document.getElementById('clientText').value.trim(),name=document.getElementById('clientName').value.trim();
- if(!text){alert('Digite a mensagem do cliente.');return}
- const out=generateReply(text,name);
- state.conversations.unshift({id:Date.now(),name,text,reply:out.reply,intent:out.intent,source:out.source,createdAt:new Date().toISOString()});state.conversations=state.conversations.slice(0,50);persist();
- document.getElementById('copilotResult').style.display='block';
- document.getElementById('reply').textContent=out.reply;
- document.getElementById('confidenceTag').textContent=out.source;
- document.getElementById('analysis').innerHTML=`<strong>Cliente</strong> → mensagem recebida<br><strong>Interpretação</strong> → ${esc(out.intent)}<br><strong>Decisão</strong> → ${esc(out.source)}<br><strong>Próxima ação</strong> → ${out.rule?.question?esc(out.rule.question):'seguir a conversa sem repetir informações já dadas'}`;
-}
-function copyReply(){navigator.clipboard?.writeText(document.getElementById('reply').textContent);alert('Mensagem copiada.')}
-</script>
-</body>
-</html>
+.logo-icon{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:var(--green);
+  display:grid;
+  place-items:center;
+ 
