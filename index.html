@@ -3,572 +3,441 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071b2b">
 <title>NL Sales</title>
 
 <style>
-:root {
-  --navy:#071b2b;
-  --navy2:#0d2940;
-  --bg:#f5f7fa;
-  --white:#fff;
-  --text:#17212b;
-  --muted:#718096;
-  --line:#e5eaf0;
-  --green:#18a77a;
-  --blue:#2563eb;
-  --orange:#f59e0b;
-  --red:#e05252;
-  --yellow:#d4a72c;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
 }
+button{font:inherit;cursor:pointer}
+.app{display:flex;min-height:100vh}
 
-* { box-sizing:border-box; }
-
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+/* SIDEBAR */
+.sidebar{
+  width:245px;
+  background:#101b35;
+  color:#fff;
+  padding:22px 16px;
+  display:flex;
+  flex-direction:column;
+  flex-shrink:0;
 }
-
-button,input,textarea {
-  font:inherit;
-}
-
-.sidebar {
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:238px;
-  background:var(--navy);
-  color:#d9e5ee;
-  padding:22px 14px;
-  overflow:auto;
-}
-
-.logo {
+.brand{
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:0 10px 24px;
-  font-size:19px;
-  font-weight:900;
+  gap:11px;
+  padding:4px 10px 28px;
 }
-
-.logo-icon {
-  width:36px;
-  height:36px;
-  border-radius:10px;
-  background:var(--green);
+.logo{
+  width:40px;height:40px;
+  border-radius:11px;
+  background:#20c997;
   display:grid;
   place-items:center;
-  color:#fff;
-  font-weight:900;
+  font-weight:800;
+  color:#102039;
 }
+.brand strong{font-size:19px}
+.brand span{display:block;font-size:11px;color:#94a3b8;margin-top:2px}
 
-.nav {
-  display:grid;
-  gap:6px;
+.menu-title{
+  color:#71809c;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  padding:10px 12px 8px;
 }
-
-.nav button {
+.menu button{
+  width:100%;
   border:0;
   background:transparent;
-  color:#c9d7e2;
+  color:#aeb9cf;
   text-align:left;
-  padding:11px 12px;
-  border-radius:10px;
-  cursor:pointer;
+  padding:11px 13px;
+  border-radius:9px;
+  margin-bottom:3px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
-
-.nav button:hover,
-.nav button.active {
-  background:var(--navy2);
+.menu button:hover,
+.menu button.active{
+  background:#1c2b4d;
   color:#fff;
 }
+.icon{width:20px;text-align:center}
 
-.main {
-  margin-left:238px;
-  padding:28px;
-  min-height:100vh;
+.sidebar-bottom{
+  margin-top:auto;
+  border-top:1px solid #263451;
+  padding-top:15px;
 }
+.company{
+  padding:10px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:#273b62;
+  display:grid;place-items:center;
+  font-size:13px;font-weight:700;
+}
+.company small{display:block;color:#8190aa;font-size:10px}
+.company strong{font-size:12px}
 
-.top {
+/* MAIN */
+.main{flex:1;min-width:0}
+.topbar{
+  height:72px;
+  background:#fff;
+  border-bottom:1px solid #e7ebf2;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+}
+.search{
+  width:330px;
+  background:#f5f7fb;
+  border:1px solid #e9edf4;
+  border-radius:10px;
+  padding:10px 14px;
+  color:#8994a8;
+  font-size:13px;
+}
+.top-right{display:flex;align-items:center;gap:20px}
+.notification{font-size:20px;color:#68758b}
+.user{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:13px;
+}
+.user .avatar{width:32px;height:32px}
+
+.content{padding:28px 30px 45px}
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:25px;
+}
+.page-head h1{font-size:25px;margin-bottom:5px}
+.page-head p{font-size:13px;color:#7c879a}
+.primary{
+  border:0;
+  background:#16b982;
+  color:#fff;
+  border-radius:9px;
+  padding:11px 17px;
+  font-weight:700;
+}
+.primary:hover{background:#0fa875}
+
+/* CARDS */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:20px;
+}
+.card{
+  background:#fff;
+  border:1px solid #e9edf3;
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 2px 7px rgba(20,35,60,.03);
+}
+.kpi-label{font-size:12px;color:#7d899c}
+.kpi-value{font-size:27px;font-weight:750;margin:9px 0 4px}
+.kpi-foot{font-size:11px;color:#19a974}
+
+.two{
+  display:grid;
+  grid-template-columns:1.55fr 1fr;
+  gap:20px;
+}
+.card-title{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:16px;
-  margin-bottom:24px;
+  margin-bottom:18px;
 }
+.card-title h3{font-size:15px}
+.card-title span{font-size:11px;color:#8994a8}
 
-.eyebrow {
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  color:var(--green);
-  font-weight:800;
-}
-
-.title {
-  font-size:30px;
-  font-weight:900;
-  margin:4px 0;
-}
-
-.subtitle {
-  color:var(--muted);
-}
-
-.company {
-  background:#fff;
-  border:1px solid var(--line);
-  padding:10px 14px;
-  border-radius:12px;
-}
-
-.grid {
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:16px;
-}
-
-.card {
-  background:var(--white);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:18px;
-}
-
-.kpi .number {
-  font-size:28px;
-  font-weight:900;
-  margin-top:8px;
-}
-
-.kpi .label {
-  color:var(--muted);
-  font-size:13px;
-}
-
-.section {
-  margin-top:18px;
-}
-
-.section h2 {
-  font-size:18px;
-  margin:0 0 12px;
-}
-
-.conversation {
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:12px;
+.conversation{
+  display:flex;
   align-items:center;
+  gap:12px;
+  padding:13px 0;
+  border-top:1px solid #eef1f5;
 }
-
-.conversation + .conversation {
-  border-top:1px solid var(--line);
-  margin-top:12px;
-  padding-top:12px;
-}
-
-.name {
-  font-weight:800;
-}
-
-.meta {
-  font-size:13px;
-  color:var(--muted);
-  margin-top:4px;
-}
-
-.status {
-  font-size:12px;
-  font-weight:800;
-  padding:7px 10px;
-  border-radius:999px;
+.conversation:first-of-type{border-top:0}
+.conversation .avatar{flex-shrink:0}
+.conv-info{flex:1}
+.conv-info strong{font-size:13px}
+.conv-info p{font-size:11px;color:#8994a8;margin-top:4px}
+.status{
+  font-size:10px;
+  padding:5px 8px;
+  border-radius:20px;
   white-space:nowrap;
 }
+.red{background:#fff0f0;color:#d74b4b}
+.orange{background:#fff4e7;color:#d98222}
+.yellow{background:#fff9dc;color:#a27c00}
+.green{background:#e9fbf3;color:#159765}
 
-.red {
-  background:#fde8e8;
-  color:#a82d2d;
+.flow{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
 }
-
-.orange {
-  background:#fff1d8;
-  color:#a86600;
+.flow span{
+  padding:7px 9px;
+  border-radius:7px;
+  background:#f0f3f8;
+  font-size:10px;
+  color:#68758b;
 }
+.flow span.on{background:#dff8ee;color:#12966a;font-weight:700}
 
-.yellow {
-  background:#fff8d8;
-  color:#876c00;
-}
-
-.green {
-  background:#e4f7ef;
-  color:#08704e;
-}
-
-.blue {
-  background:#e7efff;
-  color:#2454a6;
-}
-
-.view {
-  display:none;
-}
-
-.view.active {
-  display:block;
-}
-
-.btn {
-  border:0;
-  border-radius:10px;
-  padding:10px 14px;
-  cursor:pointer;
-  font-weight:800;
-}
-
-.primary {
-  background:var(--green);
-  color:#fff;
-}
-
-.secondary {
-  background:#eef2f6;
-  color:var(--text);
-}
-
-.form {
-  display:grid;
+.activity{
+  display:flex;
   gap:12px;
-  max-width:680px;
+  padding:11px 0;
+  border-bottom:1px solid #eef1f5;
 }
+.activity:last-child{border:0}
+.dot{width:8px;height:8px;border-radius:50%;background:#18b983;margin-top:5px}
+.activity p{font-size:12px}
+.activity small{font-size:10px;color:#99a2b1}
 
-textarea,
-input {
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:11px;
+/* MODULE */
+.module-card{
+  background:#fff;
+  border:1px solid #e8edf3;
+  border-radius:14px;
+  padding:22px;
+}
+.module-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.action-card{
+  border:1px solid #e8edf3;
+  border-radius:12px;
+  padding:18px;
   background:#fff;
 }
-
-.rule {
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  align-items:center;
-  padding:12px 0;
-  border-bottom:1px solid var(--line);
-}
-
-.small {
-  font-size:12px;
-  color:var(--muted);
-}
-
-.flow {
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:8px;
+.action-card h3{font-size:14px;margin-bottom:7px}
+.action-card p{font-size:12px;color:#7e899b;line-height:1.5}
+.action-card button{
   margin-top:14px;
+  border:1px solid #dfe5ee;
+  background:#fff;
+  padding:8px 11px;
+  border-radius:7px;
+  font-size:11px;
+}
+.training{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+textarea,input{
+  width:100%;
+  border:1px solid #dfe5ee;
+  border-radius:9px;
+  padding:11px;
+  outline:none;
+  margin-top:8px;
+}
+textarea{min-height:140px;resize:vertical}
+.save{
+  margin-top:10px;
+  border:0;
+  background:#101b35;
+  color:#fff;
+  padding:10px 15px;
+  border-radius:8px;
+}
+.notice{
+  background:#f0f7ff;
+  border:1px solid #dbeafe;
+  color:#41627f;
+  padding:13px;
+  border-radius:9px;
+  font-size:11px;
+  line-height:1.5;
 }
 
-.step {
-  padding:12px;
-  border-radius:12px;
-  background:#eef2f6;
-  text-align:center;
-  font-size:12px;
-  font-weight:800;
+/* MOBILE */
+@media(max-width:900px){
+  .sidebar{width:205px}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .two,.training{grid-template-columns:1fr}
+  .module-grid{grid-template-columns:1fr 1fr}
 }
-
-.step.on {
-  background:#dff5ed;
-  color:#08704e;
-}
-
-@media(max-width:900px) {
-  .sidebar {
-    position:static;
-    width:auto;
-    display:flex;
-    overflow:auto;
-    padding:10px;
-  }
-
-  .logo {
-    padding:0 8px;
-  }
-
-  .nav {
-    display:flex;
-  }
-
-  .nav button {
-    white-space:nowrap;
-  }
-
-  .main {
-    margin-left:0;
-    padding:18px;
-  }
-
-  .grid {
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .flow {
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:560px) {
-  .grid {
-    grid-template-columns:1fr;
-  }
-
-  .top {
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .company {
-    width:100%;
-  }
+@media(max-width:650px){
+  .sidebar{display:none}
+  .topbar{padding:0 15px}
+  .search{width:190px}
+  .content{padding:20px 15px}
+  .grid,.module-grid{grid-template-columns:1fr}
+  .page-head{gap:12px}
 }
 </style>
 </head>
 
 <body>
+<div class="app">
 
 <aside class="sidebar">
-
-  <div class="logo">
-    <div class="logo-icon">NL</div>
-    <span>NL Sales</span>
+  <div class="brand">
+    <div class="logo">NL</div>
+    <div>
+      <strong>NL Sales</strong>
+      <span>Sistema Operacional Comercial</span>
+    </div>
   </div>
 
-  <nav class="nav">
+  <div class="menu">
+    <div class="menu-title">Principal</div>
 
-    <button class="active" data-view="dashboard">
-      Dashboard
+    <button class="active" onclick="showPage('dashboard',this)">
+      <span class="icon">⌂</span> Dashboard
     </button>
 
-    <button data-view="conversas">
-      Conversas
+    <button onclick="showPage('conversas',this)">
+      <span class="icon">◉</span> Conversas
     </button>
 
-    <button data-view="clientes">
-      Clientes
+    <button onclick="showPage('clientes',this)">
+      <span class="icon">♙</span> Clientes
     </button>
 
-    <button data-view="agenda">
-      Agenda
+    <button onclick="showPage('agenda',this)">
+      <span class="icon">▣</span> Agenda
     </button>
 
-    <button data-view="followups">
-      Follow-ups
+    <button onclick="showPage('followups',this)">
+      <span class="icon">↻</span> Follow-ups
     </button>
 
-    <button data-view="treinar">
-      Treinar Thomas
+    <div class="menu-title">Inteligência</div>
+
+    <button onclick="showPage('thomas',this)">
+      <span class="icon">✦</span> Treinar Thomas
     </button>
 
-    <button data-view="servicos">
-      Serviços
+    <button onclick="showPage('servicos',this)">
+      <span class="icon">▤</span> Serviços
     </button>
 
-    <button data-view="whatsapp">
-      WhatsApp
+    <button onclick="showPage('whatsapp',this)">
+      <span class="icon">◌</span> WhatsApp
     </button>
 
-    <button data-view="config">
-      Configurações
+    <div class="menu-title">Sistema</div>
+
+    <button onclick="showPage('config',this)">
+      <span class="icon">⚙</span> Configurações
     </button>
+  </div>
 
-  </nav>
-
+  <div class="sidebar-bottom">
+    <div class="company">
+      <div class="avatar">N</div>
+      <div>
+        <small>Empresa</small>
+        <strong>Nellus Coworking</strong>
+      </div>
+    </div>
+  </div>
 </aside>
 
 <main class="main">
 
-<header class="top">
+<header class="topbar">
+  <div class="search">⌕ &nbsp; Buscar clientes, conversas...</div>
 
-  <div>
-
-    <div class="eyebrow">
-      Sistema operacional comercial
+  <div class="top-right">
+    <div class="notification">♧</div>
+    <div class="user">
+      <div class="avatar">L</div>
+      <span>Lu</span>
     </div>
-
-    <div class="title" id="pageTitle">
-      Dashboard
-    </div>
-
-    <div class="subtitle">
-      Thomas acompanha, interpreta e conduz suas oportunidades.
-    </div>
-
   </div>
-
-  <div class="company" id="companyName">
-    Nellus Coworking
-  </div>
-
 </header>
 
+<section class="content" id="content"></section>
 
-<section id="dashboard" class="view active">
+</main>
+</div>
 
-  <div class="grid">
+<script>
 
-    <div class="card kpi">
-      <div class="label">
-        Conversas hoje
-      </div>
-      <div class="number">
-        6
-      </div>
-    </div>
+const content = document.getElementById('content');
 
-    <div class="card kpi">
-      <div class="label">
-        Ação necessária
-      </div>
-      <div class="number">
-        2
-      </div>
-    </div>
+function showPage(page,button){
 
-    <div class="card kpi">
-      <div class="label">
-        Follow-ups
-      </div>
-      <div class="number">
-        4
-      </div>
-    </div>
+  document.querySelectorAll('.menu button')
+    .forEach(b=>b.classList.remove('active'));
 
-    <div class="card kpi">
-      <div class="label">
-        Resolvidas
-      </div>
-      <div class="number">
-        8
-      </div>
-    </div>
+  if(button) button.classList.add('active');
 
-  </div>
+  const pages = {
 
-
-  <div class="card section">
-
-    <h2>
-      Thomas em ação
-    </h2>
-
-    <div class="flow">
-
-      <div class="step on">
-        ENTENDER
-      </div>
-
-      <div class="step on">
-        DECIDIR
-      </div>
-
-      <div class="step">
-        RESPONDER
-      </div>
-
-      <div class="step">
-        CONDUZIR
-      </div>
-
-      <div class="step">
-        EXECUTAR
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="card section">
-
-    <h2>
-      Conversas que pedem atenção
-    </h2>
-
-    <div class="conversation">
-
+  dashboard: `
+    <div class="page-head">
       <div>
-        <div class="name">
-          Mariana Souza
-        </div>
-
-        <div class="meta">
-          Sala de reunião · pediu disponibilidade e ainda não confirmou.
-        </div>
+        <h1>Bom dia, Lu 👋</h1>
+        <p>Acompanhe a operação comercial da sua empresa.</p>
       </div>
-
-      <span class="status red">
-        Ação necessária
-      </span>
-
+      <button class="primary" onclick="showPage('thomas')">✦ Fale com Thomas</button>
     </div>
 
-
-    <div class="conversation">
-
-      <div>
-        <div class="name">
-          Carlos Henrique
-        </div>
-
-        <div class="meta">
-          Endereço Fiscal · disse que vai pensar e retornar.
-        </div>
+    <div class="grid">
+      <div class="card">
+        <div class="kpi-label">Conversas hoje</div>
+        <div class="kpi-value">18</div>
+        <div class="kpi-foot">↑ 22% este mês</div>
       </div>
-
-      <span class="status orange">
-        Follow-up próximo
-      </span>
-
+      <div class="card">
+        <div class="kpi-label">Oportunidades</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-foot">5 aguardando cliente</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Follow-ups</div>
+        <div class="kpi-value">7</div>
+        <div class="kpi-foot">3 para hoje</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Reservas</div>
+        <div class="kpi-value">9</div>
+        <div class="kpi-foot">↑ 14% este mês</div>
+      </div>
     </div>
 
+    <div class="two">
 
-    <div class="conversation">
-
-      <div>
-        <div class="name">
-          Ana Paula
+      <div class="card">
+        <div class="card-title">
+          <h3>Conversas que precisam de atenção</h3>
+          <span>Ver todas</span>
         </div>
 
-        <div class="meta">
-          Aguardando resposta do cliente.
-        </div>
-      </div>
-
-      <span class="status yellow">
-        Aguardando cliente
-      </span>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<section id="conversas" class="view">
-
-  <div class="card">
-
-    <h2>
-      Conversas
-    </
+        <div class="conversation">
+          <div class="avatar">J</div>
+          <div class="conv-info">
+            <strong>João Silva</strong>
+            <p>Interess
